@@ -5,6 +5,7 @@
             console.log('Application Start');
         }
     });
+    window.AgarBot.Models = {};
     window.AgarBot.app  = new window.AgarBot.Application();
     window.AgarBot.Modules  ={};
     window.AgarBot.pubsub = {};

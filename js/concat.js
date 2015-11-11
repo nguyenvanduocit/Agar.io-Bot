@@ -3960,6 +3960,7 @@
             console.log('Application Start');
         }
     });
+    window.AgarBot.Models = {};
     window.AgarBot.app  = new window.AgarBot.Application();
     window.AgarBot.Modules  ={};
     window.AgarBot.pubsub = {};
@@ -4160,14 +4161,17 @@
         ja = !1;
         console.log("Connecting to " + a);
         q = new WebSocket(a);
+        /**
+         * @author nguyenvanduocit
+         */
+        var socketAddress = a;
         q.binaryType = "arraybuffer";
         q.onopen = function () {
-            var address = a;
             /**
              * @author : nguyenvanduocit
              * a till address
              */
-            AgarBot.pubsub.trigger('onSocketOpen', {address:address});
+            AgarBot.pubsub.trigger('SocketOpened', {socketAddress:socketAddress});
             var a;
             console.log("socket open");
             a = S(5);
@@ -4187,6 +4191,7 @@
         q.onmessage = Sb;
         q.onclose = Tb;
         q.onerror = function () {
+            AgarBot.pubsub.trigger('SocketError');
             console.log("socket error")
         }
     }
@@ -4196,11 +4201,17 @@
     }
 
     function T(a) {
+        /**
+         * @author nguyenvanduocit
+         */
+        AgarBot.pubsub.trigger('sendMessage', {data:a});
         q.send(a.buffer)
     }
 
     function Tb() {
         ja && (xa = 500);
+        //@author nguyenvanduocit
+        AgarBot.pubsub.trigger('socketClosed');
         console.log("socket close");
         setTimeout(N, xa);
         xa *= 2
@@ -4359,10 +4370,12 @@
             turn_time: (ab - Za) / 1E3,
             cells_eaten: Ea
         }), AgarBot.pubsub.trigger('cellDead'))
+        //@author nguyenvanduocit
     }
 
     function ca() {
         if (aa()) {
+            //@author nguyenvanduocit
             AgarBot.pubsub.trigger('sendPosition');
             var a = pa - k / 2, b = qa - p / 2;
             64 > a * a + b * b || .01 > Math.abs(Ab - ta) && .01 > Math.abs(Bb - ua) || (Ab = ta, Bb = ua, a = S(13), a.setUint8(0, 16), a.setInt32(1, ta, !0), a.setInt32(5, ua, !0), a.setUint32(9, 0, !0), T(a))
@@ -5505,15 +5518,20 @@
     }
 })(window, window.jQuery, window.AgarBot);
 (function($, Backbone, _, AgarBot, app){
+
+    AgarBot.Models.Bot = Backbone.Model.extend({
+
+    });
+
     AgarBot.Modules.FeedBot =Marionette.Module.extend({
         initialize: function(moduleName, app, options) {
+            this.socketAddress = '';
             console.log('Module FeedBot initialize');
-            this.listenTo(AgarBot.pubsub,'sendPosition', this.onSendPossiton);
-            this.listenTo(AgarBot.pubsub,'cellDead', this.onCellDead);
-            this.listenTo(AgarBot.pubsub,'onSocketOpen', this.onSocketOpen);
+            this.listenTo(AgarBot.pubsub,'SocketOpened', this.onSocketOpen);
         },
-        onSocketOpen:function(info){
-            console.log(info.address);
+        onSocketOpen:function(data){
+            this.socketAddress = data.socketAddress;
+
         },
         onCellDead:function(){
             window.setNick('Fuck you bitch');
@@ -5525,40 +5543,6 @@
     app.module("FeedBot", {
         moduleClass: AgarBot.Modules.FeedBot
     });
-    /**
-     * @author nguyenvanduocit
-     * Auto feed bot
-     */
-    var FeedBot = function(){
-        this.updateMousePossitionInterval = null;
-    };
-    FeedBot.prototype.run = function(){
-        /**
-         * Bot need to skip stats
-         */
-        d.setSkipStats(true);
-        /**
-         * Set the destination
-         */
-        this.setDestination(100,100);
-    };
-    FeedBot.prototype.setDestination = function(x, y){
-        /**
-         * try to clear first
-         */
-        this.clearPossitionInterval();
-        this.updateMousePossitionInterval = setInterval(function(){
-                oa = x;
-                pa = y;
-                La();
-            },
-            1000);
-    };
-    FeedBot.prototype.clearPossitionInterval = function(){
-        if(this.updateMousePossitionInterval != null){
-            clearInterval(this.updateMousePossitionInterval);
-        }
-    };
 })(jQuery, Backbone, _, AgarBot, AgarBot.app);
 /**
  * At the end of the world. We lauch the application
