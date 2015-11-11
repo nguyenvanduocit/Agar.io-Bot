@@ -1,0 +1,43 @@
+{
+  "background": {
+    "scripts": [
+      "js/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://agar.io/*"],
+      "js": ["js/contentScript.js"],
+      "run_at" : "document_start"
+    }
+  ],
+  "description": "Agar.io bot for my dream",
+  "icons": {
+    "16": "img/icon/16.png",
+    "24": "img/icon/24.png",
+    "32": "img/icon/32.png",
+    "64": "img/icon/64.png",
+    "128": "img/icon/128.png"
+  },
+  "manifest_version": 2,
+  "name": "agar.io Bot",
+  "permissions": [
+    "tabs",
+    "webNavigation",
+    "webRequest",
+    "webRequestBlocking",
+    "management",
+    "notifications",
+    "storage",
+    "unlimitedStorage",
+    "topSites",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "content_security_policy": "script-src 'self' https://*.google-analytics.com; object-src 'self'",
+  "version": "1.0.2",
+  "web_accessible_resources": [
+    "js/agar/main_out.js",
+    "js/agar/agario.js"
+  ]
+}
