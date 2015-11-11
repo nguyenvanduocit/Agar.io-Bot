@@ -1,9 +1,10 @@
-(function (d, e) {
+(function (d, e, AgarBot) {
+
     function Ob() {
-        Ja = !0;
+        Ka = !0;
         jb();
         setInterval(jb, 18E4);
-        M = Ka = document.getElementById("canvas");
+        M = La = document.getElementById("canvas");
         f = M.getContext("2d");
         M.onmousedown = function (a) {
             if (kb) {
@@ -14,25 +15,25 @@
                     return
                 }
             }
-            oa = 1 * a.clientX;
-            pa = 1 * a.clientY;
-            La();
+            pa = 1 * a.clientX;
+            qa = 1 * a.clientY;
+            Ma();
             ca()
         };
         M.onmousemove = function (a) {
-            oa = 1 * a.clientX;
-            pa = 1 * a.clientY;
-            La()
+            pa = 1 * a.clientX;
+            qa = 1 * a.clientY;
+            Ma()
         };
         M.onmouseup = function () {
         };
         /firefox/i.test(navigator.userAgent) ? document.addEventListener("DOMMouseScroll", lb, !1) : document.body.onmousewheel = lb;
         var a = !1, b = !1, c = !1;
         d.onkeydown = function (d) {
-            32 != d.keyCode || a || (ca(), H(17), a = !0); //Split
+            32 != d.keyCode || a || (ca(), H(17), a = !0);
             81 != d.keyCode || b || (H(18), b = !0);
             87 != d.keyCode || c || (ca(), H(21), c = !0);
-            27 == d.keyCode && (d.preventDefault(), qa(300))
+            27 == d.keyCode && (d.preventDefault(), ra(300))
         };
         d.onkeyup = function (d) {
             32 == d.keyCode && (a = !1);
@@ -45,18 +46,14 @@
         };
         d.onresize = mb;
         d.requestAnimationFrame(nb);
-        /**
-         * send mouse possition every 40ms
-         */
         setInterval(ca, 40);
         y && e("#region").val(y);
         ob();
-        ra(e("#region").val());
-        0 == Ma && y && N();
-        qa(0);
+        sa(e("#region").val());
+        0 == Na && y && N();
+        ra(0);
         mb();
-        d.location.hash && 6 <= d.location.hash.length && pb(d.location.hash);
-        d.setNick('Fuck you bitch');
+        d.location.hash && 6 <= d.location.hash.length && pb(d.location.hash)
     }
 
     function lb(a) {
@@ -76,15 +73,15 @@
         }
     }
 
-    function La() {
-        sa = (oa - k / 2) / g + s;
-        ta = (pa - p / 2) / g + t
+    function Ma() {
+        ta = (pa - k / 2) / g + s;
+        ua = (qa - p / 2) / g + t
     }
 
     function jb() {
-        null == ua && (ua = {}, e("#region").children().each(function () {
+        null == va && (va = {}, e("#region").children().each(function () {
             var a = e(this), b = a.val();
-            b && (ua[b] = a.text())
+            b && (va[b] = a.text())
         }));
         e.get(ea + "info", function (a) {
             var b = {}, c;
@@ -93,13 +90,10 @@
                 b[d] = b[d] || 0;
                 b[d] += a.regions[c].numPlayers
             }
-            for (c in b)e('#region option[value="' + c + '"]').text(ua[c] + " (" + b[c] + " players)")
+            for (c in b)e('#region option[value="' + c + '"]').text(va[c] + " (" + b[c] + " players)")
         }, "json")
     }
 
-    /**
-     * Hide panel
-     */
     function qb() {
         e("#adsBottom").hide();
         e("#overlays").hide();
@@ -110,12 +104,12 @@
         rb(d.aa.concat(d.ac))
     }
 
-    function ra(a) {
-        a && (a == y ? e(".btn-needs-server").prop("disabled", !1) : (e("#region").val() != a && e("#region").val(a), y = d.localStorage.location = a, e(".region-message").hide(), e(".region-message." + a).show(), e(".btn-needs-server").prop("disabled", !1), Ja && N()))
+    function sa(a) {
+        a && (a == y ? e(".btn-needs-server").prop("disabled", !1) : (e("#region").val() != a && e("#region").val(a), y = d.localStorage.location = a, e(".region-message").hide(), e(".region-message." + a).show(), e(".btn-needs-server").prop("disabled", !1), Ka && N()))
     }
 
-    function qa(a) {
-        fa || X || (va ? e(".btn-spectate").prop("disabled", !0) : e(".btn-spectate").prop("disabled", !1), I = null, Na || (e("#adsBottom").show(), e("#g300x250").hide(), e("#a300x250").show()), sb(Na ? d.ac : d.aa), Na = !1, 1E3 > a && (r = 1), fa = !0, e("#mainPanel").show(), 0 < a ? e("#overlays").fadeIn(a) : e("#overlays").show())
+    function ra(a) {
+        fa || X || (wa ? e(".btn-spectate").prop("disabled", !0) : e(".btn-spectate").prop("disabled", !1), I = null, Oa || (e("#adsBottom").show(), e("#g300x250").hide(), e("#a300x250").show()), sb(Oa ? d.ac : d.aa), Oa = !1, 1E3 > a && (r = 1), fa = !0, e("#mainPanel").show(), 0 < a ? e("#overlays").fadeIn(a) : e("#overlays").show())
     }
 
     function ga(a) {
@@ -124,9 +118,6 @@
         e("#gamemode").val(a)
     }
 
-    /**
-     * Get saved region
-     */
     function ob() {
         e("#region").val() ? d.localStorage.location = e("#region").val() : d.localStorage.location && e("#region").val(d.localStorage.location);
         e("#region").val() ? e("#locationKnown").append(e("#region")) : e("#locationUnknown").append(e("#region"))
@@ -134,8 +125,8 @@
 
     function sb(a) {
         d.googletag && d.googletag.cmd.push(function () {
-            Oa && (Oa = !1, setTimeout(function () {
-                Oa = !0
+            Pa && (Pa = !1, setTimeout(function () {
+                Pa = !0
             }, 6E4 * Rb), d.googletag && d.googletag.pubads && d.googletag.pubads().refresh && d.googletag.pubads().refresh(a))
         })
     }
@@ -149,27 +140,27 @@
     }
 
     function tb() {
-        var a = ++Ma;
+        var a = ++Na;
         console.log("Find " + y + P);
         e.ajax(ea + "findServer", {
             error: function () {
                 setTimeout(tb, 3E4)
             }, success: function (b) {
-                if (a == Ma) {
+                if (a == Na) {
                     b.alert && alert(b.alert);
                     var c = b.ip;
                     void 0 != Q.U && (c = d.location.hostname + ":" + Q.U);
-                    Pa("ws" + (Qa ? "s" : "") + "://" + c, b.token)
+                    Qa("ws" + (Ra ? "s" : "") + "://" + c, b.token)
                 }
             }, dataType: "json", method: "POST", cache: !1, crossDomain: !0, data: (y + P || "?") + "\n2200049715"
         })
     }
 
     function N() {
-        Ja && y && (e("#connecting").show(), tb())
+        Ka && y && (e("#connecting").show(), tb())
     }
 
-    function Pa(a, b) {
+    function Qa(a, b) {
         if (q) {
             q.onopen = null;
             q.onmessage = null;
@@ -180,14 +171,14 @@
             }
             q = null
         }
-        Ra.ip && (a = "ws" + (Qa ? "s" : "") + "://" + Ra.ip);
+        ia.ip && (a = "ws" + (Ra ? "s" : "") + "://" + ia.ip);
         if (null != R) {
             var d = R;
             R = function () {
                 d(b)
             }
         }
-        if (Qa && !Q.env_development && !Q.env_local) {
+        if (Ra && !Q.env_development && !Q.env_local) {
             var e = a.split(":");
             a = "wss://ip-" + e[1].replace(/\./g, "-").replace(/\//g, "") + ".tech.agar.io:" + +e[2]
         }
@@ -199,11 +190,20 @@
         w = [];
         A = B = null;
         K = 0;
-        ia = !1;
+        ja = !1;
         console.log("Connecting to " + a);
         q = new WebSocket(a);
+        /**
+         * @author nguyenvanduocit
+         */
+        var socketAddress = a;
         q.binaryType = "arraybuffer";
         q.onopen = function () {
+            /**
+             * @author : nguyenvanduocit
+             * a till address
+             */
+            AgarBot.pubsub.trigger('SocketOpened', {socketAddress:socketAddress});
             var a;
             console.log("socket open");
             a = S(5);
@@ -223,6 +223,7 @@
         q.onmessage = Sb;
         q.onclose = Tb;
         q.onerror = function () {
+            AgarBot.pubsub.trigger('SocketError');
             console.log("socket error")
         }
     }
@@ -232,14 +233,16 @@
     }
 
     function T(a) {
+        AgarBot.pubsub.trigger('sendMessage', {data:a});
         q.send(a.buffer)
     }
 
     function Tb() {
-        ia && (wa = 500);
+        ja && (xa = 500);
+        AgarBot.pubsub.trigger('socketClosed');
         console.log("socket close");
-        setTimeout(N, wa);
-        wa *= 2
+        setTimeout(N, xa);
+        xa *= 2
     }
 
     function Sb(a) {
@@ -264,11 +267,11 @@
                 Vb(a, c);
                 break;
             case 17:
-                ja = a.getFloat32(c, !0);
-                c += 4;
                 ka = a.getFloat32(c, !0);
                 c += 4;
                 la = a.getFloat32(c, !0);
+                c += 4;
+                ma = a.getFloat32(c, !0);
                 c += 4;
                 break;
             case 20:
@@ -280,7 +283,7 @@
                 c += 2;
                 Ta = a.getInt16(c, !0);
                 c += 2;
-                Ua || (Ua = !0, xa = Sa, ya = Ta);
+                Ua || (Ua = !0, ya = Sa, za = Ta);
                 break;
             case 32:
                 z.push(a.getUint32(c, !0));
@@ -304,19 +307,19 @@
                 vb();
                 break;
             case 64:
-                za = a.getFloat64(c, !0);
-                c += 8;
                 Aa = a.getFloat64(c, !0);
                 c += 8;
                 Ba = a.getFloat64(c, !0);
                 c += 8;
                 Ca = a.getFloat64(c, !0);
                 c += 8;
-                ja = (Ba + za) / 2;
+                Da = a.getFloat64(c, !0);
+                c += 8;
                 ka = (Ca + Aa) / 2;
-                la = 1;
+                la = (Da + Ba) / 2;
+                ma = 1;
                 0 == l.length &&
-                (s = ja, t = ka, g = la);
+                (s = ka, t = la, g = ma);
                 a.byteLength > c && (a.getUint32(c, !0), c += 4, Va = b(), d.MC.updateServerVersion(Va), console.log("Server version " + Va));
                 break;
             case 81:
@@ -350,7 +353,7 @@
         }
 
         wb = F = Date.now();
-        ia || (ia = !0, e("#connecting").hide(), xb(), R && (R(), R = null));
+        ja || (ja = !0, e("#connecting").hide(), xb(), R && (R(), R = null));
         Wa = !1;
         var h = a.getUint16(b, !0);
         b += 2;
@@ -384,32 +387,30 @@
             m.T = U;
             q && (m.G = q);
             r && m.q(r);
-            -1 != z.indexOf(h) && -1 == l.indexOf(m) && (l.push(m), 1 == l.length && (s = m.x, t = m.y, yb(), document.getElementById("overlays").style.display = "none", x = [], Xa = 0, Ya = l[0].color, va = !0, Za = Date.now(), V = Da = $a = 0))
+            -1 != z.indexOf(h) && -1 == l.indexOf(m) && (l.push(m), 1 == l.length && (s = m.x, t = m.y, yb(), document.getElementById("overlays").style.display = "none", x = [], Xa = 0, Ya = l[0].color, wa = !0, Za = Date.now(), V = Ea = $a = 0))
         }
         v = a.getUint32(b, !0);
         b += 4;
         for (f = 0; f < v; f++)h = a.getUint32(b, !0), b += 4, m = J[h], null != m && m.P();
-        Wa && 0 == l.length && (ab = Date.now(), va = !1, fa || X || (zb ? (sb(d.ab), Yb(), X = !0, e("#overlays").fadeIn(3E3), e("#stats").show()) : qa(3E3)), d.MC.deltaUpdateStats({
+        Wa && 0 == l.length && (ab = Date.now(), wa = !1, fa || X || (zb ? (sb(d.ab), Yb(), X = !0, e("#overlays").fadeIn(3E3), e("#stats").show()) : ra(3E3)), d.MC.deltaUpdateStats({
             games_played: 1,
             total_mass: ~~(K / 100),
             turn_time: (ab - Za) / 1E3,
-            cells_eaten: Da
-        }))
+            cells_eaten: Ea
+        }), AgarBot.pubsub.trigger('cellDead'))
     }
 
-    /**
-     * send mouse possition
-     */
     function ca() {
         if (aa()) {
-            var a = oa - k / 2, b = pa - p / 2;
-            64 > a * a + b * b || .01 > Math.abs(Ab - sa) && .01 > Math.abs(Bb - ta) || (Ab = sa, Bb = ta, a = S(13), a.setUint8(0, 16), a.setInt32(1, sa, !0), a.setInt32(5, ta, !0), a.setUint32(9, 0, !0), T(a))
+            AgarBot.pubsub.trigger('sendPosition');
+            var a = pa - k / 2, b = qa - p / 2;
+            64 > a * a + b * b || .01 > Math.abs(Ab - ta) && .01 > Math.abs(Bb - ua) || (Ab = ta, Bb = ua, a = S(13), a.setUint8(0, 16), a.setInt32(1, ta, !0), a.setInt32(5, ua, !0), a.setUint32(9, 0, !0), T(a))
         }
     }
 
     function xb() {
         if (aa() &&
-            ia && null != I) {
+            ja && null != I) {
             var a = S(1 + 2 * I.length);
             a.setUint8(0, 0);
             for (var b = 0; b < I.length; ++b)a.setUint16(1 + 2 * b, I.charCodeAt(b), !0);
@@ -442,8 +443,8 @@
     function mb() {
         k = 1 * d.innerWidth;
         p = 1 * d.innerHeight;
-        Ka.width = M.width = k;
-        Ka.height = M.height = p;
+        La.width = M.width = k;
+        La.height = M.height = p;
         var a = e("#helloContainer");
         a.css("transform", "none");
         var b = a.height(), c = d.innerHeight;
@@ -474,16 +475,16 @@
             Zb();
             for (var c = a = 0, d = 0; d < l.length; d++)l[d].H(), a += l[d].x / l.length, c += l[d].y /
                 l.length;
-            ja = a;
-            ka = c;
-            la = g;
+            ka = a;
+            la = c;
+            ma = g;
             s = (s + a) / 2;
             t = (t + c) / 2
-        } else s = (29 * s + ja) / 30, t = (29 * t + ka) / 30, g = (9 * g + la * Db()) / 10;
+        } else s = (29 * s + ka) / 30, t = (29 * t + la) / 30, g = (9 * g + ma * Db()) / 10;
         Pb();
-        La();
+        Ma();
         bb || f.clearRect(0, 0, k, p);
-        bb ? (f.fillStyle = Ea ? "#111111" : "#F2FBFF", f.globalAlpha = .05, f.fillRect(0, 0, k, p), f.globalAlpha = 1) : ac();
+        bb ? (f.fillStyle = Fa ? "#111111" : "#F2FBFF", f.globalAlpha = .05, f.fillRect(0, 0, k, p), f.globalAlpha = 1) : ac();
         u.sort(function (a, b) {
             return a.size == b.size ? a.id - b.id : a.size - b.size
         });
@@ -494,8 +495,8 @@
         for (d = 0; d < Y.length; d++)Y[d].p(f);
         for (d = 0; d < u.length; d++)u[d].p(f);
         if (Ua) {
-            xa = (3 * xa + Sa) / 4;
-            ya = (3 * ya + Ta) / 4;
+            ya = (3 * ya + Sa) / 4;
+            za = (3 * za + Ta) / 4;
             f.save();
             f.strokeStyle = "#FFAAAA";
             f.lineWidth =
@@ -504,14 +505,14 @@
             f.lineJoin = "round";
             f.globalAlpha = .5;
             f.beginPath();
-            for (d = 0; d < l.length; d++)f.moveTo(l[d].x, l[d].y), f.lineTo(xa, ya);
+            for (d = 0; d < l.length; d++)f.moveTo(l[d].x, l[d].y), f.lineTo(ya, za);
             f.stroke();
             f.restore()
         }
         f.restore();
         A && A.width && f.drawImage(A, k - A.width - 10, 10);
         K = Math.max(K, Eb());
-        0 != K && (null == Fa && (Fa = new Ga(24, "#FFFFFF")), Fa.r(ha("score") + ": " + ~~(K / 100)), c = Fa.B(), a = c.width, f.globalAlpha = .2, f.fillStyle = "#000000", f.fillRect(10, p - 10 - 24 - 10, a + 10, 34), f.globalAlpha = 1, f.drawImage(c, 15, p - 10 - 24 - 5));
+        0 != K && (null == Ga && (Ga = new Ha(24, "#FFFFFF")), Ga.r(ha("score") + ": " + ~~(K / 100)), c = Ga.B(), a = c.width, f.globalAlpha = .2, f.fillStyle = "#000000", f.fillRect(10, p - 10 - 24 - 10, a + 10, 34), f.globalAlpha = 1, f.drawImage(c, 15, p - 10 - 24 - 5));
         bc();
         b = Date.now() - b;
         b > 1E3 / 60 ? G -= .01 : b < 1E3 / 65 && (G += .01);
@@ -524,10 +525,10 @@
     }
 
     function ac() {
-        f.fillStyle = Ea ? "#111111" : "#F2FBFF";
+        f.fillStyle = Fa ? "#111111" : "#F2FBFF";
         f.fillRect(0, 0, k, p);
         f.save();
-        f.strokeStyle = Ea ? "#AAAAAA" : "#000000";
+        f.strokeStyle = Fa ? "#AAAAAA" : "#000000";
         f.globalAlpha = .2 * g;
         for (var a = k / g, b = p / g, c = (-s + a / 2) % 50; c < a; c += 50)f.beginPath(), f.moveTo(c * g - .5, 0), f.lineTo(c * g - .5, b * g), f.stroke();
         for (c = (-t + b / 2) % 50; c < b; c += 50)f.beginPath(), f.moveTo(0, c * g - .5), f.lineTo(a * g, c * g - .5), f.stroke();
@@ -548,7 +549,7 @@
 
     function vb() {
         A = null;
-        if (null != B || 0 != w.length)if (null != B || Ha) {
+        if (null != B || 0 != w.length)if (null != B || Ia) {
             A = document.createElement("canvas");
             var a = A.getContext("2d"), b = 60, b = null == B ? b + 24 * w.length : b + 180, c = Math.min(200, .3 * k) / 200;
             A.width = 200 * c;
@@ -563,7 +564,7 @@
             c = ha("leaderboard");
             a.font = "30px Ubuntu";
             a.fillText(c, 100 - a.measureText(c).width / 2, 40);
-            if (null == B)for (a.font = "20px Ubuntu", b = 0; b < w.length; ++b)c = w[b].name || ha("unnamed_cell"), Ha || (c = ha("unnamed_cell")), -1 != z.indexOf(w[b].id) ? (l[0].name && (c = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFFFFF", c = b + 1 + ". " + c,
+            if (null == B)for (a.font = "20px Ubuntu", b = 0; b < w.length; ++b)c = w[b].name || ha("unnamed_cell"), Ia || (c = ha("unnamed_cell")), -1 != z.indexOf(w[b].id) ? (l[0].name && (c = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFFFFF", c = b + 1 + ". " + c,
                 a.fillText(c, 100 - a.measureText(c).width / 2, 70 + 24 * b); else for (b = c = 0; b < B.length; ++b) {
                 var d = c + B[b] * Math.PI * 2;
                 a.fillStyle = cc[b + 1];
@@ -590,7 +591,7 @@
 
     function ec(a) {
         if (null == a || 0 == a.length)return null;
-        if (!ma.hasOwnProperty(a)) {
+        if (!na.hasOwnProperty(a)) {
             var b = new Image;
             if (":" == a[0])b.src = a.slice(1); else if ("%" == a[0]) {
                 if (!d.MC || !d.MC.getSkinInfo)return null;
@@ -598,9 +599,9 @@
                 if (null == c)return null;
                 b.src = d.ASSETS_ROOT + "skins/premium/" + c.url
             }
-            ma[a] = b
+            na[a] = b
         }
-        return 0 != ma[a].width && ma[a].complete ? ma[a] : null
+        return 0 != na[a].width && na[a].complete ? na[a] : null
     }
 
     function db(a, b, c, d, e) {
@@ -627,7 +628,7 @@
         return "#" + a
     }
 
-    function Ga(a, b, c, d) {
+    function Ha(a, b, c, d) {
         a && (this.n = a);
         b && (this.K = b);
         this.M = !!c;
@@ -717,7 +718,7 @@
                 e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
                 e("#helloContainer").attr("data-party-state", "5");
                 ga(":party");
-                Pa("ws://" + b[0], a)
+                Qa("ws://" + b[0], a)
             }, dataType: "text", method: "POST", cache: !1, crossDomain: !0, data: a
         })
     }
@@ -729,7 +730,7 @@
     function Wb(a, b) {
         var c = -1 != z.indexOf(a.id), d = -1 != z.indexOf(b.id), e = 30 > b.size;
         c && e && ++Xa;
-        e || !c || d || ++Da
+        e || !c || d || ++Ea
     }
 
     function Jb(a) {
@@ -752,7 +753,7 @@
         e(".stats-time-alive").text(Jb((ab - Za) / 1E3));
         e(".stats-leaderboard-time").text(Jb($a));
         e(".stats-highest-mass").text(~~(K / 100));
-        e(".stats-cells-eaten").text(Da);
+        e(".stats-cells-eaten").text(Ea);
         e(".stats-top-position").text(0 == V ? ":(" : V);
         var a = document.getElementById("statsGraph");
         if (a) {
@@ -785,6 +786,17 @@
         }
     }
 
+    var ia = {};
+    (function () {
+        var a = d.location.search;
+        "?" == a.charAt(0) && (a = a.slice(1));
+        for (var a = a.split("&"), b = 0; b < a.length; b++) {
+            var c = a[b].split("=");
+            ia[c[0]] =
+                c[1]
+        }
+    })();
+    "fb" in ia || "miniclip" in ia || "http:" == d.location.protocol || (d.location.href = "http:" + d.location.href.substring(d.location.protocol.length));
     d.MC = function () {
     };
     if (void 0 != d.EnvConfig) {
@@ -792,29 +804,20 @@
         d.EnvConfig = Q
     }
     if (!d.agarioNoInit) {
-        var gb = d.location.protocol, Qa = "https:" == gb, ea = gb + "//" +
-            Q.master_url + "/", Ia = d.navigator.userAgent;
-        if (-1 != Ia.indexOf("Android"))d.ga && d.ga("send", "event", "MobileRedirect", "PlayStore"), setTimeout(function () {
+        var gb = d.location.protocol, Ra = "https:" == gb, ea = gb + "//" + Q.master_url + "/", Ja = d.navigator.userAgent;
+        if (-1 != Ja.indexOf("Android"))d.ga && d.ga("send", "event", "MobileRedirect", "PlayStore"), setTimeout(function () {
             d.location.href = "https://play.google.com/store/apps/details?id=com.miniclip.agar.io"
-        }, 1E3); else if (-1 != Ia.indexOf("iPhone") || -1 != Ia.indexOf("iPad") || -1 != Ia.indexOf("iPod"))d.ga && d.ga("send", "event", "MobileRedirect", "AppStore"), setTimeout(function () {
+        }, 1E3); else if (-1 != Ja.indexOf("iPhone") || -1 != Ja.indexOf("iPad") || -1 != Ja.indexOf("iPod"))d.ga && d.ga("send", "event", "MobileRedirect", "AppStore"), setTimeout(function () {
             d.location.href = "https://itunes.apple.com/app/agar.io/id995999703?mt=8&at=1l3vajp"
         }, 1E3); else {
-            var Ka, f, M, k, p, da = null, q = null, s = 0, t = 0, z = [], l = [], J = {}, u = [], Y = [], w = [], oa = 0, pa = 0, sa = -1, ta = -1, $b = 0, F = 0, Fb = 0, I = null, za = 0, Aa = 0, Ba = 1E4, Ca = 1E4, g = 1, y = null, hb = !0, Ha = !0, ib = !1, Wa = !1, K = 0, Ea = !1, Kb = !1, ja = s = ~~((za + Ba) / 2), ka = t = ~~((Aa + Ca) / 2), la = 1, P = "", B = null, Ja = !1, Ua = !1, Sa = 0, Ta = 0, xa = 0, ya = 0, Lb = 0, cc = ["#333333", "#FF3333", "#33FF33", "#3333FF"], bb = !1, ia = !1, wb = 0, C = null, O = 1, r = 1, fa = !1, Ma = 0, Gb = !0, Ra = {}, Va = null;
-            (function () {
-                var a = d.location.search;
-                "?" == a.charAt(0) && (a = a.slice(1));
-                for (var a = a.split("&"), b = 0; b < a.length; b++) {
-                    var c = a[b].split("=");
-                    Ra[c[0]] = c[1]
-                }
-            })();
-            var D = new Image;
+            var La, f, M, k, p, da = null, q = null, s = 0, t = 0, z = [], l = [], J = {}, u = [], Y = [], w = [], pa = 0, qa = 0, ta = -1, ua = -1, $b = 0, F = 0, Fb = 0, I = null, Aa = 0, Ba = 0, Ca = 1E4, Da = 1E4, g = 1, y = null, hb = !0, Ia = !0, ib = !1, Wa = !1, K = 0, Fa = !1, Kb = !1, ka = s = ~~((Aa + Ca) / 2), la = t = ~~((Ba + Da) / 2), ma = 1, P = "", B = null, Ka =
+                !1, Ua = !1, Sa = 0, Ta = 0, ya = 0, za = 0, Lb = 0, cc = ["#333333", "#FF3333", "#33FF33", "#3333FF"], bb = !1, ja = !1, wb = 0, C = null, O = 1, r = 1, fa = !1, Na = 0, Gb = !0, Va = null, D = new Image;
             D.src = "/img/background.png";
             var kb = "ontouchstart" in d && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(d.navigator.userAgent), cb = new Image;
             cb.src = "/img/split.png";
             var Mb = document.createElement("canvas");
             if ("undefined" == typeof console || "undefined" == typeof DataView || "undefined" == typeof WebSocket || null == Mb || null == Mb.getContext || null == d.localStorage)alert("You browser does not support this game, we recommend you to use Firefox to play this"); else {
-                var ua = null;
+                var va = null;
                 d.setNick = function (a) {
                     d.ga && d.ga("send", "event", "Nick", a.toLowerCase());
                     qb();
@@ -822,16 +825,16 @@
                     xb();
                     K = 0
                 };
-                d.setRegion = ra;
-                var Na = !0;
+                d.setRegion = sa;
+                var Oa = !0;
                 d.setSkins = function (a) {
                     hb = a
                 };
                 d.setNames = function (a) {
-                    Ha = a
+                    Ia = a
                 };
                 d.setDarkTheme = function (a) {
-                    Ea = a
+                    Fa = a
                 };
                 d.setColors = function (a) {
                     ib = a
@@ -856,9 +859,9 @@
                     a = b[0];
                     b = b[1] || "";
                     -1 == ["UA"].indexOf(a) && Nb.push("ussr");
-                    na.hasOwnProperty(a) && ("string" == typeof na[a] ? y || ra(na[a]) : na[a].hasOwnProperty(b) && (y || ra(na[a][b])))
+                    oa.hasOwnProperty(a) && ("string" == typeof oa[a] ? y || sa(oa[a]) : oa[a].hasOwnProperty(b) && (y || sa(oa[a][b])))
                 }, "text");
-                var Oa = !0, Rb = 0, na = {
+                var Pa = !0, Rb = 0, oa = {
                     AF: "JP-Tokyo",
                     AX: "EU-London",
                     AL: "EU-London",
@@ -1104,19 +1107,19 @@
                     ZM: "EU-London",
                     ZW: "EU-London"
                 }, R = null;
-                d.connect = Pa;
-                var wa = 500, Ab = -1, Bb = -1;
+                d.connect = Qa;
+                var xa = 500, Ab = -1, Bb = -1;
                 d.refreshPlayerInfo = function () {
                     H(253)
                 };
-                var A = null, G = 1, Fa = null, nb = function () {
+                var A = null, G = 1, Ga = null, nb = function () {
                     var a = Date.now(), b = 1E3 / 60;
                     return function () {
                         d.requestAnimationFrame(nb);
                         var c = Date.now(), e = c - a;
                         e > b && (a = c - e % b, !aa() || 240 > Date.now() - wb ? Cb() : console.warn("Skipping draw"), ic())
                     }
-                }(), ba = {}, Nb = "poland;usa;china;russia;canada;australia;spain;brazil;germany;ukraine;france;sweden;chaplin;north korea;south korea;japan;united kingdom;earth;greece;latvia;lithuania;estonia;finland;norway;cia;maldivas;austria;nigeria;reddit;yaranaika;confederate;9gag;indiana;4chan;italy;bulgaria;tumblr;2ch.hk;hong kong;portugal;jamaica;german empire;mexico;sanik;switzerland;croatia;chile;indonesia;bangladesh;thailand;iran;iraq;peru;moon;botswana;bosnia;netherlands;european union;taiwan;pakistan;hungary;satanist;qing dynasty;matriarchy;patriarchy;feminism;ireland;texas;facepunch;prodota;cambodia;steam;piccolo;ea;india;kc;denmark;quebec;ayy lmao;sealand;bait;tsarist russia;origin;vinesauce;stalin;belgium;luxembourg;stussy;prussia;8ch;argentina;scotland;sir;romania;belarus;wojak;doge;nasa;byzantium;imperial japan;french kingdom;somalia;turkey;mars;pokerface;8;irs;receita federal;facebook;putin;merkel;tsipras;obama;kim jong-un;dilma;hollande;berlusconi;cameron;clinton;hillary;venezuela;blatter;chavez;cuba;fidel;merkel;palin;queen;boris;bush;trump".split(";"), jc = "8;nasa;putin;merkel;tsipras;obama;kim jong-un;dilma;hollande;berlusconi;cameron;clinton;hillary;blatter;chavez;fidel;merkel;palin;queen;boris;bush;trump".split(";"), ma = {};
+                }(), ba = {}, Nb = "poland;usa;china;russia;canada;australia;spain;brazil;germany;ukraine;france;sweden;chaplin;north korea;south korea;japan;united kingdom;earth;greece;latvia;lithuania;estonia;finland;norway;cia;maldivas;austria;nigeria;reddit;yaranaika;confederate;9gag;indiana;4chan;italy;bulgaria;tumblr;2ch.hk;hong kong;portugal;jamaica;german empire;mexico;sanik;switzerland;croatia;chile;indonesia;bangladesh;thailand;iran;iraq;peru;moon;botswana;bosnia;netherlands;european union;taiwan;pakistan;hungary;satanist;qing dynasty;matriarchy;patriarchy;feminism;ireland;texas;facepunch;prodota;cambodia;steam;piccolo;ea;india;kc;denmark;quebec;ayy lmao;sealand;bait;tsarist russia;origin;vinesauce;stalin;belgium;luxembourg;stussy;prussia;8ch;argentina;scotland;sir;romania;belarus;wojak;doge;nasa;byzantium;imperial japan;french kingdom;somalia;turkey;mars;pokerface;8;irs;receita federal;facebook;putin;merkel;tsipras;obama;kim jong-un;dilma;hollande;berlusconi;cameron;clinton;hillary;venezuela;blatter;chavez;cuba;fidel;merkel;palin;queen;boris;bush;trump".split(";"), jc = "8;nasa;putin;merkel;tsipras;obama;kim jong-un;dilma;hollande;berlusconi;cameron;clinton;hillary;blatter;chavez;fidel;merkel;palin;queen;boris;bush;trump".split(";"), na = {};
                 db.prototype = {N: null, x: 0, y: 0, d: 0, b: 0};
                 $.prototype = {
                     id: 0,
@@ -1160,7 +1163,7 @@
                         return Math.max(~~(.3 * this.size), 24)
                     },
                     q: function (a) {
-                        if (this.name = a)null == this.i ? this.i = new Ga(this.f(), "#FFFFFF", !0, "#000000") : this.i.C(this.f()), this.i.r(this.name)
+                        if (this.name = a)null == this.i ? this.i = new Ha(this.f(), "#FFFFFF", !0, "#000000") : this.i.C(this.f()), this.i.r(this.name)
                     },
                     O: function () {
                         for (var a = this.v(); this.a.length > a;) {
@@ -1196,7 +1199,7 @@
                                 da.ca(m - 5, L - 5, 10, 10, function (a) {
                                     a.N != f && 25 > (m - a.x) * (m - a.x) + (L - a.y) * (L - a.y) && (k = !0)
                                 });
-                                !k && (a[c].x < za || a[c].y < Aa || a[c].x > Ba || a[c].y > Ca) && (k = !0);
+                                !k && (a[c].x < Aa || a[c].y < Ba || a[c].x > Ca || a[c].y > Da) && (k = !0);
                                 k && (0 < a[c].b && (a[c].b = 0), a[c].b -= 1)
                             }
                             n += a[c].b;
@@ -1266,7 +1269,7 @@
                             a.globalAlpha = 1;
                             c = -1 != l.indexOf(this);
                             b = ~~this.y;
-                            if (0 != this.id && (Ha || c) && this.name && this.i && (null == h || -1 == jc.indexOf(e))) {
+                            if (0 != this.id && (Ia || c) && this.name && this.i && (null == h || -1 == jc.indexOf(e))) {
                                 h = this.i;
                                 h.r(this.name);
                                 h.C(this.f());
@@ -1276,13 +1279,13 @@
                                 a.drawImage(h, ~~this.x - ~~(f / 2), b - ~~(k / 2), f, k);
                                 b += h.height / 2 / e + 4
                             }
-                            0 < this.id && Kb && (c || 0 == l.length && (!this.c || this.g) && 20 < this.size) && (null == this.F && (this.F = new Ga(this.f() / 2, "#FFFFFF", !0, "#000000")), c = this.F, c.C(this.f() / 2), c.r(~~(this.size * this.size / 100)), e = Math.ceil(10 * g) / 10, c.R(e), h = c.B(), f = ~~(h.width / e),
+                            0 < this.id && Kb && (c || 0 == l.length && (!this.c || this.g) && 20 < this.size) && (null == this.F && (this.F = new Ha(this.f() / 2, "#FFFFFF", !0, "#000000")), c = this.F, c.C(this.f() / 2), c.r(~~(this.size * this.size / 100)), e = Math.ceil(10 * g) / 10, c.R(e), h = c.B(), f = ~~(h.width / e),
                                 k = ~~(h.height / e), a.drawImage(h, ~~this.x - ~~(f / 2), b - ~~(k / 2), f, k));
                             a.restore()
                         }
                     }
                 };
-                Ga.prototype = {
+                Ha.prototype = {
                     t: "",
                     K: "#000000",
                     M: !1,
@@ -1516,9 +1519,9 @@
                     ga("");
                     N()
                 };
-                var x = [], Xa = 0, Ya = "#000000", X = !1, va = !1, Za = 0, ab = 0, $a = 0, Da = 0, V = 0, zb = !0;
+                var x = [], Xa = 0, Ya = "#000000", X = !1, wa = !1, Za = 0, ab = 0, $a = 0, Ea = 0, V = 0, zb = !0;
                 setInterval(function () {
-                    va && x.push(Eb() / 100)
+                    wa && x.push(Eb() / 100)
                 }, 1E3 / 60);
                 setInterval(function () {
                     var a = hc();
@@ -1528,7 +1531,7 @@
                     X = !1;
                     e("#stats").hide();
                     rb(d.ab);
-                    qa(0)
+                    ra(0)
                 };
                 d.setSkipStats = function (a) {
                     zb = !a
@@ -1539,71 +1542,4 @@
             }
         }
     }
-
-    /**
-     * @author nguyenvanduocit
-     * Auto feed bot
-     */
-    var FeedBot = function(){
-        this.updateMousePossitionInterval = null;
-    };
-    FeedBot.prototype.run = function(){
-        /**
-         * Bot need to skip stats
-         */
-        d.setSkipStats(true);
-        /**
-         * Set the destination
-         */
-        this.setDestination(100,100);
-    };
-    FeedBot.prototype.setDestination = function(x, y){
-        /**
-         * try to clear first
-         */
-        this.clearPossitionInterval();
-        this.updateMousePossitionInterval = setInterval(function(){
-                oa = x;
-                pa = y;
-                La();
-            },
-            1000);
-    };
-    FeedBot.prototype.clearPossitionInterval = function(){
-        if(this.updateMousePossitionInterval != null){
-            clearInterval(this.updateMousePossitionInterval);
-        }
-    };
-    FeedBot.prototype.addBot = function(){
-        var self = this;
-        var bot = new WebSocket("ws://139.162.7.214:443");
-        bot.binaryType = "arraybuffer";
-        bot.onopen = function(){
-            console.log("socket open");
-            var data;
-            data = S(5);
-            data.setUint8(0, 254);
-            data.setUint32(1, 5, !0);
-            T(data);
-            data = S(5);
-            data.setUint8(0, 255);
-            data.setUint32(1, 2200049715, !0);
-            T(data);
-            data = S(1 + b.length);
-            data.setUint8(0, 80);
-            for (var c = 0; c < b.length; ++c)data.setUint8(c + 1, data.charCodeAt(c));
-            T(data);
-            ub()
-        };
-        self.push(bot);
-    };
-    /**
-     * create bot
-     * @type {FeedBot}
-     */
-    var feedBot = new FeedBot();
-    /**
-     * Run bot
-     */
-    feedBot.run();
-})(window, window.jQuery);
+})(window, window.jQuery, window.AgarBot);

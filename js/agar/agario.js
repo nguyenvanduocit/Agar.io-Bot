@@ -1850,11 +1850,11 @@
     g["agario.models.VersionModel"] = zb;
     zb.__name__ = ["agario", "models", "VersionModel"];
     zb.getVersionAsPaddedInt = function () {
-        return J.parseInt(O.lpad("1", "0", 3) + O.lpad("1", "0", 3) + O.lpad("4", "0", 3))
+        return J.parseInt(O.lpad("1", "0", 3) + O.lpad("1", "0", 3) + O.lpad("5", "0", 3))
     };
     zb.updateTag = function () {
         p.initialized && p.services.gameui.setVersionTag("(" +
-            zb.SERVER_VERSION + " - " + zb.VERSION + ".17)")
+            zb.SERVER_VERSION + " - " + zb.VERSION + ".19)")
     };
     var Id = function (a) {
         H.call(this);
@@ -27970,9 +27970,9 @@
         "state_xsolla_iframe";
     zb.MAJOR = "1";
     zb.MINOR = "1";
-    zb.PATCH = "4";
-    zb.BUILD_NUMBER = "17";
-    zb.VERSION = "1.1.4";
+    zb.PATCH = "5";
+    zb.BUILD_NUMBER = "19";
+    zb.VERSION = "1.1.5";
     zb.SERVER_VERSION = "";
     ld.WIDTH = 150;
     ld.HEIGHT = 360;

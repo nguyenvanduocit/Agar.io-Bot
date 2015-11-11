@@ -7,7 +7,7 @@
   "content_scripts": [
     {
       "matches": ["http://agar.io/*"],
-      "js": ["js/contentScript.js"],
+      "js": ["js/lib/jquery-2.1.4.min.js","js/contentScript.js"],
       "run_at" : "document_start"
     }
   ],
@@ -37,7 +37,6 @@
   "content_security_policy": "script-src 'self' https://*.google-analytics.com; object-src 'self'",
   "version": "1.0.2",
   "web_accessible_resources": [
-    "js/agar/main_out.js",
-    "js/agar/agario.js"
+    "js/concat.js"
   ]
 }
