@@ -6,13 +6,30 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: [
+          //Lib script
           'js/lib/underscore-min.js',
           'js/lib/backbone-min.js',
           'js/lib/backbone.marionette.js',
-          'js/bot/Application.js',
+          'js/lib/msgpack.js',
+          'js/Application.js',
+          'js/CustomWebSocket.js',
+          //Message passing with content, bacground scirpt
+          'js/messenger.js',
+          'js/template-loader.js',
           'js/agar/main_out.js',
-          'js/bot/FeedBot.js',
-          'js/bot/StartApplication.js'
+
+          //BEGIN Auto feed bot
+          //'js/lib/nvduoc/AgarBot.js',
+          //'js/bot/FeedBot.js',
+          //END Auto feed bot
+
+          //BEGIN Minimap
+          'js/minimap/Cell.model.js',
+          'js/minimap/Cell.ItemView.js',
+          'js/minimap/Cell.CollectionView.js',
+          'js/minimap/minimap.js',
+          //END minimap
+          'js/StartApplication.js'
         ],
         dest: 'js/concat.js'
       }

@@ -1,5 +1,4 @@
-(function (d, e, AgarBot) {
-
+(function (d, e) {
     function Ob() {
         Ka = !0;
         jb();
@@ -193,17 +192,8 @@
         ja = !1;
         console.log("Connecting to " + a);
         q = new WebSocket(a);
-        /**
-         * @author nguyenvanduocit
-         */
-        var socketAddress = a;
         q.binaryType = "arraybuffer";
         q.onopen = function () {
-            /**
-             * @author : nguyenvanduocit
-             * a till address
-             */
-            AgarBot.pubsub.trigger('SocketOpened', {socketAddress:socketAddress});
             var a;
             console.log("socket open");
             a = S(5);
@@ -223,7 +213,6 @@
         q.onmessage = Sb;
         q.onclose = Tb;
         q.onerror = function () {
-            AgarBot.pubsub.trigger('SocketError');
             console.log("socket error")
         }
     }
@@ -233,17 +222,11 @@
     }
 
     function T(a) {
-        /**
-         * @author nguyenvanduocit
-         */
-        AgarBot.pubsub.trigger('sendMessage', {data:a});
         q.send(a.buffer)
     }
 
     function Tb() {
         ja && (xa = 500);
-        //@author nguyenvanduocit
-        AgarBot.pubsub.trigger('socketClosed');
         console.log("socket close");
         setTimeout(N, xa);
         xa *= 2
@@ -401,14 +384,11 @@
             total_mass: ~~(K / 100),
             turn_time: (ab - Za) / 1E3,
             cells_eaten: Ea
-        }), AgarBot.pubsub.trigger('cellDead'))
-        //@author nguyenvanduocit
+        }))
     }
 
     function ca() {
         if (aa()) {
-            //@author nguyenvanduocit
-            AgarBot.pubsub.trigger('sendPosition');
             var a = pa - k / 2, b = qa - p / 2;
             64 > a * a + b * b || .01 > Math.abs(Ab - ta) && .01 > Math.abs(Bb - ua) || (Ab = ta, Bb = ua, a = S(13), a.setUint8(0, 16), a.setInt32(1, ta, !0), a.setInt32(5, ua, !0), a.setUint32(9, 0, !0), T(a))
         }
@@ -1548,4 +1528,4 @@
             }
         }
     }
-})(window, window.jQuery, window.AgarBot);
+})(window, window.jQuery);

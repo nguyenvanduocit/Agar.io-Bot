@@ -1,6 +1,9 @@
 var Background = function () {
 
 };
+Background.prototype.run = function(){
+    this.addEventHandler();
+};
 /**
  *
  * @param details
@@ -22,14 +25,33 @@ Background.prototype.onBeforeRequest = function (details) {
     return {"cancel":false};
 };
 
-var background = new Background();
+Background.prototype.onMessageRecived = function(request, sender, sendResponse){
+    var response = null;
+    switch(request.action){
 
-chrome.webRequest.onBeforeRequest.addListener(
-    function (details) {
-        return background.onBeforeRequest(details);
-    },
-    {
-        urls: ['<all_urls>']
-    },
-    ["blocking"]
-);
+    }
+};
+Background.prototype.addEventHandler = function(){
+    var self = this;
+    /**
+     * handle message
+     */
+    chrome.runtime.onMessageExternal.addListener(
+        function(request, sender, sendResponse) {
+            self.onMessageRecived(request, sender, sendResponse);
+        });
+    /**
+     * handle web request
+     */
+    chrome.webRequest.onBeforeRequest.addListener(
+        function (details) {
+            return self.onBeforeRequest(details);
+        },
+        {
+            urls: ['<all_urls>']
+        },
+        ["blocking"]
+    );
+};
+var background = new Background();
+background.run();

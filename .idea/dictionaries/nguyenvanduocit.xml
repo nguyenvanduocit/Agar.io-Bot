@@ -1,3 +1,10 @@
 <component name="ProjectDictionaryState">
-  <dictionary name="nguyenvanduocit" />
+  <dictionary name="nguyenvanduocit">
+    <words>
+      <w>onclose</w>
+      <w>onerror</w>
+      <w>onmessage</w>
+      <w>onopen</w>
+    </words>
+  </dictionary>
 </component>

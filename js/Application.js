@@ -6,8 +6,9 @@
         }
     });
     window.AgarBot.Models = {};
+    window.AgarBot.Views = {};
     window.AgarBot.app  = new window.AgarBot.Application();
-    window.AgarBot.Modules  ={};
+    window.AgarBot.Modules  = {};
     window.AgarBot.pubsub = {};
     _.extend(window.AgarBot.pubsub, Backbone.Events);
 })(window, Backbone, Marionette);

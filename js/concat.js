@@ -3953,6 +3953,677 @@
   return Marionette;
 }));
 
+/*!{id:msgpack.js,ver:1.05,license:"MIT",author:"uupaa.js@gmail.com"}*/
+
+// === msgpack ===
+// MessagePack -> http://msgpack.sourceforge.net/
+
+this.msgpack || (function(globalScope) {
+
+globalScope.msgpack = {
+    pack:       msgpackpack,    // msgpack.pack(data:Mix,
+                                //              toString:Boolean = false):ByteArray/ByteString/false
+                                //  [1][mix to String]    msgpack.pack({}, true) -> "..."
+                                //  [2][mix to ByteArray] msgpack.pack({})       -> [...]
+    unpack:     msgpackunpack,  // msgpack.unpack(data:BinaryString/ByteArray):Mix
+                                //  [1][String to mix]    msgpack.unpack("...") -> {}
+                                //  [2][ByteArray to mix] msgpack.unpack([...]) -> {}
+    worker:     "msgpack.js",   // msgpack.worker - WebWorkers script filename
+    upload:     msgpackupload,  // msgpack.upload(url:String, option:Hash, callback:Function)
+    download:   msgpackdownload // msgpack.download(url:String, option:Hash, callback:Function)
+};
+
+var _ie         = /MSIE/.test(navigator.userAgent),
+    _bin2num    = {}, // BinaryStringToNumber   { "\00": 0, ... "\ff": 255 }
+    _num2bin    = {}, // NumberToBinaryString   { 0: "\00", ... 255: "\ff" }
+    _num2b64    = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+                   "abcdefghijklmnopqrstuvwxyz0123456789+/").split(""),
+    _buf        = [], // decode buffer
+    _idx        = 0,  // decode buffer[index]
+    _error      = 0,  // msgpack.pack() error code. 1 = CYCLIC_REFERENCE_ERROR
+    _isArray    = Array.isArray || (function(mix) {
+                    return Object.prototype.toString.call(mix) === "[object Array]";
+                  }),
+    _toString   = String.fromCharCode, // CharCode/ByteArray to String
+    _MAX_DEPTH  = 512;
+
+// for WebWorkers Code Block
+self.importScripts && (onmessage = function(event) {
+    if (event.data.method === "pack") {
+        postMessage(base64encode(msgpackpack(event.data.data)));
+    } else {
+        postMessage(msgpackunpack(event.data.data));
+    }
+});
+
+// msgpack.pack
+function msgpackpack(data,       // @param Mix:
+                     toString) { // @param Boolean(= false):
+                                 // @return ByteArray/BinaryString/false:
+                                 //     false is error return
+    //  [1][mix to String]    msgpack.pack({}, true) -> "..."
+    //  [2][mix to ByteArray] msgpack.pack({})       -> [...]
+
+    _error = 0;
+
+    var byteArray = encode([], data, 0);
+
+    return _error ? false
+                  : toString ? byteArrayToByteString(byteArray)
+                             : byteArray;
+}
+
+// msgpack.unpack
+function msgpackunpack(data) { // @param BinaryString/ByteArray:
+                               // @return Mix/undefined:
+                               //       undefined is error return
+    //  [1][String to mix]    msgpack.unpack("...") -> {}
+    //  [2][ByteArray to mix] msgpack.unpack([...]) -> {}
+
+    _buf = typeof data === "string" ? toByteArray(data) : data;
+    _idx = -1;
+    return decode(); // mix or undefined
+}
+
+// inner - encoder
+function encode(rv,      // @param ByteArray: result
+                mix,     // @param Mix: source data
+                depth) { // @param Number: depth
+    var size, i, iz, c, pos,        // for UTF8.encode, Array.encode, Hash.encode
+        high, low, sign, exp, frac; // for IEEE754
+
+    if (mix == null) { // null or undefined -> 0xc0 ( null )
+        rv.push(0xc0);
+    } else if (mix === false) { // false -> 0xc2 ( false )
+        rv.push(0xc2);
+    } else if (mix === true) {  // true  -> 0xc3 ( true  )
+        rv.push(0xc3);
+    } else {
+        switch (typeof mix) {
+        case "number":
+            if (mix !== mix) { // isNaN
+                rv.push(0xcb, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff); // quiet NaN
+            } else if (mix === Infinity) {
+                rv.push(0xcb, 0x7f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00); // positive infinity
+            } else if (Math.floor(mix) === mix) { // int or uint
+                if (mix < 0) {
+                    // int
+                    if (mix >= -32) { // negative fixnum
+                        rv.push(0xe0 + mix + 32);
+                    } else if (mix > -0x80) {
+                        rv.push(0xd0, mix + 0x100);
+                    } else if (mix > -0x8000) {
+                        mix += 0x10000;
+                        rv.push(0xd1, mix >> 8, mix & 0xff);
+                    } else if (mix > -0x80000000) {
+                        mix += 0x100000000;
+                        rv.push(0xd2, mix >>> 24, (mix >> 16) & 0xff,
+                                                  (mix >>  8) & 0xff, mix & 0xff);
+                    } else {
+                        high = Math.floor(mix / 0x100000000);
+                        low  = mix & 0xffffffff;
+                        rv.push(0xd3, (high >> 24) & 0xff, (high >> 16) & 0xff,
+                                      (high >>  8) & 0xff,         high & 0xff,
+                                      (low  >> 24) & 0xff, (low  >> 16) & 0xff,
+                                      (low  >>  8) & 0xff,          low & 0xff);
+                    }
+                } else {
+                    // uint
+                    if (mix < 0x80) {
+                        rv.push(mix); // positive fixnum
+                    } else if (mix < 0x100) { // uint 8
+                        rv.push(0xcc, mix);
+                    } else if (mix < 0x10000) { // uint 16
+                        rv.push(0xcd, mix >> 8, mix & 0xff);
+                    } else if (mix < 0x100000000) { // uint 32
+                        rv.push(0xce, mix >>> 24, (mix >> 16) & 0xff,
+                                                  (mix >>  8) & 0xff, mix & 0xff);
+                    } else {
+                        high = Math.floor(mix / 0x100000000);
+                        low  = mix & 0xffffffff;
+                        rv.push(0xcf, (high >> 24) & 0xff, (high >> 16) & 0xff,
+                                      (high >>  8) & 0xff,         high & 0xff,
+                                      (low  >> 24) & 0xff, (low  >> 16) & 0xff,
+                                      (low  >>  8) & 0xff,          low & 0xff);
+                    }
+                }
+            } else { // double
+                // THX!! @edvakf
+                // http://javascript.g.hatena.ne.jp/edvakf/20101128/1291000731
+                sign = mix < 0;
+                sign && (mix *= -1);
+
+                // add offset 1023 to ensure positive
+                // 0.6931471805599453 = Math.LN2;
+                exp  = ((Math.log(mix) / 0.6931471805599453) + 1023) | 0;
+
+                // shift 52 - (exp - 1023) bits to make integer part exactly 53 bits,
+                // then throw away trash less than decimal point
+                frac = mix * Math.pow(2, 52 + 1023 - exp);
+
+                //  S+-Exp(11)--++-----------------Fraction(52bits)-----------------------+
+                //  ||          ||                                                        |
+                //  v+----------++--------------------------------------------------------+
+                //  00000000|00000000|00000000|00000000|00000000|00000000|00000000|00000000
+                //  6      5    55  4        4        3        2        1        8        0
+                //  3      6    21  8        0        2        4        6
+                //
+                //  +----------high(32bits)-----------+ +----------low(32bits)------------+
+                //  |                                 | |                                 |
+                //  +---------------------------------+ +---------------------------------+
+                //  3      2    21  1        8        0
+                //  1      4    09  6
+                low  = frac & 0xffffffff;
+                sign && (exp |= 0x800);
+                high = ((frac / 0x100000000) & 0xfffff) | (exp << 20);
+
+                rv.push(0xcb, (high >> 24) & 0xff, (high >> 16) & 0xff,
+                              (high >>  8) & 0xff,  high        & 0xff,
+                              (low  >> 24) & 0xff, (low  >> 16) & 0xff,
+                              (low  >>  8) & 0xff,  low         & 0xff);
+            }
+            break;
+        case "string":
+            // http://d.hatena.ne.jp/uupaa/20101128
+            iz = mix.length;
+            pos = rv.length; // keep rewrite position
+
+            rv.push(0); // placeholder
+
+            // utf8.encode
+            for (i = 0; i < iz; ++i) {
+                c = mix.charCodeAt(i);
+                if (c < 0x80) { // ASCII(0x00 ~ 0x7f)
+                    rv.push(c & 0x7f);
+                } else if (c < 0x0800) {
+                    rv.push(((c >>>  6) & 0x1f) | 0xc0, (c & 0x3f) | 0x80);
+                } else if (c < 0x10000) {
+                    rv.push(((c >>> 12) & 0x0f) | 0xe0,
+                            ((c >>>  6) & 0x3f) | 0x80, (c & 0x3f) | 0x80);
+                }
+            }
+            size = rv.length - pos - 1;
+
+            if (size < 32) {
+                rv[pos] = 0xa0 + size; // rewrite
+            } else if (size < 0x10000) { // 16
+                rv.splice(pos, 1, 0xda, size >> 8, size & 0xff);
+            } else if (size < 0x100000000) { // 32
+                rv.splice(pos, 1, 0xdb,
+                          size >>> 24, (size >> 16) & 0xff,
+                                       (size >>  8) & 0xff, size & 0xff);
+            }
+            break;
+        default: // array or hash
+            if (++depth >= _MAX_DEPTH) {
+                _error = 1; // CYCLIC_REFERENCE_ERROR
+                return rv = []; // clear
+            }
+            if (_isArray(mix)) {
+                size = mix.length;
+                if (size < 16) {
+                    rv.push(0x90 + size);
+                } else if (size < 0x10000) { // 16
+                    rv.push(0xdc, size >> 8, size & 0xff);
+                } else if (size < 0x100000000) { // 32
+                    rv.push(0xdd, size >>> 24, (size >> 16) & 0xff,
+                                               (size >>  8) & 0xff, size & 0xff);
+                }
+                for (i = 0; i < size; ++i) {
+                    encode(rv, mix[i], depth);
+                }
+            } else { // hash
+                // http://d.hatena.ne.jp/uupaa/20101129
+                pos = rv.length; // keep rewrite position
+                rv.push(0); // placeholder
+                size = 0;
+                for (i in mix) {
+                    ++size;
+                    encode(rv, i,      depth);
+                    encode(rv, mix[i], depth);
+                }
+                if (size < 16) {
+                    rv[pos] = 0x80 + size; // rewrite
+                } else if (size < 0x10000) { // 16
+                    rv.splice(pos, 1, 0xde, size >> 8, size & 0xff);
+                } else if (size < 0x100000000) { // 32
+                    rv.splice(pos, 1, 0xdf,
+                              size >>> 24, (size >> 16) & 0xff,
+                                           (size >>  8) & 0xff, size & 0xff);
+                }
+            }
+        }
+    }
+    return rv;
+}
+
+// inner - decoder
+function decode() { // @return Mix:
+    var size, i, iz, c, num = 0,
+        sign, exp, frac, ary, hash,
+        buf = _buf, type = buf[++_idx];
+
+    if (type >= 0xe0) {             // Negative FixNum (111x xxxx) (-32 ~ -1)
+        return type - 0x100;
+    }
+    if (type < 0xc0) {
+        if (type < 0x80) {          // Positive FixNum (0xxx xxxx) (0 ~ 127)
+            return type;
+        }
+        if (type < 0x90) {          // FixMap (1000 xxxx)
+            num  = type - 0x80;
+            type = 0x80;
+        } else if (type < 0xa0) {   // FixArray (1001 xxxx)
+            num  = type - 0x90;
+            type = 0x90;
+        } else { // if (type < 0xc0) {   // FixRaw (101x xxxx)
+            num  = type - 0xa0;
+            type = 0xa0;
+        }
+    }
+    switch (type) {
+    case 0xc0:  return null;
+    case 0xc2:  return false;
+    case 0xc3:  return true;
+    case 0xca:  // float
+                num = buf[++_idx] * 0x1000000 + (buf[++_idx] << 16) +
+                                                (buf[++_idx] <<  8) + buf[++_idx];
+                sign =  num & 0x80000000;    //  1bit
+                exp  = (num >> 23) & 0xff;   //  8bits
+                frac =  num & 0x7fffff;      // 23bits
+                if (!num || num === 0x80000000) { // 0.0 or -0.0
+                    return 0;
+                }
+                if (exp === 0xff) { // NaN or Infinity
+                    return frac ? NaN : Infinity;
+                }
+                return (sign ? -1 : 1) *
+                            (frac | 0x800000) * Math.pow(2, exp - 127 - 23); // 127: bias
+    case 0xcb:  // double
+                num = buf[++_idx] * 0x1000000 + (buf[++_idx] << 16) +
+                                                (buf[++_idx] <<  8) + buf[++_idx];
+                sign =  num & 0x80000000;    //  1bit
+                exp  = (num >> 20) & 0x7ff;  // 11bits
+                frac =  num & 0xfffff;       // 52bits - 32bits (high word)
+                if (!num || num === 0x80000000) { // 0.0 or -0.0
+                    _idx += 4;
+                    return 0;
+                }
+                if (exp === 0x7ff) { // NaN or Infinity
+                    _idx += 4;
+                    return frac ? NaN : Infinity;
+                }
+                num = buf[++_idx] * 0x1000000 + (buf[++_idx] << 16) +
+                                                (buf[++_idx] <<  8) + buf[++_idx];
+                return (sign ? -1 : 1) *
+                            ((frac | 0x100000) * Math.pow(2, exp - 1023 - 20) // 1023: bias
+                             + num * Math.pow(2, exp - 1023 - 52));
+    // 0xcf: uint64, 0xce: uint32, 0xcd: uint16
+    case 0xcf:  num =  buf[++_idx] * 0x1000000 + (buf[++_idx] << 16) +
+                                                 (buf[++_idx] <<  8) + buf[++_idx];
+                return num * 0x100000000 +
+                       buf[++_idx] * 0x1000000 + (buf[++_idx] << 16) +
+                                                 (buf[++_idx] <<  8) + buf[++_idx];
+    case 0xce:  num += buf[++_idx] * 0x1000000 + (buf[++_idx] << 16);
+    case 0xcd:  num += buf[++_idx] << 8;
+    case 0xcc:  return num + buf[++_idx];
+    // 0xd3: int64, 0xd2: int32, 0xd1: int16, 0xd0: int8
+    case 0xd3:  num = buf[++_idx];
+                if (num & 0x80) { // sign -> avoid overflow
+                    return ((num         ^ 0xff) * 0x100000000000000 +
+                            (buf[++_idx] ^ 0xff) *   0x1000000000000 +
+                            (buf[++_idx] ^ 0xff) *     0x10000000000 +
+                            (buf[++_idx] ^ 0xff) *       0x100000000 +
+                            (buf[++_idx] ^ 0xff) *         0x1000000 +
+                            (buf[++_idx] ^ 0xff) *           0x10000 +
+                            (buf[++_idx] ^ 0xff) *             0x100 +
+                            (buf[++_idx] ^ 0xff) + 1) * -1;
+                }
+                return num         * 0x100000000000000 +
+                       buf[++_idx] *   0x1000000000000 +
+                       buf[++_idx] *     0x10000000000 +
+                       buf[++_idx] *       0x100000000 +
+                       buf[++_idx] *         0x1000000 +
+                       buf[++_idx] *           0x10000 +
+                       buf[++_idx] *             0x100 +
+                       buf[++_idx];
+    case 0xd2:  num  =  buf[++_idx] * 0x1000000 + (buf[++_idx] << 16) +
+                       (buf[++_idx] << 8) + buf[++_idx];
+                return num < 0x80000000 ? num : num - 0x100000000; // 0x80000000 * 2
+    case 0xd1:  num  = (buf[++_idx] << 8) + buf[++_idx];
+                return num < 0x8000 ? num : num - 0x10000; // 0x8000 * 2
+    case 0xd0:  num  =  buf[++_idx];
+                return num < 0x80 ? num : num - 0x100; // 0x80 * 2
+    // 0xdb: raw32, 0xda: raw16, 0xa0: raw ( string )
+    case 0xdb:  num +=  buf[++_idx] * 0x1000000 + (buf[++_idx] << 16);
+    case 0xda:  num += (buf[++_idx] << 8)       +  buf[++_idx];
+    case 0xa0:  // utf8.decode
+                for (ary = [], i = _idx, iz = i + num; i < iz; ) {
+                    c = buf[++i]; // lead byte
+                    ary.push(c < 0x80 ? c : // ASCII(0x00 ~ 0x7f)
+                             c < 0xe0 ? ((c & 0x1f) <<  6 | (buf[++i] & 0x3f)) :
+                                        ((c & 0x0f) << 12 | (buf[++i] & 0x3f) << 6
+                                                          | (buf[++i] & 0x3f)));
+                }
+                _idx = i;
+                return ary.length < 10240 ? _toString.apply(null, ary)
+                                          : byteArrayToByteString(ary);
+    // 0xdf: map32, 0xde: map16, 0x80: map
+    case 0xdf:  num +=  buf[++_idx] * 0x1000000 + (buf[++_idx] << 16);
+    case 0xde:  num += (buf[++_idx] << 8)       +  buf[++_idx];
+    case 0x80:  hash = {};
+                while (num--) {
+                    // make key/value pair
+                    size = buf[++_idx] - 0xa0;
+
+                    for (ary = [], i = _idx, iz = i + size; i < iz; ) {
+                        c = buf[++i]; // lead byte
+                        ary.push(c < 0x80 ? c : // ASCII(0x00 ~ 0x7f)
+                                 c < 0xe0 ? ((c & 0x1f) <<  6 | (buf[++i] & 0x3f)) :
+                                            ((c & 0x0f) << 12 | (buf[++i] & 0x3f) << 6
+                                                              | (buf[++i] & 0x3f)));
+                    }
+                    _idx = i;
+                    hash[_toString.apply(null, ary)] = decode();
+                }
+                return hash;
+    // 0xdd: array32, 0xdc: array16, 0x90: array
+    case 0xdd:  num +=  buf[++_idx] * 0x1000000 + (buf[++_idx] << 16);
+    case 0xdc:  num += (buf[++_idx] << 8)       +  buf[++_idx];
+    case 0x90:  ary = [];
+                while (num--) {
+                    ary.push(decode());
+                }
+                return ary;
+    }
+    return;
+}
+
+// inner - byteArray To ByteString
+function byteArrayToByteString(byteArray) { // @param ByteArray
+                                            // @return String
+    // http://d.hatena.ne.jp/uupaa/20101128
+    try {
+        return _toString.apply(this, byteArray); // toString
+    } catch(err) {
+        ; // avoid "Maximum call stack size exceeded"
+    }
+    var rv = [], i = 0, iz = byteArray.length, num2bin = _num2bin;
+
+    for (; i < iz; ++i) {
+        rv[i] = num2bin[byteArray[i]];
+    }
+    return rv.join("");
+}
+
+// msgpack.download - load from server
+function msgpackdownload(url,        // @param String:
+                         option,     // @param Hash: { worker, timeout, before, after }
+                                     //    option.worker - Boolean(= false): true is use WebWorkers
+                                     //    option.timeout - Number(= 10): timeout sec
+                                     //    option.before  - Function: before(xhr, option)
+                                     //    option.after   - Function: after(xhr, option, { status, ok })
+                         callback) { // @param Function: callback(data, option, { status, ok })
+                                     //    data   - Mix/null:
+                                     //    option - Hash:
+                                     //    status - Number: HTTP status code
+                                     //    ok     - Boolean:
+    option.method = "GET";
+    option.binary = true;
+    ajax(url, option, callback);
+}
+
+// msgpack.upload - save to server
+function msgpackupload(url,        // @param String:
+                       option,     // @param Hash: { data, worker, timeout, before, after }
+                                   //    option.data - Mix:
+                                   //    option.worker - Boolean(= false): true is use WebWorkers
+                                   //    option.timeout - Number(= 10): timeout sec
+                                   //    option.before  - Function: before(xhr, option)
+                                   //    option.after   - Function: after(xhr, option, { status, ok })
+                       callback) { // @param Function: callback(data, option, { status, ok })
+                                   //    data   - String: responseText
+                                   //    option - Hash:
+                                   //    status - Number: HTTP status code
+                                   //    ok     - Boolean:
+    option.method = "PUT";
+    option.binary = true;
+
+    if (option.worker && globalScope.Worker) {
+        var worker = new Worker(msgpack.worker);
+
+        worker.onmessage = function(event) {
+            option.data = event.data;
+            ajax(url, option, callback);
+        };
+        worker.postMessage({ method: "pack", data: option.data });
+    } else {
+        // pack and base64 encode
+        option.data = base64encode(msgpackpack(option.data));
+        ajax(url, option, callback);
+    }
+}
+
+// inner -
+function ajax(url,        // @param String:
+              option,     // @param Hash: { data, ifmod, method, timeout,
+                          //                header, binary, before, after, worker }
+                          //    option.data    - Mix: upload data
+                          //    option.ifmod   - Boolean: true is "If-Modified-Since" header
+                          //    option.method  - String: "GET", "POST", "PUT"
+                          //    option.timeout - Number(= 10): timeout sec
+                          //    option.header  - Hash(= {}): { key: "value", ... }
+                          //    option.binary  - Boolean(= false): true is binary data
+                          //    option.before  - Function: before(xhr, option)
+                          //    option.after   - Function: after(xhr, option, { status, ok })
+                          //    option.worker  - Boolean(= false): true is use WebWorkers
+              callback) { // @param Function: callback(data, option, { status, ok })
+                          //    data   - String/Mix/null:
+                          //    option - Hash:
+                          //    status - Number: HTTP status code
+                          //    ok     - Boolean:
+    function readyStateChange() {
+        if (xhr.readyState === 4) {
+            var data, status = xhr.status, worker, byteArray,
+                rv = { status: status, ok: status >= 200 && status < 300 };
+
+            if (!run++) {
+                if (method === "PUT") {
+                    data = rv.ok ? xhr.responseText : "";
+                } else {
+                    if (rv.ok) {
+                        if (option.worker && globalScope.Worker) {
+                            worker = new Worker(msgpack.worker);
+                            worker.onmessage = function(event) {
+                                callback(event.data, option, rv);
+                            };
+                            worker.postMessage({ method: "unpack",
+                                                 data: xhr.responseText });
+                            gc();
+                            return;
+                        } else {
+                            byteArray = _ie ? toByteArrayIE(xhr)
+                                            : toByteArray(xhr.responseText);
+                            data = msgpackunpack(byteArray);
+                        }
+                    }
+                }
+                after && after(xhr, option, rv);
+                callback(data, option, rv);
+                gc();
+            }
+        }
+    }
+
+    function ng(abort, status) {
+        if (!run++) {
+            var rv = { status: status || 400, ok: false };
+
+            after && after(xhr, option, rv);
+            callback(null, option, rv);
+            gc(abort);
+        }
+    }
+
+    function gc(abort) {
+        abort && xhr && xhr.abort && xhr.abort();
+        watchdog && (clearTimeout(watchdog), watchdog = 0);
+        xhr = null;
+        globalScope.addEventListener &&
+            globalScope.removeEventListener("beforeunload", ng, false);
+    }
+
+    var watchdog = 0,
+        method = option.method || "GET",
+        header = option.header || {},
+        before = option.before,
+        after = option.after,
+        data = option.data || null,
+        xhr = globalScope.XMLHttpRequest ? new XMLHttpRequest() :
+              globalScope.ActiveXObject  ? new ActiveXObject("Microsoft.XMLHTTP") :
+              null,
+        run = 0, i,
+        overrideMimeType = "overrideMimeType",
+        setRequestHeader = "setRequestHeader",
+        getbinary = method === "GET" && option.binary;
+
+    try {
+        xhr.onreadystatechange = readyStateChange;
+        xhr.open(method, url, true); // ASync
+
+        before && before(xhr, option);
+
+        getbinary && xhr[overrideMimeType] &&
+            xhr[overrideMimeType]("text/plain; charset=x-user-defined");
+        data &&
+            xhr[setRequestHeader]("Content-Type",
+                                  "application/x-www-form-urlencoded");
+
+        for (i in header) {
+            xhr[setRequestHeader](i, header[i]);
+        }
+
+        globalScope.addEventListener &&
+            globalScope.addEventListener("beforeunload", ng, false); // 400: Bad Request
+
+        xhr.send(data);
+        watchdog = setTimeout(function() {
+            ng(1, 408); // 408: Request Time-out
+        }, (option.timeout || 10) * 1000);
+    } catch (err) {
+        ng(0, 400); // 400: Bad Request
+    }
+}
+
+// inner - BinaryString To ByteArray
+function toByteArray(data) { // @param BinaryString: "\00\01"
+                             // @return ByteArray: [0x00, 0x01]
+    var rv = [], bin2num = _bin2num, remain,
+        ary = data.split(""),
+        i = -1, iz;
+
+    iz = ary.length;
+    remain = iz % 8;
+
+    while (remain--) {
+        ++i;
+        rv[i] = bin2num[ary[i]];
+    }
+    remain = iz >> 3;
+    while (remain--) {
+        rv.push(bin2num[ary[++i]], bin2num[ary[++i]],
+                bin2num[ary[++i]], bin2num[ary[++i]],
+                bin2num[ary[++i]], bin2num[ary[++i]],
+                bin2num[ary[++i]], bin2num[ary[++i]]);
+    }
+    return rv;
+}
+
+// inner - BinaryString to ByteArray
+function toByteArrayIE(xhr) {
+    var rv = [], data, remain,
+        charCodeAt = "charCodeAt",
+        loop, v0, v1, v2, v3, v4, v5, v6, v7,
+        i = -1, iz;
+
+    iz = vblen(xhr);
+    data = vbstr(xhr);
+    loop = Math.ceil(iz / 2);
+    remain = loop % 8;
+
+    while (remain--) {
+        v0 = data[charCodeAt](++i); // 0x00,0x01 -> 0x0100
+        rv.push(v0 & 0xff, v0 >> 8);
+    }
+    remain = loop >> 3;
+    while (remain--) {
+        v0 = data[charCodeAt](++i);
+        v1 = data[charCodeAt](++i);
+        v2 = data[charCodeAt](++i);
+        v3 = data[charCodeAt](++i);
+        v4 = data[charCodeAt](++i);
+        v5 = data[charCodeAt](++i);
+        v6 = data[charCodeAt](++i);
+        v7 = data[charCodeAt](++i);
+        rv.push(v0 & 0xff, v0 >> 8, v1 & 0xff, v1 >> 8,
+                v2 & 0xff, v2 >> 8, v3 & 0xff, v3 >> 8,
+                v4 & 0xff, v4 >> 8, v5 & 0xff, v5 >> 8,
+                v6 & 0xff, v6 >> 8, v7 & 0xff, v7 >> 8);
+    }
+    iz % 2 && rv.pop();
+
+    return rv;
+}
+
+// inner - base64.encode
+function base64encode(data) { // @param ByteArray:
+                              // @return Base64String:
+    var rv = [],
+        c = 0, i = -1, iz = data.length,
+        pad = [0, 2, 1][data.length % 3],
+        num2bin = _num2bin,
+        num2b64 = _num2b64;
+
+    if (globalScope.btoa) {
+        while (i < iz) {
+            rv.push(num2bin[data[++i]]);
+        }
+        return btoa(rv.join(""));
+    }
+    --iz;
+    while (i < iz) {
+        c = (data[++i] << 16) | (data[++i] << 8) | (data[++i]); // 24bit
+        rv.push(num2b64[(c >> 18) & 0x3f],
+                num2b64[(c >> 12) & 0x3f],
+                num2b64[(c >>  6) & 0x3f],
+                num2b64[ c        & 0x3f]);
+    }
+    pad > 1 && (rv[rv.length - 2] = "=");
+    pad > 0 && (rv[rv.length - 1] = "=");
+    return rv.join("");
+}
+
+// --- init ---
+(function() {
+    var i = 0, v;
+
+    for (; i < 0x100; ++i) {
+        v = _toString(i);
+        _bin2num[v] = i; // "\00" -> 0x00
+        _num2bin[i] = v; //     0 -> "\00"
+    }
+    // http://twitter.com/edvakf/statuses/15576483807
+    for (i = 0x80; i < 0x100; ++i) { // [Webkit][Gecko]
+        _bin2num[_toString(0xf700 + i)] = i; // "\f780" -> 0x80
+    }
+})();
+
+_ie && document.write('<script type="text/vbscript">\
+Function vblen(b)vblen=LenB(b.responseBody)End Function\n\
+Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
+
+})(this);
+
 (function(window, Backbone, Marionette){
     window.AgarBot = {};
     window.AgarBot.Application = Marionette.Application.extend({
@@ -3961,13 +4632,146 @@
         }
     });
     window.AgarBot.Models = {};
+    window.AgarBot.Views = {};
     window.AgarBot.app  = new window.AgarBot.Application();
-    window.AgarBot.Modules  ={};
+    window.AgarBot.Modules  = {};
     window.AgarBot.pubsub = {};
     _.extend(window.AgarBot.pubsub, Backbone.Events);
 })(window, Backbone, Marionette);
-(function (d, e, AgarBot) {
+(function (window, $, Backbone, Marionette, _, AgarBot, app) {
+    var _WebSocket = window._WebSocket = window.WebSocket;
+    // the injected point, overwriting the WebSocket constructor
+    window.WebSocket = function(url, protocols) {
+        console.log('Listen');
+        if (protocols === undefined) {
+            protocols = [];
+        }
 
+        var ws = new _WebSocket(url, protocols);
+
+        refer(this, ws, 'binaryType');
+        refer(this, ws, 'bufferedAmount');
+        refer(this, ws, 'extensions');
+        refer(this, ws, 'protocol');
+        refer(this, ws, 'readyState');
+        refer(this, ws, 'url');
+
+        this.send = function(data){
+            //extractSendPacket(data);
+            AgarBot.pubsub.trigger('websocket:send', data);
+            return ws.send.call(ws, data);
+        };
+
+        this.close = function(){
+            return ws.close.call(ws);
+        };
+
+        this.onopen = function(event){};
+        this.onclose = function(event){};
+        this.onerror = function(event){};
+        this.onmessage = function(event){};
+
+        ws.onopen = function(event) {
+            AgarBot.pubsub.trigger('websocket:onopen', {
+                url: url,
+                region: $('#region').val(),
+                gamemode: $('#gamemode').val(),
+                party: location.hash
+            });
+            /*miniMapSendRawData(msgpack.pack({
+                type: 100,
+                data: {url: url, region: $('#region').val(), gamemode: $('#gamemode').val(), party: location.hash}
+            }));*/
+            if (this.onopen) {
+                return this.onopen.call(ws, event);
+            }
+        }.bind(this);
+
+        ws.onmessage = function(event) {
+            AgarBot.pubsub.trigger("websocket:onmessage",event);
+            if (this.onmessage)
+                return this.onmessage.call(ws, event);
+        }.bind(this);
+
+        ws.onclose = function(event) {
+            AgarBot.pubsub.trigger("websocket:onclose",{event:event});
+            if (this.onclose)
+                return this.onclose.call(ws, event);
+        }.bind(this);
+
+        ws.onerror = function(event) {
+            AgarBot.pubsub.trigger("websocket:onclose",{event:onerror});
+            if (this.onerror)
+                return this.onerror.call(ws, event);
+        }.bind(this);
+    };
+    window.WebSocket.prototype = _WebSocket;
+    // create a linked property from slave object
+    // whenever master[prop] update, slave[prop] update
+    function refer(master, slave, prop) {
+        Object.defineProperty(master, prop, {
+            get: function(){
+                return slave[prop];
+            },
+            set: function(val) {
+                slave[prop] = val;
+            },
+            enumerable: true,
+            configurable: true
+        });
+    }
+})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
+(function($, Backbone, _, AgarBot, app){
+
+    AgarBot.Modules.Messenger = Marionette.Module.extend({
+        initialize: function(moduleName, app, options) {
+            this.extId = 'bpiedfhfaipmeaglaemfbfapmknkckop';
+            console.log('Module Messenger initialize, extID = ', this.extId);
+        },
+        sendMessage:function(data, callback){
+            chrome.runtime.sendMessage(this.extId, data,callback);
+        }
+    });
+    app.module("Messenger", {
+        moduleClass: AgarBot.Modules.Messenger
+    });
+})(jQuery, Backbone, _, AgarBot, AgarBot.app);
+(function($, Backbone, _, AgarBot, app){
+    AgarBot.Modules.TemplateLoader =Marionette.Module.extend({
+        initialize: function(moduleName, app, options) {
+            this.templates  = {};
+            console.log('module TemplateLoader initialize');
+        },
+        initTemlate : function(){
+            this.templates.panel = _.template(
+                '<div class="control-panel">' +
+                    '<# if(canRunBot == true){ #><button class="btn btn-runbot" id="runbot">Run bot</button><# } #>' +
+                '</div>'
+            );
+            this.templates.mapPanel  = _.template(
+                '<div class="control-panel">' +
+                    '<div class="minimap-panel">' +
+                        '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>'+
+                    '</div>'+
+                '</div>'
+            );
+        },
+        onStart : function(options){
+            console.log('module TemplateLoader start.');
+            this.initTemlate();
+        },
+        getTemlate:function(templateName){
+            if(typeof this.templates[templateName] !='undefined'){
+                return this.templates[templateName];
+            }
+            return null;
+        }
+    });
+    app.module("TemplateLoader", {
+        moduleClass: AgarBot.Modules.TemplateLoader
+    });
+})(jQuery, Backbone, _, AgarBot, AgarBot.app);
+(function (d, e) {
     function Ob() {
         Ka = !0;
         jb();
@@ -4161,17 +4965,8 @@
         ja = !1;
         console.log("Connecting to " + a);
         q = new WebSocket(a);
-        /**
-         * @author nguyenvanduocit
-         */
-        var socketAddress = a;
         q.binaryType = "arraybuffer";
         q.onopen = function () {
-            /**
-             * @author : nguyenvanduocit
-             * a till address
-             */
-            AgarBot.pubsub.trigger('SocketOpened', {socketAddress:socketAddress});
             var a;
             console.log("socket open");
             a = S(5);
@@ -4191,7 +4986,6 @@
         q.onmessage = Sb;
         q.onclose = Tb;
         q.onerror = function () {
-            AgarBot.pubsub.trigger('SocketError');
             console.log("socket error")
         }
     }
@@ -4201,17 +4995,11 @@
     }
 
     function T(a) {
-        /**
-         * @author nguyenvanduocit
-         */
-        AgarBot.pubsub.trigger('sendMessage', {data:a});
         q.send(a.buffer)
     }
 
     function Tb() {
         ja && (xa = 500);
-        //@author nguyenvanduocit
-        AgarBot.pubsub.trigger('socketClosed');
         console.log("socket close");
         setTimeout(N, xa);
         xa *= 2
@@ -4369,14 +5157,11 @@
             total_mass: ~~(K / 100),
             turn_time: (ab - Za) / 1E3,
             cells_eaten: Ea
-        }), AgarBot.pubsub.trigger('cellDead'))
-        //@author nguyenvanduocit
+        }))
     }
 
     function ca() {
         if (aa()) {
-            //@author nguyenvanduocit
-            AgarBot.pubsub.trigger('sendPosition');
             var a = pa - k / 2, b = qa - p / 2;
             64 > a * a + b * b || .01 > Math.abs(Ab - ta) && .01 > Math.abs(Bb - ua) || (Ab = ta, Bb = ua, a = S(13), a.setUint8(0, 16), a.setInt32(1, ta, !0), a.setInt32(5, ua, !0), a.setUint32(9, 0, !0), T(a))
         }
@@ -5516,34 +6301,296 @@
             }
         }
     }
-})(window, window.jQuery, window.AgarBot);
-(function($, Backbone, _, AgarBot, app){
-
-    AgarBot.Models.Bot = Backbone.Model.extend({
-
-    });
-
-    AgarBot.Modules.FeedBot =Marionette.Module.extend({
-        initialize: function(moduleName, app, options) {
-            this.socketAddress = '';
-            console.log('Module FeedBot initialize');
-            this.listenTo(AgarBot.pubsub,'SocketOpened', this.onSocketOpen);
+})(window, window.jQuery);
+(function (window, $, Backbone, Marionette, _, AgarBot, app) {
+    AgarBot.Models.Cell = Backbone.Model.extend({
+        defaults:
+        {
+            points: null,
+            pointsAcc: null,
+            name: null,
+            nameCache: null,
+            sizeCache: null,
+            x: 0,
+            y: 0,
+            size: 0,
+            ox: 0,
+            oy: 0,
+            oSize: 0,
+            nx: 0,
+            ny: 0,
+            nSize: 0,
+            updateTime: 0,
+            updateCode: 0,
+            drawTime: 0,
+            destroyed: false,
+            isVirus: false,
+            isAgitated: false,
+            wasSimpleDrawing: true
         },
-        onSocketOpen:function(data){
-            this.socketAddress = data.socketAddress;
-
+        constructor: function() {
+            Backbone.Model.apply(this, arguments);
+            this.set('pX', this.get('x'));
+            this.set('pY', this.get('y'));
+            this.set('ox', this.get('x'));
+            this.set('oy', this.get('y'));
         },
-        onCellDead:function(){
-            window.setNick('Fuck you bitch');
-        },
-        onStart: function(options) {
-            console.log('Module FeedBot start');
+        set: function(attributes, options) {
+            Backbone.Model.prototype.set.apply(this, arguments);
         }
     });
-    app.module("FeedBot", {
-        moduleClass: AgarBot.Modules.FeedBot
+})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
+(function (window, $, Backbone, Marionette, _, AgarBot, app) {
+    AgarBot.Views.CellItem = Marionette.ItemView.extend({
+        initialize:function(options){
+
+        }
     });
-})(jQuery, Backbone, _, AgarBot, AgarBot.app);
+})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
+(function (window, $, Backbone, Marionette, _, AgarBot, app) {
+    AgarBot.Views.CellCollection = Marionette.CollectionView.extend({
+        initialize:function(options){
+
+        }
+    });
+})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
+(function (window, $, Backbone, Marionette, _, AgarBot, app) {
+
+    AgarBot.Views.MiniMapPanel = Marionette.CompositeView.extend({
+        events: {},
+        initialize: function (options) {
+            this.mapInfo = {
+                    "start_x": -7000,
+                    "start_y": -7000,
+                    "end_x": 7000,
+                    "end_y": 7000,
+                    "length_x" : 14000,
+                    "length_y" : 14000
+                }
+            ;
+            this.options = _.extend(this, options);
+        },
+        getTemplate: function () {
+            var templateLoader = app.module('TemplateLoader');
+            return templateLoader.getTemlate('mapPanel');
+        },
+        onRender: function () {
+            /**
+             * We only have 1 mindmap with this id
+             */
+            this.canvas = $('#minimap-canvas')[0];
+            this.ctx = this.canvas.getContext('2d');
+        },
+        updateMap: function () {
+            var self = this;
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.cells.each(function (model, index) {
+                var id = model.get('id');
+                console.log(model.get('x'));
+                var x = ((model.get('nx')- self.mapInfo.start_x)/self.mapInfo.length_x) * self.canvas.width;
+                var y = ((model.get('ny')- self.mapInfo.start_y)/self.mapInfo.length_y) * self.canvas.height;
+                var size = (model.get('nSize')/self.mapInfo.length_x) * self.canvas.width;
+                self.ctx.beginPath();
+                self.ctx.arc(
+                    x,
+                    y,
+                    size,
+                    0,
+                    2 * Math.PI,
+                    false
+                );
+                self.ctx.closePath();
+                self.ctx.fillStyle = model.get('color');
+                self.ctx.fill();
+                if (self.myCellIds[id] !== undefined) {
+                    self.ctx.font = size * 2 + 'px Arial';
+                    self.ctx.textAlign = 'center';
+                    self.ctx.textBaseline = 'middle';
+                    self.ctx.fillStyle = 'white';
+                    self.ctx.fillText(self.myCellIds[id] + 1, x, y);
+                }
+            });
+        }
+    });
+
+    AgarBot.Modules.MiniMap = Marionette.Module.extend({
+        initialize: function (moduleName, app, options) {
+            console.log('Module MiniMap initialize');
+            this.currentPlayer = new Backbone.Model();
+            this.cells = new Backbone.Collection();
+            this.myCellIds = [];
+            this.panelView = new AgarBot.Views.MiniMapPanel({
+                el: '#minimap-pannel',
+                cells: this.cells,
+                myCellIds: this.myCellIds
+            });
+            this.listenTo(AgarBot.pubsub, 'websocket:onopen', this.onSocketOpen);
+            this.listenTo(AgarBot.pubsub, 'websocket:send', this.onSocketSend);
+            this.listenTo(AgarBot.pubsub, 'websocket:onmessage', this.onSocketRecive);
+        },
+        onStart: function (options) {
+            console.log('Module MiniMap start');
+        },
+        onSocketSend: function (data) {
+            var view = new DataView(data);
+            switch (view.getUint8(0, true)) {
+                case 0:
+                    var player_name = [];
+                    for (var i = 1; i < data.byteLength; i += 2) {
+                        player_name.push(view.getUint16(i, true));
+                    }
+                    this.currentPlayer.set('name', player_name);
+                    break;
+            }
+        },
+        onSocketRecive: function (event) {
+            this.extractPacket(event);
+        },
+        onSocketOpen: function (data) {
+            var self = this;
+            this.panelView.render();
+            if (this.render_timer) {
+                clearInterval(this.render_timer);
+            }
+            this.render_timer = setInterval(function () {
+                self.panelView.updateMap();
+            }, 1000 / 30);
+        },
+        extractCellPacket: function (data, offset) {
+            var currentDate = +new Date;
+            var b = Math.random();
+            var currentOffset = offset;
+            var size = data.getUint16(currentOffset, true);
+            currentOffset += 2;
+            // Nodes to be destroyed (killed)
+            for (var e = 0; e < size; ++e) {
+                var p = this.cells.get(data.getUint32(currentOffset, true));
+                var f = this.cells.get(data.getUint32(currentOffset + 4, true));
+                currentOffset += 8;
+                if (p && f) {
+                    this.cells.remove(f);
+                    console.log('destroy cell ', f.get('name'));
+                }
+            }
+            // Nodes to be updated
+            for (e = 0; ;) {
+                var id = data.getUint32(currentOffset, true);
+                currentOffset += 4;
+                if (0 == id) {
+                    break;
+                }
+                ++e;
+                var x = data.getInt32(currentOffset, true);
+                currentOffset += 4;
+                var y = data.getInt32(currentOffset, true);
+                currentOffset += 4;
+                var nodeSize = data.getInt16(currentOffset, true);
+                currentOffset += 2;
+                for (var h = data.getUint8(currentOffset++), m = data.getUint8(currentOffset++), q = data.getUint8(currentOffset++), h = (h << 16 | m << 8 | q).toString(16); 6 > h.length;) {
+                    h = "0" + h;
+                }
+                var color = "#" + h;
+                var k = data.getUint8(currentOffset++);
+                var m = !!(k & 1);
+                var q = !!(k & 16);
+
+                k & 2 && (currentOffset += 4);
+                k & 4 && (currentOffset += 8);
+                k & 8 && (currentOffset += 16);
+
+                for (var n, k = ""; ;) {
+                    n = data.getUint16(currentOffset, true);
+                    currentOffset += 2;
+                    if (0 == n)
+                        break;
+                    k += String.fromCharCode(n)
+                }
+
+                var name = k;
+                if (!name) {
+                    /**
+                     * This is food or shit
+                     */
+                    return;
+                }
+                var cell = null;
+
+                // if d in cells then modify it, otherwise create a new cell
+                console.log('find', id);
+                if (cell = this.cells.get(id)) {
+                    cell.set('ox', cell.get('x'));
+                    cell.set('oy', cell.get('y'));
+                    cell.set('oSize', cell.get('size'));
+                    cell.set('color', h);
+                    console.log('update cell', name);
+                }
+                else {
+                    cell = new AgarBot.Models.Cell({
+                        id: id,
+                        x: x,
+                        y: y,
+                        size: nodeSize,
+                        color: color,
+                        name: name
+                    });
+                    console.log('create cell : ', name);
+                    this.cells.add(cell);
+                }
+
+                cell.set('isVirus', m);
+                cell.set('isAgitated', q);
+                cell.set('nx', p);
+                cell.set('ny', f);
+                cell.set('nSize', nodeSize);
+                cell.set('updateCode', b);
+                cell.set('updateTime', currentDate);
+                cell.set('name', name);
+            }
+        },
+        extractPacket: function (event) {
+            var c = 0;
+            var data = new DataView(event.data);
+            if (240 == data.getUint8(c)) {
+                c += 5;
+            }
+            var opcode = data.getUint8(c);
+            c++;
+            switch (opcode) {
+                case 16: // cells data
+                    this.extractCellPacket(data, c);
+                    break;
+                case 20: // cleanup ids
+                    console.log('cleanup ids');
+                    //current_cell_ids = [];
+                    break;
+                case 32: // cell id belongs me
+                    var id = data.getUint32(c, true);
+                    console.log('cell id belongs me : ', id);
+                    if (typeof this.myCellIds[id] != 'undefined') {
+                        this.myCellIds.push(id);
+                    }
+                    break;
+                case 64: // get borders
+                    console.log('get borders');
+                /* start_x = data.getFloat64(c, !0);
+                 c += 8;
+                 start_y = data.getFloat64(c, !0);
+                 c += 8;
+                 end_x = data.getFloat64(c, !0);
+                 c += 8;
+                 end_y = data.getFloat64(c, !0);
+                 c += 8;
+                 center_x = (start_x + end_x) / 2;
+                 center_y = (start_y + end_y) / 2;
+                 length_x = Math.abs(start_x - end_x);
+                 length_y = Math.abs(start_y - end_y);*/
+            }
+        }
+    });
+    app.module("MiniMap", {
+        moduleClass: AgarBot.Modules.MiniMap
+    });
+})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
 /**
  * At the end of the world. We lauch the application
  */
