@@ -6567,15 +6567,16 @@ Cell.prototype = {
                 var p = this.cells[data.getUint32(c, true)],
                     f = this.cells[data.getUint32(c + 4, true)],
                     c = c + 8;
-                p && f && (
-                    this.destroyCell(f),
-                        f.ox = f.x,
-                        f.oy = f.y,
-                        f.oSize = f.size,
-                        f.nx = p.x,
-                        f.ny = p.y,
-                        f.nSize = f.size,
-                        f.updateTime = I)
+                if(p && f){
+                    this.destroyCell(f);
+                    f.ox = f.x;
+                    f.oy = f.y;
+                    f.oSize = f.size;
+                    f.nx = p.x;
+                    f.ny = p.y;
+                    f.nSize = f.size;
+                    f.updateTime = I;
+                }
             }
 
             // Nodes to be updated
