@@ -1,5 +1,7 @@
 (function (window, $, Backbone, Marionette, _, AgarBot, app) {
-
+    /**
+     * We donot
+     */
     AgarBot.Views.MiniMapPanel = Marionette.CompositeView.extend({
         events: {},
         initialize: function (options) {
