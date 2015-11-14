@@ -6302,72 +6302,50 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         }
     }
 })(window, window.jQuery);
+function Cell(id, x, y, size, color, name) {
+    this.id = id;
+    this.ox = this.x = x;
+    this.oy = this.y = y;
+    this.oSize = this.size = size;
+    this.color = color;
+    this.points = [];
+    this.pointsAcc = [];
+    this.setName(name);
+}
+Cell.prototype = {
+    id: 0,
+    points: null,
+    pointsAcc: null,
+    name: null,
+    nameCache: null,
+    sizeCache: null,
+    x: 0,
+    y: 0,
+    size: 0,
+    ox: 0,
+    oy: 0,
+    oSize: 0,
+    nx: 0,
+    ny: 0,
+    nSize: 0,
+    updateTime: 0,
+    updateCode: 0,
+    drawTime: 0,
+    destroyed: false,
+    isVirus: false,
+    isAgitated: false,
+    wasSimpleDrawing: true,
+    setName: function(name) {
+        this.name = name;
+    }
+};
 (function (window, $, Backbone, Marionette, _, AgarBot, app) {
-    AgarBot.Models.Cell = Backbone.Model.extend({
-        defaults:
-        {
-            points: null,
-            pointsAcc: null,
-            name: null,
-            nameCache: null,
-            sizeCache: null,
-            x: 0,
-            y: 0,
-            size: 0,
-            ox: 0,
-            oy: 0,
-            oSize: 0,
-            nx: 0,
-            ny: 0,
-            nSize: 0,
-            updateTime: 0,
-            updateCode: 0,
-            drawTime: 0,
-            destroyed: false,
-            isVirus: false,
-            isAgitated: false,
-            wasSimpleDrawing: true
-        },
-        constructor: function() {
-            Backbone.Model.apply(this, arguments);
-            this.set('pX', this.get('x'));
-            this.set('pY', this.get('y'));
-            this.set('ox', this.get('x'));
-            this.set('oy', this.get('y'));
-        },
-        set: function(attributes, options) {
-            Backbone.Model.prototype.set.apply(this, arguments);
-        }
-    });
-})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
-(function (window, $, Backbone, Marionette, _, AgarBot, app) {
-    AgarBot.Views.CellItem = Marionette.ItemView.extend({
-        initialize:function(options){
-
-        }
-    });
-})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
-(function (window, $, Backbone, Marionette, _, AgarBot, app) {
-    AgarBot.Views.CellCollection = Marionette.CollectionView.extend({
-        initialize:function(options){
-
-        }
-    });
-})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
-(function (window, $, Backbone, Marionette, _, AgarBot, app) {
-
+    /**
+     * We donot
+     */
     AgarBot.Views.MiniMapPanel = Marionette.CompositeView.extend({
         events: {},
         initialize: function (options) {
-            this.mapInfo = {
-                    "start_x": -7000,
-                    "start_y": -7000,
-                    "end_x": 7000,
-                    "end_y": 7000,
-                    "length_x" : 14000,
-                    "length_y" : 14000
-                }
-            ;
             this.options = _.extend(this, options);
         },
         getTemplate: function () {
@@ -6379,19 +6357,21 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
              * We only have 1 mindmap with this id
              */
             this.canvas = $('#minimap-canvas')[0];
-            this.ctx = this.canvas.getContext('2d');
         },
+        /**
+         * This method is called sequence. Keep it simple
+         */
         updateMap: function () {
             var self = this;
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.cells.each(function (model, index) {
-                var id = model.get('id');
-                console.log(model.get('x'));
-                var x = ((model.get('nx')- self.mapInfo.start_x)/self.mapInfo.length_x) * self.canvas.width;
-                var y = ((model.get('ny')- self.mapInfo.start_y)/self.mapInfo.length_y) * self.canvas.height;
-                var size = (model.get('nSize')/self.mapInfo.length_x) * self.canvas.width;
-                self.ctx.beginPath();
-                self.ctx.arc(
+            var ctx = this.canvas.getContext('2d');
+            ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            for (var id in this.mini_map_tokens) {
+                var token = this.mini_map_tokens[id];
+                var x = token.x * this.canvas.width;
+                var y = token.y * this.canvas.height;
+                var size = token.size * this.canvas.width;
+                ctx.beginPath();
+                ctx.arc(
                     x,
                     y,
                     size,
@@ -6399,32 +6379,74 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                     2 * Math.PI,
                     false
                 );
-                self.ctx.closePath();
-                self.ctx.fillStyle = model.get('color');
-                self.ctx.fill();
-                if (self.myCellIds[id] !== undefined) {
-                    self.ctx.font = size * 2 + 'px Arial';
-                    self.ctx.textAlign = 'center';
-                    self.ctx.textBaseline = 'middle';
-                    self.ctx.fillStyle = 'white';
-                    self.ctx.fillText(self.myCellIds[id] + 1, x, y);
+                ctx.closePath();
+                ctx.fillStyle = token.color;
+                ctx.fill();
+
+                if (self.mapOptions.enableCross && -1 != self.current_cell_ids.indexOf(token.id)) {
+                    self.miniMapDrawCross(token.x, token.y, token.color);
                 }
-            });
+                if (self.mapOptions.enableAxes) {
+                    self.miniMapDrawMiddleCross();
+                }
+            }
+        },
+        miniMapDrawCross:function(x, y, color) {
+            var ctx = this.canvas.getContext('2d');
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(0, y * this.canvas.height);
+            ctx.lineTo(this.canvas.width, y * this.canvas.height);
+            ctx.moveTo(x * this.canvas.width, 0);
+            ctx.lineTo(x * this.canvas.width, this.canvas.height);
+            ctx.closePath();
+            ctx.strokeStyle = color || '#FFFFFF';
+            ctx.stroke();
+        },
+        miniMapDrawMiddleCross:function(){
+            var ctx = this.canvas.getContext('2d');
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(0, this.canvas.height/2);
+            ctx.lineTo(this.canvas.width, this.canvas.height/2);
+            ctx.moveTo(this.canvas.width/2, 0);
+            ctx.lineTo(this.canvas.width/2, this.canvas.height);
+            ctx.closePath();
+            ctx.strokeStyle = '#000000';
+            ctx.stroke();
         }
     });
 
     AgarBot.Modules.MiniMap = Marionette.Module.extend({
         initialize: function (moduleName, app, options) {
             console.log('Module MiniMap initialize');
-            this.currentPlayer = new Backbone.Model();
-            this.cells = new Backbone.Collection();
-            this.myCellIds = [];
+            this.cells = [];
+            this.mini_map_tokens = [];
+            this.current_cell_ids = [];
+            this.player_name = [];
+            this.mapInfo = {
+                "start_x": -7000,
+                "start_y": -7000,
+                "end_x": 7000,
+                "end_y": 7000,
+                "length_x" : 14000,
+                "length_y" : 14000
+            };
+            this.mapOptions = {
+                enableMultiCells: true,
+                enablePosition: true,
+                enableAxes: true,
+                enableCross: true
+            };
             this.panelView = new AgarBot.Views.MiniMapPanel({
                 el: '#minimap-pannel',
-                cells: this.cells,
-                myCellIds: this.myCellIds
+                mapInfo:this.mapInfo,
+                mini_map_tokens: this.mini_map_tokens,
+                current_cell_ids: this.current_cell_ids,
+                mapOptions : this.mapOptions
             });
             this.listenTo(AgarBot.pubsub, 'websocket:onopen', this.onSocketOpen);
+            this.listenTo(AgarBot.pubsub, 'websocket:onclose', this.onSocketClose);
             this.listenTo(AgarBot.pubsub, 'websocket:send', this.onSocketSend);
             this.listenTo(AgarBot.pubsub, 'websocket:onmessage', this.onSocketRecive);
         },
@@ -6435,18 +6457,21 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             var view = new DataView(data);
             switch (view.getUint8(0, true)) {
                 case 0:
-                    var player_name = [];
-                    for (var i = 1; i < data.byteLength; i += 2) {
-                        player_name.push(view.getUint16(i, true));
+                    for (var i=1; i < data.byteLength; i+=2) {
+                        this.player_name.push(view.getUint16(i, true));
                     }
-                    this.currentPlayer.set('name', player_name);
                     break;
             }
         },
         onSocketRecive: function (event) {
             this.extractPacket(event);
         },
+        onSocketClose:function(){
+            console.log('onSocketClose');
+            clearInterval(this.render_timer);
+        },
         onSocketOpen: function (data) {
+            console.log('onSocketOpen');
             var self = this;
             this.panelView.render();
             if (this.render_timer) {
@@ -6456,103 +6481,179 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 self.panelView.updateMap();
             }, 1000 / 30);
         },
+        miniMapCreateToken:function(id, color){
+            return {
+                id: id,
+                color: color,
+                x: 0,
+                y: 0,
+                size: 0
+            };
+        },
+        miniMapRegisterToken:function(id, token){
+            if (this.mini_map_tokens[id] === undefined) {
+                // this.mini_map.append(token);
+                this.mini_map_tokens[id] = token;
+            }
+        },
+        miniMapUnregisterToken:function(id){
+            if (this.mini_map_tokens[id] !== undefined) {
+                // this.mini_map_tokens[id].detach();
+                delete this.mini_map_tokens[id];
+            }
+        },
+        miniMapIsRegisteredToken:function(id) {
+            return this.mini_map_tokens[id] !== undefined;
+        },
+        miniMapUpdateToken:function(id, x, y, size) {
+            if (this.mini_map_tokens[id] !== undefined) {
+
+                this.mini_map_tokens[id].x = x;
+                this.mini_map_tokens[id].y = y;
+                this.mini_map_tokens[id].size = size;
+
+                return true;
+            } else {
+                return false;
+            }
+        },
+        miniMapUpdatePos:function(x, y){
+            //console.log("my possition : ", x, y);
+        },
+        miniMapReset:function() {
+            this.cells =[];
+            this.mini_map_tokens = []
+        },
+        updateCellPosition:function(cell){
+            var cellId = cell.id;
+            if (this.mapOptions.enableMultiCells || -1 != this.current_cell_ids.indexOf(cellId)) {
+                if (! this.miniMapIsRegisteredToken(cellId))
+                {
+                    this.miniMapRegisterToken(
+                        cellId,
+                        this.miniMapCreateToken(cellId, cell.color)
+                    );
+                }
+
+                var size_n = cell.nSize/this.mapInfo.length_x;
+                this.miniMapUpdateToken(cellId, (cell.nx - this.mapInfo.start_x)/this.mapInfo.length_x, (cell.ny - this.mapInfo.start_y)/this.mapInfo.length_y, size_n);
+            }
+
+            if (this.mapOptions.enablePosition && -1 != this.current_cell_ids.indexOf(cellId)) {
+                //this.mini_map_pos.show();
+                this.miniMapUpdatePos(cell.nx, cell.ny);
+            } else {
+                //this.mini_map_pos.hide();
+            }
+        },
+        destroyCell:function(cell){
+            var cellId = cell.id;
+            delete this.cells[cellId];
+            var currentIdIndex = this.current_cell_ids.indexOf(cellId);
+            if(-1 != currentIdIndex){
+                this.current_cell_ids.splice(currentIdIndex, 1);
+            }
+            this.miniMapUnregisterToken(cellId);
+        },
         extractCellPacket: function (data, offset) {
-            var currentDate = +new Date;
-            var b = Math.random();
-            var currentOffset = offset;
-            var size = data.getUint16(currentOffset, true);
-            currentOffset += 2;
+
+            var I = +new Date;
+            var b = Math.random(), c = offset;
+            var size = data.getUint16(c, true);
+            c = c + 2;
+
             // Nodes to be destroyed (killed)
             for (var e = 0; e < size; ++e) {
-                var p = this.cells.get(data.getUint32(currentOffset, true));
-                var f = this.cells.get(data.getUint32(currentOffset + 4, true));
-                currentOffset += 8;
-                if (p && f) {
-                    this.cells.remove(f);
-                    console.log('destroy cell ', f.get('name'));
-                }
+                var p = this.cells[data.getUint32(c, true)],
+                    f = this.cells[data.getUint32(c + 4, true)],
+                    c = c + 8;
+                p && f && (
+                    this.destroyCell(f),
+                        f.ox = f.x,
+                        f.oy = f.y,
+                        f.oSize = f.size,
+                        f.nx = p.x,
+                        f.ny = p.y,
+                        f.nSize = f.size,
+                        f.updateTime = I)
             }
+
             // Nodes to be updated
-            for (e = 0; ;) {
-                var id = data.getUint32(currentOffset, true);
-                currentOffset += 4;
-                if (0 == id) {
+            for (e = 0; ; ) {
+                var d = data.getUint32(c, true);
+                c += 4;
+                if (0 == d) {
                     break;
                 }
                 ++e;
-                var x = data.getInt32(currentOffset, true);
-                currentOffset += 4;
-                var y = data.getInt32(currentOffset, true);
-                currentOffset += 4;
-                var nodeSize = data.getInt16(currentOffset, true);
-                currentOffset += 2;
-                for (var h = data.getUint8(currentOffset++), m = data.getUint8(currentOffset++), q = data.getUint8(currentOffset++), h = (h << 16 | m << 8 | q).toString(16); 6 > h.length;) {
+                var p = data.getInt32(c, true),
+                    c = c + 4,
+                    f = data.getInt32(c, true),
+                    c = c + 4;
+                var g = data.getInt16(c, true);
+                c = c + 2;
+                for (var h = data.getUint8(c++), m = data.getUint8(c++), q = data.getUint8(c++), h = (h << 16 | m << 8 | q).toString(16); 6 > h.length; )
                     h = "0" + h;
-                }
-                var color = "#" + h;
-                var k = data.getUint8(currentOffset++);
-                var m = !!(k & 1);
-                var q = !!(k & 16);
 
-                k & 2 && (currentOffset += 4);
-                k & 4 && (currentOffset += 8);
-                k & 8 && (currentOffset += 16);
+                var h = "#" + h,
+                    k = data.getUint8(c++),
+                    m = !!(k & 1),
+                    q = !!(k & 16);
 
-                for (var n, k = ""; ;) {
-                    n = data.getUint16(currentOffset, true);
-                    currentOffset += 2;
+                k & 2 && (c += 4);
+                k & 4 && (c += 8);
+                k & 8 && (c += 16);
+
+                for (var n, k = ""; ; ) {
+                    n = data.getUint16(c, true);
+                    c += 2;
                     if (0 == n)
                         break;
                     k += String.fromCharCode(n)
                 }
 
-                var name = k;
-                if (!name) {
-                    /**
-                     * This is food or shit
-                     */
-                    return;
-                }
-                var cell = null;
+                n = k;
+                k = null;
 
                 // if d in cells then modify it, otherwise create a new cell
-                console.log('find', id);
-                if (cell = this.cells.get(id)) {
-                    cell.set('ox', cell.get('x'));
-                    cell.set('oy', cell.get('y'));
-                    cell.set('oSize', cell.get('size'));
-                    cell.set('color', h);
-                    console.log('update cell', name);
+                if(this.cells.hasOwnProperty(d)){
+                    k = this.cells[d];
+                    this.updateCellPosition(k);
+                    k.ox = k.x;
+                    k.oy = k.y;
+                    k.oSize = k.size;
+                    k.color = h
                 }
-                else {
-                    cell = new AgarBot.Models.Cell({
-                        id: id,
-                        x: x,
-                        y: y,
-                        size: nodeSize,
-                        color: color,
-                        name: name
-                    });
-                    console.log('create cell : ', name);
-                    this.cells.add(cell);
+                else{
+                    k = new Cell(d, p, f, g, h, n);
+                    k.pX = p;
+                    k.pY = f;
+                    this.cells[d] = k;
                 }
 
-                cell.set('isVirus', m);
-                cell.set('isAgitated', q);
-                cell.set('nx', p);
-                cell.set('ny', f);
-                cell.set('nSize', nodeSize);
-                cell.set('updateCode', b);
-                cell.set('updateTime', currentDate);
-                cell.set('name', name);
+                k.isVirus = m;
+                k.isAgitated = q;
+                k.nx = p;
+                k.ny = f;
+                k.nSize = g;
+                k.updateCode = b;
+                k.updateTime = I;
+                n && k.setName(n);
+            }
+
+            // Destroy queue + nonvisible nodes
+            b = data.getUint32(c, true);
+            c += 4;
+            for (e = 0; e < b; e++) {
+                d = data.getUint32(c, true);
+                c += 4, k = this.cells[d];
+                null != k && this.destroyCell(k);
             }
         },
         extractPacket: function (event) {
             var c = 0;
             var data = new DataView(event.data);
-            if (240 == data.getUint8(c)) {
-                c += 5;
-            }
+            240 == data.getUint8(c) && (c += 5);
             var opcode = data.getUint8(c);
             c++;
             switch (opcode) {
@@ -6560,30 +6661,30 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                     this.extractCellPacket(data, c);
                     break;
                 case 20: // cleanup ids
-                    console.log('cleanup ids');
-                    //current_cell_ids = [];
+                    this.current_cell_ids = [];
                     break;
                 case 32: // cell id belongs me
                     var id = data.getUint32(c, true);
-                    console.log('cell id belongs me : ', id);
-                    if (typeof this.myCellIds[id] != 'undefined') {
-                        this.myCellIds.push(id);
+
+                    if (this.current_cell_ids.indexOf(id) === -1) {
+                        this.current_cell_ids.push(id);
                     }
+
                     break;
                 case 64: // get borders
-                    console.log('get borders');
-                /* start_x = data.getFloat64(c, !0);
-                 c += 8;
-                 start_y = data.getFloat64(c, !0);
-                 c += 8;
-                 end_x = data.getFloat64(c, !0);
-                 c += 8;
-                 end_y = data.getFloat64(c, !0);
-                 c += 8;
-                 center_x = (start_x + end_x) / 2;
-                 center_y = (start_y + end_y) / 2;
-                 length_x = Math.abs(start_x - end_x);
-                 length_y = Math.abs(start_y - end_y);*/
+                    this.mapInfo.start_x = data.getFloat64(c, !0);
+                    c += 8;
+                    this.mapInfo.start_y = data.getFloat64(c, !0);
+                    c += 8;
+                    this.mapInfo.end_x = data.getFloat64(c, !0);
+                    c += 8;
+                    this.mapInfo.end_y = data.getFloat64(c, !0);
+                    c += 8;
+                    this.mapInfo.center_x = (this.mapInfo.start_x + this.mapInfo.end_x) / 2;
+                    this.mapInfo.center_y = (this.mapInfo.start_y + this.mapInfo.end_y) / 2;
+                    this.mapInfo.length_x = Math.abs(this.mapInfo.start_x - this.mapInfo.end_x);
+                    this.mapInfo.length_y = Math.abs(this.mapInfo.start_y - this.mapInfo.end_y);
+                    break;
             }
         }
     });

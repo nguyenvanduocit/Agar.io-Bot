@@ -24,9 +24,7 @@ module.exports = function(grunt) {
           //END Auto feed bot
 
           //BEGIN Minimap
-          'js/minimap/Cell.model.js',
-          'js/minimap/Cell.ItemView.js',
-          'js/minimap/Cell.CollectionView.js',
+          'js/minimap/Cell.js',
           'js/minimap/minimap.js',
           //END minimap
           'js/StartApplication.js'

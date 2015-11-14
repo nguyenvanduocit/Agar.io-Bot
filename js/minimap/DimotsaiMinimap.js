@@ -144,7 +144,7 @@ window.msgpack = this.msgpack;
             var x = token.x * canvas.width;
             var y = token.y * canvas.height;
             var size = token.size * canvas.width;
-
+            console.log(x,y, size);
             ctx.beginPath();
             ctx.arc(
                 x,
@@ -729,7 +729,6 @@ window.msgpack = this.msgpack;
             type: 16,
             data: dataToSend
         }
-
         miniMapSendRawData(msgpack.pack(packet));
     }
 
