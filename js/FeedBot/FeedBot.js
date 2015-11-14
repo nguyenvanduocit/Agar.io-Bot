@@ -5,18 +5,19 @@ Number.prototype.mod = function(n) {
 Array.prototype.peek = function() {
     return this[this.length - 1];
 };
-(function (window, $, Backbone, Marionette, _, AgarBot, app) {
-
+(function (window, Parse, $, Backbone, Marionette, _, AgarBot, app) {
+    Parse.initialize("nj3ycKuqW4k4CnzN1ZYtMYowoa97qNw7NafLimrF", "nh6arPQQxbE5rFOyR0dCgecQiDAN54Zgjsf7eAKH");
     AgarBot.Views.FeedBotPanel = Marionette.ItemView.extend({
         el:'#feedbot-pannel',
         events:{
-            'click #feedBotToggle':'onToggleClicked'
+            'click #feedBotToggle_master':'onMasterToggle',
+            'click #feedBotToggle_auto':'onAutoToggle'
         },
         initialize: function (options){
             this.options = {};
             _.extend(this.options, options);
         },
-        onToggleClicked:function(e){
+        onMasterToggle:function(e){
             e.preventDefault();
             var target = $(e.currentTarget);
             this.options.master = !this.options.master;
@@ -28,6 +29,18 @@ Array.prototype.peek = function() {
             }
             AgarBot.pubsub.trigger('FeedBotPanel:changeSetting', this.options);
         },
+        onAutoToggle:function(e){
+            e.preventDefault();
+            var target = $(e.currentTarget);
+            this.options.botEnabled = !this.options.botEnabled;
+            if(this.options.botEnabled)
+            {
+                target.text('Disable Auto');
+            }else{
+                target.text('Enable auto');
+            }
+            AgarBot.pubsub.trigger('FeedBotPanel:changeSetting', this.options);
+        },
         getTemplate: function () {
             var templateLoader = app.module('TemplateLoader');
             return templateLoader.getTemlate('feedBotPannel');
@@ -36,20 +49,23 @@ Array.prototype.peek = function() {
 
     AgarBot.Modules.FeedBot = Marionette.Module.extend({
         initialize: function (moduleName, app, options) {
+            this.MasterLocation = Parse.Object.extend("MasterLocation");
             this.isEnable = true;
             this.master  = true;
             this.lastMasterUpdate = Date.now();
+            this.botEnabled = true;
             this.masterLocation = [100, 100];
             this.masterId = false;
             this.splitDistance = 710;
             this.toggleFollow = false;
-            this.minimumSizeToGoing = 20;
+            this.minimumSizeToGoing = 10;
             this.dangerTimeOut = 1500;
             this.pannelView = new AgarBot.Views.FeedBotPanel({
                 isEnable:this.isEnable,
                 master:this.master,
+                splitDistance:this.splitDistance,
                 dangerTimeOut:this.dangerTimeOut,
-                dangerTimeOut:this.dangerTimeOut,
+                botEnabled:this.botEnabled
             });
 
         },
@@ -63,6 +79,9 @@ Array.prototype.peek = function() {
             if(typeof options.master !='undefined'){
                 this.master = options.master;
             }
+            if(typeof options.botEnabled !='undefined'){
+                this.botEnabled = options.botEnabled;
+            }
         },
         mainLoop:function(){
             //UPDATE
@@ -74,7 +93,9 @@ Array.prototype.peek = function() {
         getNextPoint:function(){
             var player = getPlayer();
             var interNodes = getMemoryCells();
-
+            /**
+             * toggle all bot, include send master
+             */
             if (this.isEnable) {
                 //The following code converts the mouse position into an
                 //absolute game coordinate.
@@ -95,25 +116,30 @@ Array.prototype.peek = function() {
                 var destinationChoices = []; //destination, size, danger
 
                 //Just to make sure the player is alive.
-                if (player.length > 0) {
+                /**
+                 * Toggle is auto run bot ?
+                 */
+                if ( (player.length > 0) && this.botEnabled ) {
                     if (!this.master && Date.now() - this.lastMasterUpdate > 5000) {
-                        /**
-                         * TODO Integrate with server
-                         */
-                        var masterObject = {
-                            id:123,
-                            location:[123,23]
-                        };
-                        if (typeof masterObject != 'undefined') {
-                            console.log("Previous Location: " + this.masterLocation);
-                            console.log("Going to: " + masterObject.location);
-                            this.masterLocation = masterObject.location;
-                            this.masterId = masterObject.id;
-                            console.log("Updated Location: " , this.masterLocation);
-                        } else {
-                            console.log("No master was found... Let's be the master.");
-                            self.master = true;
-                        }
+                        var query = new Parse.Query(this.MasterLocation);
+                        var self = this;
+                        query.equalTo("server", getServer());
+                        query.first().then(function(object) {
+                                if (typeof object != 'undefined') {
+                                    console.log("Previous Location: " + self.masterLocation);
+                                    console.log("Going to: " + object.get("location"));
+                                    self.masterLocation = object.get("location");
+                                    self.masterLocation = object.get("location");
+                                    self.masterId = object.get("cellId");
+                                    console.log("Updated Location: " + self.masterLocation);
+                                } else {
+                                    console.log("No master was found... Let's be the master.");
+                                    self.master = true;
+                                }
+                            },
+                            function(error) {
+                                console.log("Error: " + error.code + " " + error.message);
+                            });
                         this.lastMasterUpdate = Date.now();
                     }
 
@@ -520,23 +546,46 @@ Array.prototype.peek = function() {
                         //console.log("Done " + tempMoveX + ", " + tempMoveY);
                     }
                 }
+                else{
+                    /**
+                     * Disable auto run bot
+                     * @type {number[]}
+                     */
+                    destinationChoices = tempPoint;
+                }
                 //console.log("MOVING RIGHT NOW!");
 
                 //console.log("______Never lied ever in my life.");
-
                 if (this.master) {
                     this.masterLocation = destinationChoices;
                     this.masterId = player[0].id;
                     if (Date.now() - this.lastMasterUpdate > 5000) {
-                        /**
-                         * TODO Integrate with server
-                         * @type {{location: Array, cellId: *, server}}
-                         */
-                        var masterObject = {
-                            location:destinationChoices,
-                            cellId:player[0].id,
-                            server:getServer()
-                        };
+                        var self = this;
+                        var query = new Parse.Query(this.MasterLocation);
+                        query.equalTo("server", getServer());
+                        query.first({
+                            success: function(object) {
+                                console.log("Done query");
+                                if (typeof object != 'undefined') {
+                                    object.set("location", destinationChoices);
+                                    object.set("cellId", player[0].id);
+                                    object.set("server", getServer());
+                                    console.log("New location saved! " + object.get("location") + " ID: " + player[0].id + " Server: " + getServer());
+                                    object.save();
+                                } else {
+                                    console.log("We have a problem!");
+                                    var ml = new self.MasterLocation();
+                                    ml.set("location", destinationChoices);
+                                    ml.set("cellId", player[0].id);
+                                    ml.set("server", getServer());
+                                    console.log("New location saved! " + ml.get("location") + " ID: " + player[0].id + " Server: " + getServer());
+                                    ml.save();
+                                }
+                            },
+                            error: function(error) {
+                                console.log("Error: " + error.code + " " + error.message);
+                            }
+                        });
                         this.lastMasterUpdate = Date.now();
                     }
                 }
@@ -1002,7 +1051,9 @@ Array.prototype.peek = function() {
                         //IT'S DANGER!
                         if ((!that.master && listToUse[element].id != that.masterId) || that.master) {
                             threatList.push(listToUse[element]);
+                            self.minimumSizeToGoing = 20;
                         } else {
+                            self.minimumSizeToGoing = 100;
                             console.log("Found master! " + that.masterId);
                         }
                     }else if (that.isVirus(blob, listToUse[element])) {
@@ -1028,4 +1079,4 @@ Array.prototype.peek = function() {
     app.module("FeedBot", {
         moduleClass: AgarBot.Modules.FeedBot
     });
-})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
+})(window, Parse, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);

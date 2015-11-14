@@ -28,7 +28,8 @@
             );
             this.templates.feedBotPannel = _.template(
                 '<div class="bot-panel">' +
-                    '<button id="feedBotToggle">Make slave</button>'+
+                    '<button id="feedBotToggle_master">Make slave</button>'+
+                    '<button id="feedBotToggle_auto">Disable auto</button>'+
                 '</div>'
             );
         },

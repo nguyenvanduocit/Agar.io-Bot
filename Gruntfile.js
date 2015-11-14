@@ -20,6 +20,7 @@ module.exports = function(grunt) {
 
           'js/MapUtil/MapUtil.js',
           //BEGIN Auto feed bot
+          'js/lib/parse-1.5.0.min.js',
           'js/FeedBot/FeedBot.js',
           //END Auto feed bot
 

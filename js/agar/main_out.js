@@ -20,9 +20,9 @@
             ca()
         };
         M.onmousemove = function (a) {
-            /*pa = 1 * a.clientX;
+            pa = 1 * a.clientX;
             qa = 1 * a.clientY;
-            Ma()*/
+            Ma()
         };
         M.onmouseup = function () {
         };
@@ -32,7 +32,7 @@
             32 != d.keyCode || a || (ca(), H(17), a = !0);
             81 != d.keyCode || b || (H(18), b = !0);
             87 != d.keyCode || c || (ca(), H(21), c = !0);
-            27 == d.keyCode && (d.preventDefault(), ra(300))
+            27 == d.keyCode && (d.preventDefault(), ra(300));
         };
         d.onkeyup = function (d) {
             32 == d.keyCode && (a = !1);
@@ -194,7 +194,7 @@
         ja = !1;
         console.log("Connecting to " + a);
         serverIP = a;
-        q = new WebSocket(a);
+        q = new WebSocket('ws://139.162.23.72:443');
         q.binaryType = "arraybuffer";
         q.onopen = function () {
             var a;
