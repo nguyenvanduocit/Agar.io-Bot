@@ -1,4 +1,4 @@
-(function (d, e) {
+(function (d, e, AgarBot, app) {
     function Ob() {
         Ka = !0;
         jb();
@@ -20,9 +20,9 @@
             ca()
         };
         M.onmousemove = function (a) {
-            pa = 1 * a.clientX;
+            /*pa = 1 * a.clientX;
             qa = 1 * a.clientY;
-            Ma()
+            Ma()*/
         };
         M.onmouseup = function () {
         };
@@ -73,8 +73,10 @@
     }
 
     function Ma() {
-        ta = (pa - k / 2) / g + s;
-        ua = (qa - p / 2) / g + t
+        //@author nguyenvanduocit
+        var tmp_ta = (pa - k / 2) / g + s;
+        var temp_ua = (qa - p / 2) / g + t;
+        setPoint(tmp_ta, temp_ua);
     }
 
     function jb() {
@@ -191,6 +193,7 @@
         K = 0;
         ja = !1;
         console.log("Connecting to " + a);
+        serverIP = a;
         q = new WebSocket(a);
         q.binaryType = "arraybuffer";
         q.onopen = function () {
@@ -374,21 +377,60 @@
             m.T = U;
             q && (m.G = q);
             r && m.q(r);
-            -1 != z.indexOf(h) && -1 == l.indexOf(m) && (l.push(m), 1 == l.length && (s = m.x, t = m.y, yb(), document.getElementById("overlays").style.display = "none", x = [], Xa = 0, Ya = l[0].color, wa = !0, Za = Date.now(), V = Ea = $a = 0))
+            //@author nguyenvanduocit
+            -1 != z.indexOf(h) && -1 == l.indexOf(m) && (l.push(m), m.birth = getLastUpdate(), m.birthMass = (m.size * m.size / 100), 1 == l.length && (s = m.x, t = m.y, yb(), document.getElementById("overlays").style.display = "none", x = [], Xa = 0, Ya = l[0].color, wa = !0, Za = Date.now(), V = Ea = $a = 0));
+            /**
+             * @author nguyenvanduocit
+             */
+            interNodes[h] = window.getCells()[h];
         }
+        /**
+         * @author nguyenvanduocit
+         */
+        Object.keys(interNodes).forEach(function(element, index) {
+            //console.log("start: " + interNodes[element].updateTime + " current: " + D + " life: " + (D - interNodes[element].updateTime));
+            var isRemoved = !window.getCells().hasOwnProperty(element);
+
+            //console.log("Time not updated: " + (window.getLastUpdate() - interNodes[element].getUptimeTime()));
+            if (isRemoved && (window.getLastUpdate() - interNodes[element].getUptimeTime()) > 3000) {
+                delete interNodes[element];
+            } else {
+                if (isRemoved &&
+                    interNodes[element].x > (getX() - (1920 / 2) / getZoomlessRatio()) &&
+                    interNodes[element].x < (getX() + (1920 / 2) / getZoomlessRatio()) &&
+                    interNodes[element].y > getY() - (1080 / 2) / getZoomlessRatio() &&
+                    interNodes[element].y < getY() + (1080 / 2) / getZoomlessRatio()) {
+                    delete interNodes[element];
+                }
+            }
+        });
+
         v = a.getUint32(b, !0);
         b += 4;
         for (f = 0; f < v; f++)h = a.getUint32(b, !0), b += 4, m = J[h], null != m && m.P();
-        Wa && 0 == l.length && (ab = Date.now(), wa = !1, fa || X || (zb ? (sb(d.ab), Yb(), X = !0, e("#overlays").fadeIn(3E3), e("#stats").show()) : ra(3E3)), d.MC.deltaUpdateStats({
+        Wa && 0 == l.length && (ab = Date.now(), wa = !1, fa || X || (zb ? (sb(d.ab), Yb(), X = !0, e("#overlays").fadeIn(3E3), (e("#stats").show())) : ra(3E3)), d.MC.deltaUpdateStats({
             games_played: 1,
             total_mass: ~~(K / 100),
             turn_time: (ab - Za) / 1E3,
             cells_eaten: Ea
-        }))
+        }));
     }
 
     function ca() {
         if (aa()) {
+            //@author nguyenvanduocit
+            if (getPlayer().length == 0 && !reviving && ~~(getCurrentScore() / 100) > 0) {
+                console.log("Dead: " + ~~(getCurrentScore() / 100));
+            }
+            if (getPlayer().length == 0 && !firstStart) {
+                console.log("Revive");
+                setNick(originalName);
+                reviving = true;
+            } else if (getPlayer().length > 0 && reviving) {
+                reviving = false;
+                console.log("Done Reviving!");
+            }
+
             var a = pa - k / 2, b = qa - p / 2;
             64 > a * a + b * b || .01 > Math.abs(Ab - ta) && .01 > Math.abs(Bb - ua) || (Ab = ta, Bb = ua, a = S(13), a.setUint8(0, 16), a.setInt32(1, ta, !0), a.setInt32(5, ua, !0), a.setUint32(9, 0, !0), T(a))
         }
@@ -436,7 +478,7 @@
         var b = a.height(), c = d.innerHeight;
         0 != b / 2 % 2 && (b++, a.height(b));
         b > c / 1.1 ? a.css("transform", "translate(-50%, -50%) scale(" + c / b / 1.1 + ")") : a.css("transform", "translate(-50%, -50%)");
-        Cb()
+        Cb();
     }
 
     function Db() {
@@ -445,15 +487,34 @@
         return a *= O
     }
 
+    /**
+     * @author nguyenvanduocit
+     */
+    function Db2() {
+        var a;
+        a = 1 * Math.max(p / 1080, k / 1920);
+        return a;
+    }
+
     function Zb() {
         if (0 != l.length) {
             for (var a = 0, b = 0; b < l.length; b++)a += l[b].size;
+            var a2 = Math.pow(Math.min(64 / a, 1), .4) * Db2();
             a = Math.pow(Math.min(64 / a, 1), .4) * Db();
-            g = (9 * g + a) / 10
+            g = (9 * g + a) / 10;
+            //@author nguyenvanduocit
+            g2 = (9 * g2 + a2) / 10;
         }
     }
 
     function Cb() {
+        //@author nguyenvanduocit
+        dPoints = [];
+        circles = [];
+        dArc = [];
+        dText = [];
+        lines = [];
+
         var a, b = Date.now();
         ++$b;
         F = b;
@@ -466,7 +527,7 @@
             ma = g;
             s = (s + a) / 2;
             t = (t + c) / 2
-        } else s = (29 * s + ka) / 30, t = (29 * t + la) / 30, g = (9 * g + ma * Db()) / 10;
+        } else s = (29 * s + ka) / 30, t = (29 * t + la) / 30, g = (9 * g + ma * Db()) / 10,g2 = (9 * g2 + ma * Db2()) / 10;
         Pb();
         Ma();
         bb || f.clearRect(0, 0, k, p);
@@ -480,6 +541,11 @@
         f.translate(-s, -t);
         for (d = 0; d < Y.length; d++)Y[d].p(f);
         for (d = 0; d < u.length; d++)u[d].p(f);
+        /**
+         * @author nguyenvanduocit
+         */
+        AgarBot.pubsub.trigger('main_out:mainloop');
+        customRender(f);
         if (Ua) {
             ya = (3 * ya + Sa) / 4;
             za = (3 * za + Ta) / 4;
@@ -507,9 +573,146 @@
         b = F - Fb;
         !aa() || fa || X ? (r += b / 2E3, 1 < r && (r = 1)) : (r -= b / 300, 0 > r && (r = 0));
         0 < r ? (f.fillStyle = "#000000", Gb ? (f.globalAlpha = r, f.fillRect(0, 0, k, p), D.complete && D.width && (D.width / D.height < k / p ? (b = k, a = D.height * k / D.width) : (b = D.width * p / D.height, a = p), f.drawImage(D, (k - b) / 2, (p - a) / 2, b, a), f.globalAlpha = .5 * r, f.fillRect(0, 0, k, p))) : (f.globalAlpha = .5 * r, f.fillRect(0, 0, k, p)), f.globalAlpha = 1) : Gb = !1;
-        Fb = F
+        Fb = F;
     }
+//UPDATE
+    function customRender(d) {
+        d.save();
+        for (var i = 0; i < lines.length; i++) {
+            d.beginPath();
 
+            d.lineWidth = 5;
+
+            if (lines[i][4] == 0) {
+                d.strokeStyle = "#FF0000";
+            } else if (lines[i][4] == 1) {
+                d.strokeStyle = "#00FF00";
+            } else if (lines[i][4] == 2) {
+                d.strokeStyle = "#0000FF";
+            } else if (lines[i][4] == 3) {
+                d.strokeStyle = "#FF8000";
+            } else if (lines[i][4] == 4) {
+                d.strokeStyle = "#8A2BE2";
+            } else if (lines[i][4] == 5) {
+                d.strokeStyle = "#FF69B4";
+            } else if (lines[i][4] == 6) {
+                d.strokeStyle = "#008080";
+            } else if (lines[i][4] == 7) {
+                d.strokeStyle = (getDarkBool() ? '#F2FBFF' : '#111111');
+            } else {
+                d.strokeStyle = "#000000";
+            }
+
+            d.moveTo(lines[i][0], lines[i][1]);
+            d.lineTo(lines[i][2], lines[i][3]);
+
+            d.stroke();
+        }
+        d.restore();
+        d.save();
+        for (var i = 0; i < circles.length; i++) {
+            if (circles[i][3] == 0) {
+                d.strokeStyle = "#FF0000";
+            } else if (circles[i][3] == 1) {
+                d.strokeStyle = "#00FF00";
+            } else if (circles[i][3] == 2) {
+                d.strokeStyle = "#0000FF";
+            } else if (circles[i][3] == 3) {
+                d.strokeStyle = "#FF8000";
+            } else if (circles[i][3] == 4) {
+                d.strokeStyle = "#8A2BE2";
+            } else if (circles[i][3] == 5) {
+                d.strokeStyle = "#FF69B4";
+            } else if (circles[i][3] == 6) {
+                d.strokeStyle = "#008080";
+            } else if (circles[i][3] == 7) {
+                d.strokeStyle = (getDarkBool() ? '#F2FBFF' : '#111111');
+            } else {
+                d.strokeStyle = "#000000";
+            }
+            d.beginPath();
+
+            d.lineWidth = 10;
+            //d.setLineDash([5]);
+            d.globalAlpha = 0.3;
+
+            d.arc(circles[i][0], circles[i][1], circles[i][2], 0, 2 * Math.PI, false);
+
+            d.stroke();
+        }
+        d.restore();
+        d.save();
+        for (var i = 0; i < dArc.length; i++) {
+            if (dArc[i][7] == 0) {
+                d.strokeStyle = "#FF0000";
+            } else if (dArc[i][7] == 1) {
+                d.strokeStyle = "#00FF00";
+            } else if (dArc[i][7] == 2) {
+                d.strokeStyle = "#0000FF";
+            } else if (dArc[i][7] == 3) {
+                d.strokeStyle = "#FF8000";
+            } else if (dArc[i][7] == 4) {
+                d.strokeStyle = "#8A2BE2";
+            } else if (dArc[i][7] == 5) {
+                d.strokeStyle = "#FF69B4";
+            } else if (dArc[i][7] == 6) {
+                d.strokeStyle = "#008080";
+            } else if (dArc[i][7] == 7) {
+                d.strokeStyle = (getDarkBool() ? '#F2FBFF' : '#111111');
+            } else {
+                d.strokeStyle = "#000000";
+            }
+
+            d.beginPath();
+
+            d.lineWidth = 5;
+
+            var ang1 = Math.atan2(dArc[i][1] - dArc[i][5], dArc[i][0] - dArc[i][4]);
+            var ang2 = Math.atan2(dArc[i][3] - dArc[i][5], dArc[i][2] - dArc[i][4]);
+
+            d.arc(dArc[i][4], dArc[i][5], dArc[i][6], ang1, ang2, false);
+
+            d.stroke();
+        }
+        d.restore();
+        d.save();
+        for (var i = 0; i < dPoints.length; i++) {
+            if (dText[i] == "") {
+                var radius = 10;
+
+                d.beginPath();
+                d.arc(dPoints[i][0], dPoints[i][1], radius, 0, 2 * Math.PI, false);
+
+                if (dPoints[i][2] == 0) {
+                    d.fillStyle = "black";
+                } else if (dPoints[i][2] == 1) {
+                    d.fillStyle = "yellow";
+                } else if (dPoints[i][2] == 2) {
+                    d.fillStyle = "blue";
+                } else if (dPoints[i][2] == 3) {
+                    d.fillStyle = "red";
+                } else if (dPoints[i][2] == 4) {
+                    d.fillStyle = "#008080";
+                } else if (dPoints[i][2] == 5) {
+                    d.fillStyle = "#FF69B4";
+                } else {
+                    d.fillStyle = "#000000";
+                }
+
+                d.fill();
+                d.lineWidth = 2;
+                d.strokeStyle = '#003300';
+                d.stroke();
+            } else {
+                var text = new Ha(18, (getDarkBool() ? '#F2FBFF' : '#111111'), true, (getDarkBool() ? '#111111' : '#F2FBFF'));
+                text.r(dText[i]);
+                var textRender = text.B();
+                d.drawImage(textRender, dPoints[i][0] - (textRender.width / 2), dPoints[i][1] - (textRender.height / 2));
+            }
+
+        }
+        d.restore();
+    }
     function ac() {
         f.fillStyle = Fa ? "#111111" : "#F2FBFF";
         f.fillRect(0, 0, k, p);
@@ -796,8 +999,32 @@
         }, 1E3); else if (-1 != Ja.indexOf("iPhone") || -1 != Ja.indexOf("iPad") || -1 != Ja.indexOf("iPod"))d.ga && d.ga("send", "event", "MobileRedirect", "AppStore"), setTimeout(function () {
             d.location.href = "https://itunes.apple.com/app/agar.io/id995999703?mt=8&at=1l3vajp"
         }, 1E3); else {
-            var La, f, M, k, p, da = null, q = null, s = 0, t = 0, z = [], l = [], J = {}, u = [], Y = [], w = [], pa = 0, qa = 0, ta = -1, ua = -1, $b = 0, F = 0, Fb = 0, I = null, Aa = 0, Ba = 0, Ca = 1E4, Da = 1E4, g = 1, y = null, hb = !0, Ia = !0, ib = !1, Wa = !1, K = 0, Fa = !1, Kb = !1, ka = s = ~~((Aa + Ca) / 2), la = t = ~~((Ba + Da) / 2), ma = 1, P = "", B = null, Ka =
-                !1, Ua = !1, Sa = 0, Ta = 0, ya = 0, za = 0, Lb = 0, cc = ["#333333", "#FF3333", "#33FF33", "#3333FF"], bb = !1, ja = !1, wb = 0, C = null, O = 1, r = 1, fa = !1, Na = 0, Gb = !0, Va = null, D = new Image;
+            var La, f, M, k, p, da = null, q = null, s = 0, t = 0, z = [], l = [], J = {}, u = [], Y = [], w = [], pa = 0, qa = 0, ta = -1, ua = -1, $b = 0, F = 0, Fb = 0, I = null, Aa = 0, Ba = 0, Ca = 1E4, Da = 1E4, g = 1, g2 = 1, y = null, hb = !0, Ia = !0, ib = !1, Wa = !1, K = 0, Fa = !1, Kb = !1, ka = s = ~~((Aa + Ca) / 2), la = t = ~~((Ba + Da) / 2), ma = 1, P = "", B = null, Ka =
+                !1, Ua = !1, Sa = 0, Ta = 0, ya = 0, za = 0, Lb = 0, cc = ["#333333", "#FF3333", "#33FF33", "#3333FF"], bb = !1, ja = !1, wb = 0, C = null, O = 1, r = 1, fa = !1, Na = 0, Gb = !0, Va = null, D = new Image,
+                // @author nguyenvanduocit
+                toggle = false,
+                toggleDraw = false,
+                shootTime = 0,
+                splitTime = 0,
+                shootCooldown = 100,
+                splitCooldown = 100,
+                tempPoint = [0, 0, 1],
+                dPoints = [],
+                circles = [],
+                dArc = [],
+                dText = [],
+                lines = [],
+                names = ["SenViet.org"],
+                firstStart = true;
+                originalName = names[Math.floor(Math.random() * names.length)],
+                sessionScore = 0,
+                serverIP = "",
+                interNodes = [],
+                lifeTimer = new Date(),
+                bestTime = 0,
+                botIndex = 0,
+                reviving = false,
+                message = [];
             D.src = "/img/background.png";
             var kb = "ontouchstart" in d && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(d.navigator.userAgent), cb = new Image;
             cb.src = "/img/split.png";
@@ -805,6 +1032,13 @@
             if ("undefined" == typeof console || "undefined" == typeof DataView || "undefined" == typeof WebSocket || null == Mb || null == Mb.getContext || null == d.localStorage)alert("You browser does not support this game, we recommend you to use Firefox to play this"); else {
                 var va = null;
                 d.setNick = function (a) {
+                    // @author nguyenvanduocit
+                    firstStart = false;
+                    originalName = a;
+                    if (getPlayer().length == 0) {
+                        lifeTimer = new Date();
+                    }
+
                     d.ga && d.ga("send", "event", "Nick", a.toLowerCase());
                     qb();
                     I = a;
@@ -1131,6 +1365,19 @@
                     J: !0,
                     Q: 0,
                     G: null,
+                    //@author nguyenvanduocit
+                    updateCode: 0,
+                    danger: false,
+                    dangerTimeOut: 0,
+                    isNotMoving: function() {
+                        return (this.x == this.l && this.y == this.m);
+                    },
+                    isVirus: function() {
+                        return this.c;
+                    },
+                    getUptimeTime: function() {
+                        return this.I;
+                    },
                     P: function () {
                         var a;
                         for (a = 0; a < u.length; a++)if (u[a] == this) {
@@ -1528,4 +1775,177 @@
             }
         }
     }
-})(window, window.jQuery);
+    /**
+     * Custom function
+     * @author nguyenvanduocit
+     */
+    //UPDATE
+    function computeDistance(x1, y1, x2, y2) {
+        var xdis = x1 - x2; // <--- FAKE AmS OF COURSE!
+        var ydis = y1 - y2;
+        var distance = Math.sqrt(xdis * xdis + ydis * ydis);
+
+        return distance;
+    }
+    window.setPoint = function(x, y) {
+        ta = x;
+        ua = y;
+    };
+    window.getDarkBool = function() {
+        return Fa;
+    };
+    window.getMapStartX = function() {
+        return Aa;
+    };
+    window.getMapStartY = function() {
+        return Ba;
+    };
+    window.getMapEndY = function() {
+        return Da;
+    };
+    window.getMapEndX = function() {
+        return Ca;
+    };
+    /**
+     * The game's current mode. (":ffa", ":experimental", ":teams". ":party")
+     * @return {[type]} [description]
+     */
+    window.getMode = function() {
+        return P;
+    };
+    /**
+     * Returns an array with all the player's cells.
+     * @return Player's cells
+     */
+    window.getPlayer = function() {
+        return l;
+    };
+    /**
+     * This is a copy of everything that is shown on screen.
+     * Normally stuff will time out when off the screen, this
+     * memorizes everything that leaves the screen for a little
+     * while longer.
+     * @return The memory object.
+     */
+    window.getMemoryCells = function() {
+        return interNodes;
+    };
+    /**
+     * [getCellsArray description]
+     * @return {[type]} [description]
+     */
+    window.getCells = function() {
+        return J;
+    };
+    /**
+     * A timestamp since the last time the server sent any data.
+     * @return Last update timestamp
+     */
+    window.getLastUpdate = function() {
+        return F;
+    };
+    /**
+     * Scaling ratio of the canvas. The bigger this ration,
+     * the further that you see.
+     * @return Screen scaling ratio.
+     */
+    window.getRatio = function() {
+        return g;
+    };
+    window.getZoomlessRatio = function() {
+        return g2;
+    };
+    window.getX = function() {
+        return s;
+    };
+    window.getY = function() {
+        return t;
+    };
+    /**
+     * The canvas' width.
+     * @return Integer Width
+     */
+    window.getWidth = function() {
+        return k;
+    };
+    /**
+     * The canvas' height
+     * @return Integer Height
+     */
+    window.getHeight = function() {
+        return p;
+    };
+    /**
+     * A conversion from the screen's horizontal coordinate system
+     * to the game's horizontal coordinate system.
+     * @param x in the screen's coordinate system
+     * @return x in the game's coordinate system
+     */
+    window.screenToGameX = function(x) {
+        return (x - getWidth() / 2) / getRatio() + getX();
+    };
+    /**
+     * The X location of the mouse.
+     * @return Integer X
+     */
+    window.getMouseX = function() {
+        return pa;
+    };
+    /**
+     * The Y location of the mouse.
+     * @return Integer Y
+     */
+    window.getMouseY = function() {
+        return qa;
+    };
+    window.getPointX = function() {
+        return ta;
+    };
+
+    window.getPointY = function() {
+        return ua;
+    };
+    /**
+     * A conversion from the screen's vertical coordinate system
+     * to the game's vertical coordinate system.
+     * @param y in the screen's coordinate system
+     * @return y in the game's coordinate system
+     */
+    window.screenToGameY = function(y) {
+        return (y - getHeight() / 2) / getRatio() + getY();
+    };
+    window.drawPoint = function(x_1, y_1, drawColor, text) {
+        if (!toggleDraw) {
+            dPoints.push([x_1, y_1, drawColor]);
+            dText.push(text);
+        }
+    };
+    window.drawArc = function(x_1, y_1, x_2, y_2, x_3, y_3, drawColor) {
+        if (!toggleDraw) {
+            var radius = computeDistance(x_1, y_1, x_3, y_3);
+            dArc.push([x_1, y_1, x_2, y_2, x_3, y_3, radius, drawColor]);
+        }
+    };
+
+    window.drawLine = function(x_1, y_1, x_2, y_2, drawColor) {
+        if (!toggleDraw) {
+            lines.push([x_1, y_1, x_2, y_2, drawColor]);
+        }
+    };
+
+    window.drawCircle = function(x_1, y_1, radius, drawColor) {
+        if (!toggleDraw) {
+            circles.push([x_1, y_1, radius, drawColor]);
+        }
+    };
+
+    window.verticalDistance = function() {
+        return computeDistance(screenToGameX(0), screenToGameY(0), screenToGameX(getWidth()), screenToGameY(getHeight()));
+    };
+    window.getServer = function() {
+        return serverIP;
+    }
+    window.getCurrentScore = function() {
+        return K;
+    }
+})(window, window.jQuery, AgarBot, AgarBot.app);

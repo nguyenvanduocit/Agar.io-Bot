@@ -11,10 +11,24 @@
                 '</div>'
             );
             this.templates.mapPanel  = _.template(
-                '<div class="control-panel">' +
                     '<div class="minimap-panel">' +
+                        '<div class="grid">'+
+                            '<span class="grid-cell">A1</span>'+
+                            '<span class="grid-cell">A2</span>'+
+                            '<span class="grid-cell">A3</span>'+
+                            '<span class="grid-cell">B1</span>'+
+                            '<span class="grid-cell">B2</span>'+
+                            '<span class="grid-cell">B3</span>'+
+                            '<span class="grid-cell">C1</span>'+
+                            '<span class="grid-cell">C2</span>'+
+                            '<span class="grid-cell">C3</span>'+
+                        '</div>'+
                         '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>'+
-                    '</div>'+
+                    '</div>'
+            );
+            this.templates.feedBotPannel = _.template(
+                '<div class="bot-panel">' +
+                    '<button id="feedBotToggle">Make slave</button>'+
                 '</div>'
             );
         },

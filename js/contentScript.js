@@ -1,4 +1,4 @@
 (function ($) {
     $('html').addClass('DuocBot');
-    $('html').append('<div id="minimap-pannel"></div>');
+    $('html').append('<div class="control-panel"><div id="minimap-pannel"></div><div id="feedbot-pannel"></div></div>');
 })(jQuery);

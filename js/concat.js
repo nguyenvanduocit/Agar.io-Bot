@@ -4678,10 +4678,6 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 gamemode: $('#gamemode').val(),
                 party: location.hash
             });
-            /*miniMapSendRawData(msgpack.pack({
-                type: 100,
-                data: {url: url, region: $('#region').val(), gamemode: $('#gamemode').val(), party: location.hash}
-            }));*/
             if (this.onopen) {
                 return this.onopen.call(ws, event);
             }
@@ -4749,10 +4745,24 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 '</div>'
             );
             this.templates.mapPanel  = _.template(
-                '<div class="control-panel">' +
                     '<div class="minimap-panel">' +
+                        '<div class="grid">'+
+                            '<span class="grid-cell">A1</span>'+
+                            '<span class="grid-cell">A2</span>'+
+                            '<span class="grid-cell">A3</span>'+
+                            '<span class="grid-cell">B1</span>'+
+                            '<span class="grid-cell">B2</span>'+
+                            '<span class="grid-cell">B3</span>'+
+                            '<span class="grid-cell">C1</span>'+
+                            '<span class="grid-cell">C2</span>'+
+                            '<span class="grid-cell">C3</span>'+
+                        '</div>'+
                         '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>'+
-                    '</div>'+
+                    '</div>'
+            );
+            this.templates.feedBotPannel = _.template(
+                '<div class="bot-panel">' +
+                    '<button id="feedBotToggle">Click to disable</button>'+
                 '</div>'
             );
         },
@@ -4771,7 +4781,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         moduleClass: AgarBot.Modules.TemplateLoader
     });
 })(jQuery, Backbone, _, AgarBot, AgarBot.app);
-(function (d, e) {
+(function (d, e, AgarBot, app) {
     function Ob() {
         Ka = !0;
         jb();
@@ -4793,9 +4803,9 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             ca()
         };
         M.onmousemove = function (a) {
-            pa = 1 * a.clientX;
+            /*pa = 1 * a.clientX;
             qa = 1 * a.clientY;
-            Ma()
+            Ma()*/
         };
         M.onmouseup = function () {
         };
@@ -4846,8 +4856,10 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     }
 
     function Ma() {
-        ta = (pa - k / 2) / g + s;
-        ua = (qa - p / 2) / g + t
+        //@author nguyenvanduocit
+        var tmp_ta = (pa - k / 2) / g + s;
+        var temp_ua = (qa - p / 2) / g + t;
+        setPoint(tmp_ta, temp_ua);
     }
 
     function jb() {
@@ -4964,6 +4976,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         K = 0;
         ja = !1;
         console.log("Connecting to " + a);
+        serverIP = a;
         q = new WebSocket(a);
         q.binaryType = "arraybuffer";
         q.onopen = function () {
@@ -5147,21 +5160,60 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             m.T = U;
             q && (m.G = q);
             r && m.q(r);
-            -1 != z.indexOf(h) && -1 == l.indexOf(m) && (l.push(m), 1 == l.length && (s = m.x, t = m.y, yb(), document.getElementById("overlays").style.display = "none", x = [], Xa = 0, Ya = l[0].color, wa = !0, Za = Date.now(), V = Ea = $a = 0))
+            //@author nguyenvanduocit
+            -1 != z.indexOf(h) && -1 == l.indexOf(m) && (l.push(m), m.birth = getLastUpdate(), m.birthMass = (m.size * m.size / 100), 1 == l.length && (s = m.x, t = m.y, yb(), document.getElementById("overlays").style.display = "none", x = [], Xa = 0, Ya = l[0].color, wa = !0, Za = Date.now(), V = Ea = $a = 0));
+            /**
+             * @author nguyenvanduocit
+             */
+            interNodes[h] = window.getCells()[h];
         }
+        /**
+         * @author nguyenvanduocit
+         */
+        Object.keys(interNodes).forEach(function(element, index) {
+            //console.log("start: " + interNodes[element].updateTime + " current: " + D + " life: " + (D - interNodes[element].updateTime));
+            var isRemoved = !window.getCells().hasOwnProperty(element);
+
+            //console.log("Time not updated: " + (window.getLastUpdate() - interNodes[element].getUptimeTime()));
+            if (isRemoved && (window.getLastUpdate() - interNodes[element].getUptimeTime()) > 3000) {
+                delete interNodes[element];
+            } else {
+                if (isRemoved &&
+                    interNodes[element].x > (getX() - (1920 / 2) / getZoomlessRatio()) &&
+                    interNodes[element].x < (getX() + (1920 / 2) / getZoomlessRatio()) &&
+                    interNodes[element].y > getY() - (1080 / 2) / getZoomlessRatio() &&
+                    interNodes[element].y < getY() + (1080 / 2) / getZoomlessRatio()) {
+                    delete interNodes[element];
+                }
+            }
+        });
+
         v = a.getUint32(b, !0);
         b += 4;
         for (f = 0; f < v; f++)h = a.getUint32(b, !0), b += 4, m = J[h], null != m && m.P();
-        Wa && 0 == l.length && (ab = Date.now(), wa = !1, fa || X || (zb ? (sb(d.ab), Yb(), X = !0, e("#overlays").fadeIn(3E3), e("#stats").show()) : ra(3E3)), d.MC.deltaUpdateStats({
+        Wa && 0 == l.length && (ab = Date.now(), wa = !1, fa || X || (zb ? (sb(d.ab), Yb(), X = !0, e("#overlays").fadeIn(3E3), (e("#stats").show())) : ra(3E3)), d.MC.deltaUpdateStats({
             games_played: 1,
             total_mass: ~~(K / 100),
             turn_time: (ab - Za) / 1E3,
             cells_eaten: Ea
-        }))
+        }));
     }
 
     function ca() {
         if (aa()) {
+            //@author nguyenvanduocit
+            if (getPlayer().length == 0 && !reviving && ~~(getCurrentScore() / 100) > 0) {
+                console.log("Dead: " + ~~(getCurrentScore() / 100));
+            }
+            if (getPlayer().length == 0 && !firstStart) {
+                console.log("Revive");
+                setNick(originalName);
+                reviving = true;
+            } else if (getPlayer().length > 0 && reviving) {
+                reviving = false;
+                console.log("Done Reviving!");
+            }
+
             var a = pa - k / 2, b = qa - p / 2;
             64 > a * a + b * b || .01 > Math.abs(Ab - ta) && .01 > Math.abs(Bb - ua) || (Ab = ta, Bb = ua, a = S(13), a.setUint8(0, 16), a.setInt32(1, ta, !0), a.setInt32(5, ua, !0), a.setUint32(9, 0, !0), T(a))
         }
@@ -5209,7 +5261,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         var b = a.height(), c = d.innerHeight;
         0 != b / 2 % 2 && (b++, a.height(b));
         b > c / 1.1 ? a.css("transform", "translate(-50%, -50%) scale(" + c / b / 1.1 + ")") : a.css("transform", "translate(-50%, -50%)");
-        Cb()
+        Cb();
     }
 
     function Db() {
@@ -5218,15 +5270,34 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         return a *= O
     }
 
+    /**
+     * @author nguyenvanduocit
+     */
+    function Db2() {
+        var a;
+        a = 1 * Math.max(p / 1080, k / 1920);
+        return a;
+    }
+
     function Zb() {
         if (0 != l.length) {
             for (var a = 0, b = 0; b < l.length; b++)a += l[b].size;
+            var a2 = Math.pow(Math.min(64 / a, 1), .4) * Db2();
             a = Math.pow(Math.min(64 / a, 1), .4) * Db();
-            g = (9 * g + a) / 10
+            g = (9 * g + a) / 10;
+            //@author nguyenvanduocit
+            g2 = (9 * g2 + a2) / 10;
         }
     }
 
     function Cb() {
+        //@author nguyenvanduocit
+        dPoints = [];
+        circles = [];
+        dArc = [];
+        dText = [];
+        lines = [];
+
         var a, b = Date.now();
         ++$b;
         F = b;
@@ -5239,7 +5310,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             ma = g;
             s = (s + a) / 2;
             t = (t + c) / 2
-        } else s = (29 * s + ka) / 30, t = (29 * t + la) / 30, g = (9 * g + ma * Db()) / 10;
+        } else s = (29 * s + ka) / 30, t = (29 * t + la) / 30, g = (9 * g + ma * Db()) / 10,g2 = (9 * g2 + ma * Db2()) / 10;
         Pb();
         Ma();
         bb || f.clearRect(0, 0, k, p);
@@ -5253,6 +5324,11 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         f.translate(-s, -t);
         for (d = 0; d < Y.length; d++)Y[d].p(f);
         for (d = 0; d < u.length; d++)u[d].p(f);
+        /**
+         * @author nguyenvanduocit
+         */
+        AgarBot.pubsub.trigger('main_out:mainloop');
+        customRender(f);
         if (Ua) {
             ya = (3 * ya + Sa) / 4;
             za = (3 * za + Ta) / 4;
@@ -5280,9 +5356,146 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         b = F - Fb;
         !aa() || fa || X ? (r += b / 2E3, 1 < r && (r = 1)) : (r -= b / 300, 0 > r && (r = 0));
         0 < r ? (f.fillStyle = "#000000", Gb ? (f.globalAlpha = r, f.fillRect(0, 0, k, p), D.complete && D.width && (D.width / D.height < k / p ? (b = k, a = D.height * k / D.width) : (b = D.width * p / D.height, a = p), f.drawImage(D, (k - b) / 2, (p - a) / 2, b, a), f.globalAlpha = .5 * r, f.fillRect(0, 0, k, p))) : (f.globalAlpha = .5 * r, f.fillRect(0, 0, k, p)), f.globalAlpha = 1) : Gb = !1;
-        Fb = F
+        Fb = F;
     }
+//UPDATE
+    function customRender(d) {
+        d.save();
+        for (var i = 0; i < lines.length; i++) {
+            d.beginPath();
 
+            d.lineWidth = 5;
+
+            if (lines[i][4] == 0) {
+                d.strokeStyle = "#FF0000";
+            } else if (lines[i][4] == 1) {
+                d.strokeStyle = "#00FF00";
+            } else if (lines[i][4] == 2) {
+                d.strokeStyle = "#0000FF";
+            } else if (lines[i][4] == 3) {
+                d.strokeStyle = "#FF8000";
+            } else if (lines[i][4] == 4) {
+                d.strokeStyle = "#8A2BE2";
+            } else if (lines[i][4] == 5) {
+                d.strokeStyle = "#FF69B4";
+            } else if (lines[i][4] == 6) {
+                d.strokeStyle = "#008080";
+            } else if (lines[i][4] == 7) {
+                d.strokeStyle = (getDarkBool() ? '#F2FBFF' : '#111111');
+            } else {
+                d.strokeStyle = "#000000";
+            }
+
+            d.moveTo(lines[i][0], lines[i][1]);
+            d.lineTo(lines[i][2], lines[i][3]);
+
+            d.stroke();
+        }
+        d.restore();
+        d.save();
+        for (var i = 0; i < circles.length; i++) {
+            if (circles[i][3] == 0) {
+                d.strokeStyle = "#FF0000";
+            } else if (circles[i][3] == 1) {
+                d.strokeStyle = "#00FF00";
+            } else if (circles[i][3] == 2) {
+                d.strokeStyle = "#0000FF";
+            } else if (circles[i][3] == 3) {
+                d.strokeStyle = "#FF8000";
+            } else if (circles[i][3] == 4) {
+                d.strokeStyle = "#8A2BE2";
+            } else if (circles[i][3] == 5) {
+                d.strokeStyle = "#FF69B4";
+            } else if (circles[i][3] == 6) {
+                d.strokeStyle = "#008080";
+            } else if (circles[i][3] == 7) {
+                d.strokeStyle = (getDarkBool() ? '#F2FBFF' : '#111111');
+            } else {
+                d.strokeStyle = "#000000";
+            }
+            d.beginPath();
+
+            d.lineWidth = 10;
+            //d.setLineDash([5]);
+            d.globalAlpha = 0.3;
+
+            d.arc(circles[i][0], circles[i][1], circles[i][2], 0, 2 * Math.PI, false);
+
+            d.stroke();
+        }
+        d.restore();
+        d.save();
+        for (var i = 0; i < dArc.length; i++) {
+            if (dArc[i][7] == 0) {
+                d.strokeStyle = "#FF0000";
+            } else if (dArc[i][7] == 1) {
+                d.strokeStyle = "#00FF00";
+            } else if (dArc[i][7] == 2) {
+                d.strokeStyle = "#0000FF";
+            } else if (dArc[i][7] == 3) {
+                d.strokeStyle = "#FF8000";
+            } else if (dArc[i][7] == 4) {
+                d.strokeStyle = "#8A2BE2";
+            } else if (dArc[i][7] == 5) {
+                d.strokeStyle = "#FF69B4";
+            } else if (dArc[i][7] == 6) {
+                d.strokeStyle = "#008080";
+            } else if (dArc[i][7] == 7) {
+                d.strokeStyle = (getDarkBool() ? '#F2FBFF' : '#111111');
+            } else {
+                d.strokeStyle = "#000000";
+            }
+
+            d.beginPath();
+
+            d.lineWidth = 5;
+
+            var ang1 = Math.atan2(dArc[i][1] - dArc[i][5], dArc[i][0] - dArc[i][4]);
+            var ang2 = Math.atan2(dArc[i][3] - dArc[i][5], dArc[i][2] - dArc[i][4]);
+
+            d.arc(dArc[i][4], dArc[i][5], dArc[i][6], ang1, ang2, false);
+
+            d.stroke();
+        }
+        d.restore();
+        d.save();
+        for (var i = 0; i < dPoints.length; i++) {
+            if (dText[i] == "") {
+                var radius = 10;
+
+                d.beginPath();
+                d.arc(dPoints[i][0], dPoints[i][1], radius, 0, 2 * Math.PI, false);
+
+                if (dPoints[i][2] == 0) {
+                    d.fillStyle = "black";
+                } else if (dPoints[i][2] == 1) {
+                    d.fillStyle = "yellow";
+                } else if (dPoints[i][2] == 2) {
+                    d.fillStyle = "blue";
+                } else if (dPoints[i][2] == 3) {
+                    d.fillStyle = "red";
+                } else if (dPoints[i][2] == 4) {
+                    d.fillStyle = "#008080";
+                } else if (dPoints[i][2] == 5) {
+                    d.fillStyle = "#FF69B4";
+                } else {
+                    d.fillStyle = "#000000";
+                }
+
+                d.fill();
+                d.lineWidth = 2;
+                d.strokeStyle = '#003300';
+                d.stroke();
+            } else {
+                var text = new Ha(18, (getDarkBool() ? '#F2FBFF' : '#111111'), true, (getDarkBool() ? '#111111' : '#F2FBFF'));
+                text.r(dText[i]);
+                var textRender = text.B();
+                d.drawImage(textRender, dPoints[i][0] - (textRender.width / 2), dPoints[i][1] - (textRender.height / 2));
+            }
+
+        }
+        d.restore();
+    }
     function ac() {
         f.fillStyle = Fa ? "#111111" : "#F2FBFF";
         f.fillRect(0, 0, k, p);
@@ -5569,8 +5782,32 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         }, 1E3); else if (-1 != Ja.indexOf("iPhone") || -1 != Ja.indexOf("iPad") || -1 != Ja.indexOf("iPod"))d.ga && d.ga("send", "event", "MobileRedirect", "AppStore"), setTimeout(function () {
             d.location.href = "https://itunes.apple.com/app/agar.io/id995999703?mt=8&at=1l3vajp"
         }, 1E3); else {
-            var La, f, M, k, p, da = null, q = null, s = 0, t = 0, z = [], l = [], J = {}, u = [], Y = [], w = [], pa = 0, qa = 0, ta = -1, ua = -1, $b = 0, F = 0, Fb = 0, I = null, Aa = 0, Ba = 0, Ca = 1E4, Da = 1E4, g = 1, y = null, hb = !0, Ia = !0, ib = !1, Wa = !1, K = 0, Fa = !1, Kb = !1, ka = s = ~~((Aa + Ca) / 2), la = t = ~~((Ba + Da) / 2), ma = 1, P = "", B = null, Ka =
-                !1, Ua = !1, Sa = 0, Ta = 0, ya = 0, za = 0, Lb = 0, cc = ["#333333", "#FF3333", "#33FF33", "#3333FF"], bb = !1, ja = !1, wb = 0, C = null, O = 1, r = 1, fa = !1, Na = 0, Gb = !0, Va = null, D = new Image;
+            var La, f, M, k, p, da = null, q = null, s = 0, t = 0, z = [], l = [], J = {}, u = [], Y = [], w = [], pa = 0, qa = 0, ta = -1, ua = -1, $b = 0, F = 0, Fb = 0, I = null, Aa = 0, Ba = 0, Ca = 1E4, Da = 1E4, g = 1, g2 = 1, y = null, hb = !0, Ia = !0, ib = !1, Wa = !1, K = 0, Fa = !1, Kb = !1, ka = s = ~~((Aa + Ca) / 2), la = t = ~~((Ba + Da) / 2), ma = 1, P = "", B = null, Ka =
+                !1, Ua = !1, Sa = 0, Ta = 0, ya = 0, za = 0, Lb = 0, cc = ["#333333", "#FF3333", "#33FF33", "#3333FF"], bb = !1, ja = !1, wb = 0, C = null, O = 1, r = 1, fa = !1, Na = 0, Gb = !0, Va = null, D = new Image,
+                // @author nguyenvanduocit
+                toggle = false,
+                toggleDraw = false,
+                shootTime = 0,
+                splitTime = 0,
+                shootCooldown = 100,
+                splitCooldown = 100,
+                tempPoint = [0, 0, 1],
+                dPoints = [],
+                circles = [],
+                dArc = [],
+                dText = [],
+                lines = [],
+                names = ["SenViet.org"],
+                firstStart = true;
+                originalName = names[Math.floor(Math.random() * names.length)],
+                sessionScore = 0,
+                serverIP = "",
+                interNodes = [],
+                lifeTimer = new Date(),
+                bestTime = 0,
+                botIndex = 0,
+                reviving = false,
+                message = [];
             D.src = "/img/background.png";
             var kb = "ontouchstart" in d && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(d.navigator.userAgent), cb = new Image;
             cb.src = "/img/split.png";
@@ -5578,6 +5815,13 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             if ("undefined" == typeof console || "undefined" == typeof DataView || "undefined" == typeof WebSocket || null == Mb || null == Mb.getContext || null == d.localStorage)alert("You browser does not support this game, we recommend you to use Firefox to play this"); else {
                 var va = null;
                 d.setNick = function (a) {
+                    // @author nguyenvanduocit
+                    firstStart = false;
+                    originalName = a;
+                    if (getPlayer().length == 0) {
+                        lifeTimer = new Date();
+                    }
+
                     d.ga && d.ga("send", "event", "Nick", a.toLowerCase());
                     qb();
                     I = a;
@@ -5904,6 +6148,19 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                     J: !0,
                     Q: 0,
                     G: null,
+                    //@author nguyenvanduocit
+                    updateCode: 0,
+                    danger: false,
+                    dangerTimeOut: 0,
+                    isNotMoving: function() {
+                        return (this.x == this.l && this.y == this.m);
+                    },
+                    isVirus: function() {
+                        return this.c;
+                    },
+                    getUptimeTime: function() {
+                        return this.I;
+                    },
                     P: function () {
                         var a;
                         for (a = 0; a < u.length; a++)if (u[a] == this) {
@@ -6301,7 +6558,1253 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             }
         }
     }
-})(window, window.jQuery);
+    /**
+     * Custom function
+     * @author nguyenvanduocit
+     */
+    //UPDATE
+    function computeDistance(x1, y1, x2, y2) {
+        var xdis = x1 - x2; // <--- FAKE AmS OF COURSE!
+        var ydis = y1 - y2;
+        var distance = Math.sqrt(xdis * xdis + ydis * ydis);
+
+        return distance;
+    }
+    window.setPoint = function(x, y) {
+        ta = x;
+        ua = y;
+    };
+    window.getDarkBool = function() {
+        return Fa;
+    };
+    window.getMapStartX = function() {
+        return Aa;
+    };
+    window.getMapStartY = function() {
+        return Ba;
+    };
+    window.getMapEndY = function() {
+        return Da;
+    };
+    window.getMapEndX = function() {
+        return Ca;
+    };
+    /**
+     * The game's current mode. (":ffa", ":experimental", ":teams". ":party")
+     * @return {[type]} [description]
+     */
+    window.getMode = function() {
+        return P;
+    };
+    /**
+     * Returns an array with all the player's cells.
+     * @return Player's cells
+     */
+    window.getPlayer = function() {
+        return l;
+    };
+    /**
+     * This is a copy of everything that is shown on screen.
+     * Normally stuff will time out when off the screen, this
+     * memorizes everything that leaves the screen for a little
+     * while longer.
+     * @return The memory object.
+     */
+    window.getMemoryCells = function() {
+        return interNodes;
+    };
+    /**
+     * [getCellsArray description]
+     * @return {[type]} [description]
+     */
+    window.getCells = function() {
+        return J;
+    };
+    /**
+     * A timestamp since the last time the server sent any data.
+     * @return Last update timestamp
+     */
+    window.getLastUpdate = function() {
+        return F;
+    };
+    /**
+     * Scaling ratio of the canvas. The bigger this ration,
+     * the further that you see.
+     * @return Screen scaling ratio.
+     */
+    window.getRatio = function() {
+        return g;
+    };
+    window.getZoomlessRatio = function() {
+        return g2;
+    };
+    window.getX = function() {
+        return s;
+    };
+    window.getY = function() {
+        return t;
+    };
+    /**
+     * The canvas' width.
+     * @return Integer Width
+     */
+    window.getWidth = function() {
+        return k;
+    };
+    /**
+     * The canvas' height
+     * @return Integer Height
+     */
+    window.getHeight = function() {
+        return p;
+    };
+    /**
+     * A conversion from the screen's horizontal coordinate system
+     * to the game's horizontal coordinate system.
+     * @param x in the screen's coordinate system
+     * @return x in the game's coordinate system
+     */
+    window.screenToGameX = function(x) {
+        return (x - getWidth() / 2) / getRatio() + getX();
+    };
+    /**
+     * The X location of the mouse.
+     * @return Integer X
+     */
+    window.getMouseX = function() {
+        return pa;
+    };
+    /**
+     * The Y location of the mouse.
+     * @return Integer Y
+     */
+    window.getMouseY = function() {
+        return qa;
+    };
+    window.getPointX = function() {
+        return ta;
+    };
+
+    window.getPointY = function() {
+        return ua;
+    };
+    /**
+     * A conversion from the screen's vertical coordinate system
+     * to the game's vertical coordinate system.
+     * @param y in the screen's coordinate system
+     * @return y in the game's coordinate system
+     */
+    window.screenToGameY = function(y) {
+        return (y - getHeight() / 2) / getRatio() + getY();
+    };
+    window.drawPoint = function(x_1, y_1, drawColor, text) {
+        if (!toggleDraw) {
+            dPoints.push([x_1, y_1, drawColor]);
+            dText.push(text);
+        }
+    };
+    window.drawArc = function(x_1, y_1, x_2, y_2, x_3, y_3, drawColor) {
+        if (!toggleDraw) {
+            var radius = computeDistance(x_1, y_1, x_3, y_3);
+            dArc.push([x_1, y_1, x_2, y_2, x_3, y_3, radius, drawColor]);
+        }
+    };
+
+    window.drawLine = function(x_1, y_1, x_2, y_2, drawColor) {
+        if (!toggleDraw) {
+            lines.push([x_1, y_1, x_2, y_2, drawColor]);
+        }
+    };
+
+    window.drawCircle = function(x_1, y_1, radius, drawColor) {
+        if (!toggleDraw) {
+            circles.push([x_1, y_1, radius, drawColor]);
+        }
+    };
+
+    window.verticalDistance = function() {
+        return computeDistance(screenToGameX(0), screenToGameY(0), screenToGameX(getWidth()), screenToGameY(getHeight()));
+    };
+    window.getServer = function() {
+        return serverIP;
+    }
+    window.getCurrentScore = function() {
+        return K;
+    }
+})(window, window.jQuery, AgarBot, AgarBot.app);
+(function (window, $, Backbone, Marionette, _, AgarBot, app) {
+    AgarBot.Modules.MapUtil = Marionette.Module.extend({
+        initialize: function (moduleName, app, options) {
+            this.canvasContext = 'undefined';
+        },
+        onStart: function (options) {
+            console.log('Module MapUtil start');
+            this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.drawRound);
+        },
+        getCanvasContext:function(){
+            if(this.canvasContext === 'undefined'){
+                console.log('get canvas');
+                this.canvas = $("#canvas")[0];
+                this.canvasContext = this.canvas.getContext("2d");
+            }
+            return this.canvasContext;
+        },
+        drawRound:function(){
+            var context = this.getCanvasContext();;
+            context.save();
+            context.beginPath();
+            context.lineWidth = 5;
+            context.strokeStyle = (window.getDarkBool() ? '#F2FBFF' : '#111111');
+            context.moveTo(window.getMapStartX(), window.getMapStartY());
+            context.lineTo(window.getMapStartX(), window.getMapEndY());
+            context.stroke();
+            context.moveTo(window.getMapStartX(), window.getMapStartY());
+            context.lineTo(window.getMapEndX(), window.getMapStartY());
+            context.stroke();
+            context.moveTo(window.getMapEndX(), window.getMapStartY());
+            context.lineTo(window.getMapEndX(), window.getMapEndY());
+            context.stroke();
+            context.moveTo(window.getMapStartX(), window.getMapEndY());
+            context.lineTo(window.getMapEndX(), window.getMapEndY());
+            context.stroke();
+            context.restore();
+        }
+    });
+    app.module("MapUtil", {
+        moduleClass: AgarBot.Modules.MapUtil
+    });
+})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
+Number.prototype.mod = function(n) {
+    return ((this % n) + n) % n;
+};
+
+Array.prototype.peek = function() {
+    return this[this.length - 1];
+};
+(function (window, $, Backbone, Marionette, _, AgarBot, app) {
+
+    AgarBot.Views.FeedBotPanel = Marionette.ItemView.extend({
+        el:'#feedbot-pannel',
+        events:{
+            'click #feedBotToggle':'onToggleClicked'
+        },
+        initialize: function (options){
+            this.options = {};
+            _.extend(this.options, options);
+        },
+        onToggleClicked:function(e){
+            e.preventDefault();
+            var target = $(e.currentTarget);
+            this.options.master = !this.options.master;
+            if(this.options.master)
+            {
+                target.text('Click to disable');
+            }else{
+                target.text('Click to enable');
+            }
+            AgarBot.pubsub.trigger('FeedBotPanel:changeSetting', this.options);
+        },
+        getTemplate: function () {
+            var templateLoader = app.module('TemplateLoader');
+            return templateLoader.getTemlate('feedBotPannel');
+        }
+    });
+
+    AgarBot.Modules.FeedBot = Marionette.Module.extend({
+        initialize: function (moduleName, app, options) {
+            this.isEnable = true;
+            this.master  = false;
+            this.lastMasterUpdate = Date.now();
+            this.masterLocation = [100, 100];
+            this.masterId = false;
+            this.splitDistance = 710;
+            this.toggleFollow = false;
+            this.minimumSizeToGoing = 20;
+            this.dangerTimeOut = 1500;
+            this.pannelView = new AgarBot.Views.FeedBotPanel({
+                isEnable:this.isEnable,
+                master:this.master,
+                dangerTimeOut:this.dangerTimeOut,
+                dangerTimeOut:this.dangerTimeOut,
+            });
+
+        },
+        onStart: function (options) {
+            this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.mainLoop);
+            this.listenTo(AgarBot.pubsub, 'FeedBotPanel:changeSetting', this.onChangeSetting);
+            this.pannelView.render();
+        },
+        onChangeSetting:function(options){
+            console.log(options);
+            if(typeof options.master !='undefined'){
+                this.master = options.master;
+            }
+        },
+        mainLoop:function(){
+            //UPDATE
+            if (getPlayer().length > 0) {
+                var nextPoint = this.getNextPoint();
+                setPoint(nextPoint[0], nextPoint[1]);
+            }
+        },
+        getNextPoint:function(){
+            var player = getPlayer();
+            var interNodes = getMemoryCells();
+
+            if (this.isEnable) {
+                //The following code converts the mouse position into an
+                //absolute game coordinate.
+                var useMouseX = screenToGameX(getMouseX());
+                var useMouseY = screenToGameY(getMouseY());
+                var tempPoint = [useMouseX, useMouseY, 1];
+
+                //The current destination that the cells were going towards.
+                var tempMoveX = getPointX();
+                var tempMoveY = getPointY();
+
+                //This variable will be returned at the end.
+                //It will contain the destination choices for all the cells.
+                //BTW!!! ERROR ERROR ABORT MISSION!!!!!!! READ BELOW -----------
+                //
+                //SINCE IT'S STUPID NOW TO ASK EACH CELL WHERE THEY WANT TO GO,
+                //THE BOT SHOULD SIMPLY PICK ONE AND THAT'S IT, I MEAN WTF....
+                var destinationChoices = []; //destination, size, danger
+
+                //Just to make sure the player is alive.
+                if (player.length > 0) {
+                    if (!this.master && Date.now() - this.lastMasterUpdate > 5000) {
+                        /**
+                         * TODO Integrate with server
+                         */
+                        var masterObject = {
+                            id:123,
+                            location:[123,23]
+                        };
+                        if (typeof masterObject != 'undefined') {
+                            console.log("Previous Location: " + this.masterLocation);
+                            console.log("Going to: " + masterObject.location);
+                            this.masterLocation = masterObject.location;
+                            this.masterId = masterObject.id;
+                            console.log("Updated Location: " , this.masterLocation);
+                        } else {
+                            console.log("No master was found... Let's be the master.");
+                            self.master = true;
+                        }
+                        this.lastMasterUpdate = Date.now();
+                    }
+
+                    //Loop through all the player's cells.
+                    for (var k = 0; k < player.length; k++) {
+                        if (true) {
+                            drawPoint(player[k].x, player[k].y + player[k].size, 0, "" + (getLastUpdate() - player[k].birth) + " / " + (30000 + (player[k].birthMass * 57) - (getLastUpdate() - player[k].birth)) + " / " + player[k].birthMass);
+                        }
+                    }
+
+                    //Loops only for one cell for now.
+                    for (var k = 0; /*k < player.length*/ k < 1; k++) {
+
+                        //console.log("Working on blob: " + k);
+
+                        drawCircle(player[k].x, player[k].y, player[k].size + this.splitDistance, 5);
+                        drawPoint(player[0].x, player[0].y - player[0].size, 3, "" + Math.floor(player[0].x) + ", " + Math.floor(player[0].y));
+
+                        //var allDots = processEverything(interNodes);
+
+                        //loop through everything that is on the screen and
+                        //separate everything in it's own category.
+                        var allIsAll = this.getAll(player[k]);
+
+                        //The food stored in element 0 of allIsAll
+                        var allPossibleFood = allIsAll[0];
+                        //The threats are stored in element 1 of allIsAll
+                        var allPossibleThreats = allIsAll[1];
+                        //The viruses are stored in element 2 of allIsAll
+                        var allPossibleViruses = allIsAll[2];
+
+                        if (allIsAll[4].length > 0) {
+                            console.log("Found my real Master! " + allIsAll[4][0].id);
+                            this.masterLocation = [allIsAll[4][0].x, allIsAll[4][0].y]
+                        }
+
+
+                        //The bot works by removing angles in which it is too
+                        //dangerous to travel towards to.
+                        var badAngles = [];
+                        var obstacleList = [];
+
+                        var isSafeSpot = true;
+                        var isMouseSafe = true;
+
+                        var clusterAllFood = this.clusterFood(allPossibleFood, player[k].size);
+
+                        //console.log("Looking for enemies!");
+
+                        //Loop through all the cells that were identified as threats.
+                        for (var i = 0; i < allPossibleThreats.length; i++) {
+
+                            var enemyDistance = this.computeDistanceFromCircleEdge(allPossibleThreats[i].x, allPossibleThreats[i].y, player[k].x, player[k].y, allPossibleThreats[i].size);
+
+                            allPossibleThreats[i].enemyDist = enemyDistance;
+                        }
+
+                       /* allPossibleThreats.sort(function(a, b){
+                            return a.enemyDist-b.enemyDist;
+                         });*/
+
+                        for (var i = 0; i < allPossibleThreats.length; i++) {
+
+                            var enemyDistance = this.computeDistance(allPossibleThreats[i].x, allPossibleThreats[i].y, player[k].x, player[k].y);
+
+                            var splitDangerDistance = allPossibleThreats[i].size + this.splitDistance + 150;
+
+                            var normalDangerDistance = allPossibleThreats[i].size + 150;
+
+                            var shiftDistance = player[k].size;
+
+                            //console.log("Found distance.");
+
+                            var enemyCanSplit = (this.master ? this.canSplit(player[k], allPossibleThreats[i]) : false);
+
+                            for (var j = clusterAllFood.length - 1; j >= 0 ; j--) {
+                                var secureDistance = (enemyCanSplit ? splitDangerDistance : normalDangerDistance);
+                                if (this.computeDistance(allPossibleThreats[i].x, allPossibleThreats[i].y, clusterAllFood[j][0], clusterAllFood[j][1]) < secureDistance)
+                                    clusterAllFood.splice(j, 1);
+                            }
+
+                            //console.log("Removed some food.");
+
+                            if (enemyCanSplit) {
+                                drawCircle(allPossibleThreats[i].x, allPossibleThreats[i].y, splitDangerDistance, 0);
+                                drawCircle(allPossibleThreats[i].x, allPossibleThreats[i].y, splitDangerDistance + shiftDistance, 6);
+                            } else {
+                                drawCircle(allPossibleThreats[i].x, allPossibleThreats[i].y, normalDangerDistance, 3);
+                                drawCircle(allPossibleThreats[i].x, allPossibleThreats[i].y, normalDangerDistance + shiftDistance, 6);
+                            }
+
+                            if (allPossibleThreats[i].danger && getLastUpdate() - allPossibleThreats[i].dangerTimeOut > this.dangerTimeOut) {
+
+                                allPossibleThreats[i].danger = false;
+                            }
+
+                           if ((enemyCanSplit && enemyDistance < splitDangerDistance) ||
+                                (!enemyCanSplit && enemyDistance < normalDangerDistance)) {
+                                allPossibleThreats[i].danger = true;
+                                allPossibleThreats[i].dangerTimeOut = getLastUpdate();
+                            }
+
+                            //console.log("Figured out who was important.");
+
+                            if ((enemyCanSplit && enemyDistance < splitDangerDistance) || (enemyCanSplit && allPossibleThreats[i].danger)) {
+
+                                badAngles.push(this.getAngleRange(player[k], allPossibleThreats[i], i, splitDangerDistance).concat(allPossibleThreats[i].enemyDist));
+
+                            } else if ((!enemyCanSplit && enemyDistance < normalDangerDistance) || (!enemyCanSplit && allPossibleThreats[i].danger)) {
+
+                                badAngles.push(this.getAngleRange(player[k], allPossibleThreats[i], i, normalDangerDistance).concat(allPossibleThreats[i].enemyDist));
+
+                            } else if (enemyCanSplit && enemyDistance < splitDangerDistance + shiftDistance) {
+                                var tempOb = this.getAngleRange(player[k], allPossibleThreats[i], i, splitDangerDistance + shiftDistance);
+                                var angle1 = tempOb[0];
+                                var angle2 = this.rangeToAngle(tempOb);
+
+                                obstacleList.push([[angle1, true], [angle2, false]]);
+                            } else if (!enemyCanSplit && enemyDistance < normalDangerDistance + shiftDistance) {
+                                var tempOb = this.getAngleRange(player[k], allPossibleThreats[i], i, normalDangerDistance + shiftDistance);
+                                var angle1 = tempOb[0];
+                                var angle2 = this.rangeToAngle(tempOb);
+
+                                obstacleList.push([[angle1, true], [angle2, false]]);
+                            }
+                            //console.log("Done with enemy: " + i);
+                        }
+
+                        //console.log("Done looking for enemies!");
+
+                        var goodAngles = [];
+                        var stupidList = [];
+
+                        for (var i = 0; i < allPossibleViruses.length; i++) {
+                            if (player[k].size < allPossibleViruses[i].size) {
+                                drawCircle(allPossibleViruses[i].x, allPossibleViruses[i].y, allPossibleViruses[i].size + 10, 3);
+                                drawCircle(allPossibleViruses[i].x, allPossibleViruses[i].y, allPossibleViruses[i].size * 2, 6);
+
+                            } else {
+                                drawCircle(allPossibleViruses[i].x, allPossibleViruses[i].y, player[k].size + 50, 3);
+                                drawCircle(allPossibleViruses[i].x, allPossibleViruses[i].y, player[k].size * 2, 6);
+                            }
+                        }
+
+                        for (var i = 0; i < allPossibleViruses.length; i++) {
+                            var virusDistance = this.computeDistance(allPossibleViruses[i].x, allPossibleViruses[i].y, player[k].x, player[k].y);
+                            if (player[k].size < allPossibleViruses[i].size) {
+                                if (virusDistance < (allPossibleViruses[i].size * 2)) {
+                                    var tempOb = this.getAngleRange(player[k], allPossibleViruses[i], i, allPossibleViruses[i].size + 10);
+                                    var angle1 = tempOb[0];
+                                    var angle2 = this.rangeToAngle(tempOb);
+                                    obstacleList.push([[angle1, true], [angle2, false]]);
+                                }
+                            } else {
+                                if (virusDistance < (player[k].size * 2)) {
+                                    var tempOb = this.getAngleRange(player[k], allPossibleViruses[i], i, player[k].size + 50);
+                                    var angle1 = tempOb[0];
+                                    var angle2 = this.rangeToAngle(tempOb);
+                                    obstacleList.push([[angle1, true], [angle2, false]]);
+                                }
+                            }
+                        }
+
+                        if (badAngles.length > 0) {
+                            //NOTE: This is only bandaid wall code. It's not the best way to do it.
+                            stupidList = this.addWall(stupidList, player[k]);
+                        }
+
+                        for (var i = 0; i < badAngles.length; i++) {
+                            var angle1 = badAngles[i][0];
+                            var angle2 = this.rangeToAngle(badAngles[i]);
+                            stupidList.push([[angle1, true], [angle2, false], badAngles[i][2]]);
+                        }
+
+                        //stupidList.push([[45, true], [135, false]]);
+                        //stupidList.push([[10, true], [200, false]]);
+
+                        stupidList.sort(function(a, b){
+                            //console.log("Distance: " + a[2] + ", " + b[2]);
+                            return a[2]-b[2];
+                        });
+
+                        //console.log("Added random noob stuff.");
+
+                        var sortedInterList = [];
+                        var sortedObList = [];
+
+                        for (var i = 0; i < stupidList.length; i++) {
+                            //console.log("Adding to sorted: " + stupidList[i][0][0] + ", " + stupidList[i][1][0]);
+                            var tempList = this.addAngle(sortedInterList, stupidList[i]);
+
+                            if (tempList.length == 0) {
+                                console.log("MAYDAY IT'S HAPPENING!");
+                                break;
+                            } else {
+                                sortedInterList = tempList;
+                            }
+                        }
+
+                        for (var i = 0; i < obstacleList.length; i++) {
+                            sortedObList = this.addAngle(sortedObList, obstacleList[i]);
+
+                            if (sortedObList.length == 0) {
+                                break;
+                            }
+                        }
+
+                        var offsetI = 0;
+                        var obOffsetI = 1;
+
+                        if (sortedInterList.length > 0 && sortedInterList[0][1]) {
+                            offsetI = 1;
+                        }
+                        if (sortedObList.length > 0 && sortedObList[0][1]) {
+                            obOffsetI = 0;
+                        }
+
+                        var goodAngles = [];
+                        var obstacleAngles = [];
+
+                        for (var i = 0; i < sortedInterList.length; i += 2) {
+                            var angle1 = sortedInterList[(i + offsetI).mod(sortedInterList.length)][0];
+                            var angle2 = sortedInterList[(i + 1 + offsetI).mod(sortedInterList.length)][0];
+                            var diff = (angle2 - angle1).mod(360);
+                            goodAngles.push([angle1, diff]);
+                        }
+
+                        for (var i = 0; i < sortedObList.length; i += 2) {
+                            var angle1 = sortedObList[(i + obOffsetI).mod(sortedObList.length)][0];
+                            var angle2 = sortedObList[(i + 1 + obOffsetI).mod(sortedObList.length)][0];
+                            var diff = (angle2 - angle1).mod(360);
+                            obstacleAngles.push([angle1, diff]);
+                        }
+
+                        for (var i = 0; i < goodAngles.length; i++) {
+                            var line1 = this.followAngle(goodAngles[i][0], player[k].x, player[k].y, 100 + player[k].size);
+                            var line2 = this.followAngle((goodAngles[i][0] + goodAngles[i][1]).mod(360), player[k].x, player[k].y, 100 + player[k].size);
+                            drawLine(player[k].x, player[k].y, line1[0], line1[1], 1);
+                            drawLine(player[k].x, player[k].y, line2[0], line2[1], 1);
+
+                            drawArc(line1[0], line1[1], line2[0], line2[1], player[k].x, player[k].y, 1);
+
+                            //drawPoint(player[0].x, player[0].y, 2, "");
+
+                            drawPoint(line1[0], line1[1], 0, "" + i + ": 0");
+                            drawPoint(line2[0], line2[1], 0, "" + i + ": 1");
+                        }
+
+                        for (var i = 0; i < obstacleAngles.length; i++) {
+                            var line1 = this.followAngle(obstacleAngles[i][0], player[k].x, player[k].y, 50 + player[k].size);
+                            var line2 = this.followAngle((obstacleAngles[i][0] + obstacleAngles[i][1]).mod(360), player[k].x, player[k].y, 50 + player[k].size);
+                            drawLine(player[k].x, player[k].y, line1[0], line1[1], 6);
+                            drawLine(player[k].x, player[k].y, line2[0], line2[1], 6);
+
+                            drawArc(line1[0], line1[1], line2[0], line2[1], player[k].x, player[k].y, 6);
+
+                            //drawPoint(player[0].x, player[0].y, 2, "");
+
+                            drawPoint(line1[0], line1[1], 0, "" + i + ": 0");
+                            drawPoint(line2[0], line2[1], 0, "" + i + ": 1");
+                        }
+
+                        if (!this.master && goodAngles.length == 0 && (player[k].size * player[k].size / 100) > this.minimumSizeToGoing) {
+                            //This is the slave mode
+                            console.log("Really Going to: " + this.masterLocation);
+                            var distance = this.computeDistance(player[k].x, player[k].y, this.masterLocation[0], this.masterLocation[1]);
+
+                            var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(this.masterLocation[0], this.masterLocation[1], player[k].x, player[k].y), [0, 360]);
+
+                            var destination = this.followAngle(shiftedAngle, player[k].x, player[k].y, distance);
+
+                            destinationChoices = destination;
+                            drawLine(player[k].x, player[k].y, destination[0], destination[1], 1);
+                        } else if (this.toggleFollow && goodAngles.length == 0) {
+                            //This is the follow the mouse mode
+                            var distance = this.computeDistance(player[k].x, player[k].y, tempPoint[0], tempPoint[1]);
+
+                            var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(tempPoint[0], tempPoint[1], player[k].x, player[k].y), [0, 360]);
+
+                            var destination = this.followAngle(shiftedAngle, player[k].x, player[k].y, distance);
+
+                            destinationChoices = destination;
+                            drawLine(player[k].x, player[k].y, destination[0], destination[1], 1);
+                            tempMoveX = destination[0];
+                            tempMoveY = destination[1];
+
+                        } else if (goodAngles.length > 0) {
+                            var bIndex = goodAngles[0];
+                            var biggest = goodAngles[0][1];
+                            for (var i = 1; i < goodAngles.length; i++) {
+                                var size = goodAngles[i][1];
+                                if (size > biggest) {
+                                    biggest = size;
+                                    bIndex = goodAngles[i];
+                                }
+                            }
+                            var perfectAngle = (bIndex[0] + bIndex[1] / 2).mod(360);
+
+                            perfectAngle = this.shiftAngle(obstacleAngles, perfectAngle, bIndex);
+
+                            var line1 = this.followAngle(perfectAngle, player[k].x, player[k].y, verticalDistance());
+
+                            destinationChoices = line1;
+                            drawLine(player[k].x, player[k].y, line1[0], line1[1], 7);
+                            //tempMoveX = line1[0];
+                            //tempMoveY = line1[1];
+                        } else if (badAngles.length > 0 && goodAngles == 0) {
+                            //When there are enemies around but no good angles
+                            //You're likely screwed. (This should never happen.)
+
+                            console.log("Failed");
+                            destinationChoices = [tempMoveX, tempMoveY];
+                            /*var angleWeights = [] //Put weights on the angles according to enemy distance
+                             for (var i = 0; i < allPossibleThreats.length; i++){
+                             var dist = this.computeDistance(player[k].x, player[k].y, allPossibleThreats[i].x, allPossibleThreats[i].y);
+                             var angle = this.getAngle(allPossibleThreats[i].x, allPossibleThreats[i].y, player[k].x, player[k].y);
+                             angleWeights.push([angle,dist]);
+                             }
+                             var maxDist = 0;
+                             var finalAngle = 0;
+                             for (var i = 0; i < angleWeights.length; i++){
+                             if (angleWeights[i][1] > maxDist){
+                             maxDist = angleWeights[i][1];
+                             finalAngle = (angleWeights[i][0] + 180).mod(360);
+                             }
+                             }
+                             var line1 = this.followAngle(finalAngle,player[k].x,player[k].y,f.verticalDistance());
+                             drawLine(player[k].x, player[k].y, line1[0], line1[1], 2);
+                             destinationChoices.push(line1);*/
+                        } else if (clusterAllFood.length > 0) {
+                            for (var i = 0; i < clusterAllFood.length; i++) {
+                                //console.log("mefore: " + clusterAllFood[i][2]);
+                                //This is the cost function. Higher is better.
+
+                                var clusterAngle = this.getAngle(clusterAllFood[i][0], clusterAllFood[i][1], player[k].x, player[k].y);
+
+                                clusterAllFood[i][2] = clusterAllFood[i][2] * 6 - this.computeDistance(clusterAllFood[i][0], clusterAllFood[i][1], player[k].x, player[k].y);
+                                //console.log("Current Value: " + clusterAllFood[i][2]);
+
+                                //(goodAngles[bIndex][1] / 2 - (Math.abs(perfectAngle - clusterAngle)));
+
+                                clusterAllFood[i][3] = clusterAngle;
+
+                                drawPoint(clusterAllFood[i][0], clusterAllFood[i][1], 1, "");
+                                //console.log("After: " + clusterAllFood[i][2]);
+                            }
+
+                            var bestFoodI = 0;
+                            var bestFood = clusterAllFood[0][2];
+                            for (var i = 1; i < clusterAllFood.length; i++) {
+                                if (bestFood < clusterAllFood[i][2]) {
+                                    bestFood = clusterAllFood[i][2];
+                                    bestFoodI = i;
+                                }
+                            }
+
+                            //console.log("Best Value: " + clusterAllFood[bestFoodI][2]);
+
+                            var distance = this.computeDistance(player[k].x, player[k].y, clusterAllFood[bestFoodI][0], clusterAllFood[bestFoodI][1]);
+
+                            var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(clusterAllFood[bestFoodI][0], clusterAllFood[bestFoodI][1], player[k].x, player[k].y), [0, 360]);
+
+                            var destination = this.followAngle(shiftedAngle, player[k].x, player[k].y, distance);
+
+                            destinationChoices = destination;
+                            //tempMoveX = destination[0];
+                            //tempMoveY = destination[1];
+                            drawLine(player[k].x, player[k].y, destination[0], destination[1], 1);
+                        } else {
+                            //If there are no enemies around and no food to eat.
+                            destinationChoices = [tempMoveX, tempMoveY];
+                        }
+
+                        drawPoint(tempPoint[0], tempPoint[1], tempPoint[2], "");
+                        //drawPoint(tempPoint[0], tempPoint[1], tempPoint[2], "" + Math.floor(this.computeDistance(tempPoint[0], tempPoint[1], I, J)));
+                        //drawLine(tempPoint[0], tempPoint[1], player[0].x, player[0].y, 6);
+                        //console.log("Slope: " + slope(tempPoint[0], tempPoint[1], player[0].x, player[0].y) + " Angle: " + getAngle(tempPoint[0], tempPoint[1], player[0].x, player[0].y) + " Side: " + (getAngle(tempPoint[0], tempPoint[1], player[0].x, player[0].y) - 90).mod(360));
+                        tempPoint[2] = 1;
+                        //console.log("Done working on blob: " + i);
+                    }
+
+                    //TODO: Find where to go based on destinationChoices.
+                    var dangerFound = false;
+                    for (var i = 0; i < destinationChoices.length; i++) {
+                        if (destinationChoices[i][2]) {
+                            dangerFound = true;
+                            break;
+                        }
+                    }
+                    destinationChoices.sort(function (a, b) {
+                        return b[1] - a[1]
+                    });
+                    if (dangerFound) {
+                        for (var i = 0; i < destinationChoices.length; i++) {
+                            if (destinationChoices[i][2]) {
+                                tempMoveX = destinationChoices[i][0][0];
+                                tempMoveY = destinationChoices[i][0][1];
+                                break;
+                            }
+                        }
+                    } else {
+                        /*tempMoveX = destinationChoices.peek()[0][0];
+                        tempMoveY = destinationChoices.peek()[0][1];*/
+                        //console.log("Done " + tempMoveX + ", " + tempMoveY);
+                    }
+                }
+                //console.log("MOVING RIGHT NOW!");
+
+                //console.log("______Never lied ever in my life.");
+
+                if (this.master) {
+                    this.masterLocation = destinationChoices;
+                    this.masterId = player[0].id;
+                    if (Date.now() - this.lastMasterUpdate > 5000) {
+                        /**
+                         * TODO Integrate with server
+                         * @type {{location: Array, cellId: *, server}}
+                         */
+                        var masterObject = {
+                            location:destinationChoices,
+                            cellId:player[0].id,
+                            server:getServer()
+                        };
+                        this.lastMasterUpdate = Date.now();
+                    }
+                }
+
+                return destinationChoices;
+            }
+        },
+        shiftAngle:function(listToUse, angle, range) {
+            //TODO: shiftAngle needs to respect the range! DONE?
+            for (var i = 0; i < listToUse.length; i++) {
+                if (this.angleIsWithin(angle, listToUse[i])) {
+                    //console.log("Shifting needed!");
+
+                    var angle1 = listToUse[i][0];
+                    var angle2 = this.rangeToAngle(listToUse[i]);
+
+                    var dist1 = (angle - angle1).mod(360);
+                    var dist2 = (angle2 - angle).mod(360);
+
+                    if (dist1 < dist2) {
+                        if (this.angleIsWithin(angle1, range)) {
+                            return angle1;
+                        } else {
+                            return angle2;
+                        }
+                    } else {
+                        if (this.angleIsWithin(angle2, range)) {
+                            return angle2;
+                        } else {
+                            return angle1;
+                        }
+                    }
+                }
+            }
+            //console.log("No Shifting Was needed!");
+            return angle;
+        },
+        angleIsWithin:function(angle, range) {
+            var diff = (this.rangeToAngle(range) - angle).mod(360);
+            if (diff >= 0 && diff <= range[1]) {
+                return true;
+            }
+            return false;
+        },
+        addAngle:function(listToUse, range) {
+            //#1 Find first open element
+            //#2 Try to add range1 to the list. If it is within other range, don't add it, set a boolean.
+            //#3 Try to add range2 to the list. If it is withing other range, don't add it, set a boolean.
+
+            //TODO: Only add the new range at the end after the right stuff has been removed.
+
+            var newListToUse = listToUse.slice();
+
+            var startIndex = 1;
+
+            if (newListToUse.length > 0 && !newListToUse[0][1]) {
+                startIndex = 0;
+            }
+
+            var startMark = this.getAngleIndex(newListToUse, range[0][0]);
+            var startBool = startMark.mod(2) != startIndex;
+
+            var endMark = this.getAngleIndex(newListToUse, range[1][0]);
+            var endBool = endMark.mod(2) != startIndex;
+
+            var removeList = [];
+
+            if (startMark != endMark) {
+                //Note: If there is still an error, this would be it.
+                var biggerList = 0;
+                if (endMark == newListToUse.length) {
+                    biggerList = 1;
+                }
+
+                for (var i = startMark; i < startMark + (endMark - startMark).mod(newListToUse.length + biggerList); i++) {
+                    removeList.push((i).mod(newListToUse.length));
+                }
+            } else if (startMark < newListToUse.length && endMark < newListToUse.length) {
+                var startDist = (newListToUse[startMark][0] - range[0][0]).mod(360);
+                var endDist = (newListToUse[endMark][0] - range[1][0]).mod(360);
+
+                if (startDist < endDist) {
+                    for (var i = 0; i < newListToUse.length; i++) {
+                        removeList.push(i);
+                    }
+                }
+            }
+
+            removeList.sort(function(a, b){return b-a;});
+
+            for (var i = 0; i < removeList.length; i++) {
+                newListToUse.splice(removeList[i], 1);
+            }
+
+            if (startBool) {
+                newListToUse.splice(this.getAngleIndex(newListToUse, range[0][0]), 0, range[0]);
+            }
+            if (endBool) {
+                newListToUse.splice(this.getAngleIndex(newListToUse, range[1][0]), 0, range[1]);
+            }
+
+            return newListToUse;
+        },
+        getAngleIndex:function(listToUse, angle) {
+            if (listToUse.length == 0) {
+                return 0;
+            }
+
+            for (var i = 0; i < listToUse.length; i++) {
+                if (angle <= listToUse[i][0]) {
+                    return i;
+                }
+            }
+
+            return listToUse.length;
+        },
+        addWall:function(listToUse, blob) {
+            //var mapSizeX = Math.abs(f.getMapStartX - f.getMapEndX);
+            //var mapSizeY = Math.abs(f.getMapStartY - f.getMapEndY);
+            //var distanceFromWallX = mapSizeX/3;
+            //var distanceFromWallY = mapSizeY/3;
+            var distanceFromWallY = 2000;
+            var distanceFromWallX = 2000;
+            if (blob.x < getMapStartX() + distanceFromWallX) {
+                //LEFT
+                //console.log("Left");
+                listToUse.push([
+                    [90, true],
+                    [270, false], this.computeDistance(getMapStartX(), blob.y, blob.x, blob.y)
+                ]);
+                var lineLeft = this.followAngle(90, blob.x, blob.y, 190 + blob.size);
+                var lineRight = this.followAngle(270, blob.x, blob.y, 190 + blob.size);
+                drawLine(blob.x, blob.y, lineLeft[0], lineLeft[1], 5);
+                drawLine(blob.x, blob.y, lineRight[0], lineRight[1], 5);
+                drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob.x, blob.y, 5);
+            }
+            if (blob.y < getMapStartY() + distanceFromWallY) {
+                //TOP
+                //console.log("TOP");
+                listToUse.push([
+                    [180, true],
+                    [0, false], this.computeDistance(blob.x, getMapStartY, blob.x, blob.y)
+                ]);
+                var lineLeft = this.followAngle(180, blob.x, blob.y, 190 + blob.size);
+                var lineRight = this.followAngle(360, blob.x, blob.y, 190 + blob.size);
+                drawLine(blob.x, blob.y, lineLeft[0], lineLeft[1], 5);
+                drawLine(blob.x, blob.y, lineRight[0], lineRight[1], 5);
+                drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob.x, blob.y, 5);
+            }
+            if (blob.x > getMapEndX() - distanceFromWallX) {
+                //RIGHT
+                //console.log("RIGHT");
+                listToUse.push([
+                    [270, true],
+                    [90, false], this.computeDistance(getMapEndX(), blob.y, blob.x, blob.y)
+                ]);
+                var lineLeft = this.followAngle(270, blob.x, blob.y, 190 + blob.size);
+                var lineRight = this.followAngle(90, blob.x, blob.y, 190 + blob.size);
+                drawLine(blob.x, blob.y, lineLeft[0], lineLeft[1], 5);
+                drawLine(blob.x, blob.y, lineRight[0], lineRight[1], 5);
+                drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob.x, blob.y, 5);
+            }
+            if (blob.y > getMapEndY() - distanceFromWallY) {
+                //BOTTOM
+                //console.log("BOTTOM");
+                listToUse.push([
+                    [0, true],
+                    [180, false], this.computeDistance(blob.x, getMapEndY(), blob.x, blob.y)
+                ]);
+                var lineLeft = this.followAngle(0, blob.x, blob.y, 190 + blob.size);
+                var lineRight = this.followAngle(180, blob.x, blob.y, 190 + blob.size);
+                drawLine(blob.x, blob.y, lineLeft[0], lineLeft[1], 5);
+                drawLine(blob.x, blob.y, lineRight[0], lineRight[1], 5);
+                drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob.x, blob.y, 5);
+            }
+            return listToUse;
+        },
+        getEdgeLinesFromPoint:function(blob1, blob2, radius) {
+            var px = blob1.x;
+            var py = blob1.y;
+
+            var cx = blob2.x;
+            var cy = blob2.y;
+
+            //var radius = blob2.size;
+
+            /*if (blob2.isVirus()) {
+             radius = blob1.size;
+             } else if(canSplit(blob1, blob2)) {
+             radius += splitDistance;
+             } else {
+             radius += blob1.size * 2;
+             }*/
+
+            var shouldInvert = false;
+
+            var tempRadius = this.computeDistance(px, py, cx, cy);
+            if (tempRadius <= radius) {
+                radius = tempRadius - 5;
+                shouldInvert = true;
+            }
+
+            var dx = cx - px;
+            var dy = cy - py;
+            var dd = Math.sqrt(dx * dx + dy * dy);
+            var a = Math.asin(radius / dd);
+            var b = Math.atan2(dy, dx);
+
+            var t = b - a;
+            var ta = {
+                x: radius * Math.sin(t),
+                y: radius * -Math.cos(t)
+            };
+
+            t = b + a;
+            var tb = {
+                x: radius * -Math.sin(t),
+                y: radius * Math.cos(t)
+            };
+            var angleLeft = this.getAngle(cx + ta.x, cy + ta.y, px, py);
+            var angleRight = this.getAngle(cx + tb.x, cy + tb.y, px, py);
+            var angleDistance = (angleRight - angleLeft).mod(360);
+
+            /*if (shouldInvert) {
+             var temp = angleLeft;
+             angleLeft = (angleRight + 180).mod(360);
+             angleRight = (temp + 180).mod(360);
+             angleDistance = (angleRight - angleLeft).mod(360);
+             }*/
+
+            return [angleLeft, angleDistance, [cx + tb.x, cy + tb.y],
+                [cx + ta.x, cy + ta.y]
+            ];
+        },
+        getAngle:function(x1, y1, x2, y2) {
+            //Handle vertical and horizontal lines.
+
+            if (x1 == x2) {
+                if (y1 < y2) {
+                    return 271;
+                    //return 89;
+                } else {
+                    return 89;
+                }
+            }
+
+            return (Math.round(Math.atan2(-(y1 - y2), -(x1 - x2)) / Math.PI * 180 + 180));
+        },
+        rangeToAngle:function(range) {
+            return (range[0] + range[1]).mod(360);
+        },
+        slopeFromAngle:function(degree) {
+            if (degree == 270) {
+                degree = 271;
+            } else if (degree == 90) {
+                degree = 91;
+            }
+            return Math.tan((degree - 180) / 180 * Math.PI);
+        },
+        pointsOnLine:function(slope, useX, useY, distance) {
+            var b = useY - slope * useX;
+            var r = Math.sqrt(1 + slope * slope);
+
+            var newX1 = (useX + (distance / r));
+            var newY1 = (useY + ((distance * slope) / r));
+            var newX2 = (useX + ((-distance) / r));
+            var newY2 = (useY + (((-distance) * slope) / r));
+
+            return [
+                [newX1, newY1],
+                [newX2, newY2]
+            ];
+        },
+        followAngle:function(angle, useX, useY, distance) {
+            var slope = this.slopeFromAngle(angle);
+            var coords = this.pointsOnLine(slope, useX, useY, distance);
+
+            var side = (angle - 90).mod(360);
+            if (side < 180) {
+                return coords[1];
+            } else {
+                return coords[0];
+            }
+        },
+        getAngleRange:function(blob1, blob2, index, radius) {
+            var angleStuff = this.getEdgeLinesFromPoint(blob1, blob2, radius);
+
+            var leftAngle = angleStuff[0];
+            var rightAngle = this.rangeToAngle(angleStuff);
+            var difference = angleStuff[1];
+
+            drawPoint(angleStuff[2][0], angleStuff[2][1], 3, "");
+            drawPoint(angleStuff[3][0], angleStuff[3][1], 3, "");
+
+            //console.log("Adding badAngles: " + leftAngle + ", " + rightAngle + " diff: " + difference);
+            var lineLeft = this.followAngle(leftAngle, blob1.x, blob1.y, 150 + blob1.size - index * 10);
+            var lineRight = this.followAngle(rightAngle, blob1.x, blob1.y, 150 + blob1.size - index * 10);
+
+            if (blob2.isVirus()) {
+                drawLine(blob1.x, blob1.y, lineLeft[0], lineLeft[1], 6);
+                drawLine(blob1.x, blob1.y, lineRight[0], lineRight[1], 6);
+                drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob1.x, blob1.y, 6);
+            } else if(getCells().hasOwnProperty(blob2.id)) {
+                drawLine(blob1.x, blob1.y, lineLeft[0], lineLeft[1], 0);
+                drawLine(blob1.x, blob1.y, lineRight[0], lineRight[1], 0);
+                drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob1.x, blob1.y, 0);
+            } else {
+                drawLine(blob1.x, blob1.y, lineLeft[0], lineLeft[1], 3);
+                drawLine(blob1.x, blob1.y, lineRight[0], lineRight[1], 3);
+                drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob1.x, blob1.y, 3);
+            }
+
+            return [leftAngle, difference];
+        },
+        canSplit:function(player1, player2) {
+            return this.compareSize(player1, player2, 2.8) && !this.compareSize(player1, player2, 20);
+        },
+        computeDistanceFromCircleEdge:function(x1, y1, x2, y2, s2) {
+            var tempD = this.computeDistance(x1, y1, x2, y2);
+
+            var offsetX = 0;
+            var offsetY = 0;
+
+            var ratioX = tempD / (x1 - x2);
+            var ratioY = tempD / (y1 - y2);
+
+            offsetX = x1 - (s2 / ratioX);
+            offsetY = y1 - (s2 / ratioY);
+
+            drawPoint(offsetX, offsetY, 5, "");
+
+            return this.computeDistance(x2, y2, offsetX, offsetY);
+        },
+        clusterFood:function(foodList, blobSize){
+            var clusters = [];
+            var addedCluster = false;
+            //1: x
+            //2: y
+            //3: size or value
+            //4: Angle, not set here.
+            for (var i = 0; i < foodList.length; i++) {
+                for (var j = 0; j < clusters.length; j++) {
+                    if (this.computeDistance(foodList[i][0], foodList[i][1], clusters[j][0], clusters[j][1]) < blobSize * 1.5) {
+                        clusters[j][0] = (foodList[i][0] + clusters[j][0]) / 2;
+                        clusters[j][1] = (foodList[i][1] + clusters[j][1]) / 2;
+                        clusters[j][2] += foodList[i][2];
+                        addedCluster = true;
+                        break;
+                    }
+                }
+                if (!addedCluster) {
+                    clusters.push([foodList[i][0], foodList[i][1], foodList[i][2], 0]);
+                }
+                addedCluster = false;
+            }
+            return clusters;
+        },
+        computeDistance:function(x1, y1, x2, y2) {
+            var xdis = x1 - x2; // <--- FAKE AmS OF COURSE!
+            var ydis = y1 - y2;
+            var distance = Math.sqrt(xdis * xdis + ydis * ydis);
+
+            return distance;
+        },
+        getAll:function(blob){
+            var dotList = [];
+            var player = getPlayer();
+            var interNodes = getMemoryCells();
+            dotList = this.separateListBasedOnFunction(this, interNodes, blob);
+            return dotList;
+        },
+        getTeam : function(red, green, blue) {
+            if (red == "ff") {
+                return 0;
+            } else if (green == "ff") {
+                return 1;
+            }
+            return 2;
+        },
+        compareSize:function(player1, player2, ratio) {
+            if (player1.size * player1.size * ratio < player2.size * player2.size) {
+                return true;
+            }
+            return false;
+        },
+        isFood:function(blob, cell) {
+            if (!cell.isVirus() && this.compareSize(cell, blob, 1.33) || (cell.size <= 13)) {
+                return true;
+            }
+            return false;
+        },
+        isThreat : function(blob, cell) {
+
+            if (!cell.isVirus() && this.compareSize(blob, cell, 1.30)) {
+                return true;
+            }
+            return false;
+        },
+        isVirus : function(blob, cell) {
+            if (cell.isVirus() && this.compareSize(cell, blob, 1.2)) {
+                return true;
+            } else if (cell.isVirus() && cell.color.substring(3,5).toLowerCase() != "ff") {
+                return true;
+            }
+            return false;
+        },
+        isItMe:function(player, cell){
+            if (getMode() == ":teams") {
+                var currentColor = player[0].color;
+                var currentRed = currentColor.substring(1,3);
+                var currentGreen = currentColor.substring(3,5);
+                var currentBlue = currentColor.substring(5,7);
+
+                var currentTeam = this.getTeam(currentRed, currentGreen, currentBlue);
+
+                var cellColor = cell.color;
+
+                var cellRed = cellColor.substring(1,3);
+                var cellGreen = cellColor.substring(3,5);
+                var cellBlue = cellColor.substring(5,7);
+
+                var cellTeam = this.getTeam(cellRed, cellGreen, cellBlue);
+
+                if (currentTeam == cellTeam && !cell.isVirus()) {
+                    return true;
+                }
+            }else {
+                for (var i = 0; i < player.length; i++) {
+                    if (cell.id == player[i].id) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        },
+        getTimeToRemerge: function (mass) {
+            return ((mass * 0.02) + 30);
+        },
+        isSplitTarget: function (that, blob, cell) {
+            if (that.canSplit(cell, blob)) {
+                return true;
+            }
+            return false;
+        },
+        separateListBasedOnFunction:function(that, listToUse, blob){
+            var that = this;
+            var foodElementList = [];
+            var threatList = [];
+            var virusList = [];
+            var splitTargetList = [];
+            var foundMaster = [];
+            var player = getPlayer();
+            Object.keys(listToUse).forEach(function(element, index) {
+                var isMe = that.isItMe(player, listToUse[element]);
+                if (!isMe) {
+                    if (!that.master && listToUse[element].id == that.masterId) {
+                        foundMaster.push(listToUse[element]);
+                        console.log("Found master! " + that.masterId + ", " + listToUse[element].id);
+                    }else if (that.isFood(blob, listToUse[element]) && listToUse[element].isNotMoving()) {
+                        //IT'S FOOD!
+                        foodElementList.push(listToUse[element]);
+                    }else if (that.isThreat(blob, listToUse[element])) {
+                        //IT'S DANGER!
+                        if ((!that.master && listToUse[element].id != that.masterId) || that.master) {
+                            threatList.push(listToUse[element]);
+                        } else {
+                            console.log("Found master! " + that.masterId);
+                        }
+                    }else if (that.isVirus(blob, listToUse[element])) {
+                        //IT'S VIRUS!
+                        virusList.push(listToUse[element]);
+                    }else if (that.isSplitTarget(that, blob, listToUse[element])) {
+                        drawCircle(listToUse[element].x, listToUse[element].y, listToUse[element].size + 50, 7);
+                        splitTargetList.push(listToUse[element]);
+                        foodElementList.push(listToUse[element]);
+                    }
+                }/*else if(isMe && (getBlobCount(getPlayer()) > 0)){
+                 //Attempt to make the other cell follow the mother one
+                 foodElementList.push(listToUse[element]);
+                 }*/
+            });
+            var foodList = [];
+            for (var i = 0; i < foodElementList.length; i++) {
+                foodList.push([foodElementList[i].x, foodElementList[i].y, foodElementList[i].size]);
+            }
+            return [foodList, threatList, virusList, splitTargetList, foundMaster];
+        }
+    });
+    app.module("FeedBot", {
+        moduleClass: AgarBot.Modules.FeedBot
+    });
+})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
 function Cell(id, x, y, size, color, name) {
     this.id = id;
     this.ox = this.x = x;
@@ -6353,6 +7856,7 @@ Cell.prototype = {
             return templateLoader.getTemlate('mapPanel');
         },
         onRender: function () {
+            console.log('MiniMapPanel Render');
             /**
              * We only have 1 mindmap with this id
              */
@@ -6370,6 +7874,9 @@ Cell.prototype = {
                 var x = token.x * this.canvas.width;
                 var y = token.y * this.canvas.height;
                 var size = token.size * this.canvas.width;
+                if(size<0){
+                    continue;
+                }
                 ctx.beginPath();
                 ctx.arc(
                     x,
@@ -6393,8 +7900,9 @@ Cell.prototype = {
         },
         miniMapDrawCross:function(x, y, color) {
             var ctx = this.canvas.getContext('2d');
-            ctx.lineWidth = 0.5;
+            ctx.lineWidth = 0.3;
             ctx.beginPath();
+
             ctx.moveTo(0, y * this.canvas.height);
             ctx.lineTo(this.canvas.width, y * this.canvas.height);
             ctx.moveTo(x * this.canvas.width, 0);
@@ -6405,12 +7913,24 @@ Cell.prototype = {
         },
         miniMapDrawMiddleCross:function(){
             var ctx = this.canvas.getContext('2d');
-            ctx.lineWidth = 0.5;
+            ctx.lineWidth = 0.2;
             ctx.beginPath();
-            ctx.moveTo(0, this.canvas.height/2);
-            ctx.lineTo(this.canvas.width, this.canvas.height/2);
-            ctx.moveTo(this.canvas.width/2, 0);
-            ctx.lineTo(this.canvas.width/2, this.canvas.height);
+
+            var heightOneThird = this.canvas.height/3;
+            var widthOneThird = this.canvas.height/3;
+
+            ctx.moveTo(0, heightOneThird);
+            ctx.lineTo(this.canvas.width, widthOneThird);
+
+            ctx.moveTo(0, heightOneThird*2);
+            ctx.lineTo(this.canvas.width, widthOneThird*2);
+
+            ctx.moveTo(heightOneThird, 0);
+            ctx.lineTo(heightOneThird, this.canvas.height);
+
+            ctx.moveTo(heightOneThird*2, 0);
+            ctx.lineTo(heightOneThird*2, this.canvas.height);
+
             ctx.closePath();
             ctx.strokeStyle = '#000000';
             ctx.stroke();
@@ -6448,7 +7968,7 @@ Cell.prototype = {
             this.listenTo(AgarBot.pubsub, 'websocket:onopen', this.onSocketOpen);
             this.listenTo(AgarBot.pubsub, 'websocket:onclose', this.onSocketClose);
             this.listenTo(AgarBot.pubsub, 'websocket:send', this.onSocketSend);
-            this.listenTo(AgarBot.pubsub, 'websocket:onmessage', this.onSocketRecive);
+            this.listenTo(AgarBot.pubsub, 'websocket:onmessage', this.onSocketRecived);
         },
         onStart: function (options) {
             console.log('Module MiniMap start');
@@ -6463,7 +7983,7 @@ Cell.prototype = {
                     break;
             }
         },
-        onSocketRecive: function (event) {
+        onSocketRecived: function (event) {
             this.extractPacket(event);
         },
         onSocketClose:function(){
@@ -6521,12 +8041,14 @@ Cell.prototype = {
             //console.log("my possition : ", x, y);
         },
         miniMapReset:function() {
+            console.log('miniMapReset');
             this.cells =[];
             this.mini_map_tokens = []
         },
         updateCellPosition:function(cell){
             var cellId = cell.id;
-            if (this.mapOptions.enableMultiCells || -1 != this.current_cell_ids.indexOf(cellId)) {
+            var indexIfMine = this.current_cell_ids.indexOf(cellId);
+            if (this.mapOptions.enableMultiCells || -1 != indexIfMine) {
                 if (! this.miniMapIsRegisteredToken(cellId))
                 {
                     this.miniMapRegisterToken(
@@ -6534,8 +8056,8 @@ Cell.prototype = {
                         this.miniMapCreateToken(cellId, cell.color)
                     );
                 }
-
                 var size_n = cell.nSize/this.mapInfo.length_x;
+
                 this.miniMapUpdateToken(cellId, (cell.nx - this.mapInfo.start_x)/this.mapInfo.length_x, (cell.ny - this.mapInfo.start_y)/this.mapInfo.length_y, size_n);
             }
 
@@ -6564,91 +8086,115 @@ Cell.prototype = {
 
             // Nodes to be destroyed (killed)
             for (var e = 0; e < size; ++e) {
-                var p = this.cells[data.getUint32(c, true)],
-                    f = this.cells[data.getUint32(c + 4, true)],
-                    c = c + 8;
-                if(p && f){
-                    this.destroyCell(f);
-                    f.ox = f.x;
-                    f.oy = f.y;
-                    f.oSize = f.size;
-                    f.nx = p.x;
-                    f.ny = p.y;
-                    f.nSize = f.size;
-                    f.updateTime = I;
+                var p = this.cells[data.getUint32(c, true)];
+                var cellId = data.getUint32(c + 4, true);
+                var f = this.cells[cellId];
+                if(this.current_cell_ids.indexOf(cellId) != -1){
+                    console.log('your are eaten !');
                 }
+                c = c + 8;
+                p && f && (
+                    this.destroyCell(f),
+                        f.ox = f.x,
+                        f.oy = f.y,
+                        f.oSize = f.size,
+                        f.nx = p.x,
+                        f.ny = p.y,
+                        f.nSize = f.size,
+                        f.updateTime = I)
             }
-
-            // Nodes to be updated
-            for (e = 0; ; ) {
-                var d = data.getUint32(c, true);
-                c += 4;
-                if (0 == d) {
-                    break;
-                }
-                ++e;
-                var p = data.getInt32(c, true),
-                    c = c + 4,
-                    f = data.getInt32(c, true),
-                    c = c + 4;
-                var g = data.getInt16(c, true);
-                c = c + 2;
-                for (var h = data.getUint8(c++), m = data.getUint8(c++), q = data.getUint8(c++), h = (h << 16 | m << 8 | q).toString(16); 6 > h.length; )
-                    h = "0" + h;
-
-                var h = "#" + h,
-                    k = data.getUint8(c++),
-                    m = !!(k & 1),
-                    q = !!(k & 16);
-
-                k & 2 && (c += 4);
-                k & 4 && (c += 8);
-                k & 8 && (c += 16);
-
-                for (var n, k = ""; ; ) {
-                    n = data.getUint16(c, true);
-                    c += 2;
-                    if (0 == n)
+            try {
+                // Nodes to be updated
+                for (e = 0; ;) {
+                    var d = data.getUint32(c, true);
+                    c += 4;
+                    if (0 == d) {
                         break;
-                    k += String.fromCharCode(n)
-                }
+                    }
+                    ++e;
+                    var p = data.getInt32(c, true),
+                        c = c + 4,
+                        f = data.getInt32(c, true),
+                        c = c + 4;
+                    var g = data.getInt16(c, true);
+                    c = c + 2;
+                    for (var h = data.getUint8(c++), m = data.getUint8(c++), q = data.getUint8(c++), h = (h << 16 | m << 8 | q).toString(16); 6 > h.length;)
+                        h = "0" + h;
 
-                n = k;
-                k = null;
+                    var h = "#" + h,
+                        k = data.getUint8(c++),
+                        m = !!(k & 1),
+                        q = !!(k & 16);
 
-                // if d in cells then modify it, otherwise create a new cell
-                if(this.cells.hasOwnProperty(d)){
-                    k = this.cells[d];
-                    this.updateCellPosition(k);
-                    k.ox = k.x;
-                    k.oy = k.y;
-                    k.oSize = k.size;
-                    k.color = h
-                }
-                else{
-                    k = new Cell(d, p, f, g, h, n);
-                    k.pX = p;
-                    k.pY = f;
-                    this.cells[d] = k;
-                }
+                    k & 2 && (c += 4);
+                    k & 4 && (c += 8);
+                    k & 8 && (c += 16);
 
-                k.isVirus = m;
-                k.isAgitated = q;
-                k.nx = p;
-                k.ny = f;
-                k.nSize = g;
-                k.updateCode = b;
-                k.updateTime = I;
-                n && k.setName(n);
+                    for (var n, k = ""; ;) {
+                        try {
+                            n = data.getUint16(c, true);
+                            c += 2;
+                            if (0 == n)
+                                break;
+                            k += String.fromCharCode(n)
+                        }
+                        catch (e) {
+                            k = "un-name";
+                            break;
+                        }
+                    }
+
+                    n = k;
+                    k = null;
+                    // if d in cells then modify it, otherwise create a new cell
+                    if (this.cells.hasOwnProperty(d)) {
+                        k = this.cells[d];
+                        this.updateCellPosition(k);
+                        k.ox = k.x;
+                        k.oy = k.y;
+                        k.oSize = k.size;
+                        k.color = h
+                    }
+                    else {
+                        k = new Cell(d, p, f, g, h, n);
+                        k.pX = p;
+                        k.pY = f;
+                        this.cells[d] = k;
+                    }
+                    if (g < 0) {
+                        console.log(g);
+                    }
+                    k.isVirus = m;
+                    k.isAgitated = q;
+                    k.nx = p;
+                    k.ny = f;
+                    k.nSize = g;
+                    k.updateCode = b;
+                    k.updateTime = I;
+                    if (n) {
+                        k.setName(n);
+                    }
+                }
+            }catch(e){
+                console.log('can not update : ', e);
             }
-
-            // Destroy queue + nonvisible nodes
-            b = data.getUint32(c, true);
-            c += 4;
-            for (e = 0; e < b; e++) {
-                d = data.getUint32(c, true);
-                c += 4, k = this.cells[d];
-                null != k && this.destroyCell(k);
+            try {
+                // Destroy queue + nonvisible nodes
+                b = data.getUint32(c, true);
+                c += 4;
+                for (e = 0; e < b; e++) {
+                    try {
+                        d = data.getUint32(c, true);
+                        c += 4;
+                        k = this.cells[d];
+                        //console.log('destroyCell');
+                        null != k && this.destroyCell(k);
+                    } catch (e) {
+                        console.log("Can not destroy : ", e);
+                    }
+                }
+            }catch(e){
+                console.log(e);
             }
         },
         extractPacket: function (event) {
@@ -6662,11 +8208,11 @@ Cell.prototype = {
                     this.extractCellPacket(data, c);
                     break;
                 case 20: // cleanup ids
-                    this.current_cell_ids = [];
+                    this.miniMapReset();
                     break;
                 case 32: // cell id belongs me
+                    console.log('Your born');
                     var id = data.getUint32(c, true);
-
                     if (this.current_cell_ids.indexOf(id) === -1) {
                         this.current_cell_ids.push(id);
                     }

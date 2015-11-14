@@ -18,9 +18,9 @@ module.exports = function(grunt) {
           'js/template-loader.js',
           'js/agar/main_out.js',
 
+          'js/MapUtil/MapUtil.js',
           //BEGIN Auto feed bot
-          //'js/lib/nvduoc/AgarBot.js',
-          //'js/bot/FeedBot.js',
+          'js/FeedBot/FeedBot.js',
           //END Auto feed bot
 
           //BEGIN Minimap

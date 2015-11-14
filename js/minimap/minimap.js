@@ -12,6 +12,7 @@
             return templateLoader.getTemlate('mapPanel');
         },
         onRender: function () {
+            console.log('MiniMapPanel Render');
             /**
              * We only have 1 mindmap with this id
              */
@@ -29,6 +30,9 @@
                 var x = token.x * this.canvas.width;
                 var y = token.y * this.canvas.height;
                 var size = token.size * this.canvas.width;
+                if(size<0){
+                    continue;
+                }
                 ctx.beginPath();
                 ctx.arc(
                     x,
@@ -52,8 +56,9 @@
         },
         miniMapDrawCross:function(x, y, color) {
             var ctx = this.canvas.getContext('2d');
-            ctx.lineWidth = 0.5;
+            ctx.lineWidth = 0.3;
             ctx.beginPath();
+
             ctx.moveTo(0, y * this.canvas.height);
             ctx.lineTo(this.canvas.width, y * this.canvas.height);
             ctx.moveTo(x * this.canvas.width, 0);
@@ -64,12 +69,24 @@
         },
         miniMapDrawMiddleCross:function(){
             var ctx = this.canvas.getContext('2d');
-            ctx.lineWidth = 0.5;
+            ctx.lineWidth = 0.2;
             ctx.beginPath();
-            ctx.moveTo(0, this.canvas.height/2);
-            ctx.lineTo(this.canvas.width, this.canvas.height/2);
-            ctx.moveTo(this.canvas.width/2, 0);
-            ctx.lineTo(this.canvas.width/2, this.canvas.height);
+
+            var heightOneThird = this.canvas.height/3;
+            var widthOneThird = this.canvas.height/3;
+
+            ctx.moveTo(0, heightOneThird);
+            ctx.lineTo(this.canvas.width, widthOneThird);
+
+            ctx.moveTo(0, heightOneThird*2);
+            ctx.lineTo(this.canvas.width, widthOneThird*2);
+
+            ctx.moveTo(heightOneThird, 0);
+            ctx.lineTo(heightOneThird, this.canvas.height);
+
+            ctx.moveTo(heightOneThird*2, 0);
+            ctx.lineTo(heightOneThird*2, this.canvas.height);
+
             ctx.closePath();
             ctx.strokeStyle = '#000000';
             ctx.stroke();
@@ -107,7 +124,7 @@
             this.listenTo(AgarBot.pubsub, 'websocket:onopen', this.onSocketOpen);
             this.listenTo(AgarBot.pubsub, 'websocket:onclose', this.onSocketClose);
             this.listenTo(AgarBot.pubsub, 'websocket:send', this.onSocketSend);
-            this.listenTo(AgarBot.pubsub, 'websocket:onmessage', this.onSocketRecive);
+            this.listenTo(AgarBot.pubsub, 'websocket:onmessage', this.onSocketRecived);
         },
         onStart: function (options) {
             console.log('Module MiniMap start');
@@ -122,7 +139,7 @@
                     break;
             }
         },
-        onSocketRecive: function (event) {
+        onSocketRecived: function (event) {
             this.extractPacket(event);
         },
         onSocketClose:function(){
@@ -180,12 +197,14 @@
             //console.log("my possition : ", x, y);
         },
         miniMapReset:function() {
+            console.log('miniMapReset');
             this.cells =[];
             this.mini_map_tokens = []
         },
         updateCellPosition:function(cell){
             var cellId = cell.id;
-            if (this.mapOptions.enableMultiCells || -1 != this.current_cell_ids.indexOf(cellId)) {
+            var indexIfMine = this.current_cell_ids.indexOf(cellId);
+            if (this.mapOptions.enableMultiCells || -1 != indexIfMine) {
                 if (! this.miniMapIsRegisteredToken(cellId))
                 {
                     this.miniMapRegisterToken(
@@ -193,8 +212,8 @@
                         this.miniMapCreateToken(cellId, cell.color)
                     );
                 }
-
                 var size_n = cell.nSize/this.mapInfo.length_x;
+
                 this.miniMapUpdateToken(cellId, (cell.nx - this.mapInfo.start_x)/this.mapInfo.length_x, (cell.ny - this.mapInfo.start_y)/this.mapInfo.length_y, size_n);
             }
 
@@ -223,9 +242,13 @@
 
             // Nodes to be destroyed (killed)
             for (var e = 0; e < size; ++e) {
-                var p = this.cells[data.getUint32(c, true)],
-                    f = this.cells[data.getUint32(c + 4, true)],
-                    c = c + 8;
+                var p = this.cells[data.getUint32(c, true)];
+                var cellId = data.getUint32(c + 4, true);
+                var f = this.cells[cellId];
+                if(this.current_cell_ids.indexOf(cellId) != -1){
+                    console.log('your are eaten !');
+                }
+                c = c + 8;
                 p && f && (
                     this.destroyCell(f),
                         f.ox = f.x,
@@ -236,77 +259,98 @@
                         f.nSize = f.size,
                         f.updateTime = I)
             }
-
-            // Nodes to be updated
-            for (e = 0; ; ) {
-                var d = data.getUint32(c, true);
-                c += 4;
-                if (0 == d) {
-                    break;
-                }
-                ++e;
-                var p = data.getInt32(c, true),
-                    c = c + 4,
-                    f = data.getInt32(c, true),
-                    c = c + 4;
-                var g = data.getInt16(c, true);
-                c = c + 2;
-                for (var h = data.getUint8(c++), m = data.getUint8(c++), q = data.getUint8(c++), h = (h << 16 | m << 8 | q).toString(16); 6 > h.length; )
-                    h = "0" + h;
-
-                var h = "#" + h,
-                    k = data.getUint8(c++),
-                    m = !!(k & 1),
-                    q = !!(k & 16);
-
-                k & 2 && (c += 4);
-                k & 4 && (c += 8);
-                k & 8 && (c += 16);
-
-                for (var n, k = ""; ; ) {
-                    n = data.getUint16(c, true);
-                    c += 2;
-                    if (0 == n)
+            try {
+                // Nodes to be updated
+                for (e = 0; ;) {
+                    var d = data.getUint32(c, true);
+                    c += 4;
+                    if (0 == d) {
                         break;
-                    k += String.fromCharCode(n)
-                }
+                    }
+                    ++e;
+                    var p = data.getInt32(c, true),
+                        c = c + 4,
+                        f = data.getInt32(c, true),
+                        c = c + 4;
+                    var g = data.getInt16(c, true);
+                    c = c + 2;
+                    for (var h = data.getUint8(c++), m = data.getUint8(c++), q = data.getUint8(c++), h = (h << 16 | m << 8 | q).toString(16); 6 > h.length;)
+                        h = "0" + h;
 
-                n = k;
-                k = null;
+                    var h = "#" + h,
+                        k = data.getUint8(c++),
+                        m = !!(k & 1),
+                        q = !!(k & 16);
 
-                // if d in cells then modify it, otherwise create a new cell
-                if(this.cells.hasOwnProperty(d)){
-                    k = this.cells[d];
-                    this.updateCellPosition(k);
-                    k.ox = k.x;
-                    k.oy = k.y;
-                    k.oSize = k.size;
-                    k.color = h
-                }
-                else{
-                    k = new Cell(d, p, f, g, h, n);
-                    k.pX = p;
-                    k.pY = f;
-                    this.cells[d] = k;
-                }
+                    k & 2 && (c += 4);
+                    k & 4 && (c += 8);
+                    k & 8 && (c += 16);
 
-                k.isVirus = m;
-                k.isAgitated = q;
-                k.nx = p;
-                k.ny = f;
-                k.nSize = g;
-                k.updateCode = b;
-                k.updateTime = I;
-                n && k.setName(n);
+                    for (var n, k = ""; ;) {
+                        try {
+                            n = data.getUint16(c, true);
+                            c += 2;
+                            if (0 == n)
+                                break;
+                            k += String.fromCharCode(n)
+                        }
+                        catch (e) {
+                            k = "un-name";
+                            break;
+                        }
+                    }
+
+                    n = k;
+                    k = null;
+                    // if d in cells then modify it, otherwise create a new cell
+                    if (this.cells.hasOwnProperty(d)) {
+                        k = this.cells[d];
+                        this.updateCellPosition(k);
+                        k.ox = k.x;
+                        k.oy = k.y;
+                        k.oSize = k.size;
+                        k.color = h
+                    }
+                    else {
+                        k = new Cell(d, p, f, g, h, n);
+                        k.pX = p;
+                        k.pY = f;
+                        this.cells[d] = k;
+                    }
+                    if (g < 0) {
+                        console.log(g);
+                    }
+                    k.isVirus = m;
+                    k.isAgitated = q;
+                    k.nx = p;
+                    k.ny = f;
+                    k.nSize = g;
+                    k.updateCode = b;
+                    k.updateTime = I;
+                    if (n) {
+                        k.setName(n);
+                    }
+                }
+            }catch(e){
+                console.log('can not update : ', e);
             }
-
-            // Destroy queue + nonvisible nodes
-            b = data.getUint32(c, true);
-            c += 4;
-            for (e = 0; e < b; e++) {
-                d = data.getUint32(c, true);
-                c += 4, k = this.cells[d];
-                null != k && this.destroyCell(k);
+            try {
+                // Destroy queue + nonvisible nodes
+                b = data.getUint32(c, true);
+                c += 4;
+                for (e = 0; e < b; e++) {
+                    try {
+                        d = data.getUint32(c, true);
+                        c += 4;
+                        k = this.cells[d];
+                        //console.log('destroyCell');
+                        null != k && this.destroyCell(k);
+                    } catch (e) {
+                        console.log("Can not destroy : ", e);
+                    }
+                }
+            }catch(e){
+                console.log(e);
             }
         },
         extractPacket: function (event) {
@@ -320,11 +364,11 @@
                     this.extractCellPacket(data, c);
                     break;
                 case 20: // cleanup ids
-                    this.current_cell_ids = [];
+                    this.miniMapReset();
                     break;
                 case 32: // cell id belongs me
+                    console.log('Your born');
                     var id = data.getUint32(c, true);
-
                     if (this.current_cell_ids.indexOf(id) === -1) {
                         this.current_cell_ids.push(id);
                     }

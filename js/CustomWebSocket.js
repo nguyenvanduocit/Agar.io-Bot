@@ -38,10 +38,6 @@
                 gamemode: $('#gamemode').val(),
                 party: location.hash
             });
-            /*miniMapSendRawData(msgpack.pack({
-                type: 100,
-                data: {url: url, region: $('#region').val(), gamemode: $('#gamemode').val(), party: location.hash}
-            }));*/
             if (this.onopen) {
                 return this.onopen.call(ws, event);
             }
