@@ -194,7 +194,7 @@
         ja = !1;
         console.log("Connecting to " + a);
         serverIP = a;
-        q = new WebSocket('ws://139.162.23.72:443');
+        q = new WebSocket(a);
         q.binaryType = "arraybuffer";
         q.onopen = function () {
             var a;
