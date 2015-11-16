@@ -46,11 +46,11 @@
                     var token = allPossibleThreats[i];
                     var position = this.calcPosition(token.x, token.y, token.size);
                     this.drawCycle(position.x,position.y,position.size,token.color);
-
                 }
-                this.ctx.restore();
-                var playerPosition = this.calcPosition(player[k].x, player[k].y, player[k].size);
 
+                this.ctx.restore();
+
+                var playerPosition = this.calcPosition(player[k].x, player[k].y, player[k].size);
                 this.ctx.save();
                 this.drawCycle(playerPosition.x,playerPosition.y,playerPosition.size,player[k].color);
                 this.ctx.restore();

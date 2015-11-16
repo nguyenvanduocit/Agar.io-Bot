@@ -11,6 +11,7 @@ module.exports = function(grunt) {
           'js/lib/backbone-min.js',
           'js/lib/backbone.marionette.js',
           'js/lib/msgpack.js',
+          'js/lib/CustomFunctions.js',
           'js/Application.js',
           'js/CustomWebSocket.js',
           'js/MapControl.js',
@@ -26,7 +27,7 @@ module.exports = function(grunt) {
           //END Auto feed bot
 
           //BEGIN Minimap
-          'js/minimap/minimap.js',
+          //'js/minimap/minimap.js',
           //END minimap
           'js/StartApplication.js'
         ],

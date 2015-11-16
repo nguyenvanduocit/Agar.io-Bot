@@ -17,7 +17,7 @@
             pa = 1 * a.clientX;
             qa = 1 * a.clientY;
             Ma();
-            ca()
+            ca();
         };
         M.onmousemove = function (a) {
             pa = 1 * a.clientX;
@@ -1953,5 +1953,11 @@
     };
     window.getCurrentScore = function() {
         return K;
-    }
+    };
+    window.sendMessage = function(a){
+        T(a);
+    };
+    window.createDataView = function(a) {
+        return new DataView(new ArrayBuffer(a))
+    };
 })(window, window.jQuery, AgarBot, AgarBot.app);

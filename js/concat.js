@@ -4624,6 +4624,60 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
 
 })(this);
 
+(function() {
+    /**
+     * Decimal adjustment of a number.
+     *
+     * @param {String}  type  The type of adjustment.
+     * @param {Number}  value The number.
+     * @param {Integer} exp   The exponent (the 10 logarithm of the adjustment base).
+     * @returns {Number} The adjusted value.
+     */
+    function decimalAdjust(type, value, exp) {
+        // If the exp is undefined or zero...
+        if (typeof exp === 'undefined' || +exp === 0) {
+            return Math[type](value);
+        }
+        value = +value;
+        exp = +exp;
+        // If the value is not a number or the exp is not an integer...
+        if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+            return NaN;
+        }
+        // Shift
+        value = value.toString().split('e');
+        value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+        // Shift back
+        value = value.toString().split('e');
+        return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+    }
+
+    // Decimal round
+    if (!Math.round10) {
+        Math.round10 = function(value, exp) {
+            return decimalAdjust('round', value, exp);
+        };
+    }
+    // Decimal floor
+    if (!Math.floor10) {
+        Math.floor10 = function(value, exp) {
+            return decimalAdjust('floor', value, exp);
+        };
+    }
+    // Decimal ceil
+    if (!Math.ceil10) {
+        Math.ceil10 = function(value, exp) {
+            return decimalAdjust('ceil', value, exp);
+        };
+    }
+    Number.prototype.mod = function(n) {
+        return ((this % n) + n) % n;
+    };
+
+    Array.prototype.peek = function() {
+        return this[this.length - 1];
+    };
+})();
 (function(window, Backbone, Marionette){
     window.AgarBot = {};
     window.AgarBot.Application = Marionette.Application.extend({
@@ -5075,8 +5129,17 @@ var MapControl = {
         var xdis = x1 - x2; // <--- FAKE AmS OF COURSE!
         var ydis = y1 - y2;
         var distance = Math.sqrt(xdis * xdis + ydis * ydis);
-
         return distance;
+    },
+    getDist:function(x1, y1, x2, y2) {
+        // Fastest distance - I have a crappy computer to test with :(
+        var xd = (x1 - x2);
+        xd = xd < 0 ? xd * -1 : xd; // Math.abs is slow
+
+        var yd = (y1 - y2);
+        yd = yd < 0 ? yd * -1 : yd; // Math.abs is slow
+
+        return (xd + yd);
     },
     getAll:function(blob){
         var dotList = [];
@@ -5201,6 +5264,8 @@ var MapControl = {
         return [foodList, threatList, virusList, splitTargetList, foundMaster];
     }
 };
+console.log(MapControl.getDist(1,1,100,100));
+console.log(MapControl.computeDistance(1,1,100,100));
 (function($, Backbone, _, AgarBot, app){
 
     AgarBot.Modules.Messenger = Marionette.Module.extend({
@@ -5288,7 +5353,7 @@ var MapControl = {
             pa = 1 * a.clientX;
             qa = 1 * a.clientY;
             Ma();
-            ca()
+            ca();
         };
         M.onmousemove = function (a) {
             pa = 1 * a.clientX;
@@ -7224,7 +7289,13 @@ var MapControl = {
     };
     window.getCurrentScore = function() {
         return K;
-    }
+    };
+    window.sendMessage = function(a){
+        T(a);
+    };
+    window.createDataView = function(a) {
+        return new DataView(new ArrayBuffer(a))
+    };
 })(window, window.jQuery, AgarBot, AgarBot.app);
 (function (window, $, Backbone, Marionette, _, AgarBot, app) {
     AgarBot.Modules.MapUtil = Marionette.Module.extend({
@@ -7333,6 +7404,8 @@ Array.prototype.peek = function() {
             this.toggleFollow = false;
             this.minimumSizeToGoing = 10;
             this.dangerTimeOut = 1500;
+            this.situation = 'DANGER';//DANGER, SAFE, ATTACT
+            this.stage = 'EAT'; //EAT, SHOOT, RUN
             this.pannelView = new AgarBot.Views.FeedBotPanel({
                 isEnable:this.isEnable,
                 master:this.master,
@@ -7357,10 +7430,23 @@ Array.prototype.peek = function() {
             }
         },
         mainLoop:function(){
-            //UPDATE
             if (getPlayer().length > 0) {
-                var nextPoint = this.getNextPoint();
-                setPoint(nextPoint[0], nextPoint[1]);
+                //DETECT CURRENT SITUATION
+                this.detectSitualtion();
+                //DECIDE
+                this.decide();
+            }
+        },
+        detectSitualtion:function(){
+            this.situation = 'SAFE';
+            this.stage = 'EAT';
+        },
+        decide:function(){
+            switch (this.stage){
+                case 'EAT':
+                    var nextPoint = this.getNextPoint();
+                    setPoint(nextPoint[0], nextPoint[1]);
+                    break;
             }
         },
         getNextPoint:function(){
@@ -7794,8 +7880,8 @@ Array.prototype.peek = function() {
                         //console.log("Done working on blob: " + i);
                     }
 
-                    //TODO: Find where to go based on destinationChoices.
-                    var dangerFound = false;
+                   //TODO: Find where to go based on destinationChoices.
+                    /** var dangerFound = false;
                     for (var i = 0; i < destinationChoices.length; i++) {
                         if (destinationChoices[i][2]) {
                             dangerFound = true;
@@ -7814,10 +7900,10 @@ Array.prototype.peek = function() {
                             }
                         }
                     } else {
-                        /*tempMoveX = destinationChoices.peek()[0][0];
-                        tempMoveY = destinationChoices.peek()[0][1];*/
+                        /!*tempMoveX = destinationChoices.peek()[0][0];
+                        tempMoveY = destinationChoices.peek()[0][1];*!/
                         //console.log("Done " + tempMoveX + ", " + tempMoveY);
-                    }
+                    }*/
                 }
                 else{
                     /**
@@ -7871,169 +7957,6 @@ Array.prototype.peek = function() {
         moduleClass: AgarBot.Modules.FeedBot
     });
 })(window, Parse, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
-(function (window, $, Backbone, Marionette, _, AgarBot, app) {
-    /**
-     * We donot
-     */
-    AgarBot.Views.MiniMapPanel = Backbone.View.extend({
-        events: {},
-        initialize: function (options) {
-            this.options = _.extend(this, options);
-            this.isFirst = true;
-        },
-        template: function(){
-            var templateLoader = app.module('TemplateLoader');
-            var template = templateLoader.getTemlate('mapPanel');
-            return template;
-        },
-        render:function(){
-            this.$el.html(this.template());
-            this.canvas = $('#minimap-canvas')[0];
-            this.ctx = this.canvas.getContext('2d');
-            console.log('MiniMapPanel Render');
-        },
-        calcPosition:function(x,y,size){
-            var nX = ((x - this.mapInfo.start_x)/this.mapInfo.length_x) * this.canvas.width;
-            var nY = ((y - this.mapInfo.start_y)/this.mapInfo.length_y) * this.canvas.height;
-            var nSize = (size/this.mapInfo.length_x)*this.canvas.width;
-            return {x:nX,y:nY,size:nSize};
-        },
-        /**
-         * This method is called sequence. Keep it simple
-         */
-        updateMap: function () {
-            var self = this;
-            var player = getPlayer();
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            for (var k = 0; k < player.length; k++) {
-                var allIsAll = MapControl.getAll(player[k]);
-                //The food stored in element 0 of allIsAll
-                var allPossibleFood = allIsAll[0];
-                //The threats are stored in element 1 of allIsAll
-                var allPossibleThreats = allIsAll[1];
-                //The viruses are stored in element 2 of allIsAll
-                var allPossibleViruses = allIsAll[2];
-                this.ctx.save();
-                //Loop through all the cells that were identified as threats.
-                for (var i = 0; i < allPossibleThreats.length; i++) {
-                    var token = allPossibleThreats[i];
-                    var position = this.calcPosition(token.x, token.y, token.size);
-                    this.drawCycle(position.x,position.y,position.size,token.color);
-
-                }
-                this.ctx.restore();
-                var playerPosition = this.calcPosition(player[k].x, player[k].y, player[k].size);
-
-                this.ctx.save();
-                this.drawCycle(playerPosition.x,playerPosition.y,playerPosition.size,player[k].color);
-                this.ctx.restore();
-
-                if (self.mapOptions.enableCross) {
-                    self.miniMapDrawCross(playerPosition.x, playerPosition.y, player[k].color);
-                }
-                if (self.mapOptions.enableAxes) {
-                    self.miniMapDrawMiddleCross();
-                }
-                this.ctx.restore();
-            }
-        },
-        drawCycle:function(x,y,size,color){
-            this.ctx.beginPath();
-            this.ctx.arc(
-                x,
-                y,
-                size,
-                0,
-                2 * Math.PI,
-                false
-            );
-            this.ctx.closePath();
-            this.ctx.fillStyle = color;
-            this.ctx.fill();
-        },
-        miniMapDrawCross:function(x, y, color) {
-            this.ctx.save();
-            this.ctx.lineWidth = 0.3;
-            this.ctx.beginPath();
-
-            this.ctx.moveTo(0, y);
-            this.ctx.lineTo(this.canvas.width, y );
-            this.ctx.moveTo(x, 0);
-            this.ctx.lineTo(x, this.canvas.height);
-            this.ctx.closePath();
-            this.ctx.strokeStyle = color || '#FFFFFF';
-            this.ctx.stroke();
-            this.ctx.restore();
-        },
-        miniMapDrawMiddleCross:function(){
-            this.ctx.save();
-            this.ctx.lineWidth = 0.2;
-            this.ctx.beginPath();
-
-            var heightOneThird = this.canvas.height/3;
-            var widthOneThird = this.canvas.height/3;
-
-            this.ctx.moveTo(0, heightOneThird);
-            this.ctx.lineTo(this.canvas.width, widthOneThird);
-
-            this.ctx.moveTo(0, heightOneThird*2);
-            this.ctx.lineTo(this.canvas.width, widthOneThird*2);
-
-            this.ctx.moveTo(heightOneThird, 0);
-            this.ctx.lineTo(heightOneThird, this.canvas.height);
-
-            this.ctx.moveTo(heightOneThird*2, 0);
-            this.ctx.lineTo(heightOneThird*2, this.canvas.height);
-
-            this.ctx.closePath();
-            this.ctx.strokeStyle = '#000000';
-            this.ctx.stroke();
-            this.ctx.restore();
-        }
-    });
-
-    AgarBot.Modules.MiniMap = Marionette.Module.extend({
-        initialize: function (moduleName, app, options) {
-            console.log('Module MiniMap initialize');
-            this.mini_map_tokens = [];
-            this.current_cell_ids = [];
-            this.player_name = [];
-            this.mapInfo = {
-                "start_x": -7000,
-                "start_y": -7000,
-                "end_x": 7000,
-                "end_y": 7000,
-                "length_x" : 14000,
-                "length_y" : 14000
-            };
-            console.log(window.getMapEndX());
-            this.mapOptions = {
-                enableMultiCells: true,
-                enablePosition: true,
-                enableAxes: true,
-                enableCross: true
-            };
-            this.panelView = new AgarBot.Views.MiniMapPanel({
-                el: '#minimap-pannel',
-                mapInfo:this.mapInfo,
-                mini_map_tokens: this.mini_map_tokens,
-                current_cell_ids: this.current_cell_ids,
-                mapOptions : this.mapOptions
-            });
-            this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.mainLoop);
-        },
-        onStart: function (options) {
-            this.panelView.render();
-            console.log('Module MiniMap start');
-        },
-        mainLoop:function(){
-            this.panelView.updateMap();
-        }
-    });
-    app.module("MiniMap", {
-        moduleClass: AgarBot.Modules.MiniMap
-    });
-})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
 /**
  * At the end of the world. We lauch the application
  */

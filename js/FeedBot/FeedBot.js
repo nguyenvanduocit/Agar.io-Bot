@@ -60,6 +60,8 @@ Array.prototype.peek = function() {
             this.toggleFollow = false;
             this.minimumSizeToGoing = 10;
             this.dangerTimeOut = 1500;
+            this.situation = 'DANGER';//DANGER, SAFE, ATTACT
+            this.stage = 'EAT'; //EAT, SHOOT, RUN
             this.pannelView = new AgarBot.Views.FeedBotPanel({
                 isEnable:this.isEnable,
                 master:this.master,
@@ -84,10 +86,23 @@ Array.prototype.peek = function() {
             }
         },
         mainLoop:function(){
-            //UPDATE
             if (getPlayer().length > 0) {
-                var nextPoint = this.getNextPoint();
-                setPoint(nextPoint[0], nextPoint[1]);
+                //DETECT CURRENT SITUATION
+                this.detectSitualtion();
+                //DECIDE
+                this.decide();
+            }
+        },
+        detectSitualtion:function(){
+            this.situation = 'SAFE';
+            this.stage = 'EAT';
+        },
+        decide:function(){
+            switch (this.stage){
+                case 'EAT':
+                    var nextPoint = this.getNextPoint();
+                    setPoint(nextPoint[0], nextPoint[1]);
+                    break;
             }
         },
         getNextPoint:function(){
@@ -521,8 +536,8 @@ Array.prototype.peek = function() {
                         //console.log("Done working on blob: " + i);
                     }
 
-                    //TODO: Find where to go based on destinationChoices.
-                    var dangerFound = false;
+                   //TODO: Find where to go based on destinationChoices.
+                    /** var dangerFound = false;
                     for (var i = 0; i < destinationChoices.length; i++) {
                         if (destinationChoices[i][2]) {
                             dangerFound = true;
@@ -541,10 +556,10 @@ Array.prototype.peek = function() {
                             }
                         }
                     } else {
-                        /*tempMoveX = destinationChoices.peek()[0][0];
-                        tempMoveY = destinationChoices.peek()[0][1];*/
+                        /!*tempMoveX = destinationChoices.peek()[0][0];
+                        tempMoveY = destinationChoices.peek()[0][1];*!/
                         //console.log("Done " + tempMoveX + ", " + tempMoveY);
-                    }
+                    }*/
                 }
                 else{
                     /**

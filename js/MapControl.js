@@ -356,7 +356,6 @@ var MapControl = {
         var xdis = x1 - x2; // <--- FAKE AmS OF COURSE!
         var ydis = y1 - y2;
         var distance = Math.sqrt(xdis * xdis + ydis * ydis);
-
         return distance;
     },
     getAll:function(blob){
