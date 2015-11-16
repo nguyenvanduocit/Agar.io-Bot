@@ -5140,7 +5140,7 @@ var MapControl = {
             if (currentTeam == cellTeam && !cell.isVirus()) {
                 return true;
             }
-        }else {
+        }else{
             for (var i = 0; i < player.length; i++) {
                 if (cell.id == player[i].id) {
                     return true;
@@ -5159,7 +5159,6 @@ var MapControl = {
         return false;
     },
     separateListBasedOnFunction:function(that, listToUse, blob){
-        var that = this;
         var foodElementList = [];
         var threatList = [];
         var virusList = [];
@@ -5653,7 +5652,7 @@ var MapControl = {
             q && (m.G = q);
             r && m.q(r);
             //@author nguyenvanduocit
-            -1 != z.indexOf(h) && -1 == l.indexOf(m) && (l.push(m), m.birth = getLastUpdate(), m.birthMass = (m.size * m.size / 100), 1 == l.length && (s = m.x, t = m.y, yb(), document.getElementById("overlays").style.display = "none", x = [], Xa = 0, Ya = l[0].color, wa = !0, Za = Date.now(), V = Ea = $a = 0));
+            -1 != z.indexOf(h) && -1 == l.indexOf(m) && (l.push(m), m.birth = getLastUpdate(), m.birthMass = (m.size * m.size / 100), AgarBot.pubsub.trigger('startPlay'), 1 == l.length && (s = m.x, t = m.y, yb(), document.getElementById("overlays").style.display = "none", x = [], Xa = 0, Ya = l[0].color, wa = !0, Za = Date.now(), V = Ea = $a = 0));
             /**
              * @author nguyenvanduocit
              */
@@ -5683,7 +5682,10 @@ var MapControl = {
         v = a.getUint32(b, !0);
         b += 4;
         for (f = 0; f < v; f++)h = a.getUint32(b, !0), b += 4, m = J[h], null != m && m.P();
-        Wa && 0 == l.length && (ab = Date.now(), wa = !1, fa || X || (zb ? (sb(d.ab), Yb(), X = !0, e("#overlays").fadeIn(3E3), (e("#stats").show())) : ra(3E3)), d.MC.deltaUpdateStats({
+        /**
+         * @author nguyenvanduocit
+         */
+        Wa && 0 == l.length && (ab = Date.now(), wa = !1, fa || X || (zb ? (sb(d.ab), Yb(), X = !0,AgarBot.pubsub.trigger('stopPlay'), e("#overlays").fadeIn(3E3), (e("#stats").show())) : ra(3E3)), d.MC.deltaUpdateStats({
             games_played: 1,
             total_mass: ~~(K / 100),
             turn_time: (ab - Za) / 1E3,

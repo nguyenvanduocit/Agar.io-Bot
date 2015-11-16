@@ -421,7 +421,7 @@ var MapControl = {
             if (currentTeam == cellTeam && !cell.isVirus()) {
                 return true;
             }
-        }else {
+        }else{
             for (var i = 0; i < player.length; i++) {
                 if (cell.id == player[i].id) {
                     return true;
@@ -440,7 +440,6 @@ var MapControl = {
         return false;
     },
     separateListBasedOnFunction:function(that, listToUse, blob){
-        var that = this;
         var foodElementList = [];
         var threatList = [];
         var virusList = [];
