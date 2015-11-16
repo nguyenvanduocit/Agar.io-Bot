@@ -468,6 +468,8 @@ var MapControl = {
                     drawCircle(listToUse[element].x, listToUse[element].y, listToUse[element].size + 50, 7);
                     splitTargetList.push(listToUse[element]);
                     foodElementList.push(listToUse[element]);
+                }else{
+
                 }
             }/*else if(isMe && (getBlobCount(getPlayer()) > 0)){
              //Attempt to make the other cell follow the mother one

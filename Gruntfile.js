@@ -27,7 +27,7 @@ module.exports = function(grunt) {
           //END Auto feed bot
 
           //BEGIN Minimap
-          //'js/minimap/minimap.js',
+          'js/minimap/minimap.js',
           //END minimap
           'js/StartApplication.js'
         ],
