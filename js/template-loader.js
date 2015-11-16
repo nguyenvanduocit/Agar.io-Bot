@@ -35,6 +35,9 @@
                     '<button id="feedBotToggle_auto">Disable auto</button>'+
                 '</div>'
             );
+            this.templates.clanFormField = _.template(
+                '<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">'
+            );
         },
         onStart : function(options){
             console.log('module TemplateLoader start.');

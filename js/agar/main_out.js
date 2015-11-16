@@ -899,7 +899,12 @@
             }), e("#helloContainer").attr("data-logged-in", "1"), null != C ? d.checkSocialAPIToken(a) : d.getSocialAPIToken())
         }
     }
-
+    /**
+     * @author nguyenvanduocit
+     * @type {number}
+     */
+    var currenConnecttTry = 0;
+    var maxConnectRetry = 50;
     function pb(a) {
         ga(":party");
         e("#helloContainer").attr("data-party-state", "4");
@@ -910,10 +915,26 @@
                 e("#helloContainer").attr("data-party-state", "6")
             }, success: function (b) {
                 b = b.split("\n");
-                e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
-                e("#helloContainer").attr("data-party-state", "5");
-                ga(":party");
-                Qa("ws://" + b[0], a)
+                /**
+                 * @author nguyenvanduocit
+                 */
+                var wantedIp = window.getWantedIp();
+                if(wantedIp && wantedIp !== b[0].trim()){
+                    console.log('Found ',b[0],", Wanted : ",wantedIp );
+                    if(currenConnecttTry <= maxConnectRetry){
+                        currenConnecttTry++;
+                        AgarBot.pubsub.trigger('findServer:retry', {time:currenConnecttTry});
+                        setTimeout(function(){pb(a);}, 2e3);
+                    }
+                    else{
+                        AgarBot.pubsub.trigger('findServer:ipNotFound');
+                    }
+                }else{
+                    e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
+                    e("#helloContainer").attr("data-party-state", "5");
+                    ga(":party");
+                    Qa("ws://" + b[0], a)
+                }
             }, dataType: "text", method: "POST", cache: !1, crossDomain: !0, data: a
         })
     }

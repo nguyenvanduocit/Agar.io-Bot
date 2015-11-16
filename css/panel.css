@@ -1,5 +1,9 @@
 .DuocBot * {
   box-sizing: border-box; }
+.DuocBot #settings {
+  display: block !important; }
+.DuocBot .btn-settings {
+  display: none; }
 .DuocBot .control-panel {
   z-index: 100000;
   position: fixed;

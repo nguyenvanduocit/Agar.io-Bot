@@ -19,7 +19,7 @@ module.exports = function(grunt) {
           'js/messenger.js',
           'js/template-loader.js',
           'js/agar/main_out.js',
-
+          'js/Clan.js',
           'js/MapUtil/MapUtil.js',
           //BEGIN Auto feed bot
           'js/lib/parse-1.5.0.min.js',

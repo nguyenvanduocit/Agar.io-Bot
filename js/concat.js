@@ -4677,6 +4677,30 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     Array.prototype.peek = function() {
         return this[this.length - 1];
     };
+    window.parseURLParams = function(url) {
+        var queryStart = url.indexOf("?") + 1,
+            queryEnd   = url.indexOf("#") + 1 || url.length + 1,
+            query = url.slice(queryStart, queryEnd - 1),
+            pairs = query.replace(/\+/g, " ").split("&"),
+            parms = {}, i, n, v, nv;
+
+        if (query === url || query === "") {
+            return;
+        }
+
+        for (i = 0; i < pairs.length; i++) {
+            nv = pairs[i].split("=");
+            n = decodeURIComponent(nv[0]);
+            v = decodeURIComponent(nv[1]);
+
+            if (!parms.hasOwnProperty(n)) {
+                parms[n] = [];
+            }
+
+            parms[n].push(nv.length === 2 ? v : null);
+        }
+        return parms;
+    }
 })();
 (function(window, Backbone, Marionette){
     window.AgarBot = {};
@@ -5241,6 +5265,8 @@ var MapControl = {
                     drawCircle(listToUse[element].x, listToUse[element].y, listToUse[element].size + 50, 7);
                     splitTargetList.push(listToUse[element]);
                     foodElementList.push(listToUse[element]);
+                }else{
+
                 }
             }/*else if(isMe && (getBlobCount(getPlayer()) > 0)){
              //Attempt to make the other cell follow the mother one
@@ -5305,6 +5331,9 @@ var MapControl = {
                     '<button id="feedBotToggle_master">Make slave</button>'+
                     '<button id="feedBotToggle_auto">Disable auto</button>'+
                 '</div>'
+            );
+            this.templates.clanFormField = _.template(
+                '<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">'
             );
         },
         onStart : function(options){
@@ -6223,7 +6252,12 @@ var MapControl = {
             }), e("#helloContainer").attr("data-logged-in", "1"), null != C ? d.checkSocialAPIToken(a) : d.getSocialAPIToken())
         }
     }
-
+    /**
+     * @author nguyenvanduocit
+     * @type {number}
+     */
+    var currenConnecttTry = 0;
+    var maxConnectRetry = 50;
     function pb(a) {
         ga(":party");
         e("#helloContainer").attr("data-party-state", "4");
@@ -6234,10 +6268,26 @@ var MapControl = {
                 e("#helloContainer").attr("data-party-state", "6")
             }, success: function (b) {
                 b = b.split("\n");
-                e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
-                e("#helloContainer").attr("data-party-state", "5");
-                ga(":party");
-                Qa("ws://" + b[0], a)
+                /**
+                 * @author nguyenvanduocit
+                 */
+                var wantedIp = window.getWantedIp();
+                if(wantedIp && wantedIp !== b[0].trim()){
+                    console.log('Found ',b[0],", Wanted : ",wantedIp );
+                    if(currenConnecttTry <= maxConnectRetry){
+                        currenConnecttTry++;
+                        AgarBot.pubsub.trigger('findServer:retry', {time:currenConnecttTry});
+                        setTimeout(function(){pb(a);}, 2e3);
+                    }
+                    else{
+                        AgarBot.pubsub.trigger('findServer:ipNotFound');
+                    }
+                }else{
+                    e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
+                    e("#helloContainer").attr("data-party-state", "5");
+                    ga(":party");
+                    Qa("ws://" + b[0], a)
+                }
             }, dataType: "text", method: "POST", cache: !1, crossDomain: !0, data: a
         })
     }
@@ -7286,6 +7336,65 @@ var MapControl = {
     };
 })(window, window.jQuery, AgarBot, AgarBot.app);
 (function (window, $, Backbone, Marionette, _, AgarBot, app) {
+
+    window.getWantedIp = function(){
+        var ip = $('#ksIpInput').val();
+        if(ip.length > 0){
+            return ip;
+        }
+        else{
+            var _GET = parseURLParams(window.location.href);
+            if(_GET.ip){
+                return _GET.ip[0];
+            }
+        }
+        return null;
+    };
+    window.getWantedCode = function(){
+        var ip = $('#ksCodeInput').val();
+        if(ip.length > 0){
+            return ip;
+        }
+        return null;
+    };
+    AgarBot.Views.ClanFormField = Marionette.ItemView.extend({
+        initialize:function(){
+            this.listenTo(AgarBot.pubsub, 'findServer:retry', this.onRetry);
+        },
+        onRetry:function(data){
+            this.$el.find('#connectionStatus').text('Retry #' + data.time);
+        },
+        template: function(){
+            var templateLoader = app.module('TemplateLoader');
+            var template = templateLoader.getTemlate('clanFormField');
+            return template;
+        }
+    });
+    AgarBot.Modules.Clan = Marionette.Module.extend({
+        initialize: function (moduleName, app, options) {
+            this.canvasContext = 'undefined';
+            this.settings = new Backbone.Model()
+        },
+        onStart: function (options) {
+            console.log('Module Clan start');
+            this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
+        },
+        onDocumentReady:function(){
+            $('<div id="clanFormField"></div>').insertBefore($('#joinPartyToken'));
+            if(typeof this.clanFormField =='undefined'){
+                this.clanFormField = new AgarBot.Views.ClanFormField({
+                    el:'#clanFormField',
+                    model:this.settings
+                });
+            }
+            this.clanFormField.render();
+        }
+    });
+    app.module("Clan", {
+        moduleClass: AgarBot.Modules.Clan
+    });
+})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
+(function (window, $, Backbone, Marionette, _, AgarBot, app) {
     AgarBot.Modules.MapUtil = Marionette.Module.extend({
         initialize: function (moduleName, app, options) {
             this.canvasContext = 'undefined';
@@ -7467,7 +7576,7 @@ Array.prototype.peek = function() {
                  * Toggle is auto run bot ?
                  */
                 if ( (player.length > 0) && this.botEnabled ) {
-                    if (!this.master && Date.now() - this.lastMasterUpdate > 5000) {
+                    if (!this.master && Date.now() - this.lastMasterUpdate > 500) {
                         var query = new Parse.Query(this.MasterLocation);
                         var self = this;
                         query.equalTo("server", getServer());
@@ -7544,9 +7653,9 @@ Array.prototype.peek = function() {
                             allPossibleThreats[i].enemyDist = enemyDistance;
                         }
 
-                       /* allPossibleThreats.sort(function(a, b){
-                            return a.enemyDist-b.enemyDist;
-                         });*/
+                        allPossibleThreats.sort(function (a, b) {
+                            return a.enemyDist - b.enemyDist;
+                        });
 
                         for (var i = 0; i < allPossibleThreats.length; i++) {
 
@@ -7906,7 +8015,7 @@ Array.prototype.peek = function() {
                 if (this.master) {
                     this.masterLocation = destinationChoices;
                     this.masterId = player[0].id;
-                    if (Date.now() - this.lastMasterUpdate > 5000) {
+                    if (Date.now() - this.lastMasterUpdate > 500) {
                         var self = this;
                         var query = new Parse.Query(this.MasterLocation);
                         query.equalTo("server", getServer());
@@ -7967,8 +8076,8 @@ Array.prototype.peek = function() {
             console.log('MiniMapPanel Render');
         },
         calcPosition:function(x,y,size){
-            var nX = ((x - getMapStartX())/this.mapInfo.length_x) * this.canvas.width;
-            var nY = ((y - getMapStartX())/this.mapInfo.length_y) * this.canvas.height;
+            var nX = ((x - this.mapInfo.start_x)/this.mapInfo.length_x) * this.canvas.width;
+            var nY = ((y - this.mapInfo.start_y)/this.mapInfo.length_y) * this.canvas.height;
             var nSize = (size/this.mapInfo.length_x)*this.canvas.width;
             return {x:nX,y:nY,size:nSize};
         },
@@ -8111,6 +8220,9 @@ Array.prototype.peek = function() {
 /**
  * At the end of the world. We lauch the application
  */
-(function($, Backbone, _, app){
+(function($, Backbone, _,AgarBot, app){
     app.start();
-})(jQuery, Backbone, _, AgarBot.app);
+    $(document).ready(function(){
+        AgarBot.pubsub.trigger('document.ready');
+    });
+})(jQuery, Backbone, _,AgarBot, AgarBot.app);
