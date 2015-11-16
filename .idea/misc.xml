@@ -19,5 +19,6 @@
     <file url="file://$PROJECT_DIR$/js/AutoBot/AposBot.js" />
     <file url="file://$PROJECT_DIR$/js/AutoBot/AposFeedingBot.js" />
     <file url="file://$PROJECT_DIR$/js/AutoBot/Laucher.js" />
+    <file url="file://$PROJECT_DIR$/js/concat.js" />
   </component>
 </project>

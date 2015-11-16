@@ -13,6 +13,7 @@ module.exports = function(grunt) {
           'js/lib/msgpack.js',
           'js/Application.js',
           'js/CustomWebSocket.js',
+          'js/MapControl.js',
           //Message passing with content, bacground scirpt
           'js/messenger.js',
           'js/template-loader.js',
@@ -25,7 +26,6 @@ module.exports = function(grunt) {
           //END Auto feed bot
 
           //BEGIN Minimap
-          'js/minimap/Cell.js',
           'js/minimap/minimap.js',
           //END minimap
           'js/StartApplication.js'

@@ -1944,7 +1944,7 @@
     };
     window.getServer = function() {
         return serverIP;
-    }
+    };
     window.getCurrentScore = function() {
         return K;
     }
