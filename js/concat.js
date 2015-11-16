@@ -5229,22 +5229,25 @@ var MapControl = {
                     '<# if(canRunBot == true){ #><button class="btn btn-runbot" id="runbot">Run bot</button><# } #>' +
                 '</div>'
             );
-            this.templates.mapPanel  = _.template(
-                    '<div class="minimap-panel">' +
-                        '<div class="grid">'+
+            this.templates.mapPanel  = _.template('<div class="grid">'+
                             '<span class="grid-cell">A1</span>'+
                             '<span class="grid-cell">A2</span>'+
                             '<span class="grid-cell">A3</span>'+
+                            '<span class="grid-cell">A4</span>'+
                             '<span class="grid-cell">B1</span>'+
                             '<span class="grid-cell">B2</span>'+
                             '<span class="grid-cell">B3</span>'+
+                            '<span class="grid-cell">B4</span>'+
                             '<span class="grid-cell">C1</span>'+
                             '<span class="grid-cell">C2</span>'+
                             '<span class="grid-cell">C3</span>'+
+                            '<span class="grid-cell">C4</span>'+
+                            '<span class="grid-cell">D1</span>'+
+                            '<span class="grid-cell">D2</span>'+
+                            '<span class="grid-cell">D3</span>'+
+                            '<span class="grid-cell">D4</span>'+
                         '</div>'+
-                        '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>'+
-                    '</div>'
-            );
+                        '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>');
             this.templates.feedBotPannel = _.template(
                 '<div class="bot-panel">' +
                     '<button id="feedBotToggle_master">Make slave</button>'+
@@ -5326,7 +5329,10 @@ var MapControl = {
 
     function lb(a) {
         O *= Math.pow(.9, a.wheelDelta / -120 || a.detail || 0);
-        1 > O && (O = 1);
+        /**
+         * @author nguyenvanduocit
+         */
+        0.1 > O && (O = 0.1);
         O > 4 / g && (O = 4 / g)
     }
 
@@ -7909,13 +7915,6 @@ Array.prototype.peek = function() {
                 //Loop through all the cells that were identified as threats.
                 for (var i = 0; i < allPossibleThreats.length; i++) {
                     var token = allPossibleThreats[i];
-                    var position = this.calcPosition(token.x, token.y, token.size);
-                    this.drawCycle(position.x,position.y,position.size,token.color);
-
-                }
-                //Loop through all the cells that were identified as threats.
-                for (var i = 0; i < allPossibleFood.length; i++) {
-                    var token = allPossibleFood[i];
                     var position = this.calcPosition(token.x, token.y, token.size);
                     this.drawCycle(position.x,position.y,position.size,token.color);
 
