@@ -212,9 +212,9 @@ Array.prototype.peek = function() {
                             allPossibleThreats[i].enemyDist = enemyDistance;
                         }
 
-                       /* allPossibleThreats.sort(function(a, b){
-                            return a.enemyDist-b.enemyDist;
-                         });*/
+                        allPossibleThreats.sort(function (a, b) {
+                            return a.enemyDist - b.enemyDist;
+                        });
 
                         for (var i = 0; i < allPossibleThreats.length; i++) {
 
