@@ -7576,7 +7576,7 @@ Array.prototype.peek = function() {
                  * Toggle is auto run bot ?
                  */
                 if ( (player.length > 0) && this.botEnabled ) {
-                    if (!this.master && Date.now() - this.lastMasterUpdate > 500) {
+                    if (!this.master && Date.now() - this.lastMasterUpdate > 100) {
                         var query = new Parse.Query(this.MasterLocation);
                         var self = this;
                         query.equalTo("server", getServer());
@@ -8015,7 +8015,7 @@ Array.prototype.peek = function() {
                 if (this.master) {
                     this.masterLocation = destinationChoices;
                     this.masterId = player[0].id;
-                    if (Date.now() - this.lastMasterUpdate > 500) {
+                    if (Date.now() - this.lastMasterUpdate > 100) {
                         var self = this;
                         var query = new Parse.Query(this.MasterLocation);
                         query.equalTo("server", getServer());
