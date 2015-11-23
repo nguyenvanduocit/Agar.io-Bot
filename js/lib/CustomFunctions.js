@@ -59,7 +59,7 @@
             parms = {}, i, n, v, nv;
 
         if (query === url || query === "") {
-            return;
+            return parms;
         }
 
         for (i = 0; i < pairs.length; i++) {

@@ -4685,7 +4685,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             parms = {}, i, n, v, nv;
 
         if (query === url || query === "") {
-            return;
+            return parms;
         }
 
         for (i = 0; i < pairs.length; i++) {
@@ -7339,12 +7339,12 @@ var MapControl = {
 
     window.getWantedIp = function(){
         var ip = $('#ksIpInput').val();
-        if(ip.length > 0){
+        if(ip && ip.length > 0){
             return ip;
         }
         else{
             var _GET = parseURLParams(window.location.href);
-            if(_GET.ip){
+            if(typeof _GET.ip != 'undefined'){
                 return _GET.ip[0];
             }
         }
