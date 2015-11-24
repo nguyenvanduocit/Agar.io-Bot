@@ -179,7 +179,7 @@ Array.prototype.peek = function() {
 
                         //loop through everything that is on the screen and
                         //separate everything in it's own category.
-                        var allIsAll = MapControl.getAll(player[k]);
+                        var allIsAll = MapControl.getAll(player[k], this.master);
 
                         //The food stored in element 0 of allIsAll
                         var allPossibleFood = allIsAll[0];

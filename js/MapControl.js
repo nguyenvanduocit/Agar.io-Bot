@@ -1,6 +1,5 @@
 var MapControl = {
     splitDistance : 710,
-    minimumSizeToGoing:10,
     shiftAngle:function(listToUse, angle, range) {
         //TODO: shiftAngle needs to respect the range! DONE?
         for (var i = 0; i < listToUse.length; i++) {
@@ -358,11 +357,11 @@ var MapControl = {
         var distance = Math.sqrt(xdis * xdis + ydis * ydis);
         return distance;
     },
-    getAll:function(blob){
+    getAll:function(blob, isMaster){
         var dotList = [];
         var player = getPlayer();
         var interNodes = getMemoryCells();
-        dotList = this.separateListBasedOnFunction(this, interNodes, blob);
+        dotList = this.separateListBasedOnFunction(this, interNodes, blob, isMaster);
         return dotList;
     },
     getTeam : function(red, green, blue) {
@@ -445,18 +444,21 @@ var MapControl = {
         }
         return false;
     },
-    separateListBasedOnFunction:function(that, listToUse, blob){
+    separateListBasedOnFunction:function(that, listToUse, blob, isMaster){
         var foodElementList = [];
         var threatList = [];
         var virusList = [];
         var splitTargetList = [];
         var foundMaster = [];
         var equalToMe = [];
+        if(typeof isMaster !='undefined'){
+            isMaster = true;
+        }
         var player = getPlayer();
         Object.keys(listToUse).forEach(function(element, index) {
             var isMe = that.isItMe(player, listToUse[element]);
             if (!isMe) {
-                if (!that.master && listToUse[element].id == that.masterId) {
+                if (!isMaster && listToUse[element].id == that.masterId) {
                     foundMaster.push(listToUse[element]);
                     console.log("Found master! " + that.masterId + ", " + listToUse[element].id);
                 }else if (that.isFood(blob, listToUse[element]) && listToUse[element].isNotMoving()) {
@@ -464,7 +466,7 @@ var MapControl = {
                     foodElementList.push(listToUse[element]);
                 }else if (that.isThreat(blob, listToUse[element])) {
                     //IT'S DANGER!
-                    if ((!that.master && listToUse[element].id != that.masterId) || that.master) {
+                    if ((!isMaster && listToUse[element].id != that.masterId) || isMaster) {
                         threatList.push(listToUse[element]);
                     } else {
                         console.log("Found master! " + that.masterId);

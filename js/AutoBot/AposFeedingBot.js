@@ -1,20 +1,20 @@
 /*The MIT License (MIT)
- Copyright (c) 2015 Apostolique
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE.*/
+Copyright (c) 2015 Apostolique
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.*/
 
 // ==UserScript==
 // @name        AposFeedingBot
@@ -46,41 +46,41 @@ Array.prototype.peek = function() {
 var sha = "efde0488cc2cc176db48dd23b28a20b90314352b";
 function getLatestCommit() {
     window.jQuery.ajax({
-        url: "https://api.github.com/repos/apostolique/AposFeedingBot/git/refs/heads/master",
-        cache: false,
-        dataType: "jsonp"
-    }).done(function(data) {
-        console.dir(data.data);
-        console.log("hmm: " + data.data.object.sha);
-        sha = data.data.object.sha;
+            url: "https://api.github.com/repos/apostolique/AposFeedingBot/git/refs/heads/master",
+            cache: false,
+            dataType: "jsonp"
+        }).done(function(data) {
+            console.dir(data.data);
+            console.log("hmm: " + data.data.object.sha);
+            sha = data.data.object.sha;
 
-        function update(prefix, name, url) {
-            window.jQuery(document.body).prepend("<div id='" + prefix + "Dialog' style='position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 100; display: none;'>");
-            window.jQuery('#' + prefix + 'Dialog').append("<div id='" + prefix + "Message' style='width: 350px; background-color: #FFFFFF; margin: 100px auto; border-radius: 15px; padding: 5px 15px 5px 15px;'>");
-            window.jQuery('#' + prefix + 'Message').append("<h2>UPDATE TIME!!!</h2>");
-            window.jQuery('#' + prefix + 'Message').append("<p>Grab the update for: <a id='" + prefix + "Link' href='" + url + "' target=\"_blank\">" + name + "</a></p>");
-            window.jQuery('#' + prefix + 'Link').on('click', function() {
-                window.jQuery("#" + prefix + "Dialog").hide();
-                window.jQuery("#" + prefix + "Dialog").remove();
-            });
-            window.jQuery("#" + prefix + "Dialog").show();
-        }
-
-        $.get('https://raw.githubusercontent.com/Apostolique/AposFeedingBot/master/AposFeedingBot.user.js?' + Math.floor((Math.random() * 1000000) + 1), function(data) {
-            var latestVersion = data.replace(/(\r\n|\n|\r)/gm,"");
-            latestVersion = latestVersion.substring(latestVersion.indexOf("// @version")+11,latestVersion.indexOf("// @grant"));
-
-            latestVersion = parseFloat(latestVersion + 0.0000);
-            var myVersion = parseFloat(aposFeedingBotVersion + 0.0000);
-
-            if(latestVersion > myVersion)
-            {
-                update("aposFeedingBot", "AposFeedingBot.user.js", "https://github.com/Apostolique/AposFeedingBot/blob/" + sha + "/AposFeedingBot.user.js/");
+            function update(prefix, name, url) {
+                window.jQuery(document.body).prepend("<div id='" + prefix + "Dialog' style='position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 100; display: none;'>");
+                window.jQuery('#' + prefix + 'Dialog').append("<div id='" + prefix + "Message' style='width: 350px; background-color: #FFFFFF; margin: 100px auto; border-radius: 15px; padding: 5px 15px 5px 15px;'>");
+                window.jQuery('#' + prefix + 'Message').append("<h2>UPDATE TIME!!!</h2>");
+                window.jQuery('#' + prefix + 'Message').append("<p>Grab the update for: <a id='" + prefix + "Link' href='" + url + "' target=\"_blank\">" + name + "</a></p>");
+                window.jQuery('#' + prefix + 'Link').on('click', function() {
+                    window.jQuery("#" + prefix + "Dialog").hide();
+                    window.jQuery("#" + prefix + "Dialog").remove();
+                });
+                window.jQuery("#" + prefix + "Dialog").show();
             }
-            console.log('Current AposFeedingBot.user.js Version: ' + myVersion + " on Github: " + latestVersion);
-        });
 
-    }).fail(function() {});
+            $.get('https://raw.githubusercontent.com/Apostolique/AposFeedingBot/master/AposFeedingBot.user.js?' + Math.floor((Math.random() * 1000000) + 1), function(data) {
+                var latestVersion = data.replace(/(\r\n|\n|\r)/gm,"");
+                latestVersion = latestVersion.substring(latestVersion.indexOf("// @version")+11,latestVersion.indexOf("// @grant"));
+
+                latestVersion = parseFloat(latestVersion + 0.0000);
+                var myVersion = parseFloat(aposFeedingBotVersion + 0.0000);
+
+                if(latestVersion > myVersion)
+                {
+                    update("aposFeedingBot", "AposFeedingBot.user.js", "https://github.com/Apostolique/AposFeedingBot/blob/" + sha + "/AposFeedingBot.user.js/");
+                }
+                console.log('Current AposFeedingBot.user.js Version: ' + myVersion + " on Github: " + latestVersion);
+            });
+
+        }).fail(function() {});
 }
 getLatestCommit();
 
@@ -96,15 +96,15 @@ console.log("Apos Feeding Bot!");
 window.botList = window.botList || [];
 
 /*function QuickBot() {
- this.name = "QuickBot V1";
- this.keyAction = function(key) {};
- this.displayText = function() {return [];};
- this.mainLoop = function() {
- return [screenToGameX(getMouseX()),
- screenToGameY(getMouseY())];
- };
- }
- window.botList.push(new QuickBot());*/
+    this.name = "QuickBot V1";
+    this.keyAction = function(key) {};
+    this.displayText = function() {return [];};
+    this.mainLoop = function() {
+        return [screenToGameX(getMouseX()),
+                screenToGameY(getMouseY())];
+    };
+}
+window.botList.push(new QuickBot());*/
 
 
 function AposBot() {
@@ -189,9 +189,9 @@ function AposBot() {
         return false;
     },
 
-        this.canSplit = function(player1, player2) {
-            return this.compareSize(player1, player2, 2.8) && !this.compareSize(player1, player2, 20);
-        };
+    this.canSplit = function(player1, player2) {
+        return this.compareSize(player1, player2, 2.8) && !this.compareSize(player1, player2, 20);
+    };
 
     this.isItMe = function(player, cell) {
         if (getMode() == ":teams") {
@@ -306,9 +306,9 @@ function AposBot() {
                     foodElementList.push(listToUse[element]);
                 }
             }/*else if(isMe && (getBlobCount(getPlayer()) > 0)){
-             //Attempt to make the other cell follow the mother one
-             foodElementList.push(listToUse[element]);
-             }*/
+                //Attempt to make the other cell follow the mother one
+                foodElementList.push(listToUse[element]);
+            }*/
         });
 
         foodList = [];
@@ -521,12 +521,12 @@ function AposBot() {
         //var radius = blob2.size;
 
         /*if (blob2.isVirus()) {
-         radius = blob1.size;
-         } else if(canSplit(blob1, blob2)) {
-         radius += splitDistance;
-         } else {
-         radius += blob1.size * 2;
-         }*/
+            radius = blob1.size;
+        } else if(canSplit(blob1, blob2)) {
+            radius += splitDistance;
+        } else {
+            radius += blob1.size * 2;
+        }*/
 
         var shouldInvert = false;
 
@@ -559,11 +559,11 @@ function AposBot() {
         var angleDistance = (angleRight - angleLeft).mod(360);
 
         /*if (shouldInvert) {
-         var temp = angleLeft;
-         angleLeft = (angleRight + 180).mod(360);
-         angleRight = (temp + 180).mod(360);
-         angleDistance = (angleRight - angleLeft).mod(360);
-         }*/
+            var temp = angleLeft;
+            angleLeft = (angleRight + 180).mod(360);
+            angleRight = (temp + 180).mod(360);
+            angleDistance = (angleRight - angleLeft).mod(360);
+        }*/
 
         return [angleLeft, angleDistance, [cx + tb.x, cy + tb.y],
             [cx + ta.x, cy + ta.y]
@@ -576,67 +576,67 @@ function AposBot() {
         return [angle1, angle2];
     },
 
-        this.addWall = function(listToUse, blob) {
-            //var mapSizeX = Math.abs(f.getMapStartX - f.getMapEndX);
-            //var mapSizeY = Math.abs(f.getMapStartY - f.getMapEndY);
-            //var distanceFromWallX = mapSizeX/3;
-            //var distanceFromWallY = mapSizeY/3;
-            var distanceFromWallY = 2000;
-            var distanceFromWallX = 2000;
-            if (blob.x < getMapStartX() + distanceFromWallX) {
-                //LEFT
-                //console.log("Left");
-                listToUse.push([
-                    [90, true],
-                    [270, false], this.computeDistance(getMapStartX(), blob.y, blob.x, blob.y)
-                ]);
-                var lineLeft = this.followAngle(90, blob.x, blob.y, 190 + blob.size);
-                var lineRight = this.followAngle(270, blob.x, blob.y, 190 + blob.size);
-                drawLine(blob.x, blob.y, lineLeft[0], lineLeft[1], 5);
-                drawLine(blob.x, blob.y, lineRight[0], lineRight[1], 5);
-                drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob.x, blob.y, 5);
-            }
-            if (blob.y < getMapStartY() + distanceFromWallY) {
-                //TOP
-                //console.log("TOP");
-                listToUse.push([
-                    [180, true],
-                    [0, false], this.computeDistance(blob.x, getMapStartY, blob.x, blob.y)
-                ]);
-                var lineLeft = this.followAngle(180, blob.x, blob.y, 190 + blob.size);
-                var lineRight = this.followAngle(360, blob.x, blob.y, 190 + blob.size);
-                drawLine(blob.x, blob.y, lineLeft[0], lineLeft[1], 5);
-                drawLine(blob.x, blob.y, lineRight[0], lineRight[1], 5);
-                drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob.x, blob.y, 5);
-            }
-            if (blob.x > getMapEndX() - distanceFromWallX) {
-                //RIGHT
-                //console.log("RIGHT");
-                listToUse.push([
-                    [270, true],
-                    [90, false], this.computeDistance(getMapEndX(), blob.y, blob.x, blob.y)
-                ]);
-                var lineLeft = this.followAngle(270, blob.x, blob.y, 190 + blob.size);
-                var lineRight = this.followAngle(90, blob.x, blob.y, 190 + blob.size);
-                drawLine(blob.x, blob.y, lineLeft[0], lineLeft[1], 5);
-                drawLine(blob.x, blob.y, lineRight[0], lineRight[1], 5);
-                drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob.x, blob.y, 5);
-            }
-            if (blob.y > getMapEndY() - distanceFromWallY) {
-                //BOTTOM
-                //console.log("BOTTOM");
-                listToUse.push([
-                    [0, true],
-                    [180, false], this.computeDistance(blob.x, getMapEndY(), blob.x, blob.y)
-                ]);
-                var lineLeft = this.followAngle(0, blob.x, blob.y, 190 + blob.size);
-                var lineRight = this.followAngle(180, blob.x, blob.y, 190 + blob.size);
-                drawLine(blob.x, blob.y, lineLeft[0], lineLeft[1], 5);
-                drawLine(blob.x, blob.y, lineRight[0], lineRight[1], 5);
-                drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob.x, blob.y, 5);
-            }
-            return listToUse;
-        };
+    this.addWall = function(listToUse, blob) {
+        //var mapSizeX = Math.abs(f.getMapStartX - f.getMapEndX);
+        //var mapSizeY = Math.abs(f.getMapStartY - f.getMapEndY);
+        //var distanceFromWallX = mapSizeX/3;
+        //var distanceFromWallY = mapSizeY/3;
+        var distanceFromWallY = 2000;
+        var distanceFromWallX = 2000;
+        if (blob.x < getMapStartX() + distanceFromWallX) {
+            //LEFT
+            //console.log("Left");
+            listToUse.push([
+                [90, true],
+                [270, false], this.computeDistance(getMapStartX(), blob.y, blob.x, blob.y)
+            ]);
+            var lineLeft = this.followAngle(90, blob.x, blob.y, 190 + blob.size);
+            var lineRight = this.followAngle(270, blob.x, blob.y, 190 + blob.size);
+            drawLine(blob.x, blob.y, lineLeft[0], lineLeft[1], 5);
+            drawLine(blob.x, blob.y, lineRight[0], lineRight[1], 5);
+            drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob.x, blob.y, 5);
+        }
+        if (blob.y < getMapStartY() + distanceFromWallY) {
+            //TOP
+            //console.log("TOP");
+            listToUse.push([
+                [180, true],
+                [0, false], this.computeDistance(blob.x, getMapStartY, blob.x, blob.y)
+            ]);
+            var lineLeft = this.followAngle(180, blob.x, blob.y, 190 + blob.size);
+            var lineRight = this.followAngle(360, blob.x, blob.y, 190 + blob.size);
+            drawLine(blob.x, blob.y, lineLeft[0], lineLeft[1], 5);
+            drawLine(blob.x, blob.y, lineRight[0], lineRight[1], 5);
+            drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob.x, blob.y, 5);
+        }
+        if (blob.x > getMapEndX() - distanceFromWallX) {
+            //RIGHT
+            //console.log("RIGHT");
+            listToUse.push([
+                [270, true],
+                [90, false], this.computeDistance(getMapEndX(), blob.y, blob.x, blob.y)
+            ]);
+            var lineLeft = this.followAngle(270, blob.x, blob.y, 190 + blob.size);
+            var lineRight = this.followAngle(90, blob.x, blob.y, 190 + blob.size);
+            drawLine(blob.x, blob.y, lineLeft[0], lineLeft[1], 5);
+            drawLine(blob.x, blob.y, lineRight[0], lineRight[1], 5);
+            drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob.x, blob.y, 5);
+        }
+        if (blob.y > getMapEndY() - distanceFromWallY) {
+            //BOTTOM
+            //console.log("BOTTOM");
+            listToUse.push([
+                [0, true],
+                [180, false], this.computeDistance(blob.x, getMapEndY(), blob.x, blob.y)
+            ]);
+            var lineLeft = this.followAngle(0, blob.x, blob.y, 190 + blob.size);
+            var lineRight = this.followAngle(180, blob.x, blob.y, 190 + blob.size);
+            drawLine(blob.x, blob.y, lineLeft[0], lineLeft[1], 5);
+            drawLine(blob.x, blob.y, lineRight[0], lineRight[1], 5);
+            drawArc(lineLeft[0], lineLeft[1], lineRight[0], lineRight[1], blob.x, blob.y, 5);
+        }
+        return listToUse;
+    };
 
     //listToUse contains angles in the form of [angle, boolean].
     //boolean is true when the range is starting. False when it's ending.
@@ -865,6 +865,7 @@ function AposBot() {
                         this.masterLocation = [allIsAll[4][0].x, allIsAll[4][0].y]
                     }
 
+
                     //The bot works by removing angles in which it is too
                     //dangerous to travel towards to.
                     var badAngles = [];
@@ -886,8 +887,8 @@ function AposBot() {
                     }
 
                     /*allPossibleThreats.sort(function(a, b){
-                     return a.enemyDist-b.enemyDist;
-                     })*/
+                        return a.enemyDist-b.enemyDist;
+                    })*/
 
                     for (var i = 0; i < allPossibleThreats.length; i++) {
 
@@ -925,10 +926,10 @@ function AposBot() {
                         }
 
                         /*if ((enemyCanSplit && enemyDistance < splitDangerDistance) ||
-                         (!enemyCanSplit && enemyDistance < normalDangerDistance)) {
-                         allPossibleThreats[i].danger = true;
-                         allPossibleThreats[i].dangerTimeOut = f.getLastUpdate();
-                         }*/
+                            (!enemyCanSplit && enemyDistance < normalDangerDistance)) {
+                            allPossibleThreats[i].danger = true;
+                            allPossibleThreats[i].dangerTimeOut = f.getLastUpdate();
+                        }*/
 
                         //console.log("Figured out who was important.");
 
@@ -1090,7 +1091,7 @@ function AposBot() {
                         drawPoint(line2[0], line2[1], 0, "" + i + ": 1");
                     }
 
-                    if (!this.master) {
+                    if (!this.master && goodAngles.length == 0 && (player[k].size * player[k].size / 100) > 50) {
                         //This is the slave mode
                         console.log("Really Going to: " + this.masterLocation);
                         var distance = this.computeDistance(player[k].x, player[k].y, this.masterLocation[0], this.masterLocation[1]);
@@ -1141,38 +1142,38 @@ function AposBot() {
                         console.log("Failed");
                         destinationChoices = [tempMoveX, tempMoveY];
                         /*var angleWeights = [] //Put weights on the angles according to enemy distance
-                         for (var i = 0; i < allPossibleThreats.length; i++){
-                         var dist = this.computeDistance(player[k].x, player[k].y, allPossibleThreats[i].x, allPossibleThreats[i].y);
-                         var angle = this.getAngle(allPossibleThreats[i].x, allPossibleThreats[i].y, player[k].x, player[k].y);
-                         angleWeights.push([angle,dist]);
-                         }
-                         var maxDist = 0;
-                         var finalAngle = 0;
-                         for (var i = 0; i < angleWeights.length; i++){
-                         if (angleWeights[i][1] > maxDist){
-                         maxDist = angleWeights[i][1];
-                         finalAngle = (angleWeights[i][0] + 180).mod(360);
-                         }
-                         }
-                         var line1 = this.followAngle(finalAngle,player[k].x,player[k].y,f.verticalDistance());
-                         drawLine(player[k].x, player[k].y, line1[0], line1[1], 2);
-                         destinationChoices.push(line1);*/
+                        for (var i = 0; i < allPossibleThreats.length; i++){
+                            var dist = this.computeDistance(player[k].x, player[k].y, allPossibleThreats[i].x, allPossibleThreats[i].y);
+                            var angle = this.getAngle(allPossibleThreats[i].x, allPossibleThreats[i].y, player[k].x, player[k].y);
+                            angleWeights.push([angle,dist]);
+                        }
+                        var maxDist = 0;
+                        var finalAngle = 0;
+                        for (var i = 0; i < angleWeights.length; i++){
+                            if (angleWeights[i][1] > maxDist){
+                                maxDist = angleWeights[i][1];
+                                finalAngle = (angleWeights[i][0] + 180).mod(360);
+                            }
+                        }
+                        var line1 = this.followAngle(finalAngle,player[k].x,player[k].y,f.verticalDistance());
+                        drawLine(player[k].x, player[k].y, line1[0], line1[1], 2);
+                        destinationChoices.push(line1);*/
                     } else if (clusterAllFood.length > 0) {
                         for (var i = 0; i < clusterAllFood.length; i++) {
                             //console.log("mefore: " + clusterAllFood[i][2]);
                             //This is the cost function. Higher is better.
 
-                            var clusterAngle = this.getAngle(clusterAllFood[i][0], clusterAllFood[i][1], player[k].x, player[k].y);
+                                var clusterAngle = this.getAngle(clusterAllFood[i][0], clusterAllFood[i][1], player[k].x, player[k].y);
 
-                            clusterAllFood[i][2] = clusterAllFood[i][2] * 6 - this.computeDistance(clusterAllFood[i][0], clusterAllFood[i][1], player[k].x, player[k].y);
-                            //console.log("Current Value: " + clusterAllFood[i][2]);
+                                clusterAllFood[i][2] = clusterAllFood[i][2] * 6 - this.computeDistance(clusterAllFood[i][0], clusterAllFood[i][1], player[k].x, player[k].y);
+                                //console.log("Current Value: " + clusterAllFood[i][2]);
 
-                            //(goodAngles[bIndex][1] / 2 - (Math.abs(perfectAngle - clusterAngle)));
+                                //(goodAngles[bIndex][1] / 2 - (Math.abs(perfectAngle - clusterAngle)));
 
-                            clusterAllFood[i][3] = clusterAngle;
+                                clusterAllFood[i][3] = clusterAngle;
 
-                            drawPoint(clusterAllFood[i][0], clusterAllFood[i][1], 1, "");
-                            //console.log("After: " + clusterAllFood[i][2]);
+                                drawPoint(clusterAllFood[i][0], clusterAllFood[i][1], 1, "");
+                                //console.log("After: " + clusterAllFood[i][2]);
                         }
 
                         var bestFoodI = 0;
@@ -1212,26 +1213,26 @@ function AposBot() {
 
                 //TODO: Find where to go based on destinationChoices.
                 /*var dangerFound = false;
-                 for (var i = 0; i < destinationChoices.length; i++) {
-                 if (destinationChoices[i][2]) {
-                 dangerFound = true;
-                 break;
-                 }
-                 }
-                 destinationChoices.sort(function(a, b){return b[1] - a[1]});
-                 if (dangerFound) {
-                 for (var i = 0; i < destinationChoices.length; i++) {
-                 if (destinationChoices[i][2]) {
-                 tempMoveX = destinationChoices[i][0][0];
-                 tempMoveY = destinationChoices[i][0][1];
-                 break;
-                 }
-                 }
-                 } else {
-                 tempMoveX = destinationChoices.peek()[0][0];
-                 tempMoveY = destinationChoices.peek()[0][1];
-                 //console.log("Done " + tempMoveX + ", " + tempMoveY);
-                 }*/
+                for (var i = 0; i < destinationChoices.length; i++) {
+                    if (destinationChoices[i][2]) {
+                        dangerFound = true;
+                        break;
+                    }
+                }
+                destinationChoices.sort(function(a, b){return b[1] - a[1]});
+                if (dangerFound) {
+                    for (var i = 0; i < destinationChoices.length; i++) {
+                        if (destinationChoices[i][2]) {
+                            tempMoveX = destinationChoices[i][0][0];
+                            tempMoveY = destinationChoices[i][0][1];
+                            break;
+                        }
+                    }
+                } else {
+                    tempMoveX = destinationChoices.peek()[0][0];
+                    tempMoveY = destinationChoices.peek()[0][1];
+                    //console.log("Done " + tempMoveX + ", " + tempMoveY);
+                }*/
             }
             //console.log("MOVING RIGHT NOW!");
 
