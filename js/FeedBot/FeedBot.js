@@ -1038,7 +1038,7 @@ Array.prototype.peek = function() {
             }
             return false;
         },
-        getTimeToMerge: function (mass) {
+        getTimeToRemerge : function (mass) {
             return ((mass * 0.02) + 30);
         },
         /**
