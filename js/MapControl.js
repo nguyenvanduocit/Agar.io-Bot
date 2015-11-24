@@ -1,7 +1,6 @@
 var MapControl = {
     splitDistance : 710,
     minimumSizeToGoing:10,
-    dangerTimeOut:1000,
     shiftAngle:function(listToUse, angle, range) {
         //TODO: shiftAngle needs to respect the range! DONE?
         for (var i = 0; i < listToUse.length; i++) {
