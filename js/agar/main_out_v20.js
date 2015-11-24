@@ -1570,9 +1570,6 @@
                     getUptimeTime: function() {
                         return this.L;
                     },
-                    split:function(){
-
-                    },
                     S: function () {
                         var a;
                         for (a = 0; a < x.length; a++)if (x[a] == this) {

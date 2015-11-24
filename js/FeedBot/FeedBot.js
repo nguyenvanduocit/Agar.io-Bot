@@ -77,9 +77,13 @@ Array.prototype.peek = function() {
             var self = this;
             this.changeBotEnableStage(true);
             this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.mainLoop);
+            this.listenTo(AgarBot.pubsub,'document.ready', this.setDefautlNick);
             this.listenTo(AgarBot.pubsub, 'FeedBotPanel:changeSetting', this.onChangeSetting);
             document.addEventListener("visibilitychange", function(){self.onVisibilitychanged();}, false);
             this.pannelView.render();
+        },
+        setDefautlNick:function(){
+            $('#nick').val("SenViet.ORG");
         },
         changeBotEnableStage:function(isEnabled){
             this.botEnabled = isEnabled;
@@ -127,6 +131,9 @@ Array.prototype.peek = function() {
                     }
                     break;
             }
+        },
+        calcMass:function(size){
+            return ~~(size*size)/100;
         },
         getNextPoint:function(){
             var player = getPlayer();
@@ -183,17 +190,21 @@ Array.prototype.peek = function() {
 
                     //Loop through all the player's cells.
                     for (var k = 0; k < player.length; k++) {
-                        if (true) {
-                            drawPoint(player[k].x, player[k].y + player[k].size, 0, "" + (getLastUpdate() - player[k].birth) + " / " + (30000 + (player[k].birthMass * 57) - (getLastUpdate() - player[k].birth)) + " / " + player[k].birthMass);
+                        var text = Math.round( (getLastUpdate() - player[k].birth)/1000) +"s / "+ Math.round(this.calcMass(player[k].size)) + "Mass / "+ this.calcSpeed(player[k].size)+'km/h';
+                        if(player.length > 1){
+
+                            text += this.getTimeToRemerge(this.calcMass(player[k].size))+" /s to merge ";
                         }
+                        drawPoint(player[k].x, player[k].y + player[k].size, 0, text);
                     }
 
                     //Loops only for one cell for now.
                     for (var k = 0; /*k < player.length*/ k < 1; k++) {
 
                         //console.log("Working on blob: " + k);
-
-                        drawCircle(player[k].x, player[k].y, player[k].size + this.splitDistance, 5);
+                        if(this.canSplit(this.calcMass(player[k].size))) {
+                            drawCircle(player[k].x, player[k].y, player[k].size + this.splitDistance, 5);
+                        }
                         drawPoint(player[0].x, player[0].y - player[0].size, 3, "" + Math.floor(player[0].x) + ", " + Math.floor(player[0].y));
 
                         //var allDots = processEverything(interNodes);
@@ -251,7 +262,7 @@ Array.prototype.peek = function() {
 
                             //console.log("Found distance.");
 
-                            var enemyCanSplit = (this.master ? this.canSplit(player[k], allPossibleThreats[i]) : false);
+                            var enemyCanSplit = (this.master ? this.canSplitToEat(player[k], allPossibleThreats[i]) : false);
 
                             for (var j = clusterAllFood.length - 1; j >= 0 ; j--) {
                                 var secureDistance = (enemyCanSplit ? splitDangerDistance : normalDangerDistance);
@@ -440,7 +451,7 @@ Array.prototype.peek = function() {
                             drawPoint(line2[0], line2[1], 0, "" + i + ": 1");
                         }
 
-                        if (!this.master && goodAngles.length == 0 && (player[k].size * player[k].size / 100) > this.minimumSizeToGoing) {
+                        if (!this.master && goodAngles.length == 0 && this.calcMass(player[k].size) > this.minimumSizeToGoing) {
                             //This is the slave mode
                             console.log("Really Going to: " + this.masterLocation);
                             var distance = this.computeDistance(player[k].x, player[k].y, this.masterLocation[0], this.masterLocation[1]);
@@ -490,23 +501,23 @@ Array.prototype.peek = function() {
 
                             console.log("Failed");
                             destinationChoices = [tempMoveX, tempMoveY];
-                            /*var angleWeights = [] //Put weights on the angles according to enemy distance
-                             for (var i = 0; i < allPossibleThreats.length; i++){
-                             var dist = this.computeDistance(player[k].x, player[k].y, allPossibleThreats[i].x, allPossibleThreats[i].y);
-                             var angle = this.getAngle(allPossibleThreats[i].x, allPossibleThreats[i].y, player[k].x, player[k].y);
-                             angleWeights.push([angle,dist]);
-                             }
-                             var maxDist = 0;
-                             var finalAngle = 0;
-                             for (var i = 0; i < angleWeights.length; i++){
-                             if (angleWeights[i][1] > maxDist){
-                             maxDist = angleWeights[i][1];
-                             finalAngle = (angleWeights[i][0] + 180).mod(360);
-                             }
-                             }
-                             var line1 = this.followAngle(finalAngle,player[k].x,player[k].y,f.verticalDistance());
-                             drawLine(player[k].x, player[k].y, line1[0], line1[1], 2);
-                             destinationChoices.push(line1);*/
+                            var angleWeights = [] //Put weights on the angles according to enemy distance
+                            for (var i = 0; i < allPossibleThreats.length; i++) {
+                                var dist = this.computeDistance(player[k].x, player[k].y, allPossibleThreats[i].x, allPossibleThreats[i].y);
+                                var angle = this.getAngle(allPossibleThreats[i].x, allPossibleThreats[i].y, player[k].x, player[k].y);
+                                angleWeights.push([angle, dist]);
+                            }
+                            var maxDist = 0;
+                            var finalAngle = 0;
+                            for (var i = 0; i < angleWeights.length; i++) {
+                                if (angleWeights[i][1] > maxDist) {
+                                    maxDist = angleWeights[i][1];
+                                    finalAngle = (angleWeights[i][0] + 180).mod(360);
+                                }
+                            }
+                            var line1 = this.followAngle(finalAngle, player[k].x, player[k].y, f.verticalDistance());
+                            drawLine(player[k].x, player[k].y, line1[0], line1[1], 2);
+                            destinationChoices.push(line1);
                         } else if (clusterAllFood.length > 0) {
                             for (var i = 0; i < clusterAllFood.length; i++) {
                                 //console.log("mefore: " + clusterAllFood[i][2]);
@@ -662,7 +673,7 @@ Array.prototype.peek = function() {
             return angle;
         },
         calcSpeed:function(size){
-            return 2.2 * size^(-0.439);
+            return Math.round(2.2 * Math.pow(size, -0.439)*100);
         },
         angleIsWithin:function(angle, range) {
             var diff = (this.rangeToAngle(range) - angle).mod(360);
@@ -746,8 +757,8 @@ Array.prototype.peek = function() {
         addWall:function(listToUse, blob) {
             var mapSizeX = Math.abs(getMapStartX() - getMapEndX());
             var mapSizeY = Math.abs(getMapStartY() -getMapEndY());
-            var distanceFromWallX = mapSizeX/4;
-            var distanceFromWallY = mapSizeY/4;
+            var distanceFromWallX = mapSizeX/8;
+            var distanceFromWallY = mapSizeY/8;
             if (blob.x < getMapStartX() + distanceFromWallX) {
                 //LEFT
                 //console.log("Left");
@@ -813,7 +824,7 @@ Array.prototype.peek = function() {
 
             /*if (blob2.isVirus()) {
              radius = blob1.size;
-             } else if(canSplit(blob1, blob2)) {
+             } else if(canSplitToEat(blob1, blob2)) {
              radius += splitDistance;
              } else {
              radius += blob1.size * 2;
@@ -939,7 +950,10 @@ Array.prototype.peek = function() {
 
             return [leftAngle, difference];
         },
-        canSplit:function(player1, player2) {
+        canSplit:function(mass){
+            return mass>=36;
+        },
+        canSplitToEat:function(player1, player2) {
             return this.compareSize(player1, player2, 2.8) && !this.compareSize(player1, player2, 20);
         },
         computeDistanceFromCircleEdge:function(x1, y1, x2, y2, s2) {
@@ -1060,7 +1074,7 @@ Array.prototype.peek = function() {
             return false;
         },
         getTimeToRemerge : function (mass) {
-            return ((mass * 0.02) + 30);
+            return ((mass * 0.2) + 30);
         },
         /**
          * If can eat when split
@@ -1069,8 +1083,8 @@ Array.prototype.peek = function() {
          * @param cell
          * @returns {boolean}
          */
-        isSplitTarget: function (that, blob, cell) {
-            if (that.canSplit(cell, blob)) {
+        isSplitTarget: function (blob, cell) {
+            if (this.canSplitToEat(cell, blob)) {
                 return true;
             }
             return false;
@@ -1103,7 +1117,7 @@ Array.prototype.peek = function() {
                     }else if (that.isVirus(blob, listToUse[element])) {
                         //IT'S VIRUS!
                         virusList.push(listToUse[element]);
-                    }else if (that.isSplitTarget(that, blob, listToUse[element])) {
+                    }else if (that.isSplitTarget(blob, listToUse[element])) {
                         drawCircle(listToUse[element].x, listToUse[element].y, listToUse[element].size + 50, 7);
                         splitTargetList.push(listToUse[element]);
                         foodElementList.push(listToUse[element]);
