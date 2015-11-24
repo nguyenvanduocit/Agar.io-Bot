@@ -581,7 +581,7 @@
         0 < r ? (f.fillStyle = "#000000", Gb ? (f.globalAlpha = r, f.fillRect(0, 0, k, p), D.complete && D.width && (D.width / D.height < k / p ? (b = k, a = D.height * k / D.width) : (b = D.width * p / D.height, a = p), f.drawImage(D, (k - b) / 2, (p - a) / 2, b, a), f.globalAlpha = .5 * r, f.fillRect(0, 0, k, p))) : (f.globalAlpha = .5 * r, f.fillRect(0, 0, k, p)), f.globalAlpha = 1) : Gb = !1;
         Fb = F;
     }
-//UPDATE
+    //@author nguyenvanduocit
     function customRender(d) {
         d.save();
         for (var i = 0; i < lines.length; i++) {
