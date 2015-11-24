@@ -42,8 +42,13 @@
             console.log('Module Clan start');
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
         },
+        onSocketConnect:function(data){
+
+        },
         onDocumentReady:function(){
-            $('<div id="clanFormField"></div>').insertBefore($('#joinPartyToken'));
+            var $joinPartyToken = $('#joinPartyToken');
+            $('<div id="clanFormField"></div>').insertBefore($joinPartyToken);
+            $joinPartyToken.attr('placeholder', 'Code');
             if(typeof this.clanFormField =='undefined'){
                 this.clanFormField = new AgarBot.Views.ClanFormField({
                     el:'#clanFormField',

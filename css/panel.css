@@ -39,5 +39,7 @@
   .DuocBot .control-panel .status-panel {
     font-size: 23px;
     padding: 10px; }
+  .DuocBot .control-panel .statsPanel {
+    overflow: hidden; }
 
 /*# sourceMappingURL=panel.css.map */

@@ -1973,7 +1973,7 @@
         return serverIP;
     };
     window.getCurrentScore = function() {
-        return K;
+        return N;
     };
     window.sendMessage = function(a){
         T(a);

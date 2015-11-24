@@ -29,6 +29,9 @@ module.exports = function(grunt) {
           //BEGIN Minimap
           'js/minimap/minimap.js',
           //END minimap
+          //STATS
+          'js/Stats.js',
+          //END STATS
           'js/StartApplication.js'
         ],
         dest: 'js/concat.js'

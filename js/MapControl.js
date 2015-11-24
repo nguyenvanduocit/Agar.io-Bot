@@ -32,6 +32,9 @@ var MapControl = {
         //console.log("No Shifting Was needed!");
         return angle;
     },
+    calcSpeed:function(size){
+        return 2.2 * size^(-0.439);
+    },
     angleIsWithin:function(angle, range) {
         var diff = (this.rangeToAngle(range) - angle).mod(360);
         if (diff >= 0 && diff <= range[1]) {
@@ -112,12 +115,10 @@ var MapControl = {
         return listToUse.length;
     },
     addWall:function(listToUse, blob) {
-        //var mapSizeX = Math.abs(f.getMapStartX - f.getMapEndX);
-        //var mapSizeY = Math.abs(f.getMapStartY - f.getMapEndY);
-        //var distanceFromWallX = mapSizeX/3;
-        //var distanceFromWallY = mapSizeY/3;
-        var distanceFromWallY = 2000;
-        var distanceFromWallX = 2000;
+        var mapSizeX = Math.abs(getMapStartX() - getMapEndX());
+        var mapSizeY = Math.abs(getMapStartY() -getMapEndY());
+        var distanceFromWallX = mapSizeX/3;
+        var distanceFromWallY = mapSizeY/3;
         if (blob.x < getMapStartX() + distanceFromWallX) {
             //LEFT
             //console.log("Left");
@@ -429,9 +430,16 @@ var MapControl = {
         }
         return false;
     },
-    getTimeToRemerge: function (mass) {
+    getTimeToMerge: function (mass) {
         return ((mass * 0.02) + 30);
     },
+    /**
+     * If can eat when split
+     * @param that
+     * @param blob
+     * @param cell
+     * @returns {boolean}
+     */
     isSplitTarget: function (that, blob, cell) {
         if (that.canSplit(cell, blob)) {
             return true;

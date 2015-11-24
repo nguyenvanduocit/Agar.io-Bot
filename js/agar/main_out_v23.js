@@ -66,10 +66,7 @@
 
     function yb(a) {
         S *= Math.pow(.9, a.wheelDelta / -120 || a.detail || 0);
-        /**
-         * @author nguyenvanduocit
-         */
-        0.1 > S && (S = 0.1);
+        1 > S && (S = 1);
         S > 4 / g && (S = 4 / g)
     }
 
@@ -85,10 +82,8 @@
     }
 
     function Ta() {
-        //@author nguyenvanduocit
-        var tmp_ta = (ta - m / 2) / g + v;
-        var temp_ua = (ua - q / 2) / g + w;
-        setPoint(tmp_ta, temp_ua);
+        Aa = (ta - m / 2) / g + v;
+        Ba = (ua - q / 2) / g + w
     }
 
     function wb() {
@@ -226,12 +221,7 @@
             b && u.aa.push(aa.defineSlot(c, "728x90", "a728x90"))
         }
     }
-    /**
-     * @author nguyenvanduocit
-     * @type {number}
-     */
-    var currenConnecttTry = 0;
-    var maxConnectRetry = 50;
+
     function Hb() {
         var a = ++Ua;
         console.log("Find " + A + T);
@@ -243,23 +233,9 @@
                 if (a == Ua) {
                     c.alert && alert(c.alert);
                     var b = c.ip;
-                    /**
-                     * @author nguyenvanduocit
-                     */
-                    var wantedIp = window.getWantedIp();
-                    if(wantedIp && wantedIp !== b.trim()){
-                        console.log('Found ',b,", Wanted : ",wantedIp );
-                        if(currenConnecttTry <= maxConnectRetry){
-                            currenConnecttTry++;
-                            AgarBot.pubsub.trigger('findServer:retry', {time:currenConnecttTry});
-                            setTimeout(Hb, 2e3);
-                        }else{
-                            AgarBot.pubsub.trigger('findServer:ipNotFound');
-                        }
-                    }else{
-                        void 0 != L.Y && (b = d.location.hostname + ":" + L.Y);
-                        cb("ws" + (db ? "s" : "") + "://" + b, c.token)
-                    }
+                    void 0 != L.Y && (b = d.location.hostname + ":" + L.Y);
+                    cb("ws" +
+                        (db ? "s" : "") + "://" + b, c.token)
                 }
             }, dataType: "json", method: "POST", cache: !1, crossDomain: !0, data: (A + T || "?") + "\n2200049715"
         })
@@ -305,12 +281,6 @@
         N = 0;
         na = !1;
         console.log("Connecting to " + a);
-        /**
-         * @author nguyenvanduocit
-         */
-        serverIP = a;
-        token = c;
-        AgarBot.pubsub.trigger('Game:connect', {ip:serverIP, token:token});
         r = new WebSocket(a);
         r.binaryType = "arraybuffer";
         r.onopen = function () {
@@ -494,40 +464,12 @@
             l.U = X;
             r && (l.J = r);
             t && l.q(t);
-            //@author nguyenvanduocit
-            -1 != C.indexOf(h) && -1 == k.indexOf(l) && (k.push(l),l.birth = getLastUpdate(), l.birthMass = (l.size * l.size / 100), AgarBot.pubsub.trigger('game:start'), 1 == k.length && (v = l.x, w = l.y, Mb(), document.getElementById("overlays").style.display = "none", z = [], jb = 0, kb = k[0].color, Da = !0, lb = Date.now(), Y = La = mb = 0))
-            /**
-             * @author nguyenvanduocit
-             */
-            interNodes[h] = window.getCells()[h];
+            -1 != C.indexOf(h) && -1 == k.indexOf(l) && (k.push(l), 1 == k.length && (v = l.x, w = l.y, Mb(), document.getElementById("overlays").style.display = "none", z = [], jb = 0, kb = k[0].color, Da = !0, lb = Date.now(), Y = La = mb = 0))
         }
-        /**
-         * @author nguyenvanduocit
-         */
-        Object.keys(interNodes).forEach(function(element, index) {
-            //console.log("start: " + interNodes[element].updateTime + " current: " + D + " life: " + (D - interNodes[element].updateTime));
-            var isRemoved = !window.getCells().hasOwnProperty(element);
-
-            //console.log("Time not updated: " + (window.getLastUpdate() - interNodes[element].getUptimeTime()));
-            if (isRemoved && (window.getLastUpdate() - interNodes[element].getUptimeTime()) > 3000) {
-                delete interNodes[element];
-            } else {
-                if (isRemoved &&
-                    interNodes[element].x > (getX() - (1920 / 2) / getZoomlessRatio()) &&
-                    interNodes[element].x < (getX() + (1920 / 2) / getZoomlessRatio()) &&
-                    interNodes[element].y > getY() - (1080 / 2) / getZoomlessRatio() &&
-                    interNodes[element].y < getY() + (1080 / 2) / getZoomlessRatio()) {
-                    delete interNodes[element];
-                }
-            }
-        });
         p = a.getUint32(c, !0);
         c += 4;
         for (f = 0; f < p; f++)h = a.getUint32(c, !0), c += 4, l = M[h], null != l && l.S();
-        /**
-         * @author nguyenvanduocit
-         */
-        ib && 0 == k.length && (nb = Date.now(), Da = !1, ka || $ || (Nb ? (Ya(u.ab), pc(), $ = !0,AgarBot.pubsub.trigger('stopPlay'), e("#overlays").fadeIn(3E3), e("#stats").show()) : va(3E3)), d.MC.deltaUpdateStats({
+        ib && 0 == k.length && (nb = Date.now(), Da = !1, ka || $ || (Nb ? (Ya(u.ab), pc(), $ = !0, e("#overlays").fadeIn(3E3), e("#stats").show()) : va(3E3)), d.MC.deltaUpdateStats({
             games_played: 1,
             total_mass: ~~(N / 100),
             turn_time: (nb - lb) / 1E3,
@@ -543,18 +485,6 @@
 
     function ha() {
         if (fa()) {
-            //@author nguyenvanduocit
-            if (getPlayer().length == 0 && !reviving && ~~(getCurrentScore() / 100) > 0) {
-                console.log("Dead: " + ~~(getCurrentScore() / 100));
-            }
-            if (getPlayer().length == 0 && !firstStart) {
-                console.log("Revive");
-                setNick(originalName);
-                reviving = true;
-            } else if (getPlayer().length > 0 && reviving) {
-                reviving = false;
-                console.log("Done Reviving!");
-            }
             var a = ta - m / 2, c = ua - q / 2;
             64 > a * a + c * c || .01 > Math.abs(Pb - Aa) && .01 > Math.abs(Qb - Ba) || (Pb = Aa, Qb = Ba, a = V(13), a.setUint8(0, 16), a.setInt32(1, Aa, !0), a.setInt32(5,
                 Ba, !0), a.setUint32(9, 0, !0), W(a))
@@ -610,34 +540,16 @@
         a = 1 * Math.max(q / 1080, m / 1920);
         return a *= S
     }
-    /**
-     * @author nguyenvanduocit
-     */
-    function Sb2() {
-        var a;
-        a = 1 * Math.max(q / 1080, m / 1920);
-        return a;
-    }
 
     function qc() {
         if (0 != k.length) {
             for (var a = 0, c = 0; c < k.length; c++)a += k[c].size;
-            var a2 = Math.pow(Math.min(64 / a, 1), .4) * Sb2();
             a = Math.pow(Math.min(64 / a, 1), .4) * Sb();
-            g = (9 * g + a) / 10;
-            //@author nguyenvanduocit
-            g2 = (9 * g2 + a2) / 10;
+            g = (9 * g + a) / 10
         }
     }
 
     function Rb() {
-        //@author nguyenvanduocit
-        dPoints = [];
-        circles = [];
-        dArc = [];
-        dText = [];
-        lines = [];
-
         var a, c = Date.now();
         ++rc;
         H = c;
@@ -664,11 +576,6 @@
         f.translate(-v, -w);
         for (d = 0; d < ca.length; d++)ca[d].p(f);
         for (d = 0; d < x.length; d++)x[d].p(f);
-        /**
-         * @author nguyenvanduocit
-         */
-        AgarBot.pubsub.trigger('main_out:mainloop');
-        customRender(f);
         if (gb) {
             Fa = (3 *
                 Fa + eb) / 4;
@@ -699,144 +606,7 @@
         0 < t ? (f.fillStyle = "#000000", Vb ? (f.globalAlpha = t, f.fillRect(0, 0, m, q), G.complete && G.width && (G.width / G.height < m / q ? (c = m, a = G.height * m / G.width) : (c = G.width * q / G.height, a = q), f.drawImage(G, (m - c) / 2, (q - a) / 2, c, a), f.globalAlpha = .5 * t, f.fillRect(0, 0, m, q))) : (f.globalAlpha = .5 * t, f.fillRect(0, 0, m, q)), f.globalAlpha = 1) : Vb = !1;
         Ub = H
     }
-//@author nguyenvanduocit
-    function customRender(d) {
-        d.save();
-        for (var i = 0; i < lines.length; i++) {
-            d.beginPath();
 
-            d.lineWidth = 5;
-
-            if (lines[i][4] == 0) {
-                d.strokeStyle = "#FF0000";
-            } else if (lines[i][4] == 1) {
-                d.strokeStyle = "#00FF00";
-            } else if (lines[i][4] == 2) {
-                d.strokeStyle = "#0000FF";
-            } else if (lines[i][4] == 3) {
-                d.strokeStyle = "#FF8000";
-            } else if (lines[i][4] == 4) {
-                d.strokeStyle = "#8A2BE2";
-            } else if (lines[i][4] == 5) {
-                d.strokeStyle = "#FF69B4";
-            } else if (lines[i][4] == 6) {
-                d.strokeStyle = "#008080";
-            } else if (lines[i][4] == 7) {
-                d.strokeStyle = (getDarkBool() ? '#F2FBFF' : '#111111');
-            } else {
-                d.strokeStyle = "#000000";
-            }
-
-            d.moveTo(lines[i][0], lines[i][1]);
-            d.lineTo(lines[i][2], lines[i][3]);
-
-            d.stroke();
-        }
-        d.restore();
-        d.save();
-        for (var i = 0; i < circles.length; i++) {
-            if (circles[i][3] == 0) {
-                d.strokeStyle = "#FF0000";
-            } else if (circles[i][3] == 1) {
-                d.strokeStyle = "#00FF00";
-            } else if (circles[i][3] == 2) {
-                d.strokeStyle = "#0000FF";
-            } else if (circles[i][3] == 3) {
-                d.strokeStyle = "#FF8000";
-            } else if (circles[i][3] == 4) {
-                d.strokeStyle = "#8A2BE2";
-            } else if (circles[i][3] == 5) {
-                d.strokeStyle = "#FF69B4";
-            } else if (circles[i][3] == 6) {
-                d.strokeStyle = "#008080";
-            } else if (circles[i][3] == 7) {
-                d.strokeStyle = (getDarkBool() ? '#F2FBFF' : '#111111');
-            } else {
-                d.strokeStyle = "#000000";
-            }
-            d.beginPath();
-
-            d.lineWidth = 10;
-            //d.setLineDash([5]);
-            d.globalAlpha = 0.3;
-
-            d.arc(circles[i][0], circles[i][1], circles[i][2], 0, 2 * Math.PI, false);
-
-            d.stroke();
-        }
-        d.restore();
-        d.save();
-        for (var i = 0; i < dArc.length; i++) {
-            if (dArc[i][7] == 0) {
-                d.strokeStyle = "#FF0000";
-            } else if (dArc[i][7] == 1) {
-                d.strokeStyle = "#00FF00";
-            } else if (dArc[i][7] == 2) {
-                d.strokeStyle = "#0000FF";
-            } else if (dArc[i][7] == 3) {
-                d.strokeStyle = "#FF8000";
-            } else if (dArc[i][7] == 4) {
-                d.strokeStyle = "#8A2BE2";
-            } else if (dArc[i][7] == 5) {
-                d.strokeStyle = "#FF69B4";
-            } else if (dArc[i][7] == 6) {
-                d.strokeStyle = "#008080";
-            } else if (dArc[i][7] == 7) {
-                d.strokeStyle = (getDarkBool() ? '#F2FBFF' : '#111111');
-            } else {
-                d.strokeStyle = "#000000";
-            }
-
-            d.beginPath();
-
-            d.lineWidth = 5;
-
-            var ang1 = Math.atan2(dArc[i][1] - dArc[i][5], dArc[i][0] - dArc[i][4]);
-            var ang2 = Math.atan2(dArc[i][3] - dArc[i][5], dArc[i][2] - dArc[i][4]);
-
-            d.arc(dArc[i][4], dArc[i][5], dArc[i][6], ang1, ang2, false);
-
-            d.stroke();
-        }
-        d.restore();
-        d.save();
-        for (var i = 0; i < dPoints.length; i++) {
-            if (dText[i] == "") {
-                var radius = 10;
-
-                d.beginPath();
-                d.arc(dPoints[i][0], dPoints[i][1], radius, 0, 2 * Math.PI, false);
-
-                if (dPoints[i][2] == 0) {
-                    d.fillStyle = "black";
-                } else if (dPoints[i][2] == 1) {
-                    d.fillStyle = "yellow";
-                } else if (dPoints[i][2] == 2) {
-                    d.fillStyle = "blue";
-                } else if (dPoints[i][2] == 3) {
-                    d.fillStyle = "red";
-                } else if (dPoints[i][2] == 4) {
-                    d.fillStyle = "#008080";
-                } else if (dPoints[i][2] == 5) {
-                    d.fillStyle = "#FF69B4";
-                } else {
-                    d.fillStyle = "#000000";
-                }
-
-                d.fill();
-                d.lineWidth = 2;
-                d.strokeStyle = '#003300';
-                d.stroke();
-            } else {
-                var text = new Oa(18, (getDarkBool() ? '#F2FBFF' : '#111111'), true, (getDarkBool() ? '#111111' : '#F2FBFF'));
-                text.r(dText[i]);
-                var textRender = text.D();
-                d.drawImage(textRender, dPoints[i][0] - (textRender.width / 2), dPoints[i][1] - (textRender.height / 2));
-            }
-
-        }
-        d.restore();
-    }
     function sc() {
         f.fillStyle = Ma ? "#111111" :
             "#F2FBFF";
@@ -1018,6 +788,7 @@
             }), e("#helloContainer").attr("data-logged-in", "1"), null != F ? d.checkSocialAPIToken(a) : d.getSocialAPIToken())
         }
     }
+
     function Db(a) {
         la(":party");
         e("#helloContainer").attr("data-party-state", "4");
@@ -1028,10 +799,10 @@
                 e("#helloContainer").attr("data-party-state", "6")
             }, success: function (c) {
                 c = c.split("\n");
-                e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
+                e(".partyToken").val("agar.io/#" +
+                    d.encodeURIComponent(a));
                 e("#helloContainer").attr("data-party-state", "5");
                 la(":party");
-                AgarBot.pubsub.trigger('findServer:ipFound', {ip:c[0], token:a});
                 cb("ws://" + c[0], a)
             }, dataType: "text", method: "POST", cache: !1, crossDomain: !0, data: a
         })
@@ -1125,33 +896,7 @@
         }, 1E3); else if (-1 != Qa.indexOf("iPhone") || -1 != Qa.indexOf("iPad") || -1 != Qa.indexOf("iPod"))d.ga && d.ga("send", "event", "MobileRedirect", "AppStore"), setTimeout(function () {
             d.location.href = "https://itunes.apple.com/app/agar.io/id995999703?mt=8&at=1l3vajp"
         }, 1E3); else {
-            //@author nguyenvanduocit
-            var Sa, f, P, m, q, ia = null, r = null, v = 0, w = 0, C = [], k = [], M = {}, x = [], ca = [], y = [], ta = 0, ua = 0, Aa = -1, Ba = -1, rc = 0, H = 0, Ub = 0, K = null, Ha = 0, Ia = 0, Ja = 1E4, Ka = 1E4, g = 1, g2 = 1, A = null, ub = !0, Pa = !0, vb = !1, ib = !1, N = 0, Ma = !1, Zb = !1, oa = v = ~~((Ha + Ja) / 2), pa = w = ~~((Ia + Ka) / 2), qa = 1, T = "", E = null, Ra = !1, gb = !1, eb = 0, fb = 0, Fa = 0, Ga = 0, uc = ["#333333", "#FF3333", "#33FF33", "#3333FF"], ob = !1, na = !1, Lb = 0, F = null, S = 1, t = 1, ka = !1, Ua = 0, Vb = !0, hb = null, G = new Image,
-            // @author nguyenvanduocit
-                toggle = false,
-                toggleDraw = false,
-                shootTime = 0,
-                splitTime = 0,
-                shootCooldown = 100,
-                splitCooldown = 100,
-                tempPoint = [0, 0, 1],
-                dPoints = [],
-                circles = [],
-                dArc = [],
-                dText = [],
-                lines = [],
-                names = ["SenViet.org"],
-                firstStart = true;
-                originalName = names[Math.floor(Math.random() * names.length)],
-                sessionScore = 0,
-                serverIP = "",
-                token = "",
-                interNodes = [],
-                lifeTimer = new Date(),
-                bestTime = 0,
-                botIndex = 0,
-                reviving = false,
-                message = [];
+            var Sa, f, P, m, q, ia = null, r = null, v = 0, w = 0, C = [], k = [], M = {}, x = [], ca = [], y = [], ta = 0, ua = 0, Aa = -1, Ba = -1, rc = 0, H = 0, Ub = 0, K = null, Ha = 0, Ia = 0, Ja = 1E4, Ka = 1E4, g = 1, A = null, ub = !0, Pa = !0, vb = !1, ib = !1, N = 0, Ma = !1, Zb = !1, oa = v = ~~((Ha + Ja) / 2), pa = w = ~~((Ia + Ka) / 2), qa = 1, T = "", E = null, Ra = !1, gb = !1, eb = 0, fb = 0, Fa = 0, Ga = 0, uc = ["#333333", "#FF3333", "#33FF33", "#3333FF"], ob = !1, na = !1, Lb = 0, F = null, S = 1, t = 1, ka = !1, Ua = 0, Vb = !0, hb = null, G = new Image;
             G.src = "/img/background.png";
             var xb = "ontouchstart" in d && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(d.navigator.userAgent), pb = new Image;
             pb.src = "/img/split.png";
@@ -1159,12 +904,6 @@
             if ("undefined" == typeof console || "undefined" == typeof DataView || "undefined" == typeof WebSocket || null == $b || null == $b.getContext || null == d.localStorage)alert("You browser does not support this game, we recommend you to use Firefox to play this"); else {
                 var Ca = null;
                 d.setNick = function (a) {
-                    // @author nguyenvanduocit
-                    firstStart = false;
-                    originalName = a;
-                    if (getPlayer().length == 0) {
-                        lifeTimer = new Date();
-                    }
                     d.ga && d.ga("send", "event", "Nick", a.toLowerCase());
                     Eb();
                     K = a;
@@ -1549,22 +1288,6 @@
                     M: !0,
                     T: 0,
                     J: null,
-                    //@author nguyenvanduocit
-                    updateCode: 0,
-                    danger: false,
-                    dangerTimeOut: 0,
-                    isNotMoving: function() {
-                        return (this.x == this.l && this.y == this.m);
-                    },
-                    isVirus: function() {
-                        return this.c;
-                    },
-                    getUptimeTime: function() {
-                        return this.L;
-                    },
-                    split:function(){
-
-                    },
                     S: function () {
                         var a;
                         for (a = 0; a < x.length; a++)if (x[a] == this) {
@@ -1965,188 +1688,4 @@
             }
         }
     }
-    /**
-     * Custom function
-     * @author nguyenvanduocit
-     */
-    function computeDistance(x1, y1, x2, y2) {
-        var xdis = x1 - x2; // <--- FAKE AmS OF COURSE!
-        var ydis = y1 - y2;
-        var distance = Math.sqrt(xdis * xdis + ydis * ydis);
-
-        return distance;
-    }
-    window.setPoint = function(x, y) {
-        Aa = x;
-        Ba = y;
-    };
-    window.getDarkBool = function() {
-        return Ma;
-    };
-    window.getMapStartX = function() {
-        return Ha;
-    };
-    window.getMapStartY = function() {
-        return Ia;
-    };
-    window.getMapEndY = function() {
-        return Ka;
-    };
-    window.getMapEndX = function() {
-        return Ja;
-    };
-    /**
-     * The game's current mode. (":ffa", ":experimental", ":teams". ":party")
-     * @return {[type]} [description]
-     */
-    window.getMode = function() {
-        return T;
-    };
-    /**
-     * Returns an array with all the player's cells.
-     * @return Player's cells
-     */
-    window.getPlayer = function() {
-        return k;
-    };
-    /**
-     * This is a copy of everything that is shown on screen.
-     * Normally stuff will time out when off the screen, this
-     * memorizes everything that leaves the screen for a little
-     * while longer.
-     * @return The memory object.
-     */
-    window.getMemoryCells = function() {
-        return interNodes;
-    };
-    /**
-     * [getCellsArray description]
-     * @return {[type]} [description]
-     */
-    window.getCells = function() {
-        return M;
-    };
-    /**
-     * A timestamp since the last time the server sent any data.
-     * @return Last update timestamp
-     */
-    window.getLastUpdate = function() {
-        return H;
-    };
-    /**
-     * Scaling ratio of the canvas. The bigger this ration,
-     * the further that you see.
-     * @return Screen scaling ratio.
-     */
-    window.getRatio = function() {
-        return g;
-    };
-    window.getZoomlessRatio = function() {
-        return g2;
-    };
-    window.getX = function() {
-        return v;
-    };
-    window.getY = function() {
-        return w;
-    };
-    /**
-     * The canvas' width.
-     * @return Integer Width
-     */
-    window.getWidth = function() {
-        return m;
-    };
-    /**
-     * The canvas' height
-     * @return Integer Height
-     */
-    window.getHeight = function() {
-        return q;
-    };
-    /**
-     * A conversion from the screen's horizontal coordinate system
-     * to the game's horizontal coordinate system.
-     * @param x in the screen's coordinate system
-     * @return x in the game's coordinate system
-     */
-    window.screenToGameX = function(x) {
-        return (x - getWidth() / 2) / getRatio() + getX();
-    };
-    /**
-     * The X location of the mouse.
-     * @return Integer X
-     */
-    window.getMouseX = function() {
-        return ta;
-    };
-    /**
-     * The Y location of the mouse.
-     * @return Integer Y
-     */
-    window.getMouseY = function() {
-        return ua;
-    };
-    window.getPointX = function() {
-        return Aa;
-    };
-
-    window.getPointY = function() {
-        return Ba;
-    };
-    window.getRegion = function(){
-        return A;
-    };
-    window.sendMessage = function(a){
-        W(a);
-    };
-    window.getCurrentScore = function() {
-        return N;
-    };
-    /**
-     * A conversion from the screen's vertical coordinate system
-     * to the game's vertical coordinate system.
-     * @param y in the screen's coordinate system
-     * @return y in the game's coordinate system
-     */
-    window.screenToGameY = function(y) {
-        return (y - getHeight() / 2) / getRatio() + getY();
-    };
-    window.drawPoint = function(x_1, y_1, drawColor, text) {
-        if (!toggleDraw) {
-            dPoints.push([x_1, y_1, drawColor]);
-            dText.push(text);
-        }
-    };
-    window.drawArc = function(x_1, y_1, x_2, y_2, x_3, y_3, drawColor) {
-        if (!toggleDraw) {
-            var radius = computeDistance(x_1, y_1, x_3, y_3);
-            dArc.push([x_1, y_1, x_2, y_2, x_3, y_3, radius, drawColor]);
-        }
-    };
-
-    window.drawLine = function(x_1, y_1, x_2, y_2, drawColor) {
-        if (!toggleDraw) {
-            lines.push([x_1, y_1, x_2, y_2, drawColor]);
-        }
-    };
-
-    window.drawCircle = function(x_1, y_1, radius, drawColor) {
-        if (!toggleDraw) {
-            circles.push([x_1, y_1, radius, drawColor]);
-        }
-    };
-
-    window.verticalDistance = function() {
-        return computeDistance(screenToGameX(0), screenToGameY(0), screenToGameX(getWidth()), screenToGameY(getHeight()));
-    };
-    window.getServer = function() {
-        return serverIP;
-    };
-    window.getToken = function(){
-        return token;
-    };
-    window.createDataView = function(a) {
-        return new DataView(new ArrayBuffer(a))
-    };
 })(window, window.jQuery, AgarBot, AgarBot.app);

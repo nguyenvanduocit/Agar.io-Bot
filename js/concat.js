@@ -4829,6 +4829,9 @@ var MapControl = {
         //console.log("No Shifting Was needed!");
         return angle;
     },
+    calcSpeed:function(size){
+        return 2.2 * size^(-0.439);
+    },
     angleIsWithin:function(angle, range) {
         var diff = (this.rangeToAngle(range) - angle).mod(360);
         if (diff >= 0 && diff <= range[1]) {
@@ -4909,12 +4912,10 @@ var MapControl = {
         return listToUse.length;
     },
     addWall:function(listToUse, blob) {
-        //var mapSizeX = Math.abs(f.getMapStartX - f.getMapEndX);
-        //var mapSizeY = Math.abs(f.getMapStartY - f.getMapEndY);
-        //var distanceFromWallX = mapSizeX/3;
-        //var distanceFromWallY = mapSizeY/3;
-        var distanceFromWallY = 2000;
-        var distanceFromWallX = 2000;
+        var mapSizeX = Math.abs(getMapStartX() - getMapEndX());
+        var mapSizeY = Math.abs(getMapStartY() -getMapEndY());
+        var distanceFromWallX = mapSizeX/3;
+        var distanceFromWallY = mapSizeY/3;
         if (blob.x < getMapStartX() + distanceFromWallX) {
             //LEFT
             //console.log("Left");
@@ -5333,6 +5334,7 @@ var MapControl = {
                     '<button id="feedBotToggle_auto">Disable auto</button>'+
                 '</div>');
             this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
+            this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span>:<span id="clientToken"><%=clientToken%></span></p>');
         },
         onStart : function(options){
             console.log('module TemplateLoader start.');
@@ -5577,7 +5579,12 @@ var MapControl = {
             b && u.aa.push(aa.defineSlot(c, "728x90", "a728x90"))
         }
     }
-
+    /**
+     * @author nguyenvanduocit
+     * @type {number}
+     */
+    var currenConnecttTry = 0;
+    var maxConnectRetry = 50;
     function Hb() {
         var a = ++Ua;
         console.log("Find " + A + T);
@@ -5589,9 +5596,23 @@ var MapControl = {
                 if (a == Ua) {
                     c.alert && alert(c.alert);
                     var b = c.ip;
-                    void 0 != L.Y && (b = d.location.hostname + ":" + L.Y);
-                    cb("ws" +
-                        (db ? "s" : "") + "://" + b, c.token)
+                    /**
+                     * @author nguyenvanduocit
+                     */
+                    var wantedIp = window.getWantedIp();
+                    if(wantedIp && wantedIp !== b.trim()){
+                        console.log('Found ',b,", Wanted : ",wantedIp );
+                        if(currenConnecttTry <= maxConnectRetry){
+                            currenConnecttTry++;
+                            AgarBot.pubsub.trigger('findServer:retry', {time:currenConnecttTry});
+                            setTimeout(Hb, 2e3);
+                        }else{
+                            AgarBot.pubsub.trigger('findServer:ipNotFound');
+                        }
+                    }else{
+                        void 0 != L.Y && (b = d.location.hostname + ":" + L.Y);
+                        cb("ws" + (db ? "s" : "") + "://" + b, c.token)
+                    }
                 }
             }, dataType: "json", method: "POST", cache: !1, crossDomain: !0, data: (A + T || "?") + "\n2200049715"
         })
@@ -5641,6 +5662,8 @@ var MapControl = {
          * @author nguyenvanduocit
          */
         serverIP = a;
+        token = c;
+        AgarBot.pubsub.trigger('Game:connect', {ip:serverIP, token:token});
         r = new WebSocket(a);
         r.binaryType = "arraybuffer";
         r.onopen = function () {
@@ -6181,7 +6204,7 @@ var MapControl = {
 
     function tc() {
         if (xb && pb.width) {
-            var a = m / 6;
+            var a = m / 5;
             f.drawImage(pb, 5, 5, a, a)
         }
     }
@@ -6348,12 +6371,6 @@ var MapControl = {
             }), e("#helloContainer").attr("data-logged-in", "1"), null != F ? d.checkSocialAPIToken(a) : d.getSocialAPIToken())
         }
     }
-    /**
-     * @author nguyenvanduocit
-     * @type {number}
-     */
-    var currenConnecttTry = 0;
-    var maxConnectRetry = 50;
     function Db(a) {
         la(":party");
         e("#helloContainer").attr("data-party-state", "4");
@@ -6364,25 +6381,11 @@ var MapControl = {
                 e("#helloContainer").attr("data-party-state", "6")
             }, success: function (c) {
                 c = c.split("\n");
-                /**
-                 * @author nguyenvanduocit
-                 */
-                var wantedIp = window.getWantedIp();
-                if(wantedIp && wantedIp !== c[0].trim()){
-                    console.log('Found ',c[0],", Wanted : ",wantedIp );
-                    if(currenConnecttTry <= maxConnectRetry){
-                        currenConnecttTry++;
-                        AgarBot.pubsub.trigger('findServer:retry', {time:currenConnecttTry});
-                        setTimeout(function(){Db(a);}, 2e3);
-                    }else{
-                        AgarBot.pubsub.trigger('findServer:ipNotFound');
-                    }
-                }else{
-                    e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
-                    e("#helloContainer").attr("data-party-state", "5");
-                    la(":party");
-                    cb("ws://" + c[0], a)
-                }
+                e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
+                e("#helloContainer").attr("data-party-state", "5");
+                la(":party");
+                AgarBot.pubsub.trigger('findServer:ipFound', {ip:c[0], token:a});
+                cb("ws://" + c[0], a)
             }, dataType: "text", method: "POST", cache: !1, crossDomain: !0, data: a
         })
     }
@@ -6495,6 +6498,7 @@ var MapControl = {
                 originalName = names[Math.floor(Math.random() * names.length)],
                 sessionScore = 0,
                 serverIP = "",
+                token = "",
                 interNodes = [],
                 lifeTimer = new Date(),
                 bestTime = 0,
@@ -7318,7 +7322,6 @@ var MapControl = {
      * Custom function
      * @author nguyenvanduocit
      */
-    //UPDATE
     function computeDistance(x1, y1, x2, y2) {
         var xdis = x1 - x2; // <--- FAKE AmS OF COURSE!
         var ydis = y1 - y2;
@@ -7444,6 +7447,15 @@ var MapControl = {
     window.getPointY = function() {
         return Ba;
     };
+    window.getRegion = function(){
+        return A;
+    };
+    window.sendMessage = function(a){
+        W(a);
+    };
+    window.getCurrentScore = function() {
+        return N;
+    };
     /**
      * A conversion from the screen's vertical coordinate system
      * to the game's vertical coordinate system.
@@ -7484,11 +7496,8 @@ var MapControl = {
     window.getServer = function() {
         return serverIP;
     };
-    window.getCurrentScore = function() {
-        return K;
-    };
-    window.sendMessage = function(a){
-        T(a);
+    window.getToken = function(){
+        return token;
     };
     window.createDataView = function(a) {
         return new DataView(new ArrayBuffer(a))
@@ -7538,8 +7547,13 @@ var MapControl = {
             console.log('Module Clan start');
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
         },
+        onSocketConnect:function(data){
+
+        },
         onDocumentReady:function(){
-            $('<div id="clanFormField"></div>').insertBefore($('#joinPartyToken'));
+            var $joinPartyToken = $('#joinPartyToken');
+            $('<div id="clanFormField"></div>').insertBefore($joinPartyToken);
+            $joinPartyToken.attr('placeholder', 'Code');
             if(typeof this.clanFormField =='undefined'){
                 this.clanFormField = new AgarBot.Views.ClanFormField({
                     el:'#clanFormField',
@@ -8344,6 +8358,49 @@ Array.prototype.peek = function() {
     });
     app.module("MiniMap", {
         moduleClass: AgarBot.Modules.MiniMap
+    });
+})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
+(function (window, $, Backbone, Marionette, _, AgarBot, app) {
+
+    AgarBot.Views.StatsPannel = Marionette.ItemView.extend({
+        template: function(serialized_model){
+            var templateLoader = app.module('TemplateLoader');
+            var template = templateLoader.getTemlate('statsPanel');
+            return template(serialized_model);
+        }
+    });
+    AgarBot.Modules.Stats = Marionette.Module.extend({
+        initialize: function (moduleName, app, options) {
+            this.canvasContext = 'undefined';
+            this.info = new Backbone.Model({
+                serverIp:'Na',
+                clientToken:'Na'
+            })
+        },
+        onStart: function (options) {
+            console.log('Module Clan start');
+            this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
+            this.listenTo(AgarBot.pubsub,'Game:connect', this.onSocketConnect);
+        },
+        onSocketConnect:function(data){
+            console.log(data);
+            this.info.set('serverIp', data.ip);
+            this.info.set('clientToken', data.token);
+            this.statsPanel.render();
+        },
+        onDocumentReady:function(){
+            $('<div id="statsPanel"></div>').appendTo($('#control-pannel'));
+            if(typeof this.statsPanel =='undefined'){
+                this.statsPanel = new AgarBot.Views.StatsPannel({
+                    el:'#statsPanel',
+                    model:this.info
+                });
+            }
+            this.statsPanel.render();
+        }
+    });
+    app.module("Stats", {
+        moduleClass: AgarBot.Modules.Stats
     });
 })(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
 /**
