@@ -5241,6 +5241,7 @@ var MapControl = {
         var virusList = [];
         var splitTargetList = [];
         var foundMaster = [];
+        var equalToMe = [];
         var player = getPlayer();
         Object.keys(listToUse).forEach(function(element, index) {
             var isMe = that.isItMe(player, listToUse[element]);
@@ -5266,7 +5267,8 @@ var MapControl = {
                     splitTargetList.push(listToUse[element]);
                     foodElementList.push(listToUse[element]);
                 }else{
-
+                    // EQUAL TO ME
+                    equalToMe.push(listToUse[element]);
                 }
             }/*else if(isMe && (getBlobCount(getPlayer()) > 0)){
              //Attempt to make the other cell follow the mother one
@@ -5277,7 +5279,7 @@ var MapControl = {
         for (var i = 0; i < foodElementList.length; i++) {
             foodList.push([foodElementList[i].x, foodElementList[i].y, foodElementList[i].size]);
         }
-        return [foodList, threatList, virusList, splitTargetList, foundMaster];
+        return [foodList, threatList, virusList, splitTargetList, foundMaster, equalToMe];
     }
 };
 (function($, Backbone, _, AgarBot, app){
@@ -5326,15 +5328,11 @@ var MapControl = {
                             '<span class="grid-cell">D4</span>'+
                         '</div>'+
                         '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>');
-            this.templates.feedBotPannel = _.template(
-                '<div class="bot-panel">' +
+            this.templates.feedBotPannel = _.template('<div class="bot-panel">' +
                     '<button id="feedBotToggle_master">Make slave</button>'+
                     '<button id="feedBotToggle_auto">Disable auto</button>'+
-                '</div>'
-            );
-            this.templates.clanFormField = _.template(
-                '<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">'
-            );
+                '</div>');
+            this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
         },
         onStart : function(options){
             console.log('module TemplateLoader start.');
@@ -5440,7 +5438,7 @@ var MapControl = {
     function Ta() {
         //@author nguyenvanduocit
         var tmp_ta = (ta - m / 2) / g + v;
-        var temp_ua = (ua - q / 2) / g + w
+        var temp_ua = (ua - q / 2) / g + w;
         setPoint(tmp_ta, temp_ua);
     }
 
@@ -5827,7 +5825,7 @@ var MapControl = {
             r && (l.J = r);
             t && l.q(t);
             //@author nguyenvanduocit
-            -1 != C.indexOf(h) && -1 == k.indexOf(l) && (k.push(l),l.birth = getLastUpdate(), l.birthMass = (l.size * l.size / 100), AgarBot.pubsub.trigger('startPlay'), 1 == k.length && (v = l.x, w = l.y, Mb(), document.getElementById("overlays").style.display = "none", z = [], jb = 0, kb = k[0].color, Da = !0, lb = Date.now(), Y = La = mb = 0))
+            -1 != C.indexOf(h) && -1 == k.indexOf(l) && (k.push(l),l.birth = getLastUpdate(), l.birthMass = (l.size * l.size / 100), AgarBot.pubsub.trigger('game:start'), 1 == k.length && (v = l.x, w = l.y, Mb(), document.getElementById("overlays").style.display = "none", z = [], jb = 0, kb = k[0].color, Da = !0, lb = Date.now(), Y = La = mb = 0))
             /**
              * @author nguyenvanduocit
              */
@@ -6183,7 +6181,7 @@ var MapControl = {
 
     function tc() {
         if (xb && pb.width) {
-            var a = m / 5;
+            var a = m / 6;
             f.drawImage(pb, 5, 5, a, a)
         }
     }
@@ -6912,6 +6910,9 @@ var MapControl = {
                     },
                     getUptimeTime: function() {
                         return this.L;
+                    },
+                    split:function(){
+
                     },
                     S: function () {
                         var a;
@@ -7700,7 +7701,9 @@ Array.prototype.peek = function() {
             switch (this.stage){
                 case 'EAT':
                     var nextPoint = this.getNextPoint();
-                    setPoint(nextPoint[0], nextPoint[1]);
+                    if(this.botEnabled) {
+                        setPoint(nextPoint[0], nextPoint[1]);
+                    }
                     break;
             }
         },
@@ -7733,8 +7736,8 @@ Array.prototype.peek = function() {
                 /**
                  * Toggle is auto run bot ?
                  */
-                if ( (player.length > 0) && this.botEnabled ) {
-                    if (!this.master && Date.now() - this.lastMasterUpdate > 100) {
+                if ( (player.length > 0) ) {
+                    if (!this.master && Date.now() - this.lastMasterUpdate > 1000) {
                         var query = new Parse.Query(this.MasterLocation);
                         var self = this;
                         query.equalTo("server", getServer());
@@ -8173,7 +8176,7 @@ Array.prototype.peek = function() {
                 if (this.master) {
                     this.masterLocation = destinationChoices;
                     this.masterId = player[0].id;
-                    if (Date.now() - this.lastMasterUpdate > 100) {
+                    if (Date.now() - this.lastMasterUpdate > 1000) {
                         var self = this;
                         var query = new Parse.Query(this.MasterLocation);
                         query.equalTo("server", getServer());
@@ -8327,9 +8330,12 @@ Array.prototype.peek = function() {
                 mapOptions : this.mapOptions
             });
             this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.mainLoop);
+            this.listenTo(AgarBot.pubsub, 'game:start', this.onGameStart);
+        },
+        onGameStart:function(){
+            this.panelView.render();
         },
         onStart: function (options) {
-            this.panelView.render();
             console.log('Module MiniMap start');
         },
         mainLoop:function(){

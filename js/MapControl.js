@@ -444,6 +444,7 @@ var MapControl = {
         var virusList = [];
         var splitTargetList = [];
         var foundMaster = [];
+        var equalToMe = [];
         var player = getPlayer();
         Object.keys(listToUse).forEach(function(element, index) {
             var isMe = that.isItMe(player, listToUse[element]);
@@ -469,7 +470,8 @@ var MapControl = {
                     splitTargetList.push(listToUse[element]);
                     foodElementList.push(listToUse[element]);
                 }else{
-
+                    // EQUAL TO ME
+                    equalToMe.push(listToUse[element]);
                 }
             }/*else if(isMe && (getBlobCount(getPlayer()) > 0)){
              //Attempt to make the other cell follow the mother one
@@ -480,6 +482,6 @@ var MapControl = {
         for (var i = 0; i < foodElementList.length; i++) {
             foodList.push([foodElementList[i].x, foodElementList[i].y, foodElementList[i].size]);
         }
-        return [foodList, threatList, virusList, splitTargetList, foundMaster];
+        return [foodList, threatList, virusList, splitTargetList, foundMaster, equalToMe];
     }
 };

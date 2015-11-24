@@ -113,9 +113,12 @@
                 mapOptions : this.mapOptions
             });
             this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.mainLoop);
+            this.listenTo(AgarBot.pubsub, 'game:start', this.onGameStart);
+        },
+        onGameStart:function(){
+            this.panelView.render();
         },
         onStart: function (options) {
-            this.panelView.render();
             console.log('Module MiniMap start');
         },
         mainLoop:function(){

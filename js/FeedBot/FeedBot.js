@@ -101,7 +101,9 @@ Array.prototype.peek = function() {
             switch (this.stage){
                 case 'EAT':
                     var nextPoint = this.getNextPoint();
-                    setPoint(nextPoint[0], nextPoint[1]);
+                    if(this.botEnabled) {
+                        setPoint(nextPoint[0], nextPoint[1]);
+                    }
                     break;
             }
         },
@@ -134,8 +136,8 @@ Array.prototype.peek = function() {
                 /**
                  * Toggle is auto run bot ?
                  */
-                if ( (player.length > 0) && this.botEnabled ) {
-                    if (!this.master && Date.now() - this.lastMasterUpdate > 100) {
+                if ( (player.length > 0) ) {
+                    if (!this.master && Date.now() - this.lastMasterUpdate > 1000) {
                         var query = new Parse.Query(this.MasterLocation);
                         var self = this;
                         query.equalTo("server", getServer());
@@ -574,7 +576,7 @@ Array.prototype.peek = function() {
                 if (this.master) {
                     this.masterLocation = destinationChoices;
                     this.masterId = player[0].id;
-                    if (Date.now() - this.lastMasterUpdate > 100) {
+                    if (Date.now() - this.lastMasterUpdate > 1000) {
                         var self = this;
                         var query = new Parse.Query(this.MasterLocation);
                         query.equalTo("server", getServer());

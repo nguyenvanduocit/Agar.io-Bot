@@ -29,15 +29,11 @@
                             '<span class="grid-cell">D4</span>'+
                         '</div>'+
                         '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>');
-            this.templates.feedBotPannel = _.template(
-                '<div class="bot-panel">' +
+            this.templates.feedBotPannel = _.template('<div class="bot-panel">' +
                     '<button id="feedBotToggle_master">Make slave</button>'+
                     '<button id="feedBotToggle_auto">Disable auto</button>'+
-                '</div>'
-            );
-            this.templates.clanFormField = _.template(
-                '<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">'
-            );
+                '</div>');
+            this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
         },
         onStart : function(options){
             console.log('module TemplateLoader start.');

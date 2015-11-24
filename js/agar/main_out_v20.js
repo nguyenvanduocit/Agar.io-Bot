@@ -87,7 +87,7 @@
     function Ta() {
         //@author nguyenvanduocit
         var tmp_ta = (ta - m / 2) / g + v;
-        var temp_ua = (ua - q / 2) / g + w
+        var temp_ua = (ua - q / 2) / g + w;
         setPoint(tmp_ta, temp_ua);
     }
 
@@ -474,7 +474,7 @@
             r && (l.J = r);
             t && l.q(t);
             //@author nguyenvanduocit
-            -1 != C.indexOf(h) && -1 == k.indexOf(l) && (k.push(l),l.birth = getLastUpdate(), l.birthMass = (l.size * l.size / 100), AgarBot.pubsub.trigger('startPlay'), 1 == k.length && (v = l.x, w = l.y, Mb(), document.getElementById("overlays").style.display = "none", z = [], jb = 0, kb = k[0].color, Da = !0, lb = Date.now(), Y = La = mb = 0))
+            -1 != C.indexOf(h) && -1 == k.indexOf(l) && (k.push(l),l.birth = getLastUpdate(), l.birthMass = (l.size * l.size / 100), AgarBot.pubsub.trigger('game:start'), 1 == k.length && (v = l.x, w = l.y, Mb(), document.getElementById("overlays").style.display = "none", z = [], jb = 0, kb = k[0].color, Da = !0, lb = Date.now(), Y = La = mb = 0))
             /**
              * @author nguyenvanduocit
              */
@@ -1559,6 +1559,9 @@
                     },
                     getUptimeTime: function() {
                         return this.L;
+                    },
+                    split:function(){
+
                     },
                     S: function () {
                         var a;
