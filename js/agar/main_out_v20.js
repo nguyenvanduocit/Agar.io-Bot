@@ -6,6 +6,11 @@
         P = Sa = document.getElementById("canvas");
         f = P.getContext("2d");
         P.onmousedown = function (a) {
+            //@author nguyenvanduocit
+            if(a.which ==2){
+                splitMe();
+            }
+
             if (xb) {
                 var c = a.clientX - (5 + m / 5 / 2), b = a.clientY - (5 + m / 5 / 2);
                 if (Math.sqrt(c * c + b * b) <= m / 5 / 2) {
@@ -39,9 +44,10 @@
             87 == d.keyCode && (b = !1);
             81 == d.keyCode && c && (J(19), c = !1)
         };
+        //@author nguyenvanduocit
         d.onblur = function () {
-            J(19);
-            b = c = a = !1
+            //J(19);
+            //b = c = a = !1
         };
         d.onresize = zb;
         d.requestAnimationFrame(Ab);
@@ -54,11 +60,13 @@
         xa.ABGroupRubicon = Cb("AB10_Rubicon");
         ya.w = d.hasBottomAd;
         R && console.log("Init ads");
-        cc();
-        dc();
+        //@author nguyenvanduocit
+        //cc();
+        //dc();
         R && console.log("Ads initted");
         R && console.log("Your group: ", za() ? "rubicon" : "dfp");
-        ec();
+        //@author nguyenvanduocit
+        //ec();
         va(0);
         zb();
         d.location.hash && 6 <= d.location.hash.length && Db(d.location.hash)
@@ -2018,6 +2026,9 @@
      */
     window.getMemoryCells = function() {
         return interNodes;
+    };
+    window.splitMe = function(){
+        J(17);
     };
     /**
      * [getCellsArray description]

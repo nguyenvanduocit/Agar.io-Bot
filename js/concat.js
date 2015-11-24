@@ -4846,7 +4846,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                     '<button id="feedBotToggle_auto">Disable auto</button>'+
                 '</div>');
             this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
-            this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span>:<span id="clientToken"><%=clientToken%></span></p>');
+            this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
         },
         onStart : function(options){
             console.log('module TemplateLoader start.');
@@ -4871,6 +4871,11 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         P = Sa = document.getElementById("canvas");
         f = P.getContext("2d");
         P.onmousedown = function (a) {
+            //@author nguyenvanduocit
+            if(a.which ==2){
+                splitMe();
+            }
+
             if (xb) {
                 var c = a.clientX - (5 + m / 5 / 2), b = a.clientY - (5 + m / 5 / 2);
                 if (Math.sqrt(c * c + b * b) <= m / 5 / 2) {
@@ -4904,9 +4909,10 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             87 == d.keyCode && (b = !1);
             81 == d.keyCode && c && (J(19), c = !1)
         };
+        //@author nguyenvanduocit
         d.onblur = function () {
-            J(19);
-            b = c = a = !1
+            //J(19);
+            //b = c = a = !1
         };
         d.onresize = zb;
         d.requestAnimationFrame(Ab);
@@ -4919,11 +4925,13 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         xa.ABGroupRubicon = Cb("AB10_Rubicon");
         ya.w = d.hasBottomAd;
         R && console.log("Init ads");
-        cc();
-        dc();
+        //@author nguyenvanduocit
+        //cc();
+        //dc();
         R && console.log("Ads initted");
         R && console.log("Your group: ", za() ? "rubicon" : "dfp");
-        ec();
+        //@author nguyenvanduocit
+        //ec();
         va(0);
         zb();
         d.location.hash && 6 <= d.location.hash.length && Db(d.location.hash)
@@ -6884,6 +6892,9 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     window.getMemoryCells = function() {
         return interNodes;
     };
+    window.splitMe = function(){
+        J(17);
+    };
     /**
      * [getCellsArray description]
      * @return {[type]} [description]
@@ -7140,6 +7151,7 @@ Array.prototype.peek = function() {
             'click #feedBotToggle_auto':'onAutoToggle'
         },
         initialize: function (options){
+            var self = this;
             this.options = {};
             _.extend(this.options, options);
         },
@@ -7180,6 +7192,7 @@ Array.prototype.peek = function() {
             this.master  = true;
             this.lastMasterUpdate = Date.now();
             this.botEnabled = true;
+            this.prevBotEnabled = this.botEnabled;
             this.masterLocation = [100, 100];
             this.masterId = false;
             this.splitDistance = 710;
@@ -7198,17 +7211,36 @@ Array.prototype.peek = function() {
 
         },
         onStart: function (options) {
+            var self = this;
+            this.changeBotEnableStage(true);
             this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.mainLoop);
             this.listenTo(AgarBot.pubsub, 'FeedBotPanel:changeSetting', this.onChangeSetting);
+            document.addEventListener("visibilitychange", function(){self.onVisibilitychanged();}, false);
             this.pannelView.render();
         },
+        changeBotEnableStage:function(isEnabled){
+            this.botEnabled = isEnabled;
+            if(this.botEnabled){
+                document.title = 'Agar.io - ' + 'Bot enabled';
+            }
+            else{
+                document.title = 'Agar.io - ' + 'Bot disabled';
+            }
+        },
+        onVisibilitychanged:function(){
+            if (document.hidden) {
+                this.prevBotEnabled = this.botEnabled;
+                this.changeBotEnableStage(true);
+            } else  {
+                this.changeBotEnableStage(this.prevBotEnabled);
+            }
+        },
         onChangeSetting:function(options){
-            console.log(options);
             if(typeof options.master !='undefined'){
                 this.master = options.master;
             }
             if(typeof options.botEnabled !='undefined'){
-                this.botEnabled = options.botEnabled;
+                this.changeBotEnableStage(options.botEnabled);
             }
         },
         mainLoop:function(){
@@ -7851,8 +7883,8 @@ Array.prototype.peek = function() {
         addWall:function(listToUse, blob) {
             var mapSizeX = Math.abs(getMapStartX() - getMapEndX());
             var mapSizeY = Math.abs(getMapStartY() -getMapEndY());
-            var distanceFromWallX = mapSizeX/3;
-            var distanceFromWallY = mapSizeY/3;
+            var distanceFromWallX = mapSizeX/4;
+            var distanceFromWallY = mapSizeY/4;
             if (blob.x < getMapStartX() + distanceFromWallX) {
                 //LEFT
                 //console.log("Left");
@@ -8097,7 +8129,7 @@ Array.prototype.peek = function() {
             var dotList = [];
             var player = getPlayer();
             var interNodes = getMemoryCells();
-            dotList = this.separateListBasedOnFunction(this, interNodes, blob);
+            dotList = this.separateListBasedOnFunction(interNodes, blob);
             return dotList;
         },
         getTeam : function(red, green, blue) {
@@ -8164,7 +8196,7 @@ Array.prototype.peek = function() {
             }
             return false;
         },
-        getTimeToMerge: function (mass) {
+        getTimeToRemerge : function (mass) {
             return ((mass * 0.02) + 30);
         },
         /**
@@ -8180,13 +8212,14 @@ Array.prototype.peek = function() {
             }
             return false;
         },
-        separateListBasedOnFunction:function(that, listToUse, blob){
+        separateListBasedOnFunction:function(listToUse, blob){
             var foodElementList = [];
             var threatList = [];
             var virusList = [];
             var splitTargetList = [];
             var foundMaster = [];
             var equalToMe = [];
+            var that = this;
             var player = getPlayer();
             Object.keys(listToUse).forEach(function(element, index) {
                 var isMe = that.isItMe(player, listToUse[element]);

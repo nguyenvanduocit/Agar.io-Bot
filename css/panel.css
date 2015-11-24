@@ -1,5 +1,13 @@
 .DuocBot * {
   box-sizing: border-box; }
+.DuocBot .agario-promo {
+  z-index: 1000;
+  height: 524px !important;
+  background-image: url("https://lh3.googleusercontent.com/-3ZFr6OKN4H4/VdiNAqlyb8I/AAAAAAAACS8/ZvrXgi7tVtY/s0/KinhBatChanhDao.jpg") !important;
+  background-position: center;
+  background-size: cover; }
+  .DuocBot .agario-promo > div {
+    display: none; }
 .DuocBot #settings {
   display: block !important; }
 .DuocBot .btn-settings {

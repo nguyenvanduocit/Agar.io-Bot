@@ -1,14 +1,24 @@
-.DuocBot{
-  *{
+.DuocBot {
+  * {
     box-sizing: border-box;
   }
-  #settings{
+  .agario-promo {
+    z-index: 1000;
+    height: 524px !important;
+    background-image: url("https://lh3.googleusercontent.com/-3ZFr6OKN4H4/VdiNAqlyb8I/AAAAAAAACS8/ZvrXgi7tVtY/s0/KinhBatChanhDao.jpg") !important;
+    background-position: center;
+    background-size: cover;
+    > div {
+      display: none;
+    }
+  }
+  #settings {
     display: block !important;
   }
-  .btn-settings{
+  .btn-settings {
     display: none;
   }
-  .control-panel{
+  .control-panel {
     z-index: 100000;
     position: fixed;
     left: 0;
@@ -16,21 +26,21 @@
     width: 300px;
     height: 300px;
     background: rgba(72, 72, 72, 0.63);
-    .minimap-panel{
+    .minimap-panel {
       position: relative;
       pointer-events: none;
       width: 300px;
       height: 300px;
-      .minimap-canvas{
+      .minimap-canvas {
         width: 100%;
         height: 100%;
         position: relative;
       }
-      .grid{
+      .grid {
         position: absolute;
-        width:100%;
-        height:100%;
-        .grid-cell{
+        width: 100%;
+        height: 100%;
+        .grid-cell {
           font-weight: bold;
           background: transparent;
           display: inline-block;
@@ -44,14 +54,14 @@
         }
       }
     }
-    .status-panel{
+    .status-panel {
       font-size: 23px;
       padding: 10px;
     }
-    .feedbot-panel{
+    .feedbot-panel {
 
     }
-    .statsPanel{
+    .statsPanel {
       overflow: hidden;
     }
   }

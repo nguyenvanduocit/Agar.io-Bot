@@ -14,6 +14,7 @@ Array.prototype.peek = function() {
             'click #feedBotToggle_auto':'onAutoToggle'
         },
         initialize: function (options){
+            var self = this;
             this.options = {};
             _.extend(this.options, options);
         },
@@ -54,6 +55,7 @@ Array.prototype.peek = function() {
             this.master  = true;
             this.lastMasterUpdate = Date.now();
             this.botEnabled = true;
+            this.prevBotEnabled = this.botEnabled;
             this.masterLocation = [100, 100];
             this.masterId = false;
             this.splitDistance = 710;
@@ -72,17 +74,36 @@ Array.prototype.peek = function() {
 
         },
         onStart: function (options) {
+            var self = this;
+            this.changeBotEnableStage(true);
             this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.mainLoop);
             this.listenTo(AgarBot.pubsub, 'FeedBotPanel:changeSetting', this.onChangeSetting);
+            document.addEventListener("visibilitychange", function(){self.onVisibilitychanged();}, false);
             this.pannelView.render();
         },
+        changeBotEnableStage:function(isEnabled){
+            this.botEnabled = isEnabled;
+            if(this.botEnabled){
+                document.title = 'Agar.io - ' + 'Bot enabled';
+            }
+            else{
+                document.title = 'Agar.io - ' + 'Bot disabled';
+            }
+        },
+        onVisibilitychanged:function(){
+            if (document.hidden) {
+                this.prevBotEnabled = this.botEnabled;
+                this.changeBotEnableStage(true);
+            } else  {
+                this.changeBotEnableStage(this.prevBotEnabled);
+            }
+        },
         onChangeSetting:function(options){
-            console.log(options);
             if(typeof options.master !='undefined'){
                 this.master = options.master;
             }
             if(typeof options.botEnabled !='undefined'){
-                this.botEnabled = options.botEnabled;
+                this.changeBotEnableStage(options.botEnabled);
             }
         },
         mainLoop:function(){
@@ -725,8 +746,8 @@ Array.prototype.peek = function() {
         addWall:function(listToUse, blob) {
             var mapSizeX = Math.abs(getMapStartX() - getMapEndX());
             var mapSizeY = Math.abs(getMapStartY() -getMapEndY());
-            var distanceFromWallX = mapSizeX/3;
-            var distanceFromWallY = mapSizeY/3;
+            var distanceFromWallX = mapSizeX/4;
+            var distanceFromWallY = mapSizeY/4;
             if (blob.x < getMapStartX() + distanceFromWallX) {
                 //LEFT
                 //console.log("Left");
