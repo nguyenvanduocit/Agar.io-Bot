@@ -286,6 +286,10 @@
         N = 0;
         na = !1;
         console.log("Connecting to " + a);
+        /**
+         * @author nguyenvanduocit
+         */
+        serverIP = a;
         r = new WebSocket(a);
         r.binaryType = "arraybuffer";
         r.onopen = function () {

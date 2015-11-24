@@ -31,37 +31,27 @@
         updateMap: function () {
             var self = this;
             var player = getPlayer();
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            for (var k = 0; k < player.length; k++) {
-                var allIsAll = MapControl.getAll(player[k]);
-                //The food stored in element 0 of allIsAll
-                var allPossibleFood = allIsAll[0];
-                //The threats are stored in element 1 of allIsAll
-                var allPossibleThreats = allIsAll[1];
-                //The viruses are stored in element 2 of allIsAll
-                var allPossibleViruses = allIsAll[2];
-                this.ctx.save();
-                //Loop through all the cells that were identified as threats.
-                for (var i = 0; i < allPossibleThreats.length; i++) {
-                    var token = allPossibleThreats[i];
-                    var position = this.calcPosition(token.x, token.y, token.size);
-                    this.drawCycle(position.x,position.y,position.size,token.color);
-                }
+            if(player.length > 0) {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                for (var k = 0; k < 1; k++) {
+                    var listToUse = getMemoryCells();
+                    this.ctx.save();
+                    Object.keys(listToUse).forEach(function(tokenId, index) {
+                        var position = self.calcPosition(listToUse[tokenId].x, listToUse[tokenId].y, listToUse[tokenId].size);
+                        self.drawCycle(position.x, position.y, position.size, listToUse[tokenId].color);
+                    });
+                    this.ctx.restore();
 
-                this.ctx.restore();
+                    var playerPosition = this.calcPosition(player[k].x, player[k].y, player[k].size);
+                    this.ctx.save();
+                    this.drawCycle(playerPosition.x, playerPosition.y, playerPosition.size, player[k].color);
+                    this.ctx.restore();
 
-                var playerPosition = this.calcPosition(player[k].x, player[k].y, player[k].size);
-                this.ctx.save();
-                this.drawCycle(playerPosition.x,playerPosition.y,playerPosition.size,player[k].color);
-                this.ctx.restore();
-
-                if (self.mapOptions.enableCross) {
-                    self.miniMapDrawCross(playerPosition.x, playerPosition.y, player[k].color);
+                    if (self.mapOptions.enableCross) {
+                        self.miniMapDrawCross(playerPosition.x, playerPosition.y, player[k].color);
+                    }
+                    this.ctx.restore();
                 }
-                if (self.mapOptions.enableAxes) {
-                    self.miniMapDrawMiddleCross();
-                }
-                this.ctx.restore();
             }
         },
         drawCycle:function(x,y,size,color){
@@ -92,31 +82,6 @@
             this.ctx.stroke();
             this.ctx.restore();
         },
-        miniMapDrawMiddleCross:function(){
-            this.ctx.save();
-            this.ctx.lineWidth = 0.2;
-            this.ctx.beginPath();
-
-            var heightOneThird = this.canvas.height/3;
-            var widthOneThird = this.canvas.height/3;
-
-            this.ctx.moveTo(0, heightOneThird);
-            this.ctx.lineTo(this.canvas.width, widthOneThird);
-
-            this.ctx.moveTo(0, heightOneThird*2);
-            this.ctx.lineTo(this.canvas.width, widthOneThird*2);
-
-            this.ctx.moveTo(heightOneThird, 0);
-            this.ctx.lineTo(heightOneThird, this.canvas.height);
-
-            this.ctx.moveTo(heightOneThird*2, 0);
-            this.ctx.lineTo(heightOneThird*2, this.canvas.height);
-
-            this.ctx.closePath();
-            this.ctx.strokeStyle = '#000000';
-            this.ctx.stroke();
-            this.ctx.restore();
-        }
     });
 
     AgarBot.Modules.MiniMap = Marionette.Module.extend({
