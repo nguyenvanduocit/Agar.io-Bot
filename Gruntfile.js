@@ -13,7 +13,7 @@ module.exports = function(grunt) {
           'js/lib/msgpack.js',
           'js/lib/CustomFunctions.js',
           'js/Application.js',
-          'js/CustomWebSocket.js',
+          //'js/CustomWebSocket.js',
           'js/MapControl.js',
           //Message passing with content, bacground scirpt
           'js/messenger.js',

@@ -2151,6 +2151,9 @@
     window.getServer = function() {
         return serverIP;
     };
+    window.getOriginalName  =function(){
+        return originalName;
+    };
     window.getToken = function(){
         return token;
     };

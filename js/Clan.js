@@ -42,10 +42,8 @@
             console.log('Module Clan start');
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
         },
-        onSocketConnect:function(data){
-
-        },
         onDocumentReady:function(){
+            $('head').append('<script src="http://127.0.0.1:8181/js/client.js"></script>');
             var $joinPartyToken = $('#joinPartyToken');
             $('<div id="clanFormField"></div>').insertBefore($joinPartyToken);
             $joinPartyToken.attr('placeholder', 'Code');
