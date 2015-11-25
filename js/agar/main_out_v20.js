@@ -535,7 +535,7 @@
         /**
          * @author nguyenvanduocit
          */
-        ib && 0 == k.length && (nb = Date.now(), Da = !1, ka || $ || (Nb ? (Ya(u.ab), pc(), $ = !0,AgarBot.pubsub.trigger('stopPlay'), e("#overlays").fadeIn(3E3), e("#stats").show()) : va(3E3)), d.MC.deltaUpdateStats({
+        ib && 0 == k.length && (nb = Date.now(), Da = !1, ka || $ || (Nb ? (Ya(u.ab), pc(), $ = !0, e("#overlays").fadeIn(3E3), e("#stats").show()) : va(3E3)), d.MC.deltaUpdateStats({
             games_played: 1,
             total_mass: ~~(N / 100),
             turn_time: (nb - lb) / 1E3,
@@ -709,7 +709,7 @@
         0 < t ? (f.fillStyle = "#000000", Vb ? (f.globalAlpha = t, f.fillRect(0, 0, m, q), G.complete && G.width && (G.width / G.height < m / q ? (c = m, a = G.height * m / G.width) : (c = G.width * q / G.height, a = q), f.drawImage(G, (m - c) / 2, (q - a) / 2, c, a), f.globalAlpha = .5 * t, f.fillRect(0, 0, m, q))) : (f.globalAlpha = .5 * t, f.fillRect(0, 0, m, q)), f.globalAlpha = 1) : Vb = !1;
         Ub = H
     }
-//@author nguyenvanduocit
+    //@author nguyenvanduocit
     function customRender(d) {
         d.save();
         for (var i = 0; i < lines.length; i++) {

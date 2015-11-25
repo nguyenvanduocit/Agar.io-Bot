@@ -18,7 +18,7 @@ module.exports = function(grunt) {
           //Message passing with content, bacground scirpt
           'js/messenger.js',
           'js/template-loader.js',
-          'js/agar/main_out_v20.js',
+          'js/agar/main_out_v25.js',
           'js/Clan.js',
           'js/MapUtil/MapUtil.js',
           //BEGIN Auto feed bot
