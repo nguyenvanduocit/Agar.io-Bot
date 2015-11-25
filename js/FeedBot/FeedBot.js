@@ -168,7 +168,7 @@ Array.prototype.peek = function() {
                     if (!this.master && Date.now() - this.lastMasterUpdate > 1000) {
                         var query = new Parse.Query(this.MasterLocation);
                         var self = this;
-                        query.equalTo("server", getServer());
+                       /* query.equalTo("server", getServer());
                         query.first().then(function(object) {
                                 if (typeof object != 'undefined') {
                                     console.log("Previous Location: " + self.masterLocation);
@@ -184,7 +184,7 @@ Array.prototype.peek = function() {
                             },
                             function(error) {
                                 console.log("Error: " + error.code + " " + error.message);
-                            });
+                            });*/
                         this.lastMasterUpdate = Date.now();
                     }
 
@@ -611,7 +611,7 @@ Array.prototype.peek = function() {
                     if (Date.now() - this.lastMasterUpdate > 1000) {
                         var self = this;
                         var query = new Parse.Query(this.MasterLocation);
-                        query.equalTo("server", getServer());
+                        /*query.equalTo("server", getServer());
                         query.first({
                             success: function(object) {
                                 console.log("Done query");
@@ -634,7 +634,7 @@ Array.prototype.peek = function() {
                             error: function(error) {
                                 console.log("Error: " + error.code + " " + error.message);
                             }
-                        });
+                        });*/
                         this.lastMasterUpdate = Date.now();
                     }
                 }

@@ -554,6 +554,7 @@
             //@author nguyenvanduocit
             if (getPlayer().length == 0 && !reviving && ~~(getCurrentScore() / 100) > 0) {
                 console.log("Dead: " + ~~(getCurrentScore() / 100));
+                AgarBot.pubsub.trigger('player:dead');
             }
             if (getPlayer().length == 0 && !firstStart) {
                 console.log("Revive");
@@ -562,6 +563,7 @@
             } else if (getPlayer().length > 0 && reviving) {
                 reviving = false;
                 console.log("Done Reviving!");
+                AgarBot.pubsub.trigger('player:revive');
             }
             var a = ta - m / 2, c = ua - q / 2;
             64 > a * a + c * c || .01 > Math.abs(Pb - Aa) && .01 > Math.abs(Qb - Ba) || (Pb = Aa, Qb = Ba, a = V(13), a.setUint8(0, 16), a.setInt32(1, Aa, !0), a.setInt32(5,
