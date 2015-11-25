@@ -20,6 +20,19 @@
         }
         return null;
     };
+    var clanCells = {};
+    window.maybePushClanCell =function(cellData){
+        console.log(cellData);
+        for(var i = 0; i<cellData.length; i++){
+            if(!clanCells.hasOwnProperty(cellData[i].id)){
+                cellData[cellData[i].id] = cellData[i];
+            }
+        }
+    };
+    window.getClanCells=function(){
+        return clanCells;
+    };
+
     AgarBot.Views.ClanFormField = Marionette.ItemView.extend({
         initialize:function(){
             this.listenTo(AgarBot.pubsub, 'findServer:retry', this.onRetry);
