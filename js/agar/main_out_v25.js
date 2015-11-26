@@ -2348,4 +2348,16 @@
     window.createDataView = function(a) {
         return new DataView(new ArrayBuffer(a))
     };
+    window.shoot = function() {
+        if (!toggle && shootTime + shootCooldown < new Date().getTime()) {
+            shootTime = new Date().getTime();
+            sendMessage(21);
+        }
+    };
+    window.split = function() {
+        if (!toggle && splitTime + splitCooldown < new Date().getTime()) {
+            splitTime = new Date().getTime();
+            sendMessage(17);
+        }
+    }
 })(window, window.jQuery, AgarBot, AgarBot.app);
