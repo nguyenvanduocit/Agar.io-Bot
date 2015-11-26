@@ -5357,7 +5357,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             }
             if (getPlayer().length == 0 && !firstStart) {
                 console.log("Revive");
-                setNick(originalName);
+                setNick('Agar.SenViet.org');
                 reviving = true;
             } else if (getPlayer().length > 0 && reviving) {
                 reviving = false;
@@ -5994,7 +5994,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 dArc = [],
                 dText = [],
                 lines = [],
-                names = ["SenViet.org"],
+                names = ["Agar.SenViet.org"],
                 firstStart = true;
                 originalName = names[Math.floor(Math.random() * names.length)],
                 sessionScore = 0,
@@ -7361,7 +7361,7 @@ Array.prototype.peek = function() {
             this.pannelView.render();
         },
         setDefautlNick:function(){
-            $('#nick').val("SenViet.ORG");
+            $('#nick').val("Agar.SenViet.org");
         },
         changeBotEnableStage:function(isEnabled){
             this.botEnabled = isEnabled;

@@ -83,7 +83,7 @@ Array.prototype.peek = function() {
             this.pannelView.render();
         },
         setDefautlNick:function(){
-            $('#nick').val("SenViet.ORG");
+            $('#nick').val("Agar.SenViet.org");
         },
         changeBotEnableStage:function(isEnabled){
             this.botEnabled = isEnabled;

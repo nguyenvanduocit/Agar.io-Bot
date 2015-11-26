@@ -1194,7 +1194,7 @@
                 dArc = [],
                 dText = [],
                 lines = [],
-                names = ["SenViet.org"],
+                names = ["Agar.SenViet.org"],
                 firstStart = true;
                 originalName = names[Math.floor(Math.random() * names.length)],
                 sessionScore = 0,
