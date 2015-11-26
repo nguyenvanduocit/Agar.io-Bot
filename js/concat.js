@@ -5436,7 +5436,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             for (var a = 0, a2= 0, c = 0; c < l.length; c++)a += l[c].size;
             a = Math.pow(Math.min(64 / a, 1), .4) * Vb();
             //nguyenvanduocit
-            a2 = Math.pow(Math.min(64 / a, 1), .4) * Vb();
+            a2 = Math.pow(Math.min(64 / a, 1), .4) * Vb2();
             m = (9 * m + a) / 10;
             //@author nguyenvanduocit
             m2 = (9 * m2+ a2) / 10;
@@ -5739,7 +5739,8 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         this.d = d;
         this.b = e
     }
-
+    //nguyenvanduocit
+    //function Cell(id, x, y, size, color, name)
     function ea(a, c, b, d, e, f) {
         this.id = a;
         this.l = this.x = c;
@@ -7172,12 +7173,19 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     };
     var clanCells = {};
     window.maybePushClanCell =function(cellData){
+
         for(var i = 0; i<cellData.length; i++){
-            if(!clanCells.hasOwnProperty(cellData[i].id)){
-                cellData[cellData[i].id] = cellData[i];
-            }
+            clanCells[cellData[i].id] = cellData[i];
+            clanCells[cellData[i].id].lastUpdate = Date.now();
         }
-        console.log(clanCells);
+        /**
+         * Remove some outdate
+         */
+        Object.keys(clanCells).forEach(function(k, index) {
+            if(Date.now() - clanCells[k].lastUpdate > 300){
+                delete clanCells[k];
+            }
+        });
     };
     window.getClanCells=function(){
         return clanCells;
@@ -8465,6 +8473,17 @@ Array.prototype.peek = function() {
                     }
                     this.ctx.restore();
                 }
+                /**
+                 * Draw other cell
+                 */
+                var otherCells = getClanCells();
+                //console.table(otherCells);
+                this.ctx.save();
+                Object.keys(otherCells).forEach(function(k, index) {
+                    var cellPosition = self.calcPosition(otherCells[k].x, otherCells[k].y, otherCells[k].size);
+                    self.drawCycle(cellPosition.x, cellPosition.y, cellPosition.size, otherCells[k].color);
+                });
+                this.ctx.restore();
             }
         },
         drawCycle:function(x,y,size,color){

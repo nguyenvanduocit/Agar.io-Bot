@@ -52,6 +52,17 @@
                     }
                     this.ctx.restore();
                 }
+                /**
+                 * Draw other cell
+                 */
+                var otherCells = getClanCells();
+                //console.table(otherCells);
+                this.ctx.save();
+                Object.keys(otherCells).forEach(function(k, index) {
+                    var cellPosition = self.calcPosition(otherCells[k].x, otherCells[k].y, otherCells[k].size);
+                    self.drawCycle(cellPosition.x, cellPosition.y, cellPosition.size, otherCells[k].color);
+                });
+                this.ctx.restore();
             }
         },
         drawCycle:function(x,y,size,color){

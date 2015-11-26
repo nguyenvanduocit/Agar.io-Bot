@@ -636,7 +636,7 @@
             for (var a = 0, a2= 0, c = 0; c < l.length; c++)a += l[c].size;
             a = Math.pow(Math.min(64 / a, 1), .4) * Vb();
             //nguyenvanduocit
-            a2 = Math.pow(Math.min(64 / a, 1), .4) * Vb();
+            a2 = Math.pow(Math.min(64 / a, 1), .4) * Vb2();
             m = (9 * m + a) / 10;
             //@author nguyenvanduocit
             m2 = (9 * m2+ a2) / 10;
@@ -939,7 +939,8 @@
         this.d = d;
         this.b = e
     }
-
+    //nguyenvanduocit
+    //function Cell(id, x, y, size, color, name)
     function ea(a, c, b, d, e, f) {
         this.id = a;
         this.l = this.x = c;

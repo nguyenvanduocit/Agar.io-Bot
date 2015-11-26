@@ -22,12 +22,19 @@
     };
     var clanCells = {};
     window.maybePushClanCell =function(cellData){
-        console.log(cellData);
+
         for(var i = 0; i<cellData.length; i++){
-            if(!clanCells.hasOwnProperty(cellData[i].id)){
-                cellData[cellData[i].id] = cellData[i];
-            }
+            clanCells[cellData[i].id] = cellData[i];
+            clanCells[cellData[i].id].lastUpdate = Date.now();
         }
+        /**
+         * Remove some outdate
+         */
+        Object.keys(clanCells).forEach(function(k, index) {
+            if(Date.now() - clanCells[k].lastUpdate > 300){
+                delete clanCells[k];
+            }
+        });
     };
     window.getClanCells=function(){
         return clanCells;
