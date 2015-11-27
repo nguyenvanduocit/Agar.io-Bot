@@ -7341,7 +7341,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             this.splitDistance = 710;
             this.toggleFollow = false;
             this.minimumSizeToGoing = 10;
-            this.dangerTimeOut = 1500;
+            this.dangerTimeOut = 1000;
             this.situation = 'DANGER';//DANGER, SAFE, ATTACT
             this.stage = 'EAT'; //EAT, SHOOT, RUN
             this.pannelView = new AgarBot.Views.FeedBotPanel({
@@ -7859,10 +7859,12 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                         return b[1] - a[1]
                     });
                     if (dangerFound) {
+                        console.log('In danger');
                         for (var i = 0; i < destinationChoices.length; i++) {
                             if (destinationChoices[i][2]) {
                                 tempMoveX = destinationChoices[i][0][0];
                                 tempMoveY = destinationChoices[i][0][1];
+                                destinationChoices = [tempMoveX, tempMoveY];
                                 break;
                             }
                         }
@@ -7955,37 +7957,6 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 return true;
             }
             return false;
-        },
-        computeAngleRanges : function(blob1, blob2) {
-            var mainAngle = this.getAngle(blob1.x, blob1.y, blob2.x, blob2.y);
-            var leftAngle = (mainAngle - 90).mod(360);
-            var rightAngle = (mainAngle + 90).mod(360);
-
-            var blob1Left = this.followAngle(leftAngle, blob1.x, blob1.y, blob1.size);
-            var blob1Right = this.followAngle(rightAngle, blob1.x, blob1.y, blob1.size);
-
-            var blob2Left = this.followAngle(rightAngle, blob2.x, blob2.y, blob2.size);
-            var blob2Right = this.followAngle(leftAngle, blob2.x, blob2.y, blob2.size);
-
-            var blob1AngleLeft = this.getAngle(blob2.x, blob2.y, blob1Left[0], blob1Left[1]);
-            var blob1AngleRight = this.getAngle(blob2.x, blob2.y, blob1Right[0], blob1Right[1]);
-
-            var blob2AngleLeft = this.getAngle(blob1.x, blob1.y, blob2Left[0], blob2Left[1]);
-            var blob2AngleRight = this.getAngle(blob1.x, blob1.y, blob2Right[0], blob2Right[1]);
-
-            var blob1Range = (blob1AngleRight - blob1AngleLeft).mod(360);
-            var blob2Range = (blob2AngleRight - blob2AngleLeft).mod(360);
-
-            var tempLine = this.followAngle(blob2AngleLeft, blob2Left[0], blob2Left[1], 400);
-            //drawLine(blob2Left[0], blob2Left[1], tempLine[0], tempLine[1], 0);
-
-            if ((blob1Range / blob2Range) > 1) {
-                drawPoint(blob1Left[0], blob1Left[1], 3, "");
-                drawPoint(blob1Right[0], blob1Right[1], 3, "");
-                drawPoint(blob1.x, blob1.y, 3, "" + blob1Range + ", " + blob2Range + " R: " + (Math.round((blob1Range / blob2Range) * 1000) / 1000));
-            }
-
-            //drawPoint(blob2.x, blob2.y, 3, "" + blob1Range);
         },
         angleIsWithin:function(angle, range) {
             var diff = (this.rangeToAngle(range) - angle).mod(360);
@@ -8235,6 +8206,37 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 return coords[0];
             }
         },
+        computeAngleRanges : function(blob1, blob2) {
+            var mainAngle = this.getAngle(blob1.x, blob1.y, blob2.x, blob2.y);
+            var leftAngle = (mainAngle - 90).mod(360);
+            var rightAngle = (mainAngle + 90).mod(360);
+
+            var blob1Left = this.followAngle(leftAngle, blob1.x, blob1.y, blob1.size);
+            var blob1Right = this.followAngle(rightAngle, blob1.x, blob1.y, blob1.size);
+
+            var blob2Left = this.followAngle(rightAngle, blob2.x, blob2.y, blob2.size);
+            var blob2Right = this.followAngle(leftAngle, blob2.x, blob2.y, blob2.size);
+
+            var blob1AngleLeft = this.getAngle(blob2.x, blob2.y, blob1Left[0], blob1Left[1]);
+            var blob1AngleRight = this.getAngle(blob2.x, blob2.y, blob1Right[0], blob1Right[1]);
+
+            var blob2AngleLeft = this.getAngle(blob1.x, blob1.y, blob2Left[0], blob2Left[1]);
+            var blob2AngleRight = this.getAngle(blob1.x, blob1.y, blob2Right[0], blob2Right[1]);
+
+            var blob1Range = (blob1AngleRight - blob1AngleLeft).mod(360);
+            var blob2Range = (blob2AngleRight - blob2AngleLeft).mod(360);
+
+            var tempLine = this.followAngle(blob2AngleLeft, blob2Left[0], blob2Left[1], 400);
+            //drawLine(blob2Left[0], blob2Left[1], tempLine[0], tempLine[1], 0);
+
+            if ((blob1Range / blob2Range) > 1) {
+                drawPoint(blob1Left[0], blob1Left[1], 3, "");
+                drawPoint(blob1Right[0], blob1Right[1], 3, "");
+                drawPoint(blob1.x, blob1.y, 3, "" + blob1Range + ", " + blob2Range + " R: " + (Math.round((blob1Range / blob2Range) * 1000) / 1000));
+            }
+
+            //drawPoint(blob2.x, blob2.y, 3, "" + blob1Range);
+        },
         getAngleRange:function(blob1, blob2, index, radius) {
             var angleStuff = this.getEdgeLinesFromPoint(blob1, blob2, radius);
 
@@ -8319,7 +8321,6 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         },
         getAll:function(blob){
             var dotList = [];
-            var player = getPlayer();
             var interNodes = getMemoryCells();
             dotList = this.separateListBasedOnFunction(interNodes, blob);
             return dotList;
