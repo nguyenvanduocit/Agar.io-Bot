@@ -22,8 +22,8 @@ module.exports = function(grunt) {
           'js/Clan.js',
           'js/MapUtil/MapUtil.js',
           //BEGIN Auto feed bot
-          'js/lib/parse-1.5.0.min.js',
           'js/FeedBot/FeedBot.js',
+            //'js/FeedBot/OgarBot.js',
           //END Auto feed bot
 
           //BEGIN Minimap

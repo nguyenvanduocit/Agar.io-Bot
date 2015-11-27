@@ -1054,6 +1054,7 @@
         e("#helloContainer").attr("data-party-state", "4");
         a = decodeURIComponent(a).replace(/.*#/gim, "");
         vb("#" + d.encodeURIComponent(a));
+
         e.ajax(ja + "getToken", {
             error: function () {
                 e("#helloContainer").attr("data-party-state", "6")
@@ -1065,6 +1066,7 @@
                 fb("ws://" + c[0], a)
             }, dataType: "text", method: "POST", cache: !1, crossDomain: !0, data: a
         })
+
     }
 
     function vb(a) {

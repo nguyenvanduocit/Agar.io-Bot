@@ -5,8 +5,7 @@ Number.prototype.mod = function(n) {
 Array.prototype.peek = function() {
     return this[this.length - 1];
 };
-(function (window, Parse, $, Backbone, Marionette, _, AgarBot, app) {
-    Parse.initialize("nj3ycKuqW4k4CnzN1ZYtMYowoa97qNw7NafLimrF", "nh6arPQQxbE5rFOyR0dCgecQiDAN54Zgjsf7eAKH");
+(function (window, $, Backbone, Marionette, _, AgarBot, app) {
     AgarBot.Views.FeedBotPanel = Marionette.ItemView.extend({
         el:'#feedbot-pannel',
         events:{
@@ -50,7 +49,6 @@ Array.prototype.peek = function() {
 
     AgarBot.Modules.FeedBot = Marionette.Module.extend({
         initialize: function (moduleName, app, options) {
-            this.MasterLocation = Parse.Object.extend("MasterLocation");
             this.isEnable = true;
             this.master  = true;
             this.lastMasterUpdate = Date.now();
@@ -166,7 +164,6 @@ Array.prototype.peek = function() {
                  */
                 if ( (player.length > 0) ) {
                     if (!this.master && Date.now() - this.lastMasterUpdate > 1000) {
-                        var query = new Parse.Query(this.MasterLocation);
                         var self = this;
                        /* query.equalTo("server", getServer());
                         query.first().then(function(object) {
@@ -610,7 +607,6 @@ Array.prototype.peek = function() {
                     this.masterId = player[0].id;
                     if (Date.now() - this.lastMasterUpdate > 1000) {
                         var self = this;
-                        var query = new Parse.Query(this.MasterLocation);
                         /*query.equalTo("server", getServer());
                         query.first({
                             success: function(object) {
@@ -675,12 +671,55 @@ Array.prototype.peek = function() {
         calcSpeed:function(size){
             return Math.round(2.2 * Math.pow(size, -0.439)*100);
         },
+        angleRangeIsWithinInverted : function(range1, range2) {
+            var distanceFrom0 = (range1[0] - range2[0]).mod(360);
+            var distanceFrom1 = (range1[1] - range2[0]).mod(360);
+
+            if (distanceFrom0 < range2[1] && distanceFrom1 < range2[1] && distanceFrom0 > distanceFrom1) {
+                return true;
+            }
+            return false;
+        },
+        computeAngleRanges : function(blob1, blob2) {
+            var mainAngle = this.getAngle(blob1.x, blob1.y, blob2.x, blob2.y);
+            var leftAngle = (mainAngle - 90).mod(360);
+            var rightAngle = (mainAngle + 90).mod(360);
+
+            var blob1Left = this.followAngle(leftAngle, blob1.x, blob1.y, blob1.size);
+            var blob1Right = this.followAngle(rightAngle, blob1.x, blob1.y, blob1.size);
+
+            var blob2Left = this.followAngle(rightAngle, blob2.x, blob2.y, blob2.size);
+            var blob2Right = this.followAngle(leftAngle, blob2.x, blob2.y, blob2.size);
+
+            var blob1AngleLeft = this.getAngle(blob2.x, blob2.y, blob1Left[0], blob1Left[1]);
+            var blob1AngleRight = this.getAngle(blob2.x, blob2.y, blob1Right[0], blob1Right[1]);
+
+            var blob2AngleLeft = this.getAngle(blob1.x, blob1.y, blob2Left[0], blob2Left[1]);
+            var blob2AngleRight = this.getAngle(blob1.x, blob1.y, blob2Right[0], blob2Right[1]);
+
+            var blob1Range = (blob1AngleRight - blob1AngleLeft).mod(360);
+            var blob2Range = (blob2AngleRight - blob2AngleLeft).mod(360);
+
+            var tempLine = this.followAngle(blob2AngleLeft, blob2Left[0], blob2Left[1], 400);
+            //drawLine(blob2Left[0], blob2Left[1], tempLine[0], tempLine[1], 0);
+
+            if ((blob1Range / blob2Range) > 1) {
+                drawPoint(blob1Left[0], blob1Left[1], 3, "");
+                drawPoint(blob1Right[0], blob1Right[1], 3, "");
+                drawPoint(blob1.x, blob1.y, 3, "" + blob1Range + ", " + blob2Range + " R: " + (Math.round((blob1Range / blob2Range) * 1000) / 1000));
+            }
+
+            //drawPoint(blob2.x, blob2.y, 3, "" + blob1Range);
+        },
         angleIsWithin:function(angle, range) {
             var diff = (this.rangeToAngle(range) - angle).mod(360);
             if (diff >= 0 && diff <= range[1]) {
                 return true;
             }
             return false;
+        },
+        anglePair : function(range) {
+            return (range[0] + ", " + this.rangeToAngle(range) + " range: " + range[1]);
         },
         addAngle:function(listToUse, range) {
             //#1 Find first open element
@@ -1140,4 +1179,4 @@ Array.prototype.peek = function() {
     app.module("FeedBot", {
         moduleClass: AgarBot.Modules.FeedBot
     });
-})(window, Parse, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
+})(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
