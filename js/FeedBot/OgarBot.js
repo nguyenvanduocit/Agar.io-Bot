@@ -200,7 +200,7 @@
                         }
 
                         // Check for danger and prey
-                        if ((self.calcMass(cell) * 1.25) > self.calcMass(check)) { // Prey
+                        if ((self.calcMass(cell) * 1.33) > self.calcMass(check)) { // Prey
                             drawPoint(check.x, check.y, 1, 'prey');
                             if (dist < 600) {
                                 self.prey.push(check);

@@ -1,10 +1,3 @@
-Number.prototype.mod = function(n) {
-    return ((this % n) + n) % n;
-};
-
-Array.prototype.peek = function() {
-    return this[this.length - 1];
-};
 (function (window, $, Backbone, Marionette, _, AgarBot, app) {
     AgarBot.Views.FeedBotPanel = Marionette.ItemView.extend({
         el:'#feedbot-pannel',
@@ -278,7 +271,6 @@ Array.prototype.peek = function() {
                             }
 
                             if (allPossibleThreats[i].danger && getLastUpdate() - allPossibleThreats[i].dangerTimeOut > this.dangerTimeOut) {
-
                                 allPossibleThreats[i].danger = false;
                             }
 
@@ -291,9 +283,7 @@ Array.prototype.peek = function() {
                             //console.log("Figured out who was important.");
 
                             if ((enemyCanSplit && enemyDistance < splitDangerDistance) || (enemyCanSplit && allPossibleThreats[i].danger)) {
-
                                 badAngles.push(this.getAngleRange(player[k], allPossibleThreats[i], i, splitDangerDistance).concat(allPossibleThreats[i].enemyDist));
-
                             } else if ((!enemyCanSplit && enemyDistance < normalDangerDistance) || (!enemyCanSplit && allPossibleThreats[i].danger)) {
 
                                 badAngles.push(this.getAngleRange(player[k], allPossibleThreats[i], i, normalDangerDistance).concat(allPossibleThreats[i].enemyDist));
@@ -490,15 +480,15 @@ Array.prototype.peek = function() {
 
                             destinationChoices = line1;
                             drawLine(player[k].x, player[k].y, line1[0], line1[1], 7);
-                            //tempMoveX = line1[0];
-                            //tempMoveY = line1[1];
-                        } else if (badAngles.length > 0 && goodAngles == 0) {
+                            tempMoveX = line1[0];
+                            tempMoveY = line1[1];
+                        } else if (badAngles.length > 0 && goodAngles.length == 0) {
                             //When there are enemies around but no good angles
                             //You're likely screwed. (This should never happen.)
 
                             console.log("Failed");
                             destinationChoices = [tempMoveX, tempMoveY];
-                            var angleWeights = [] //Put weights on the angles according to enemy distance
+                            var angleWeights = []; //Put weights on the angles according to enemy distance
                             for (var i = 0; i < allPossibleThreats.length; i++) {
                                 var dist = this.computeDistance(player[k].x, player[k].y, allPossibleThreats[i].x, allPossibleThreats[i].y);
                                 var angle = this.getAngle(allPossibleThreats[i].x, allPossibleThreats[i].y, player[k].x, player[k].y);
@@ -551,24 +541,25 @@ Array.prototype.peek = function() {
                             var destination = this.followAngle(shiftedAngle, player[k].x, player[k].y, distance);
 
                             destinationChoices = destination;
-                            //tempMoveX = destination[0];
-                            //tempMoveY = destination[1];
+                            tempMoveX = destination[0];
+                            tempMoveY = destination[1];
                             drawLine(player[k].x, player[k].y, destination[0], destination[1], 1);
                         } else {
                             //If there are no enemies around and no food to eat.
                             destinationChoices = [tempMoveX, tempMoveY];
                         }
-
-                        drawPoint(tempPoint[0], tempPoint[1], tempPoint[2], "");
-                        //drawPoint(tempPoint[0], tempPoint[1], tempPoint[2], "" + Math.floor(this.computeDistance(tempPoint[0], tempPoint[1], I, J)));
-                        //drawLine(tempPoint[0], tempPoint[1], player[0].x, player[0].y, 6);
-                        //console.log("Slope: " + slope(tempPoint[0], tempPoint[1], player[0].x, player[0].y) + " Angle: " + getAngle(tempPoint[0], tempPoint[1], player[0].x, player[0].y) + " Side: " + (getAngle(tempPoint[0], tempPoint[1], player[0].x, player[0].y) - 90).mod(360));
+                        if(!this.botEnabled){
+                            drawPoint(tempPoint[0], tempPoint[1], tempPoint[2], "");
+                            //drawPoint(tempPoint[0], tempPoint[1], tempPoint[2], Math.floor(this.computeDistance(tempPoint[0], tempPoint[1], getPointX(), getPointY())));
+                            drawLine(tempPoint[0], tempPoint[1], player[0].x, player[0].y, 6);
+                            //console.log("Slope: " + slope(tempPoint[0], tempPoint[1], player[0].x, player[0].y) + " Angle: " + getAngle(tempPoint[0], tempPoint[1], player[0].x, player[0].y) + " Side: " + (getAngle(tempPoint[0], tempPoint[1], player[0].x, player[0].y) - 90).mod(360));
+                        }
                         tempPoint[2] = 1;
                         //console.log("Done working on blob: " + i);
                     }
 
                    //TODO: Find where to go based on destinationChoices.
-                    /** var dangerFound = false;
+                    var dangerFound = false;
                     for (var i = 0; i < destinationChoices.length; i++) {
                         if (destinationChoices[i][2]) {
                             dangerFound = true;
@@ -586,11 +577,7 @@ Array.prototype.peek = function() {
                                 break;
                             }
                         }
-                    } else {
-                        /!*tempMoveX = destinationChoices.peek()[0][0];
-                        tempMoveY = destinationChoices.peek()[0][1];*!/
-                        //console.log("Done " + tempMoveX + ", " + tempMoveY);
-                    }*/
+                    }
                 }
                 else{
                     /**
