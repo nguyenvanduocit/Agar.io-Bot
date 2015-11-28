@@ -298,17 +298,10 @@
 
                             if ((enemyCanSplit && enemyDistance < splitDangerDistance) || (enemyCanSplit && allPossibleThreats[i].danger)) {
                                 badAngles.push(this.getAngleRange(player[k], allPossibleThreats[i], i, splitDangerDistance).concat(allPossibleThreats[i].enemyDist));
-                            } else if ((!enemyCanSplit && enemyDistance < normalDangerDistance) || (!enemyCanSplit && allPossibleThreats[i].danger)) {
 
-                                badAngles.push(this.getAngleRange(player[k], allPossibleThreats[i], i, normalDangerDistance).concat(allPossibleThreats[i].enemyDist));
 
-                            } else if (enemyCanSplit && enemyDistance < splitDangerDistance + shiftDistance) {
-                                var tempOb = this.getAngleRange(player[k], allPossibleThreats[i], i, splitDangerDistance + shiftDistance);
-                                var angle1 = tempOb[0];
-                                var angle2 = this.rangeToAngle(tempOb);
-                                obstacleList.push([[angle1, true], [angle2, false]]);
                                 //Decice to split
-                                if(canSplitMyBlod && isMovingToMyBlod && (enemyDistance<(splitDangerDistance/3)*2) && ( (player.length < 2) || (enemyDistance<10) ) ){
+                                if(canSplitMyBlod && isMovingToMyBlod && (enemyDistance<splitDangerDistance/2) && ( (player.length < 2) || (enemyDistance<10) ) ){
                                     /**
                                      * Split to run away, This threat may split to eat me
                                      * todo guest the situaltion after splited, is it have any threat ?
@@ -316,6 +309,14 @@
                                     this.isNeedToSplit = true;
                                     console.log('Split to escape');
                                 }
+
+                            } else if ((!enemyCanSplit && enemyDistance < normalDangerDistance) || (!enemyCanSplit && allPossibleThreats[i].danger)) {
+                                badAngles.push(this.getAngleRange(player[k], allPossibleThreats[i], i, normalDangerDistance).concat(allPossibleThreats[i].enemyDist));
+                            } else if (enemyCanSplit && enemyDistance < splitDangerDistance + shiftDistance) {
+                                var tempOb = this.getAngleRange(player[k], allPossibleThreats[i], i, splitDangerDistance + shiftDistance);
+                                var angle1 = tempOb[0];
+                                var angle2 = this.rangeToAngle(tempOb);
+                                obstacleList.push([[angle1, true], [angle2, false]]);
                             } else if (!enemyCanSplit && enemyDistance < normalDangerDistance + shiftDistance) {
                                 var tempOb = this.getAngleRange(player[k], allPossibleThreats[i], i, normalDangerDistance + shiftDistance);
                                 var angle1 = tempOb[0];
