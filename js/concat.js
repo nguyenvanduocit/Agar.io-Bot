@@ -4777,9 +4777,14 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                         '</div>'+
                         '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>');
             this.templates.feedBotPannel = _.template('<div class="bot-panel">' +
-                    '<input type="checkbox" class="feedBotSetting" id="make_master" data-key="master" checked/><label for="make_master">Make master</label><br>'+
                     '<input type="checkbox" class="feedBotSetting" id="enableBot" data-key="botEnabled" checked/><label for="enableBot">Enable Bot</label><br>'+
-                    '<input type="checkbox" class="feedBotSetting" id="toggleFollow" data-key="toggleFollow"/><label for="toggleFollow">Follow mouse</label><br>'+
+                    '<label for="modelSelect">Mode</label><br>'+
+                    '<select class="shootVirusMode" id="modelSelect" data-key="mode">' +
+                        '<option value="NORMAL">Normal</option>' +
+                        '<option value="FOLLOWMOUSE">Follow mouse</option>' +
+                        '<option value="FEEDING">Feeding</option>' +
+                        '<option value="SHOOTVIRUS">Shoot virus</option>' +
+                    '</select><br>'+
                 '</div>');
             this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
@@ -5701,8 +5706,8 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             a.font = "30px Ubuntu";
 
             a.fillText(b, 100 - a.measureText(b).width / 2, 40);
-            if (null == G)for (a.font = "20px Ubuntu", c = 0; c < A.length; ++c)b = A[c].name || U("unnamed_cell"),
-            Ra || (b = U("unnamed_cell")), -1 != E.indexOf(A[c].id) ? (l[0].name && (b = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFFFFF", b = c + 1 + ". " + b + l[0].size, a.fillText(b, 100 - a.measureText(b).width / 2, 70 + 24 * c); else for (c = b = 0; c < G.length; ++c) {
+            if (null == G)for (a.font = "15px Ubuntu", c = 0; c < A.length; ++c)b = A[c].name || U("unnamed_cell"),
+            Ra || (b = U("unnamed_cell")), -1 != E.indexOf(A[c].id) ? (l[0].name && (b = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFFFFF",b = c + 1 + ". " + b, a.fillText(b, 100 - a.measureText(b).width / 2, 70 + 24 * c); else for (c = b = 0; c < G.length; ++c) {
                 var d = b + G[c] * Math.PI * 2;
                 a.fillStyle = Dc[c + 1];
                 a.beginPath();
@@ -6422,8 +6427,14 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                     updateCode: 0,
                     danger: false,
                     dangerTimeOut: 0,
+                    getOldPosition:function(){
+                        return {
+                            x:this.l, y:this.m
+                        }
+                    },
                     isNotMoving: function() {
-                        return (this.x == this.l && this.y == this.m);
+                        var oldPosition = this.getOldPosition();
+                        return (this.x == oldPosition.x && this.y == oldPosition.y);
                     },
                     isVirus: function() {
                         return this.c;
@@ -7299,10 +7310,8 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     AgarBot.Views.FeedBotPanel = Marionette.ItemView.extend({
         el:'#feedbot-pannel',
         events:{
-            'change #make_master':'onChangeSetting',
             'change #enableBot':'onChangeSetting',
-            'change #toggleFollow':'onChangeSetting',
-            'change #minimumSizeToGoing':'onChangeSetting'
+            'change #modelSelect':'onChangeSetting'
         },
         initialize: function (options){
             var self = this;
@@ -7319,6 +7328,9 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 case 'checkbox':
                     value = target.is(':checked');
                     break;
+                default:
+                    value = target.val();
+                    break;
             }
             if(value != null){
                 this.options[key] = value;
@@ -7333,23 +7345,20 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
 
     AgarBot.Modules.FeedBot = Marionette.Module.extend({
         initialize: function (moduleName, app, options) {
-            this.isEnable = true;
-            this.master  = true;
+            this.mode = 'NORMAL';
             this.lastMasterUpdate = Date.now();
             this.botEnabled = true;
             this.prevBotEnabled = this.botEnabled;
             this.masterLocation = [100, 100];
             this.masterId = false;
             this.splitDistance = 710;
-            this.toggleFollow = false;
             this.minimumSizeToGoing = 10;
             this.dangerTimeOut = 1000;
+            this.isNeedToSplit = false;
             this.situation = 'DANGER';//DANGER, SAFE, ATTACT
             this.stage = 'EAT'; //EAT, SHOOT, RUN
             this.pannelView = new AgarBot.Views.FeedBotPanel({
-                isEnable:this.isEnable,
-                toggleFollow:this.toggleFollow,
-                master:this.master,
+                mode:this.mode,
                 splitDistance:this.splitDistance,
                 dangerTimeOut:this.dangerTimeOut,
                 botEnabled:this.botEnabled,
@@ -7387,11 +7396,8 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             }
         },
         onChangeSetting:function(options){
-            if(typeof options.master !='undefined'){
-                this.master = options.master;
-            }
-            if(typeof options.toggleFollow !='undefined'){
-                this.toggleFollow = options.toggleFollow;
+            if(typeof options.mode !='undefined'){
+                this.mode = options.mode;
             }
             if(typeof options.botEnabled !='undefined'){
                 this.changeBotEnableStage(options.botEnabled);
@@ -7405,6 +7411,12 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 this.decide();
             }
         },
+        isMaster:function(){
+            return !this.isFeeder();
+        },
+        isFeeder : function(){
+            return this.mode == 'FEEDING';
+        },
         detectSitualtion:function(){
             this.situation = 'SAFE';
             this.stage = 'EAT';
@@ -7415,6 +7427,13 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                     var nextPoint = this.getNextPoint();
                     if(this.botEnabled) {
                         setPoint(nextPoint[0], nextPoint[1]);
+                        /**
+                         * May need to split
+                         */
+                        if(this.isNeedToSplit){
+                            splitPlayer();
+                            this.isNeedToSplit = false;
+                        }
                     }
                     break;
             }
@@ -7428,7 +7447,6 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             /**
              * toggle all bot, include send master
              */
-            if (this.isEnable) {
                 //The following code converts the mouse position into an
                 //absolute game coordinate.
                 var useMouseX = screenToGameX(getMouseX());
@@ -7452,7 +7470,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                  * Toggle is auto run bot ?
                  */
                 if ( (player.length > 0) ) {
-                    if (!this.master && Date.now() - this.lastMasterUpdate > 1000) {
+                    if (!this.isMaster() && Date.now() - this.lastMasterUpdate > 1000) {
                         var self = this;
                        /* query.equalTo("server", getServer());
                         query.first().then(function(object) {
@@ -7486,9 +7504,9 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
 
                     //Loops only for one cell for now.
                     for (var k = 0; /*k < player.length*/ k < 1; k++) {
-
+                        var canSplitMyBlod = this.canSplit(this.calcMass(player[k].size));
                         //console.log("Working on blob: " + k);
-                        if(this.canSplit(this.calcMass(player[k].size))) {
+                        if(canSplitMyBlod) {
                             drawCircle(player[k].x, player[k].y, player[k].size + this.splitDistance, 5);
                         }
                         drawPoint(player[0].x, player[0].y - player[0].size, 3, "" + Math.floor(player[0].x) + ", " + Math.floor(player[0].y));
@@ -7497,7 +7515,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
 
                         //loop through everything that is on the screen and
                         //separate everything in it's own category.
-                        var allIsAll = this.getAll(player[k], this.master);
+                        var allIsAll = this.getAll(player[k], this.isMaster());
 
                         //The food stored in element 0 of allIsAll
                         var allPossibleFood = allIsAll[0];
@@ -7548,7 +7566,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
 
                             //console.log("Found distance.");
 
-                            var enemyCanSplit = (this.master ? this.canSplitToEat(player[k], allPossibleThreats[i]) : false);
+                            var enemyCanSplit = (this.isMaster() ? this.canSplitToEat(player[k], allPossibleThreats[i]) : false);
 
                             for (var j = clusterAllFood.length - 1; j >= 0 ; j--) {
                                 var secureDistance = (enemyCanSplit ? splitDangerDistance : normalDangerDistance);
@@ -7576,6 +7594,14 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                                 allPossibleThreats[i].dangerTimeOut = getLastUpdate();
                             }
 
+                            var isGettingCloser = this.isGettingCloser(allPossibleThreats[i],player[k]);
+                            var isMovingToMyBlod = this.isMovingTo(allPossibleThreats[i],player[k]);
+                            if(isGettingCloser){
+                                drawPoint(allPossibleThreats[i].x, allPossibleThreats[i].y + allPossibleThreats[i].size, 6, 'Getting Closer');
+                            }
+                            if(isMovingToMyBlod){
+                                drawPoint(allPossibleThreats[i].x, allPossibleThreats[i].y + allPossibleThreats[i].size + 5, 6, 'Moving to you');
+                            }
                             //console.log("Figured out who was important.");
 
                             if ((enemyCanSplit && enemyDistance < splitDangerDistance) || (enemyCanSplit && allPossibleThreats[i].danger)) {
@@ -7588,8 +7614,16 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                                 var tempOb = this.getAngleRange(player[k], allPossibleThreats[i], i, splitDangerDistance + shiftDistance);
                                 var angle1 = tempOb[0];
                                 var angle2 = this.rangeToAngle(tempOb);
-
                                 obstacleList.push([[angle1, true], [angle2, false]]);
+                                //Decice to split
+                                if(canSplitMyBlod && isMovingToMyBlod && (enemyDistance<(splitDangerDistance/3)*2) && ( (player.length < 2) || (enemyDistance<10) ) ){
+                                    /**
+                                     * Split to run away, This threat may split to eat me
+                                     * todo guest the situaltion after splited, is it have any threat ?
+                                     */
+                                    this.isNeedToSplit = true;
+                                    console.log('Split to escape');
+                                }
                             } else if (!enemyCanSplit && enemyDistance < normalDangerDistance + shiftDistance) {
                                 var tempOb = this.getAngleRange(player[k], allPossibleThreats[i], i, normalDangerDistance + shiftDistance);
                                 var angle1 = tempOb[0];
@@ -7734,7 +7768,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                             drawPoint(line2[0], line2[1], 0, "" + i + ": 1");
                         }
 
-                        if (!this.master && goodAngles.length == 0 && this.calcMass(player[k].size) > this.minimumSizeToGoing) {
+                        if (!this.isMaster() && goodAngles.length == 0 && this.calcMass(player[k].size) > this.minimumSizeToGoing) {
                             //This is the slave mode
                             console.log("Really Going to: " + this.masterLocation);
                             var distance = this.computeDistance(player[k].x, player[k].y, this.masterLocation[0], this.masterLocation[1]);
@@ -7745,7 +7779,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
 
                             destinationChoices = destination;
                             drawLine(player[k].x, player[k].y, destination[0], destination[1], 1);
-                        } else if (this.toggleFollow && goodAngles.length == 0) {
+                        } else if (this.isNeedFollowMouse() && goodAngles.length == 0) {
                             //This is the follow the mouse mode
                             var distance = this.computeDistance(player[k].x, player[k].y, tempPoint[0], tempPoint[1]);
 
@@ -7887,7 +7921,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 //console.log("MOVING RIGHT NOW!");
 
                 //console.log("______Never lied ever in my life.");
-                if (this.master) {
+                if (this.isMaster()) {
                     this.masterLocation = destinationChoices;
                     this.masterId = player[0].id;
                     if (Date.now() - this.lastMasterUpdate > 1000) {
@@ -7921,7 +7955,27 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 }
 
                 return destinationChoices;
-            }
+
+        },
+        isGettingCloser:function(blod1, blod2){
+            var blog1OldPosition = blod1.getOldPosition();
+            var blog2OldPosition = blod2.getOldPosition();
+            var oldDistance = this.computeDistance(blog1OldPosition.x,blog1OldPosition.y, blog2OldPosition.x, blog2OldPosition.y );
+            var newDistance = this.computeDistance(blod1.x,blod1.y, blod2.x, blod2.y );
+            return oldDistance > newDistance;
+        },
+        /**
+         * Detect if Blod_1 is moving to the old position of Blod_2
+         */
+        isMovingTo:function(blod_1, blod_2){
+            var blog1OldPosition = blod_1.getOldPosition();
+            var blog2OldPosition = blod_2.getOldPosition();
+            var oldDistance = this.computeDistance(blog1OldPosition.x,blog1OldPosition.y, blog2OldPosition.x, blog2OldPosition.y );
+            var newDistance = this.computeDistance(blod_1.x,blod_1.y, blog2OldPosition.x, blog2OldPosition.y );
+            return oldDistance > newDistance;
+        },
+        isNeedFollowMouse:function(){
+            return this.mode == 'FOLLOWMOUSE';
         },
         shiftAngle:function(listToUse, angle, range) {
             //TODO: shiftAngle needs to respect the range! DONE?
@@ -8428,7 +8482,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 var isMe = that.isItMe(player, listToUse[element]);
                 var isTeamate = that.isTeamate(player, listToUse[element]);
                 if (!isMe && !isTeamate) {
-                    if (!that.master && listToUse[element].id == that.masterId) {
+                    if (!that.isMaster() && listToUse[element].id == that.masterId) {
                         foundMaster.push(listToUse[element]);
                         console.log("Found master! " + that.masterId + ", " + listToUse[element].id);
                     }else if (that.isFood(blob, listToUse[element]) && listToUse[element].isNotMoving()) {
@@ -8436,7 +8490,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                         foodElementList.push(listToUse[element]);
                     }else if (that.isThreat(blob, listToUse[element])) {
                         //IT'S DANGER!
-                        if ((!that.master && listToUse[element].id != that.masterId) || that.master) {
+                        if ((!that.isMaster() && listToUse[element].id != that.masterId) || that.isMaster()) {
                             threatList.push(listToUse[element]);
                         } else {
                             console.log("Found master! " + that.masterId);

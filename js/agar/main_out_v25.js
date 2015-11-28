@@ -900,8 +900,8 @@
             a.font = "30px Ubuntu";
 
             a.fillText(b, 100 - a.measureText(b).width / 2, 40);
-            if (null == G)for (a.font = "20px Ubuntu", c = 0; c < A.length; ++c)b = A[c].name || U("unnamed_cell"),
-            Ra || (b = U("unnamed_cell")), -1 != E.indexOf(A[c].id) ? (l[0].name && (b = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFFFFF",/*nguyenvanduocit*/ b = c + 1 + ". " + b + l[0].size, a.fillText(b, 100 - a.measureText(b).width / 2, 70 + 24 * c); else for (c = b = 0; c < G.length; ++c) {
+            if (null == G)for (a.font = "15px Ubuntu", c = 0; c < A.length; ++c)b = A[c].name || U("unnamed_cell"),
+            Ra || (b = U("unnamed_cell")), -1 != E.indexOf(A[c].id) ? (l[0].name && (b = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFFFFF",b = c + 1 + ". " + b, a.fillText(b, 100 - a.measureText(b).width / 2, 70 + 24 * c); else for (c = b = 0; c < G.length; ++c) {
                 var d = b + G[c] * Math.PI * 2;
                 a.fillStyle = Dc[c + 1];
                 a.beginPath();
@@ -1621,8 +1621,14 @@
                     updateCode: 0,
                     danger: false,
                     dangerTimeOut: 0,
+                    getOldPosition:function(){
+                        return {
+                            x:this.l, y:this.m
+                        }
+                    },
                     isNotMoving: function() {
-                        return (this.x == this.l && this.y == this.m);
+                        var oldPosition = this.getOldPosition();
+                        return (this.x == oldPosition.x && this.y == oldPosition.y);
                     },
                     isVirus: function() {
                         return this.c;
