@@ -2,37 +2,31 @@
     AgarBot.Views.FeedBotPanel = Marionette.ItemView.extend({
         el:'#feedbot-pannel',
         events:{
-            'click #feedBotToggle_master':'onMasterToggle',
-            'click #feedBotToggle_auto':'onAutoToggle'
+            'change #make_master':'onChangeSetting',
+            'change #enableBot':'onChangeSetting',
+            'change #toggleFollow':'onChangeSetting',
+            'change #minimumSizeToGoing':'onChangeSetting'
         },
         initialize: function (options){
             var self = this;
             this.options = {};
             _.extend(this.options, options);
         },
-        onMasterToggle:function(e){
+        onChangeSetting:function(e){
             e.preventDefault();
             var target = $(e.currentTarget);
-            this.options.master = !this.options.master;
-            if(this.options.master)
-            {
-                target.text('Make slave');
-            }else{
-                target.text('Make master');
+            var key = target.data('key');
+            var type = target.attr('type');
+            var value = null;
+            switch (type){
+                case 'checkbox':
+                    value = target.is(':checked');
+                    break;
             }
-            AgarBot.pubsub.trigger('FeedBotPanel:changeSetting', this.options);
-        },
-        onAutoToggle:function(e){
-            e.preventDefault();
-            var target = $(e.currentTarget);
-            this.options.botEnabled = !this.options.botEnabled;
-            if(this.options.botEnabled)
-            {
-                target.text('Disable Auto');
-            }else{
-                target.text('Enable auto');
+            if(value != null){
+                this.options[key] = value;
+                AgarBot.pubsub.trigger('FeedBotPanel:changeSetting', this.options);
             }
-            AgarBot.pubsub.trigger('FeedBotPanel:changeSetting', this.options);
         },
         getTemplate: function () {
             var templateLoader = app.module('TemplateLoader');
@@ -57,10 +51,12 @@
             this.stage = 'EAT'; //EAT, SHOOT, RUN
             this.pannelView = new AgarBot.Views.FeedBotPanel({
                 isEnable:this.isEnable,
+                toggleFollow:this.toggleFollow,
                 master:this.master,
                 splitDistance:this.splitDistance,
                 dangerTimeOut:this.dangerTimeOut,
-                botEnabled:this.botEnabled
+                botEnabled:this.botEnabled,
+                minimumSizeToGoing:this.minimumSizeToGoing
             });
 
         },
@@ -96,6 +92,9 @@
         onChangeSetting:function(options){
             if(typeof options.master !='undefined'){
                 this.master = options.master;
+            }
+            if(typeof options.toggleFollow !='undefined'){
+                this.toggleFollow = options.toggleFollow;
             }
             if(typeof options.botEnabled !='undefined'){
                 this.changeBotEnableStage(options.botEnabled);
@@ -180,7 +179,7 @@
 
                     //Loop through all the player's cells.
                     for (var k = 0; k < player.length; k++) {
-                        var text = Math.round( (getLastUpdate() - player[k].birth)/1000) +"s / "+ Math.round(this.calcMass(player[k].size)) + "Mass / "+ this.calcSpeed(player[k].size)+'km/h';
+                        var text = Math.round( (getLastUpdate() - player[k].birth)/1000) +"s / " + this.calcSpeed(player[k].size)+'km/h';
                         if(player.length > 1){
 
                             text += this.getTimeToRemerge(this.calcMass(player[k].size))+" /s to merge ";
@@ -1071,7 +1070,7 @@
             }
             return false;
         },
-        isItMe:function(player, cell){
+        isTeamate:function(player, cell){
             if (getMode() == ":teams") {
                 var currentColor = player[0].color;
                 var currentRed = currentColor.substring(1,3);
@@ -1091,11 +1090,13 @@
                 if (currentTeam == cellTeam && !cell.isVirus()) {
                     return true;
                 }
-            }else{
-                for (var i = 0; i < player.length; i++) {
-                    if (cell.id == player[i].id) {
-                        return true;
-                    }
+            }
+            return false;
+        },
+        isItMe:function(player, cell){
+            for (var i = 0; i < player.length; i++) {
+                if (cell.id == player[i].id) {
+                    return true;
                 }
             }
             return false;
@@ -1123,11 +1124,13 @@
             var splitTargetList = [];
             var foundMaster = [];
             var equalToMe = [];
+            var teamMate = [];
             var that = this;
             var player = getPlayer();
             Object.keys(listToUse).forEach(function(element, index) {
                 var isMe = that.isItMe(player, listToUse[element]);
-                if (!isMe) {
+                var isTeamate = that.isTeamate(player, listToUse[element]);
+                if (!isMe && !isTeamate) {
                     if (!that.master && listToUse[element].id == that.masterId) {
                         foundMaster.push(listToUse[element]);
                         console.log("Found master! " + that.masterId + ", " + listToUse[element].id);
@@ -1152,16 +1155,15 @@
                         // EQUAL TO ME
                         equalToMe.push(listToUse[element]);
                     }
-                }/*else if(isMe && (getBlobCount(getPlayer()) > 0)){
-                 //Attempt to make the other cell follow the mother one
-                 foodElementList.push(listToUse[element]);
-                 }*/
+                }else if(!isMe && isTeamate){
+                    teamMate.push(listToUse[element]);
+                 }
             });
             var foodList = [];
             for (var i = 0; i < foodElementList.length; i++) {
                 foodList.push([foodElementList[i].x, foodElementList[i].y, foodElementList[i].size]);
             }
-            return [foodList, threatList, virusList, splitTargetList, foundMaster, equalToMe];
+            return [foodList, threatList, virusList, splitTargetList, foundMaster, equalToMe, teamMate];
         }
     });
     app.module("FeedBot", {

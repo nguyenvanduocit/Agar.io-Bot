@@ -7,10 +7,16 @@
         setInterval(zb, 18E4);
         Q = Va = document.getElementById("canvas");
         f = Q.getContext("2d");
+        Q.oncontextmenu = function(e) {
+            e.preventDefault();
+        };
         Q.onmousedown = function (a) {
             //@author nguyenvanduocit
             if(a.which ==2){
-                splitMe();
+                splitPlayer();
+            }else if(a.which == 3){
+                a.preventDefault();
+                ejectMass();
             }
 
             if (Ab) {
@@ -889,11 +895,13 @@
             a.globalAlpha = 1;
             a.fillStyle = "#FFFFFF";
             b = null;
-            b = U("leaderboard");
+            //nguyenvanduocit
+            b = U("Leaders");
             a.font = "30px Ubuntu";
+
             a.fillText(b, 100 - a.measureText(b).width / 2, 40);
             if (null == G)for (a.font = "20px Ubuntu", c = 0; c < A.length; ++c)b = A[c].name || U("unnamed_cell"),
-            Ra || (b = U("unnamed_cell")), -1 != E.indexOf(A[c].id) ? (l[0].name && (b = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFFFFF", b = c + 1 + ". " + b, a.fillText(b, 100 - a.measureText(b).width / 2, 70 + 24 * c); else for (c = b = 0; c < G.length; ++c) {
+            Ra || (b = U("unnamed_cell")), -1 != E.indexOf(A[c].id) ? (l[0].name && (b = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFFFFF",/*nguyenvanduocit*/ b = c + 1 + ". " + b + l[0].size, a.fillText(b, 100 - a.measureText(b).width / 2, 70 + 24 * c); else for (c = b = 0; c < G.length; ++c) {
                 var d = b + G[c] * Math.PI * 2;
                 a.fillStyle = Dc[c + 1];
                 a.beginPath();
@@ -1186,9 +1194,9 @@
             var m2 = 1,
                 toggle = false,
                 toggleDraw = false,
-                shootTime = 0,
+                ejectMassTime = 0,
                 splitTime = 0,
-                shootCooldown = 100,
+                ejectMassCooldown = 100,
                 splitCooldown = 100,
                 tempPoint = [0, 0, 1],
                 dPoints = [],
@@ -2213,10 +2221,6 @@
     window.getMemoryCells = function() {
         return interNodes;
     };
-
-    window.splitMe = function(){
-        L(17);
-    };
     /**
      * [getCellsArray description]
      * @return {[type]} [description]
@@ -2296,7 +2300,7 @@
         return C;
     };
     window.sendMessage = function(a){
-        X(a);
+        L(a);
     };
     window.getCurrentScore = function() {
         return O;
@@ -2350,16 +2354,19 @@
     window.createDataView = function(a) {
         return new DataView(new ArrayBuffer(a))
     };
-    window.shoot = function() {
-        if (!toggle && shootTime + shootCooldown < new Date().getTime()) {
-            shootTime = new Date().getTime();
+    window.ejectMass = function() {
+        if (ejectMassTime + ejectMassCooldown < new Date().getTime()) {
+            ejectMassTime = new Date().getTime();
             sendMessage(21);
         }
     };
-    window.split = function() {
-        if (!toggle && splitTime + splitCooldown < new Date().getTime()) {
+    window.splitPlayer = function(){
+        if (splitTime + splitCooldown < new Date().getTime()) {
             splitTime = new Date().getTime();
             sendMessage(17);
         }
+    };
+    window.explodePlayer = function(){
+        sendMessage(21);
     }
 })(window, window.jQuery, AgarBot, AgarBot.app);

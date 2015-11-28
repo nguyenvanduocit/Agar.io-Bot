@@ -4777,8 +4777,9 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                         '</div>'+
                         '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>');
             this.templates.feedBotPannel = _.template('<div class="bot-panel">' +
-                    '<button id="feedBotToggle_master">Make slave</button>'+
-                    '<button id="feedBotToggle_auto">Disable auto</button>'+
+                    '<input type="checkbox" class="feedBotSetting" id="make_master" data-key="master" checked/><label for="make_master">Make master</label><br>'+
+                    '<input type="checkbox" class="feedBotSetting" id="enableBot" data-key="botEnabled" checked/><label for="enableBot">Enable Bot</label><br>'+
+                    '<input type="checkbox" class="feedBotSetting" id="toggleFollow" data-key="toggleFollow"/><label for="toggleFollow">Follow mouse</label><br>'+
                 '</div>');
             this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
@@ -4807,10 +4808,16 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         setInterval(zb, 18E4);
         Q = Va = document.getElementById("canvas");
         f = Q.getContext("2d");
+        Q.oncontextmenu = function(e) {
+            e.preventDefault();
+        };
         Q.onmousedown = function (a) {
             //@author nguyenvanduocit
             if(a.which ==2){
-                splitMe();
+                splitPlayer();
+            }else if(a.which == 3){
+                a.preventDefault();
+                ejectMass();
             }
 
             if (Ab) {
@@ -5689,11 +5696,13 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             a.globalAlpha = 1;
             a.fillStyle = "#FFFFFF";
             b = null;
-            b = U("leaderboard");
+            //nguyenvanduocit
+            b = U("Leaders");
             a.font = "30px Ubuntu";
+
             a.fillText(b, 100 - a.measureText(b).width / 2, 40);
             if (null == G)for (a.font = "20px Ubuntu", c = 0; c < A.length; ++c)b = A[c].name || U("unnamed_cell"),
-            Ra || (b = U("unnamed_cell")), -1 != E.indexOf(A[c].id) ? (l[0].name && (b = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFFFFF", b = c + 1 + ". " + b, a.fillText(b, 100 - a.measureText(b).width / 2, 70 + 24 * c); else for (c = b = 0; c < G.length; ++c) {
+            Ra || (b = U("unnamed_cell")), -1 != E.indexOf(A[c].id) ? (l[0].name && (b = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFFFFF", b = c + 1 + ". " + b + l[0].size, a.fillText(b, 100 - a.measureText(b).width / 2, 70 + 24 * c); else for (c = b = 0; c < G.length; ++c) {
                 var d = b + G[c] * Math.PI * 2;
                 a.fillStyle = Dc[c + 1];
                 a.beginPath();
@@ -5986,9 +5995,9 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             var m2 = 1,
                 toggle = false,
                 toggleDraw = false,
-                shootTime = 0,
+                ejectMassTime = 0,
                 splitTime = 0,
-                shootCooldown = 100,
+                ejectMassCooldown = 100,
                 splitCooldown = 100,
                 tempPoint = [0, 0, 1],
                 dPoints = [],
@@ -7013,10 +7022,6 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     window.getMemoryCells = function() {
         return interNodes;
     };
-
-    window.splitMe = function(){
-        L(17);
-    };
     /**
      * [getCellsArray description]
      * @return {[type]} [description]
@@ -7096,7 +7101,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         return C;
     };
     window.sendMessage = function(a){
-        X(a);
+        L(a);
     };
     window.getCurrentScore = function() {
         return O;
@@ -7150,17 +7155,20 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     window.createDataView = function(a) {
         return new DataView(new ArrayBuffer(a))
     };
-    window.shoot = function() {
-        if (!toggle && shootTime + shootCooldown < new Date().getTime()) {
-            shootTime = new Date().getTime();
+    window.ejectMass = function() {
+        if (ejectMassTime + ejectMassCooldown < new Date().getTime()) {
+            ejectMassTime = new Date().getTime();
             sendMessage(21);
         }
     };
-    window.split = function() {
-        if (!toggle && splitTime + splitCooldown < new Date().getTime()) {
+    window.splitPlayer = function(){
+        if (splitTime + splitCooldown < new Date().getTime()) {
             splitTime = new Date().getTime();
             sendMessage(17);
         }
+    };
+    window.explodePlayer = function(){
+        sendMessage(21);
     }
 })(window, window.jQuery, AgarBot, AgarBot.app);
 (function (window, $, Backbone, Marionette, _, AgarBot, app) {
@@ -7291,37 +7299,31 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     AgarBot.Views.FeedBotPanel = Marionette.ItemView.extend({
         el:'#feedbot-pannel',
         events:{
-            'click #feedBotToggle_master':'onMasterToggle',
-            'click #feedBotToggle_auto':'onAutoToggle'
+            'change #make_master':'onChangeSetting',
+            'change #enableBot':'onChangeSetting',
+            'change #toggleFollow':'onChangeSetting',
+            'change #minimumSizeToGoing':'onChangeSetting'
         },
         initialize: function (options){
             var self = this;
             this.options = {};
             _.extend(this.options, options);
         },
-        onMasterToggle:function(e){
+        onChangeSetting:function(e){
             e.preventDefault();
             var target = $(e.currentTarget);
-            this.options.master = !this.options.master;
-            if(this.options.master)
-            {
-                target.text('Make slave');
-            }else{
-                target.text('Make master');
+            var key = target.data('key');
+            var type = target.attr('type');
+            var value = null;
+            switch (type){
+                case 'checkbox':
+                    value = target.is(':checked');
+                    break;
             }
-            AgarBot.pubsub.trigger('FeedBotPanel:changeSetting', this.options);
-        },
-        onAutoToggle:function(e){
-            e.preventDefault();
-            var target = $(e.currentTarget);
-            this.options.botEnabled = !this.options.botEnabled;
-            if(this.options.botEnabled)
-            {
-                target.text('Disable Auto');
-            }else{
-                target.text('Enable auto');
+            if(value != null){
+                this.options[key] = value;
+                AgarBot.pubsub.trigger('FeedBotPanel:changeSetting', this.options);
             }
-            AgarBot.pubsub.trigger('FeedBotPanel:changeSetting', this.options);
         },
         getTemplate: function () {
             var templateLoader = app.module('TemplateLoader');
@@ -7346,10 +7348,12 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             this.stage = 'EAT'; //EAT, SHOOT, RUN
             this.pannelView = new AgarBot.Views.FeedBotPanel({
                 isEnable:this.isEnable,
+                toggleFollow:this.toggleFollow,
                 master:this.master,
                 splitDistance:this.splitDistance,
                 dangerTimeOut:this.dangerTimeOut,
-                botEnabled:this.botEnabled
+                botEnabled:this.botEnabled,
+                minimumSizeToGoing:this.minimumSizeToGoing
             });
 
         },
@@ -7385,6 +7389,9 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         onChangeSetting:function(options){
             if(typeof options.master !='undefined'){
                 this.master = options.master;
+            }
+            if(typeof options.toggleFollow !='undefined'){
+                this.toggleFollow = options.toggleFollow;
             }
             if(typeof options.botEnabled !='undefined'){
                 this.changeBotEnableStage(options.botEnabled);
@@ -7469,7 +7476,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
 
                     //Loop through all the player's cells.
                     for (var k = 0; k < player.length; k++) {
-                        var text = Math.round( (getLastUpdate() - player[k].birth)/1000) +"s / "+ Math.round(this.calcMass(player[k].size)) + "Mass / "+ this.calcSpeed(player[k].size)+'km/h';
+                        var text = Math.round( (getLastUpdate() - player[k].birth)/1000) +"s / " + this.calcSpeed(player[k].size)+'km/h';
                         if(player.length > 1){
 
                             text += this.getTimeToRemerge(this.calcMass(player[k].size))+" /s to merge ";
@@ -8360,7 +8367,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             }
             return false;
         },
-        isItMe:function(player, cell){
+        isTeamate:function(player, cell){
             if (getMode() == ":teams") {
                 var currentColor = player[0].color;
                 var currentRed = currentColor.substring(1,3);
@@ -8380,11 +8387,13 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 if (currentTeam == cellTeam && !cell.isVirus()) {
                     return true;
                 }
-            }else{
-                for (var i = 0; i < player.length; i++) {
-                    if (cell.id == player[i].id) {
-                        return true;
-                    }
+            }
+            return false;
+        },
+        isItMe:function(player, cell){
+            for (var i = 0; i < player.length; i++) {
+                if (cell.id == player[i].id) {
+                    return true;
                 }
             }
             return false;
@@ -8412,11 +8421,13 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             var splitTargetList = [];
             var foundMaster = [];
             var equalToMe = [];
+            var teamMate = [];
             var that = this;
             var player = getPlayer();
             Object.keys(listToUse).forEach(function(element, index) {
                 var isMe = that.isItMe(player, listToUse[element]);
-                if (!isMe) {
+                var isTeamate = that.isTeamate(player, listToUse[element]);
+                if (!isMe && !isTeamate) {
                     if (!that.master && listToUse[element].id == that.masterId) {
                         foundMaster.push(listToUse[element]);
                         console.log("Found master! " + that.masterId + ", " + listToUse[element].id);
@@ -8441,16 +8452,15 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                         // EQUAL TO ME
                         equalToMe.push(listToUse[element]);
                     }
-                }/*else if(isMe && (getBlobCount(getPlayer()) > 0)){
-                 //Attempt to make the other cell follow the mother one
-                 foodElementList.push(listToUse[element]);
-                 }*/
+                }else if(!isMe && isTeamate){
+                    teamMate.push(listToUse[element]);
+                 }
             });
             var foodList = [];
             for (var i = 0; i < foodElementList.length; i++) {
                 foodList.push([foodElementList[i].x, foodElementList[i].y, foodElementList[i].size]);
             }
-            return [foodList, threatList, virusList, splitTargetList, foundMaster, equalToMe];
+            return [foodList, threatList, virusList, splitTargetList, foundMaster, equalToMe, teamMate];
         }
     });
     app.module("FeedBot", {
@@ -8496,8 +8506,10 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                     var listToUse = getMemoryCells();
                     this.ctx.save();
                     Object.keys(listToUse).forEach(function(tokenId, index) {
-                        var position = self.calcPosition(listToUse[tokenId].x, listToUse[tokenId].y, listToUse[tokenId].size);
-                        self.drawCycle(position.x, position.y, position.size, listToUse[tokenId].color);
+                        if(!listToUse[tokenId].isNotMoving() || listToUse[tokenId].isVirus()) {
+                            var position = self.calcPosition(listToUse[tokenId].x, listToUse[tokenId].y, listToUse[tokenId].size);
+                            self.drawCycle(position.x, position.y, position.size, listToUse[tokenId].isVirus()?'#fff':listToUse[tokenId].color);
+                        }
                     });
                     this.ctx.restore();
 

@@ -30,8 +30,9 @@
                         '</div>'+
                         '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>');
             this.templates.feedBotPannel = _.template('<div class="bot-panel">' +
-                    '<button id="feedBotToggle_master">Make slave</button>'+
-                    '<button id="feedBotToggle_auto">Disable auto</button>'+
+                    '<input type="checkbox" class="feedBotSetting" id="make_master" data-key="master" checked/><label for="make_master">Make master</label><br>'+
+                    '<input type="checkbox" class="feedBotSetting" id="enableBot" data-key="botEnabled" checked/><label for="enableBot">Enable Bot</label><br>'+
+                    '<input type="checkbox" class="feedBotSetting" id="toggleFollow" data-key="toggleFollow"/><label for="toggleFollow">Follow mouse</label><br>'+
                 '</div>');
             this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
