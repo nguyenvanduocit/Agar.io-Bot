@@ -21,9 +21,11 @@
             context.beginPath();
             context.lineWidth = 5;
             context.strokeStyle = (window.getDarkBool() ? '#F2FBFF' : '#111111');
+
             context.moveTo(window.getMapStartX(), window.getMapStartY());
             context.lineTo(window.getMapStartX(), window.getMapEndY());
             context.stroke();
+
             context.moveTo(window.getMapStartX(), window.getMapStartY());
             context.lineTo(window.getMapEndX(), window.getMapStartY());
             context.stroke();

@@ -15,18 +15,38 @@
                             '<span class="grid-cell">A2</span>'+
                             '<span class="grid-cell">A3</span>'+
                             '<span class="grid-cell">A4</span>'+
+                            '<span class="grid-cell">A5</span>'+
+                            '<span class="grid-cell">A6</span>'+
                             '<span class="grid-cell">B1</span>'+
                             '<span class="grid-cell">B2</span>'+
                             '<span class="grid-cell">B3</span>'+
                             '<span class="grid-cell">B4</span>'+
+                            '<span class="grid-cell">B5</span>'+
+                            '<span class="grid-cell">B6</span>'+
                             '<span class="grid-cell">C1</span>'+
                             '<span class="grid-cell">C2</span>'+
                             '<span class="grid-cell">C3</span>'+
                             '<span class="grid-cell">C4</span>'+
+                            '<span class="grid-cell">C5</span>'+
+                            '<span class="grid-cell">C6</span>'+
                             '<span class="grid-cell">D1</span>'+
                             '<span class="grid-cell">D2</span>'+
                             '<span class="grid-cell">D3</span>'+
                             '<span class="grid-cell">D4</span>'+
+                            '<span class="grid-cell">D5</span>'+
+                            '<span class="grid-cell">D6</span>'+
+                            '<span class="grid-cell">E1</span>'+
+                            '<span class="grid-cell">E2</span>'+
+                            '<span class="grid-cell">E3</span>'+
+                            '<span class="grid-cell">E4</span>'+
+                            '<span class="grid-cell">E5</span>'+
+                            '<span class="grid-cell">E6</span>'+
+                            '<span class="grid-cell">F1</span>'+
+                            '<span class="grid-cell">F2</span>'+
+                            '<span class="grid-cell">F3</span>'+
+                            '<span class="grid-cell">F4</span>'+
+                            '<span class="grid-cell">F5</span>'+
+                            '<span class="grid-cell">F6</span>'+
                         '</div>'+
                         '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>');
             this.templates.feedBotPannel = _.template('<div class="bot-panel">' +

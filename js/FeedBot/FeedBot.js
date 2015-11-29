@@ -472,6 +472,7 @@
 
                         destinationChoices = destination;
                         drawLine(player[k].x, player[k].y, destination[0], destination[1], 1);
+
                     } else if (this.isNeedFollowMouse() && goodAngles.length == 0) {
                         //This is the follow the mouse mode
                         var distance = this.computeDistance(player[k].x, player[k].y, tempPoint[0], tempPoint[1]);
