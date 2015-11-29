@@ -34,13 +34,15 @@
                     '<label for="modelSelect">Mode</label><br>'+
                     '<select class="shootVirusMode" id="modelSelect" data-key="mode">' +
                         '<option value="NORMAL">Normal</option>' +
-                        '<option value="FOLLOWMOUSE">Follow mouse</option>' +
+                        '<option value="MASTER">Master</option>' +
                         '<option value="FEEDING">Feeding</option>' +
+                        '<option value="FOLLOWMOUSE">Follow mouse</option>' +
                         '<option value="SHOOTVIRUS">Shoot virus</option>' +
                     '</select><br>'+
                 '</div>');
             this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
+            this.templates.commandPanel = _.template('<utt id="serverConnect"><strong>Invite friends</strong><br><button id="invitePlayer">invite</button></div>');
         },
         onStart : function(options){
             console.log('module TemplateLoader start.');

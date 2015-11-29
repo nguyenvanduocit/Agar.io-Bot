@@ -31,7 +31,7 @@
          * Remove some outdate
          */
         Object.keys(clanCells).forEach(function(k, index) {
-            if(Date.now() - clanCells[k].lastUpdate > 300){
+            if(Date.now() - clanCells[k].lastUpdate > 200){
                 delete clanCells[k];
             }
         });
@@ -39,7 +39,29 @@
     window.getClanCells=function(){
         return clanCells;
     };
+    AgarBot.Views.CommandPanel = Marionette.ItemView.extend({
+        events:{
+            'click #invitePlayer':'sendInvite'
+        },
+        initialize:function(){
 
+        },
+        template: function(){
+            var templateLoader = app.module('TemplateLoader');
+            var template = templateLoader.getTemlate('commandPanel');
+            return template;
+        },
+        sendInvite:function(e){
+            e.preventDefault();
+            AgarBot.pubsub.trigger('sendCommand',{
+                command:'invite',
+                args:{
+                    ip:getServer(),
+                    key:getToken()
+                }
+            });
+        }
+    });
     AgarBot.Views.ClanFormField = Marionette.ItemView.extend({
         initialize:function(){
             this.listenTo(AgarBot.pubsub, 'findServer:retry', this.onRetry);
@@ -66,7 +88,9 @@
             $('head').append('<script src="http://127.0.0.1:8181/js/client.js"></script>');
             var $joinPartyToken = $('#joinPartyToken');
             $('<div id="clanFormField"></div>').insertBefore($joinPartyToken);
+            $('<div id="commandPanel"></div>').appendTo($('#control-pannel'));
             $joinPartyToken.attr('placeholder', 'Code');
+
             if(typeof this.clanFormField =='undefined'){
                 this.clanFormField = new AgarBot.Views.ClanFormField({
                     el:'#clanFormField',
@@ -74,6 +98,13 @@
                 });
             }
             this.clanFormField.render();
+
+           if(typeof this.commandPanel =='undefined'){
+                this.commandPanel = new AgarBot.Views.CommandPanel({
+                    el:'#commandPanel'
+                });
+            }
+            this.commandPanel.render();
         }
     });
     app.module("Clan", {

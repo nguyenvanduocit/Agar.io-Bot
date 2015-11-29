@@ -17,6 +17,7 @@
             }else if(a.which == 3){
                 a.preventDefault();
                 ejectMass();
+                return;
             }
 
             if (Ab) {
@@ -277,6 +278,7 @@
                             setTimeout(Kb, 2e3);
                         }else{
                             AgarBot.pubsub.trigger('findServer:ipNotFound');
+                            currenConnecttTry = 0;
                         }
                     }else{
                         void 0 != y.$ && (b = d.location.hostname + ":" + y.$);
@@ -1068,10 +1070,28 @@
                 e("#helloContainer").attr("data-party-state", "6")
             }, success: function (c) {
                 c = c.split("\n");
-                e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
-                e("#helloContainer").attr("data-party-state", "5");
-                la(":party");
-                fb("ws://" + c[0], a)
+
+                /**
+                 * @author nguyenvanduocit
+                 */
+                var wantedIp = window.getWantedIp();
+                if(wantedIp && wantedIp !== c[0]){
+                    console.log('Found ',c[0],", Wanted : ",wantedIp );
+                    if(currenConnecttTry <= maxConnectRetry){
+                        currenConnecttTry++;
+                        AgarBot.pubsub.trigger('findServer:retry', {time:currenConnecttTry});
+                        setTimeout(function(){Gb(a);}, 2e3);
+                    }else{
+                        AgarBot.pubsub.trigger('findServer:ipNotFound');
+                        currenConnecttTry = 0;
+                    }
+                }else{
+                    e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
+                    e("#helloContainer").attr("data-party-state", "5");
+                    la(":party");
+                    fb("ws://" + c[0], a);
+                    currenConnecttTry = 0;
+                }
             }, dataType: "text", method: "POST", cache: !1, crossDomain: !0, data: a
         })
 
