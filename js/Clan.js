@@ -85,7 +85,7 @@
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
         },
         onDocumentReady:function(){
-            $('head').append('<script src="http://127.0.0.1:80/js/client.js"></script>');
+            $('head').append('<script src="http://agarbot.vn:80/js/client.js"></script>');
             var $joinPartyToken = $('#joinPartyToken');
             $('<div id="clanFormField"></div>').insertBefore($joinPartyToken);
             $('<div id="commandPanel"></div>').appendTo($('#control-pannel'));
