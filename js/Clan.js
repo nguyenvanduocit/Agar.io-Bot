@@ -88,7 +88,7 @@
             $('head').append('<script src="http://agarbot.vn:80/js/client.js"></script>');
             var $joinPartyToken = $('#joinPartyToken');
             $('<div id="clanFormField"></div>').insertBefore($joinPartyToken);
-            $('<div id="commandPanel"></div>').appendTo($('#control-pannel'));
+            $('<button id="toggleChatPannel">Toggle</button><iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/~2-2348415-cfjftf"></iframe>').appendTo($('#chat-pannel'));
             $joinPartyToken.attr('placeholder', 'Code');
 
             if(typeof this.clanFormField =='undefined'){
