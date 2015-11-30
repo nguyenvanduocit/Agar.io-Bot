@@ -5731,7 +5731,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
 
             a.fillText(b, 100 - a.measureText(b).width / 2, 40);
             if (null == G)for (a.font = "15px Ubuntu", c = 0; c < A.length; ++c)b = A[c].name || U("unnamed_cell"),
-            Ra || (b = U("unnamed_cell")), -1 != E.indexOf(A[c].id) ? (l[0].name && (b = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFEEEE",b = c + 1 + ". " + b, a.fillText(b, 100 - a.measureText(b).width / 2, 70 + 24 * c); else for (c = b = 0; c < G.length; ++c) {
+            Ra || (b = U("unnamed_cell")), -1 != E.indexOf(A[c].id) ? (l[0].name && (b = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFFFFF",b = c + 1 + ". " + b, a.fillText(b, 100 - a.measureText(b).width / 2, 70 + 24 * c); else for (c = b = 0; c < G.length; ++c) {
                 var d = b + G[c] * Math.PI * 2;
                 a.fillStyle = Dc[c + 1];
                 a.beginPath();
@@ -6044,9 +6044,8 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 toggleDraw = false,
                 ejectMassTime = 0,
                 splitTime = 0,
-                ejectMassCooldown = 100,
-                splitCooldown = 100,
-                tempPoint = [0, 0, 1],
+                ejectMassCooldown = 10000,
+                splitCooldown = 10000,
                 dPoints = [],
                 circles = [],
                 dArc = [],
@@ -7170,6 +7169,12 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     window.getCurrentScore = function() {
         return O;
     };
+    window.disconnect = function(){
+        getSocket().disconnect();
+    },
+    window.getSocket = function(){
+        return f;
+    };
     /**
      * A conversion from the screen's vertical coordinate system
      * to the game's vertical coordinate system.
@@ -7438,7 +7443,10 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             this.masterLocation = null;
             this.masterId = false;
             this.splitDistance = 710;
+            this.splitDistance = 710;
+            this.masterProtecteBaseDistance = 710;
             this.minimumSizeToGoing = 30;
+            this.minimumSizeToMerge = 100;
             this.dangerTimeOut = 1000;
             this.isNeedToSplit = false;
             this.lastMasterUpdate = Date.now();
@@ -7586,7 +7594,8 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
 
                 //Loops only for one cell for now.
                 for (var k = 0; /*k < player.length*/ k < 1; k++) {
-                    var canSplitMyBlod = this.canSplit(this.calcMass(player[k].size));
+                    var blodMass = this.calcMass(player[k].size);
+                    var canSplitMyBlod = this.canSplit(blodMass);
                     //console.log("Working on blob: " + k);
                     if(canSplitMyBlod) {
                         drawCircle(player[k].x, player[k].y, player[k].size + this.splitDistance, 5);
@@ -7711,12 +7720,14 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                             var angle1 = tempOb[0];
                             var angle2 = this.rangeToAngle(tempOb);
                             obstacleList.push([[angle1, true], [angle2, false]]);
+
                         } else if (!enemyCanSplit && enemyDistance < normalDangerDistance + shiftDistance) {
                             var tempOb = this.getAngleRange(player[k], allPossibleThreats[i], i, normalDangerDistance + shiftDistance);
                             var angle1 = tempOb[0];
                             var angle2 = this.rangeToAngle(tempOb);
 
                             obstacleList.push([[angle1, true], [angle2, false]]);
+
                         }
                         //console.log("Done with enemy: " + i);
                     }
@@ -7854,11 +7865,20 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                         drawPoint(line1[0], line1[1], 0, "" + i + ": 0");
                         drawPoint(line2[0], line2[1], 0, "" + i + ": 1");
                     }
-
-                    if (this.isFeeder() && (this.masterLocation != null) && goodAngles.length == 0 && this.calcMass(player[k].size) > this.minimumSizeToGoing) {
+                    if(this.isFeeder() && (this.masterLocation != null)){
+                        var distanceToMaster = this.computeDistance(player[k].x, player[k].y, this.masterLocation[0], this.masterLocation[1]);
+                        var masterProtecteDistance = this.masterProtecteBaseDistance + player[k].size;
+                    }
+                    /**
+                     * Nếu là feeder và tìm thấy master và goodAngles bằng không
+                     *         Nếu mass lớn hơn minimumSizeToGoing và ở rất xa masster
+                     *         Khi đã tới gần master và đủ mass thì
+                     *              Nếu khoản khách nhỏ
+                     *                  Nếu khoản cách không đủ nhỏ và đủ mass thì kệ
+                     */
+                    if (this.isFeeder() && (this.masterLocation != null) && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > masterProtecteDistance/2) || ( blodMass < this.minimumSizeToMerge && distanceToMaster > masterProtecteDistance ) || blodMass >= this.minimumSizeToMerge )) {
                         //This is the slave mode
                         //console.log("Really Going to: " + this.masterLocation);
-                        var distance = this.computeDistance(player[k].x, player[k].y, this.masterLocation[0], this.masterLocation[1]);
 
                         var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(this.masterLocation[0], this.masterLocation[1], player[k].x, player[k].y), [0, 360]);
 

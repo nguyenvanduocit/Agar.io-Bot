@@ -44,8 +44,10 @@
             this.masterLocation = null;
             this.masterId = false;
             this.splitDistance = 710;
+            this.splitDistance = 710;
+            this.masterProtecteBaseDistance = 710;
             this.minimumSizeToGoing = 30;
-            this.minimumSizeToMerge = 50;
+            this.minimumSizeToMerge = 100;
             this.dangerTimeOut = 1000;
             this.isNeedToSplit = false;
             this.lastMasterUpdate = Date.now();
@@ -466,8 +468,16 @@
                     }
                     if(this.isFeeder() && (this.masterLocation != null)){
                         var distanceToMaster = this.computeDistance(player[k].x, player[k].y, this.masterLocation[0], this.masterLocation[1]);
+                        var masterProtecteDistance = this.masterProtecteBaseDistance + player[k].size;
                     }
-                    if (this.isFeeder() && (this.masterLocation != null) && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > 1000) || (distanceToMaster < 100-2 && blodMass >= this.minimumSizeToMerge ) )) {
+                    /**
+                     * Nếu là feeder và tìm thấy master và goodAngles bằng không
+                     *         Nếu mass lớn hơn minimumSizeToGoing và ở rất xa masster
+                     *         Khi đã tới gần master và đủ mass thì
+                     *              Nếu khoản khách nhỏ
+                     *                  Nếu khoản cách không đủ nhỏ và đủ mass thì kệ
+                     */
+                    if (this.isFeeder() && (this.masterLocation != null) && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > masterProtecteDistance/2) || ( blodMass < this.minimumSizeToMerge && distanceToMaster > masterProtecteDistance ) || blodMass >= this.minimumSizeToMerge )) {
                         //This is the slave mode
                         //console.log("Really Going to: " + this.masterLocation);
 
