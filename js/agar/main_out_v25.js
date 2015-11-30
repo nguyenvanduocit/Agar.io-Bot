@@ -1216,9 +1216,8 @@
                 toggleDraw = false,
                 ejectMassTime = 0,
                 splitTime = 0,
-                ejectMassCooldown = 100,
-                splitCooldown = 100,
-                tempPoint = [0, 0, 1],
+                ejectMassCooldown = 10000,
+                splitCooldown = 10000,
                 dPoints = [],
                 circles = [],
                 dArc = [],
@@ -2341,6 +2340,12 @@
     };
     window.getCurrentScore = function() {
         return O;
+    };
+    window.disconnect = function(){
+        getSocket().disconnect();
+    },
+    window.getSocket = function(){
+        return f;
     };
     /**
      * A conversion from the screen's vertical coordinate system

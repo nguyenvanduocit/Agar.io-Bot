@@ -45,6 +45,7 @@
             this.masterId = false;
             this.splitDistance = 710;
             this.minimumSizeToGoing = 30;
+            this.minimumSizeToMerge = 50;
             this.dangerTimeOut = 1000;
             this.isNeedToSplit = false;
             this.lastMasterUpdate = Date.now();
@@ -192,7 +193,8 @@
 
                 //Loops only for one cell for now.
                 for (var k = 0; /*k < player.length*/ k < 1; k++) {
-                    var canSplitMyBlod = this.canSplit(this.calcMass(player[k].size));
+                    var blodMass = this.calcMass(player[k].size);
+                    var canSplitMyBlod = this.canSplit(blodMass);
                     //console.log("Working on blob: " + k);
                     if(canSplitMyBlod) {
                         drawCircle(player[k].x, player[k].y, player[k].size + this.splitDistance, 5);
@@ -317,12 +319,14 @@
                             var angle1 = tempOb[0];
                             var angle2 = this.rangeToAngle(tempOb);
                             obstacleList.push([[angle1, true], [angle2, false]]);
+
                         } else if (!enemyCanSplit && enemyDistance < normalDangerDistance + shiftDistance) {
                             var tempOb = this.getAngleRange(player[k], allPossibleThreats[i], i, normalDangerDistance + shiftDistance);
                             var angle1 = tempOb[0];
                             var angle2 = this.rangeToAngle(tempOb);
 
                             obstacleList.push([[angle1, true], [angle2, false]]);
+
                         }
                         //console.log("Done with enemy: " + i);
                     }
@@ -460,11 +464,12 @@
                         drawPoint(line1[0], line1[1], 0, "" + i + ": 0");
                         drawPoint(line2[0], line2[1], 0, "" + i + ": 1");
                     }
-
-                    if (this.isFeeder() && (this.masterLocation != null) && goodAngles.length == 0 && this.calcMass(player[k].size) > this.minimumSizeToGoing) {
+                    if(this.isFeeder() && (this.masterLocation != null)){
+                        var distanceToMaster = this.computeDistance(player[k].x, player[k].y, this.masterLocation[0], this.masterLocation[1]);
+                    }
+                    if (this.isFeeder() && (this.masterLocation != null) && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > 1000) || (distanceToMaster < 100-2 && blodMass >= this.minimumSizeToMerge ) )) {
                         //This is the slave mode
                         //console.log("Really Going to: " + this.masterLocation);
-                        var distance = this.computeDistance(player[k].x, player[k].y, this.masterLocation[0], this.masterLocation[1]);
 
                         var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(this.masterLocation[0], this.masterLocation[1], player[k].x, player[k].y), [0, 360]);
 

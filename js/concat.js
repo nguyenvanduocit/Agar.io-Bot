@@ -5731,7 +5731,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
 
             a.fillText(b, 100 - a.measureText(b).width / 2, 40);
             if (null == G)for (a.font = "15px Ubuntu", c = 0; c < A.length; ++c)b = A[c].name || U("unnamed_cell"),
-            Ra || (b = U("unnamed_cell")), -1 != E.indexOf(A[c].id) ? (l[0].name && (b = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFFFFF",b = c + 1 + ". " + b, a.fillText(b, 100 - a.measureText(b).width / 2, 70 + 24 * c); else for (c = b = 0; c < G.length; ++c) {
+            Ra || (b = U("unnamed_cell")), -1 != E.indexOf(A[c].id) ? (l[0].name && (b = l[0].name), a.fillStyle = "#FFAAAA") : a.fillStyle = "#FFEEEE",b = c + 1 + ". " + b, a.fillText(b, 100 - a.measureText(b).width / 2, 70 + 24 * c); else for (c = b = 0; c < G.length; ++c) {
                 var d = b + G[c] * Math.PI * 2;
                 a.fillStyle = Dc[c + 1];
                 a.beginPath();
@@ -6607,8 +6607,11 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                             null != g && (a.save(), a.clip(), b = Math.max(this.size, this.W), a.drawImage(g, this.x - b - 5, this.y - b - 5, 2 * b + 10, 2 * b + 10), a.restore());
                             (xb || 15 < this.size) && !c && (a.strokeStyle = "#000000", a.globalAlpha *= .1, a.stroke());
                             a.globalAlpha = 1;
+
+                            //Nguyenvanduocit Show mass of other
                             //g = -1 != l.indexOf(this);
                             g = true;
+
                             c = ~~this.y;
                             0 != this.id && (Ra || g) && this.name && this.i && !e && (b = this.i, b.r(this.name), b.G(this.g()), e = 0 >= this.id ? 1 : Math.ceil(10 * m) / 10, b.X(e), b = b.D(), f = Math.ceil(b.width / e), k = Math.ceil(b.height / e), a.drawImage(b, ~~this.x - ~~(f / 2), c - ~~(k / 2), f, k), c += b.height / 2 / e + 4);
                             0 < this.id && hc && (g || 0 == l.length && (!this.c || this.h) && 20 < this.size) && (null == this.I && (this.I = new Qa(this.g() / 2, "#FFFFFF", !0, "#000000")), g = this.I,
@@ -7319,7 +7322,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
         },
         onDocumentReady:function(){
-            $('head').append('<script src="http://127.0.0.1:80/js/client.js"></script>');
+            $('head').append('<script src="http://agarbot.vn:80/js/client.js"></script>');
             var $joinPartyToken = $('#joinPartyToken');
             $('<div id="clanFormField"></div>').insertBefore($joinPartyToken);
             $('<div id="commandPanel"></div>').appendTo($('#control-pannel'));
