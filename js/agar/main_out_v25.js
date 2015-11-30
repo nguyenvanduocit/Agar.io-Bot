@@ -1673,6 +1673,7 @@
                     g: function () {
                         return Math.max(~~(.3 * this.size), 24)
                     },
+                    //nguyenvanduocit Set name
                     q: function (a) {
                         if (this.name = a)null == this.i ? this.i = new Qa(this.g(), "#FFFFFF", !0, "#000000") : this.i.G(this.g()), this.i.r(this.name)
                     },
@@ -1746,6 +1747,11 @@
                     H: function () {
                         return 0 >= this.id ? !0 : this.x + this.size + 40 < u - p / 2 / m || this.y + this.size + 40 < v - q / 2 / m || this.x - this.size - 40 > u + p / 2 / m || this.y - this.size - 40 > v + q / 2 / m ? !1 : !0
                     },
+                    /**
+                     * nguyenvanduocit
+                     * draw cell
+                     * @param a
+                     */
                     p: function (a) {
                         if (this.H()) {
                             ++this.T;
@@ -1773,7 +1779,11 @@
                             null != g && (a.save(), a.clip(), b = Math.max(this.size, this.W), a.drawImage(g, this.x - b - 5, this.y - b - 5, 2 * b + 10, 2 * b + 10), a.restore());
                             (xb || 15 < this.size) && !c && (a.strokeStyle = "#000000", a.globalAlpha *= .1, a.stroke());
                             a.globalAlpha = 1;
-                            g = -1 != l.indexOf(this);
+
+                            //Nguyenvanduocit Show mass of other
+                            //g = -1 != l.indexOf(this);
+                            g = true;
+
                             c = ~~this.y;
                             0 != this.id && (Ra || g) && this.name && this.i && !e && (b = this.i, b.r(this.name), b.G(this.g()), e = 0 >= this.id ? 1 : Math.ceil(10 * m) / 10, b.X(e), b = b.D(), f = Math.ceil(b.width / e), k = Math.ceil(b.height / e), a.drawImage(b, ~~this.x - ~~(f / 2), c - ~~(k / 2), f, k), c += b.height / 2 / e + 4);
                             0 < this.id && hc && (g || 0 == l.length && (!this.c || this.h) && 20 < this.size) && (null == this.I && (this.I = new Qa(this.g() / 2, "#FFFFFF", !0, "#000000")), g = this.I,
@@ -1809,6 +1819,7 @@
                         if (this.f) {
                             this.f = !1;
                             var a = this.j, c = this.O, b = this.t, d = this.s, e = this.n, f = e + "px Ubuntu";
+
                             c.font = f;
                             var k = ~~(.2 * e);
                             a.width = (c.measureText(b).width + 6) * d;
@@ -1820,7 +1831,7 @@
                             c.strokeStyle = this.o;
                             c.fillStyle = this.N;
                             this.P && c.strokeText(b, 3, e - k / 2);
-                            c.fillText(b, 3, e - k / 2)
+                            c.fillText(b, 3, e - k / 2);
                         }
                         return this.j
                     }

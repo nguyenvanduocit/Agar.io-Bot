@@ -37,7 +37,7 @@
                     var listToUse = getMemoryCells();
                     this.ctx.save();
                     Object.keys(listToUse).forEach(function(tokenId, index) {
-                        if(!listToUse[tokenId].isNotMoving() || listToUse[tokenId].isVirus()) {
+                        if(listToUse[tokenId].size > 13 || listToUse[tokenId].isVirus()) {
                             var position = self.calcPosition(listToUse[tokenId].x, listToUse[tokenId].y, listToUse[tokenId].size);
                             self.drawCycle(position.x, position.y, position.size, listToUse[tokenId].isVirus()?'#fff':listToUse[tokenId].color);
                         }
