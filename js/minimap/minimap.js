@@ -125,13 +125,18 @@
                 current_cell_ids: this.current_cell_ids,
                 mapOptions : this.mapOptions
             });
-            this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.mainLoop);
+            // main_out:mainloop is sync, may couse down fps
+            //this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.mainLoop);
             this.listenTo(AgarBot.pubsub, 'game:start', this.onGameStart);
         },
         onGameStart:function(){
             this.panelView.render();
         },
         onStart: function (options) {
+            var self = this;
+            setInterval(function(){
+                self.mainLoop();
+            }, 500);
             console.log('Module MiniMap start');
         },
         mainLoop:function(){

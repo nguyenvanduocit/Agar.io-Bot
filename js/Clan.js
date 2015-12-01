@@ -57,7 +57,8 @@
                 command:'invite',
                 args:{
                     ip:getServer(),
-                    key:getToken()
+                    key:getToken(),
+                    leaderBoard:window.getLeaderBoard()
                 }
             });
         }

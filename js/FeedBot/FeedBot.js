@@ -217,7 +217,7 @@
                     var allPossibleViruses = allIsAll[2];
 
                     if (allIsAll[4].length > 0) {
-                        console.log("Found my real Master! " + allIsAll[4][0].id);
+                        //console.log("Found my real Master! " + allIsAll[4][0].id);
                         this.masterLocation = [allIsAll[4][0].x, allIsAll[4][0].y]
                     }
 
@@ -397,7 +397,7 @@
                         var tempList = this.addAngle(sortedInterList, stupidList[i]);
 
                         if (tempList.length == 0) {
-                            console.log("MAYDAY IT'S HAPPENING!");
+                            //console.log("MAYDAY IT'S HAPPENING!");
                             break;
                         } else {
                             sortedInterList = tempList;
@@ -479,14 +479,13 @@
                      */
                     if (this.isFeeder() && (this.masterLocation != null) && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > masterProtecteDistance/2) || ( blodMass < this.minimumSizeToMerge && distanceToMaster > masterProtecteDistance ) || blodMass >= this.minimumSizeToMerge )) {
                         //This is the slave mode
-                        //console.log("Really Going to: " + this.masterLocation);
-
                         var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(this.masterLocation[0], this.masterLocation[1], player[k].x, player[k].y), [0, 360]);
 
-                        var destination = this.followAngle(shiftedAngle, player[k].x, player[k].y, distance);
+                        var destination = this.followAngle(shiftedAngle, player[k].x, player[k].y, distanceToMaster);
 
                         destinationChoices = destination;
                         drawLine(player[k].x, player[k].y, destination[0], destination[1], 1);
+                        //console.log("Really Going to: " + this.masterLocation);
 
                     } else if (this.isNeedFollowMouse() && goodAngles.length == 0) {
                         //This is the follow the mouse mode

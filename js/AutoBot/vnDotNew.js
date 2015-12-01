@@ -1,33 +1,15 @@
+
 /**
  * Created by nguyenvanduocit on 11/30/2015.
  */
 /** @type {Array} */
-var _0x6942 = ["use strict", "f", "hasOwnProperty", "allNodes", "id", "myPoints", "length", "size", "indexOf", "myIds", "strokeStyle", "#FFFFFF", "beginPath", "mapLeft", "mapTop", "moveTo", "mapRight", "lineTo", "mapBottom", "closePath", "stroke", "ABCD", "mapWidth", "mapHeight", "fillStyle", "font", "1100px Arial", "textBaseline", "middle", "globalAlpha", "textAlign", "center", "fillText", "lineWidth", "canvas", "createElement", "width", "height", "2d", "getContext", "20px Ubuntu", "fillRect", "undefined",
-    "log", "clearRect", "drawImage", "12px Ubuntu", "viewPosition", "PI", "arc", "color", "fill", "name", "skin", "position", "x", "abs", "y", "closeServerbrowser", "room.getPosition", "players", "emit", "imgCache", "room.play", "room.dead", "leaderboard", "An unnamed cell", "", "Joined room:", "room.join", "gameMode", ":party", "room.change", "room.updatePosition", "hide", "val", ";", "substring", "html", "text", "<div>", "msg", "success", "show", "focus", "http://www2.cbox.ws/box/?sec=submit&boxid=2348415&boxtag=cfjftf&_v=857",
-    "post", "keyCode", "preventDefault", "onMouseWheel", ":visible", "is", "#overlays", "Hot keys", "info", "shiftKey", "ctrlKey", "altKey", "metaKey", "code", "DM ko spam!", "VNDOT", "cbox", "mapPosition", "Need help at <b>", "</b>", ":cuu ", "Enermies near <b>", " codich", "type", "forEach", "toggle", "0.4.0", "http://kscc-agarvn.rhcloud.com:8000", "#FFFF00", "nick", "getItem", "#3371FF", "green", "blue", "red", "yellow", "pink", "#607D8B", "#F44336", "#E91E63", "#9C27B0", "#4CAF50", "#FF9800", "#795548",
-    "skin_code", "http://heroandtn3.github.io/download/skin.svg", "#FF3C3C", "#00AA00", "#CC66FF", "en", "Connecting", "If you cannot connect to the servers, check if you have some anti virus or firewall blocking the connection.", "Play", "Spectate", "Login and play", "Play as guest", "Share", "Advertisement", "Privacy Policy", "Terms of Service", "Changelog", "Move your mouse to control your cell", "Press <b>Space</b> to split", "Press <b>W</b> to eject some mass", "FFA", "Teams", "Experimental", " -- Select a Region -- ",
-    "US East", "US West", "North America", "South America", "Europe", "Turkey", "Poland", "East Asia", "Russia", "China", "Oceania", "Australia", "No skins", "No names", "Dark theme", "No colors", "Show mass", "Leaderboard", "Last match results", "Score", "Leaderboard Time", "Mass Eaten", "Top Position", "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth", "Player Cells Eaten", "Survival Time", "Games played", "Highest mass", "Total cells eaten", "Total mass eaten",
-    "Longest survival", "Logout", "Stats", "Shop", "Party", "Play with your friends in the same map", "Create", "Creating party...", "Join", "Back", "Joining party...", "You are now playing with this party:", "There was a problem joining that party, please make sure the code is correct, or try creating another party", "Login with Facebook and get:<br /><br /><br />Start the game with more mass!<br />Level up to get even more starting mass!", "Give this link to your friends:", "Your friend should have given you a code, type it here:",
-    "Continue", "Skip stats", "food eaten", "highest mass", "time alive", "leaderboard time", "cells eaten", "top position", "-", "split", "userLanguage", "navigator", "language", "jQuery", "getElementById", "onmousedown", "clientX", "clientY", "sqrt", "onmousemove", "onmouseup", "userAgent", "test", "DOMMouseScroll", "addEventListener", "onmousewheel", "body", "onkeydown", "#mainPanel", "onkeyup", "onblur", "onresize", "requestAnimationFrame", "#region", "hash", "location", "wheelDelta", "detail", "pow",
-    "POSITIVE_INFINITY", "NEGATIVE_INFINITY", "L", "min", "max", "a", "data-itr", "attr", "each", "children", "regions", ":", "numPlayers", " (", " players)", '#region option[value="', '"]', "json", "get", "#stats", "localStorage", ".region-message", ".region-message.", "disabled", "prop", ".btn-needs-server", "fadeIn", "data-gamemode", "#helloContainer", "#gamemode", "append", "#locationKnown", "#locationUnknown", "i18n", "i18n_dict", "Find ", "findServer", "alert", "ksGetWantedIp", "Found IP:", "ip",
-    "ksUpdateConnectBtn", "ksStopConnect", "ws://", "token", "POST", "?", "\n2200049715", "ajax", "#connecting", "onopen", "onmessage", "onclose", "close", "s://ip-", "replace", ".tech.agar.io:", "Connecting to ", "binaryType", "arraybuffer", " - ", "#ksCurrentIp", "socket open", "setUint8", "setUint32", "charCodeAt", "onerror", "socket error", "buffer", "send", "socket close", "data", "getUint16", "fromCharCode", "getFloat32", "getInt16", "getUint32", "push", "getFloat64", "byteLength", "Server version ",
-    "getUint8", "now", "o", "p", "n", "C", "D", "m", "K", "getInt32", "ia", "ja", "j", "T", "V", "t", "display", "style", "overlays", "none", "setInt32", "setUint16", "readyState", "OPEN", "innerWidth", "innerHeight", "transform", "css", "sort", "save", "translate", "scale", "s", "ctx", "restore", " - STE: ", " - MTE: ", "score", ": ", " [", "/16]", " \u2734\ufe0f Mouse off", " - FPS: ", "u", "#AAAAAA", "unnamed_cell", '<span class="mine">', ". ", "</span><br />", '<span class="team">', "<span>", "innerHTML",
-    "P", "g", "b", "0", "#", "q", "M", "O", "r", "random", "floor", "1", "data-has-account-data", "parse", "xp", "e", "xpNeeded", "c", "level", "d", "stringify", "/", "first", ".agario-exp-bar .progress-bar-text", " ", ".agario-profile-panel .progress-bar-star", "100%", ".agario-exp-bar .progress-bar", "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", "animated tada", "removeClass", ".progress-bar-star", "one", "addClass", " XP", "toFixed", "%", "string", "expires", "data-logged-in",
-    "authToken", ".agario-profile-name", "\n", "connected", "status", "accessToken", "authResponse", "/me/picture?width=180&height=180", "fbPictureCache", "url", "src", ".agario-profile-picture", "api", "FB", "checkToken", "facebookLogin", "data-party-state", "4", "encodeURIComponent", "getToken", "6", "agar.io/#", ".partyToken", "5", "history", "replaceState", "title", "document", "leaderboardInner", "vndot", "connect", "defineProperty", "webSocket", "allItems", "mouseX2", "mouseY2", "isShowSkins",
-    "isNightMode", "fireFunction", "isColors", "defaultSkins", "textFunc", "textBlobs", "hasNickname", "CachedCanvas", "Cell", "ksOb", "agarioNoInit", "protocol", "https:", "//m.agar.io/", "Android", "ga", "event", "MobileRedirect", "PlayStore", "href", "https://play.google.com/store/apps/details?id=com.miniclip.agar.io", "iPhone", "iPad", "iPod", "AppStore", "https://itunes.apple.com/app/agar.io/id995999703?mt=8&at=1l3vajp", "search", "charAt", "slice", "&", "=", "ontouchstart", "You browser does not support this game, we recommend you to use Firefox to play this",
-    "setNick", "setItem", "substr", "\u0001", "http://upload.happyfor.me/getimg.php?id=", "\uffff", "setRegion", "setSkins", "setNames", "setDarkTheme", "setColors", "setShowMass", "spectate", "setGameMode", "setAcid", "AB9", "ABGroup", "//gc.agar.io", "JP-Tokyo", "EU-London", "SG-Singapore", "US-Atlanta", "BR-Brazil", "CN-China", "RU-Russia", "TK-Turkey", "Killing_original_websocket", "refreshPlayerInfo", "prototype", "splice", "A", "S", "k", "i", "#000000", "pop", "img", "ea", "cos", "sin", "W", "lineCap",
-    "round", "lineJoin", "miter", "da", ":teams", "skinUrl", "http://i0.wp.com/", "//", "?w=200", "complete", "clip", "cieColor", "::", "ceil", "I", "h", "v", "w", "l", "N", "px Ubuntu", "measureText", "strokeText", "getTime", "ms", "moz", "webkit", "RequestAnimationFrame", "cancelAnimationFrame", "CancelAnimationFrame", "CancelRequestAnimationFrame", "ba", "ca", "Z", "$", "isArray", "loginCache3", "wannaLogin", "fbAsyncInit", "public_profile, email", "login", "You seem to have something blocking Facebook on your browser, please check for any extensions",
-    "677505792353827", "v2.2", "init", "auth.statusChange", "subscribe", "Event", "logout", "#5bc0de", "#0791ff #5a07ff #ff07fe #ffa507 #ff0774 #077fff #3aff07 #ff07ed #07a8ff #ff076e #3fff07 #ff0734 #07ff20 #ff07a2 #ff8207 #07ff0e", "#ebc0de", "data-size", "filter", ".cell-spinner", "createParty", "/#", "joinParty", "cancelParty", "closeStats", "setSkipStats", "Connect", "ksConnectTriedCounter", "Connecting...", "Connecting... (", ")", "div#helloContainer", "div#mainPanel", "find", "<h3>VNDOT <small>v",
-    " by KSCC & GS.Chich</small></h3>", "form div.form-group:first", "input#nick", "#settings", "#settings div#ks-skin-group", "input#ks-skin-textbox", "input#ks-skin-code", "input propertychange paste", "value", "has-error", "on", "input#vndot-team", "#options", "checked", "input[onchange=\"setSkins(!$(this).is(':checked'));\"]", "input[onchange=\"setShowMass($(this).is(':checked'));\"]", "change", "input#option_gridlines", "input#option_foodcolor", "input#option_defaultskin", "input#option_cieMass",
-    "input#option_cieSignal", "input#option_cieCircle", "input#option_yinSkin", "input#option_transparent", "#agario-main-buttons", "z-index", "mini-map", "input#cboxmsg", "openServerbrowser", "#serverBrowser", "fadeOut", "mainCtrl", "$scope", "$timeout", "/serverInfo", "getServers", "server.info", "servers", "connectServer", ".", "#joinPartyToken", "input#ksIpInput", "stopConnect", "connectTriedCounter", "getTotalMass", "controller", "vnks", "module", "bootstrap", "ready", "button#ksConnectBtn", "button#ksStopBtn",
-    "click", "Need help", ":cuu", "warning", "Feed me", "Enermies near me", "codich", "Eat virus", ":pha", "Fire virus", ":ban", "Run run run!", "Ch\u1ea1y \u0111i", "Feed teemates", ":bfvt", "We won!", "WTF, house burning!!!", ":dot", "error", "I love KSCC <3", "<br>", "key", "join", "positionClass", "options", "toast-top-left", "preventDuplicates", "keydown", "trigger", "keyup", "#cbox", "#mini-map", "sender"];
-_0x6942[0];
+"use strict";
 /**
  * @param {?} dataAndEvents
  * @return {?}
  */
 function _isVirus(dataAndEvents) {
-    return dataAndEvents[_0x6942[1]];
+    return dataAndEvents["f"];
 }
 /**
  * @param {number} m3
@@ -40,11 +22,11 @@ function _getMass(m3) {
  * @return {?}
  */
 function _getSelectedBlob() {
-    if (vndot[_0x6942[3]][_0x6942[2]](selectedBlobId)) {
-        return vndot[_0x6942[3]][selectedBlobId];
+    if (vndot["allNodes"]["hasOwnProperty"](selectedBlobId)) {
+        return vndot["allNodes"][selectedBlobId];
     }
     var _0x33d9x6 = _getBiggestBlob();
-    return selectedBlobId = _0x33d9x6[_0x6942[4]], _0x33d9x6;
+    return selectedBlobId = _0x33d9x6["id"], _0x33d9x6;
 }
 /**
  * @return {?}
@@ -54,13 +36,13 @@ function _getBiggestBlob() {
     var specialEasing = 0;
     /** @type {null} */
     var val = null;
-    var map = vndot[_0x6942[5]];
+    var map = vndot["myPoints"];
     /** @type {number} */
-    var key = map[_0x6942[6]] - 1;
+    var key = map["length"] - 1;
     for (;key > -1;--key) {
-        if (map[key][_0x6942[7]] > specialEasing) {
+        if (map[key]["size"] > specialEasing) {
             val = map[key];
-            specialEasing = val[_0x6942[7]];
+            specialEasing = val["size"];
         }
     }
     return val;
@@ -69,17 +51,17 @@ function _getBiggestBlob() {
  * @return {undefined}
  */
 function _switchSelectedBlob() {
-    if (0 !== vndot[_0x6942[5]][_0x6942[6]]) {
-        var unlock = vndot[_0x6942[9]][_0x6942[8]](selectedBlobId);
+    if (0 !== vndot["myPoints"]["length"]) {
+        var unlock = vndot["myIds"]["indexOf"](selectedBlobId);
         if (-1 === unlock) {
-            selectedBlobId = _getBiggestBlob()[_0x6942[4]];
+            selectedBlobId = _getBiggestBlob()["id"];
         } else {
             unlock += 1;
-            if (unlock >= vndot[_0x6942[9]][_0x6942[6]]) {
+            if (unlock >= vndot["myIds"]["length"]) {
                 /** @type {number} */
                 unlock = 0;
             }
-            selectedBlobId = vndot[_0x6942[9]][unlock];
+            selectedBlobId = vndot["myIds"][unlock];
         }
     }
 }
@@ -95,15 +77,15 @@ function _onDraw(deepDataAndEvents) {
  * @return {undefined}
  */
 function _drawMapBorders(deepDataAndEvents) {
-    deepDataAndEvents[_0x6942[10]] = _0x6942[11];
-    deepDataAndEvents[_0x6942[12]]();
-    deepDataAndEvents[_0x6942[15]](vndot[_0x6942[13]], vndot[_0x6942[14]]);
-    deepDataAndEvents[_0x6942[17]](vndot[_0x6942[16]], vndot[_0x6942[14]]);
-    deepDataAndEvents[_0x6942[17]](vndot[_0x6942[16]], vndot[_0x6942[18]]);
-    deepDataAndEvents[_0x6942[17]](vndot[_0x6942[13]], vndot[_0x6942[18]]);
-    deepDataAndEvents[_0x6942[17]](vndot[_0x6942[13]], vndot[_0x6942[14]]);
-    deepDataAndEvents[_0x6942[19]]();
-    deepDataAndEvents[_0x6942[20]]();
+    deepDataAndEvents["strokeStyle"] = "#FFFFFF";
+    deepDataAndEvents["beginPath"]();
+    deepDataAndEvents["moveTo"](vndot["mapLeft"], vndot["mapTop"]);
+    deepDataAndEvents["lineTo"](vndot["mapRight"], vndot["mapTop"]);
+    deepDataAndEvents["lineTo"](vndot["mapRight"], vndot["mapBottom"]);
+    deepDataAndEvents["lineTo"](vndot["mapLeft"], vndot["mapBottom"]);
+    deepDataAndEvents["lineTo"](vndot["mapLeft"], vndot["mapTop"]);
+    deepDataAndEvents["closePath"]();
+    deepDataAndEvents["stroke"]();
 }
 /**
  * @param {?} dataAndEvents
@@ -112,17 +94,17 @@ function _drawMapBorders(deepDataAndEvents) {
 function _drawMapCoodinate(dataAndEvents) {
     if (isSpecMode) {
         var r20;
-        var vendors = _0x6942[21];
+        var vendors = "ABCD";
         /** @type {number} */
-        var y2 = ~~(vndot[_0x6942[22]] / 4);
+        var y2 = ~~(vndot["mapWidth"] / 4);
         /** @type {number} */
-        var z2 = ~~(vndot[_0x6942[23]] / 4);
-        dataAndEvents[_0x6942[24]] = _0x6942[11];
-        dataAndEvents[_0x6942[25]] = _0x6942[26];
-        dataAndEvents[_0x6942[27]] = _0x6942[28];
+        var z2 = ~~(vndot["mapHeight"] / 4);
+        dataAndEvents["fillStyle"] = "#FFFFFF";
+        dataAndEvents["font"] = "1100px Arial";
+        dataAndEvents["textBaseline"] = "middle";
         /** @type {number} */
-        dataAndEvents[_0x6942[29]] = 0.3;
-        dataAndEvents[_0x6942[30]] = _0x6942[31];
+        dataAndEvents["globalAlpha"] = 0.3;
+        dataAndEvents["textAlign"] = "center";
         var x;
         var y;
         /** @type {number} */
@@ -143,31 +125,31 @@ function _drawMapCoodinate(dataAndEvents) {
                 /** @type {number} */
                 var wz = (x + 1) * z2;
                 r20 = vendors[x] + RequestAnimationFrame;
-                dataAndEvents[_0x6942[32]](r20, vndot[_0x6942[13]] + ~~((yy + xy) / 2), vndot[_0x6942[14]] + ~~((xz + wz) / 2));
+                dataAndEvents["fillText"](r20, vndot["mapLeft"] + ~~((yy + xy) / 2), vndot["mapTop"] + ~~((xz + wz) / 2));
             }
         }
-        dataAndEvents[_0x6942[10]] = _0x6942[11];
+        dataAndEvents["strokeStyle"] = "#FFFFFF";
         /** @type {number} */
-        dataAndEvents[_0x6942[33]] = 5;
-        dataAndEvents[_0x6942[12]]();
+        dataAndEvents["lineWidth"] = 5;
+        dataAndEvents["beginPath"]();
         /** @type {number} */
         x = 1;
         for (;4 > x;++x) {
-            dataAndEvents[_0x6942[15]](vndot[_0x6942[13]], vndot[_0x6942[14]] + x * z2);
+            dataAndEvents["moveTo"](vndot["mapLeft"], vndot["mapTop"] + x * z2);
             /** @type {number} */
-            dataAndEvents[_0x6942[33]] = 2;
-            dataAndEvents[_0x6942[17]](vndot[_0x6942[13]] + vndot[_0x6942[22]], vndot[_0x6942[14]] + x * z2);
+            dataAndEvents["lineWidth"] = 2;
+            dataAndEvents["lineTo"](vndot["mapLeft"] + vndot["mapWidth"], vndot["mapTop"] + x * z2);
         }
         /** @type {number} */
         y = 1;
         for (;4 > y;++y) {
-            dataAndEvents[_0x6942[15]](vndot[_0x6942[13]] + y * y2, vndot[_0x6942[14]]);
+            dataAndEvents["moveTo"](vndot["mapLeft"] + y * y2, vndot["mapTop"]);
             /** @type {number} */
-            dataAndEvents[_0x6942[33]] = 2;
-            dataAndEvents[_0x6942[17]](vndot[_0x6942[13]] + y * y2, vndot[_0x6942[14]] + vndot[_0x6942[23]]);
+            dataAndEvents["lineWidth"] = 2;
+            dataAndEvents["lineTo"](vndot["mapLeft"] + y * y2, vndot["mapTop"] + vndot["mapHeight"]);
         }
-        dataAndEvents[_0x6942[19]]();
-        dataAndEvents[_0x6942[20]]();
+        dataAndEvents["closePath"]();
+        dataAndEvents["stroke"]();
     }
 }
 /**
@@ -181,22 +163,22 @@ function _getPreRenderMiniMapBackground() {
     var value = 220;
     /** @type {number} */
     var v = 220;
-    var cache = document[_0x6942[35]](_0x6942[34]);
+    var cache = document["createElement"]("canvas");
     /** @type {number} */
-    cache[_0x6942[36]] = value;
+    cache["width"] = value;
     /** @type {number} */
-    cache[_0x6942[37]] = v;
+    cache["height"] = v;
     var resp;
-    var collection = cache[_0x6942[39]](_0x6942[38]);
+    var collection = cache["getContext"]("2d");
     /** @type {number} */
     var y2 = ~~(value / 4);
     /** @type {number} */
     var x2 = ~~(v / 4);
-    var vendors = _0x6942[21];
-    collection[_0x6942[24]] = _0x6942[11];
-    collection[_0x6942[25]] = _0x6942[40];
-    collection[_0x6942[27]] = _0x6942[28];
-    collection[_0x6942[30]] = _0x6942[31];
+    var vendors = "ABCD";
+    collection["fillStyle"] = "#FFFFFF";
+    collection["font"] = "20px Ubuntu";
+    collection["textBaseline"] = "middle";
+    collection["textAlign"] = "center";
     var y;
     /** @type {number} */
     var x = 0;
@@ -215,12 +197,12 @@ function _getPreRenderMiniMapBackground() {
             /** @type {number} */
             var wx = (x + 1) * x2;
             /** @type {number} */
-            collection[_0x6942[29]] = 0.1;
-            collection[_0x6942[41]](yy + 2, xx + 2, y2 - 4, x2 - 4);
+            collection["globalAlpha"] = 0.1;
+            collection["fillRect"](yy + 2, xx + 2, y2 - 4, x2 - 4);
             /** @type {number} */
-            collection[_0x6942[29]] = 0.3;
+            collection["globalAlpha"] = 0.3;
             resp = vendors[x] + RequestAnimationFrame;
-            collection[_0x6942[32]](resp, ~~((yy + xy) / 2), ~~((xx + wx) / 2));
+            collection["fillText"](resp, ~~((yy + xy) / 2), ~~((xx + wx) / 2));
         }
     }
     return miniMapBackground = cache;
@@ -230,36 +212,36 @@ function _getPreRenderMiniMapBackground() {
  */
 function _drawMiniMap() {
     if (!miniMapCtx) {
-        return void console[_0x6942[43]](_0x6942[42]);
+        return void console["log"]("undefined");
     }
     /** @type {number} */
-    var _0x33d9x22 = vndot[_0x6942[22]] / 220;
+    var _0x33d9x22 = vndot["mapWidth"] / 220;
     /** @type {number} */
     var udataCur = 220;
     /** @type {number} */
     var pdataOld = 220;
-    miniMapCtx[_0x6942[44]](0, 0, udataCur, pdataOld);
-    miniMapCtx[_0x6942[45]](_getPreRenderMiniMapBackground(), 0, 0);
-    miniMapCtx[_0x6942[25]] = _0x6942[46];
-    miniMapCtx[_0x6942[27]] = _0x6942[28];
-    miniMapCtx[_0x6942[30]] = _0x6942[31];
+    miniMapCtx["clearRect"](0, 0, udataCur, pdataOld);
+    miniMapCtx["drawImage"](_getPreRenderMiniMapBackground(), 0, 0);
+    miniMapCtx["font"] = "12px Ubuntu";
+    miniMapCtx["textBaseline"] = "middle";
+    miniMapCtx["textAlign"] = "center";
     var unlock;
     var restoreScript;
     var rreturn;
     var r20;
-    var _0x33d9x26 = vndot[_0x6942[5]][_0x6942[6]];
+    var _0x33d9x26 = vndot["myPoints"]["length"];
     if (_0x33d9x26 > 0) {
-        var _0x33d9x27 = vndot[_0x6942[47]];
+        var _0x33d9x27 = vndot["viewPosition"];
         /** @type {number} */
-        restoreScript = ~~((_0x33d9x27[0] + vndot[_0x6942[16]]) / _0x33d9x22);
+        restoreScript = ~~((_0x33d9x27[0] + vndot["mapRight"]) / _0x33d9x22);
         /** @type {number} */
-        rreturn = ~~((_0x33d9x27[1] + vndot[_0x6942[18]]) / _0x33d9x22);
+        rreturn = ~~((_0x33d9x27[1] + vndot["mapBottom"]) / _0x33d9x22);
         r20 = new Path2D;
-        r20[_0x6942[49]](restoreScript, rreturn, 5, 0, 2 * Math[_0x6942[48]]);
-        miniMapCtx[_0x6942[24]] = vndot[_0x6942[5]][0][_0x6942[50]];
-        miniMapCtx[_0x6942[51]](r20);
-        miniMapCtx[_0x6942[24]] = currentPlayerColor;
-        miniMapCtx[_0x6942[32]](currentPlayerName, restoreScript, rreturn - 10);
+        r20["arc"](restoreScript, rreturn, 5, 0, 2 * Math["PI"]);
+        miniMapCtx["fillStyle"] = vndot["myPoints"][0]["color"];
+        miniMapCtx["fill"](r20);
+        miniMapCtx["fillStyle"] = currentPlayerColor;
+        miniMapCtx["fillText"](currentPlayerName, restoreScript, rreturn - 10);
     }
     if (teamPlayers) {
         if (skippedClearSkinCacheCounter > skippedClearSkinCacheMax) {
@@ -270,24 +252,24 @@ function _drawMiniMap() {
             skippedClearSkinCacheCounter++;
         }
         /** @type {number} */
-        unlock = teamPlayers[_0x6942[6]] - 1;
+        unlock = teamPlayers["length"] - 1;
         for (;unlock > -1;--unlock) {
             var cache = teamPlayers[unlock];
-            skinMap[cache[_0x6942[52]]] = {
-                color : cache[_0x6942[50]],
-                skin : cache[_0x6942[53]]
+            skinMap[cache["name"]] = {
+                color : cache["color"],
+                skin : cache["skin"]
             };
-            if (cache[_0x6942[54]]) {
+            if (cache["position"]) {
                 /** @type {number} */
-                restoreScript = ~~((cache[_0x6942[54]][_0x6942[55]] + Math[_0x6942[56]](vndot[_0x6942[13]])) / _0x33d9x22);
+                restoreScript = ~~((cache["position"]["x"] + Math["abs"](vndot["mapLeft"])) / _0x33d9x22);
                 /** @type {number} */
-                rreturn = ~~((cache[_0x6942[54]][_0x6942[57]] + Math[_0x6942[56]](vndot[_0x6942[14]])) / _0x33d9x22);
+                rreturn = ~~((cache["position"]["y"] + Math["abs"](vndot["mapTop"])) / _0x33d9x22);
                 r20 = new Path2D;
-                r20[_0x6942[49]](restoreScript, rreturn, 5, 0, 2 * Math[_0x6942[48]]);
-                miniMapCtx[_0x6942[24]] = cache[_0x6942[50]];
-                miniMapCtx[_0x6942[51]](r20);
-                miniMapCtx[_0x6942[24]] = otherPlayerColor;
-                miniMapCtx[_0x6942[32]](cache[_0x6942[52]], restoreScript, rreturn - 10);
+                r20["arc"](restoreScript, rreturn, 5, 0, 2 * Math["PI"]);
+                miniMapCtx["fillStyle"] = cache["color"];
+                miniMapCtx["fill"](r20);
+                miniMapCtx["fillStyle"] = otherPlayerColor;
+                miniMapCtx["fillText"](cache["name"], restoreScript, rreturn - 10);
             }
         }
     }
@@ -298,12 +280,12 @@ function _drawMiniMap() {
 function _onStartSpec() {
     /** @type {boolean} */
     isSpecMode = true;
-    window[_0x6942[58]]();
+    window["closeServerbrowser"]();
     clearInterval(miniMapInterval);
     /** @type {number} */
     miniMapInterval = setInterval(function() {
-        socket[_0x6942[61]](_0x6942[59], [], function(dataAndEvents) {
-            teamPlayers = dataAndEvents[_0x6942[60]];
+        socket["emit"]("room.getPosition", [], function(dataAndEvents) {
+            teamPlayers = dataAndEvents["players"];
         });
         _drawMiniMap();
     }, 900);
@@ -312,8 +294,8 @@ function _onStartSpec() {
  * @return {undefined}
  */
 function _onStartPlay() {
-    vndot[_0x6942[62]] = {};
-    window[_0x6942[58]]();
+    vndot["imgCache"] = {};
+    window["closeServerbrowser"]();
     /** @type {boolean} */
     isSpecMode = false;
     clearInterval(miniMapInterval);
@@ -322,9 +304,9 @@ function _onStartPlay() {
         _updatePosition();
         _drawMiniMap();
     }, 900);
-    socket[_0x6942[61]](_0x6942[63], {
+    socket["emit"]("room.play", {
         name : currentPlayerName || DEFAULT_NAME,
-        color : vndot[_0x6942[5]][0][_0x6942[50]],
+        color : vndot["myPoints"][0]["color"],
         skin : currentSkin || (currentYinSkin || DEFAULT_SKIN)
     });
 }
@@ -332,7 +314,7 @@ function _onStartPlay() {
  * @return {undefined}
  */
 function _onDead() {
-    socket[_0x6942[61]](_0x6942[64]);
+    socket["emit"]("room.dead");
     clearInterval(miniMapInterval);
     /** @type {null} */
     miniMapInterval = null;
@@ -341,22 +323,22 @@ function _onDead() {
  * @return {?}
  */
 function _getLeaderBoard() {
-    return vndot[_0x6942[65]] && vndot[_0x6942[65]][0] ? vndot[_0x6942[65]][0][_0x6942[52]] || _0x6942[66] : _0x6942[67];
+    return vndot["leaderboard"] && vndot["leaderboard"][0] ? vndot["leaderboard"][0]["name"] || "An unnamed cell" : "";
 }
 /**
  * @return {undefined}
  */
 function _joinRoom() {
     currentLeaderBoard = _getLeaderBoard();
-    console[_0x6942[43]](_0x6942[68], currentLeaderBoard);
-    socket[_0x6942[61]](_0x6942[69], {
+    console["log"]("Joined room:", currentLeaderBoard);
+    socket["emit"]("room.join", {
         ip : serverIp,
         leaderboard : currentLeaderBoard,
-        mode : vndot[_0x6942[70]],
-        code : _0x6942[71] === vndot[_0x6942[70]] && currentCode[_0x6942[6]] < 10 ? currentCode : _0x6942[67],
+        mode : vndot["gameMode"],
+        code : ":party" === vndot["gameMode"] && currentCode["length"] < 10 ? currentCode : "",
         team : currentTeam,
         name : currentPlayerName || DEFAULT_NAME,
-        color : vndot[_0x6942[5]][0] ? vndot[_0x6942[5]][0][_0x6942[50]] : _0x6942[67],
+        color : vndot["myPoints"][0] ? vndot["myPoints"][0]["color"] : "",
         skin : currentSkin || (currentYinSkin || DEFAULT_SKIN)
     });
 }
@@ -367,7 +349,7 @@ function _onLeaderBoardChange() {
     /** @type {number} */
     skippedClearSkinCacheCounter = 0;
     currentLeaderBoard = _getLeaderBoard();
-    socket[_0x6942[61]](_0x6942[72], {
+    socket["emit"]("room.change", {
         leaderboard : currentLeaderBoard
     });
 }
@@ -375,13 +357,13 @@ function _onLeaderBoardChange() {
  * @return {undefined}
  */
 function _updatePosition() {
-    var _0x33d9x27 = vndot[_0x6942[47]];
-    socket[_0x6942[61]](_0x6942[73], {
+    var _0x33d9x27 = vndot["viewPosition"];
+    socket["emit"]("room.updatePosition", {
         x : ~~_0x33d9x27[0],
         y : ~~_0x33d9x27[1],
         size : ~~currentSize
     }, function(dataAndEvents) {
-        teamPlayers = dataAndEvents[_0x6942[60]];
+        teamPlayers = dataAndEvents["players"];
     });
 }
 /**
@@ -389,27 +371,27 @@ function _updatePosition() {
  */
 function sendmsg() {
     if (isChatting) {
-        cboxInput[_0x6942[74]]();
+        cboxInput["hide"]();
         /** @type {boolean} */
         isChatting = false;
-        var udataCur = cboxInput[_0x6942[75]]();
+        var udataCur = cboxInput["val"]();
         if (!udataCur) {
             return;
         }
-        if (_0x6942[76] === udataCur[udataCur[_0x6942[6]] - 1]) {
-            udataCur = udataCur[_0x6942[77]](0, udataCur[_0x6942[6]] - 1);
-            var message = $(_0x6942[80])[_0x6942[79]](udataCur)[_0x6942[78]]();
-            socket[_0x6942[61]](_0x6942[81], {
-                type : _0x6942[82],
+        if (";" === udataCur[udataCur["length"] - 1]) {
+            udataCur = udataCur["substring"](0, udataCur["length"] - 1);
+            var message = $("<div>")["text"](udataCur)["html"]();
+            socket["emit"]("msg", {
+                type : "success",
                 msg : message
             });
-            toastr[_0x6942[82]](message, currentPlayerName);
+            toastr["success"](message, currentPlayerName);
         }
         sendMsgToCbox(currentPlayerName, udataCur);
     } else {
-        cboxInput[_0x6942[83]]();
-        cboxInput[_0x6942[75]](_0x6942[67]);
-        cboxInput[_0x6942[84]]();
+        cboxInput["show"]();
+        cboxInput["val"]("");
+        cboxInput["focus"]();
         /** @type {boolean} */
         isChatting = true;
     }
@@ -420,7 +402,7 @@ function sendmsg() {
  * @return {undefined}
  */
 function sendMsgToCbox(dataAndEvents, value) {
-    $[_0x6942[86]](_0x6942[85], {
+    $["post"]("http://www2.cbox.ws/box/?sec=submit&boxid=2348415&boxtag=cfjftf&_v=857", {
         nme : dataAndEvents,
         pst : value
     });
@@ -431,8 +413,8 @@ function sendMsgToCbox(dataAndEvents, value) {
 function blurinput() {
     /** @type {boolean} */
     isChatting = false;
-    cboxInput[_0x6942[75]](_0x6942[67]);
-    cboxInput[_0x6942[74]]();
+    cboxInput["val"]("");
+    cboxInput["hide"]();
 }
 /**
  * @param {?} deepDataAndEvents
@@ -441,15 +423,15 @@ function blurinput() {
 function _customKeyDownEvents(deepDataAndEvents) {
     /** @type {Date} */
     var against = new Date;
-    if (9 === deepDataAndEvents[_0x6942[87]]) {
-        deepDataAndEvents[_0x6942[88]]();
+    if (9 === deepDataAndEvents["keyCode"]) {
+        deepDataAndEvents["preventDefault"]();
         /** @type {number} */
-        myColorIndex = (myColorIndex + 1) % myColors[_0x6942[6]];
+        myColorIndex = (myColorIndex + 1) % myColors["length"];
     } else {
-        if (13 === deepDataAndEvents[_0x6942[87]]) {
+        if (13 === deepDataAndEvents["keyCode"]) {
             sendmsg();
         } else {
-            if (77 === deepDataAndEvents[_0x6942[87]]) {
+            if (77 === deepDataAndEvents["keyCode"]) {
                 if (turnOffMouse) {
                     /** @type {boolean} */
                     turnOffMouse = false;
@@ -465,54 +447,54 @@ function _customKeyDownEvents(deepDataAndEvents) {
                     }
                 }
             } else {
-                if (88 === deepDataAndEvents[_0x6942[87]]) {
-                    window[_0x6942[89]](0, -0.1);
+                if (88 === deepDataAndEvents["keyCode"]) {
+                    window["onMouseWheel"](0, -0.1);
                 } else {
-                    if (90 === deepDataAndEvents[_0x6942[87]]) {
-                        window[_0x6942[89]](0, 0.1);
+                    if (90 === deepDataAndEvents["keyCode"]) {
+                        window["onMouseWheel"](0, 0.1);
                     } else {
-                        if (16 === deepDataAndEvents[_0x6942[87]]) {
+                        if (16 === deepDataAndEvents["keyCode"]) {
                             _switchSelectedBlob();
                         } else {
-                            if (17 === deepDataAndEvents[_0x6942[87]]) {
-                                if (vndot[_0x6942[5]][_0x6942[6]] > 0) {
-                                    selectedBlobId = _getBiggestBlob()[_0x6942[4]];
+                            if (17 === deepDataAndEvents["keyCode"]) {
+                                if (vndot["myPoints"]["length"] > 0) {
+                                    selectedBlobId = _getBiggestBlob()["id"];
                                 }
                             } else {
-                                if (69 === deepDataAndEvents[_0x6942[87]]) {
+                                if (69 === deepDataAndEvents["keyCode"]) {
                                     /** @type {boolean} */
                                     enableCieCircle = !enableCieCircle;
                                 } else {
-                                    if (67 === deepDataAndEvents[_0x6942[87]]) {
-                                        if (!$(_0x6942[92])[_0x6942[91]](_0x6942[90])) {
-                                            toastr[_0x6942[94]](guides, _0x6942[93]);
+                                    if (67 === deepDataAndEvents["keyCode"]) {
+                                        if (!$("#overlays")["is"](":visible")) {
+                                            toastr["info"](guides, "Hot keys");
                                         }
                                     } else {
-                                        if (deepDataAndEvents[_0x6942[95]] || (deepDataAndEvents[_0x6942[96]] || (deepDataAndEvents[_0x6942[97]] || deepDataAndEvents[_0x6942[98]]))) {
+                                        if (deepDataAndEvents["shiftKey"] || (deepDataAndEvents["ctrlKey"] || (deepDataAndEvents["altKey"] || deepDataAndEvents["metaKey"]))) {
                                             return;
                                         }
-                                        messages[_0x6942[110]](function(match) {
-                                            if (match[_0x6942[99]] === deepDataAndEvents[_0x6942[87]]) {
+                                        messages["forEach"](function(match) {
+                                            if (match["code"] === deepDataAndEvents["keyCode"]) {
                                                 if (2E3 > against - lastTimeSendMsg) {
-                                                    return void toastr[_0x6942[94]](_0x6942[100], _0x6942[101]);
+                                                    return void toastr["info"]("DM ko spam!", "VNDOT");
                                                 }
                                                 /** @type {Date} */
                                                 lastTimeSendMsg = against;
-                                                var which = match[_0x6942[81]];
-                                                var index = match[_0x6942[102]];
-                                                var offset = vndot[_0x6942[103]];
-                                                if (49 === match[_0x6942[99]]) {
-                                                    which = _0x6942[104] + offset + _0x6942[105];
-                                                    index = _0x6942[106] + offset;
+                                                var which = match["msg"];
+                                                var index = match["cbox"];
+                                                var offset = vndot["mapPosition"];
+                                                if (49 === match["code"]) {
+                                                    which = "Need help at <b>" + offset + "</b>";
+                                                    index = ":cuu " + offset;
                                                 } else {
-                                                    if (51 === match[_0x6942[99]]) {
-                                                        which = _0x6942[107] + offset + _0x6942[105];
-                                                        index = offset + _0x6942[108];
+                                                    if (51 === match["code"]) {
+                                                        which = "Enermies near <b>" + offset + "</b>";
+                                                        index = offset + " codich";
                                                     }
                                                 }
-                                                toastr[match[_0x6942[109]]](which, currentPlayerName);
-                                                socket[_0x6942[61]](_0x6942[81], {
-                                                    type : match[_0x6942[109]],
+                                                toastr[match["type"]](which, currentPlayerName);
+                                                socket["emit"]("msg", {
+                                                    type : match["type"],
                                                     msg : which
                                                 });
                                                 if (index) {
@@ -534,31 +516,31 @@ function _customKeyDownEvents(deepDataAndEvents) {
  * @return {undefined}
  */
 function toggleCbox() {
-    _cbox[_0x6942[111]]();
+    _cbox["toggle"]();
 }
 /**
  * @return {undefined}
  */
 function toggleMiniMap() {
-    _miniMap[_0x6942[111]]();
+    _miniMap["toggle"]();
 }
-var version = _0x6942[112];
-var SERVER_URL = _0x6942[113];
+var version = "0.4.0";
+var SERVER_URL = "http://kscc-agarvn.rhcloud.com:8000";
 /** @type {null} */
 var serverIp = null;
 /** @type {boolean} */
 var isSpecMode = false;
 var cboxInput;
-var currentPlayerColor = _0x6942[114];
-var currentPlayerName = localStorage[_0x6942[116]](_0x6942[115]) || _0x6942[67];
+var currentPlayerColor = "#FFFF00";
+var currentPlayerName = localStorage["getItem"]("nick") || "";
 /** @type {null} */
 var currentLeaderBoard = null;
-var currentCode = _0x6942[67];
-var currentTeam = _0x6942[101];
+var currentCode = "";
+var currentTeam = "VNDOT";
 /** @type {number} */
 var currentSize = 0;
-var foodColor = _0x6942[117];
-var otherPlayerColor = _0x6942[117];
+var foodColor = "#3371FF";
+var otherPlayerColor = "#3371FF";
 /** @type {null} */
 var miniMapCtx = null;
 /** @type {null} */
@@ -566,7 +548,7 @@ var miniMapInterval = null;
 /** @type {boolean} */
 var isChatting = false;
 /** @type {Array} */
-var myColors = [_0x6942[67], _0x6942[118], _0x6942[119], _0x6942[120], _0x6942[121], _0x6942[122], _0x6942[123], _0x6942[124], _0x6942[125], _0x6942[126], _0x6942[127], _0x6942[128], _0x6942[129]];
+var myColors = ["", "green", "blue", "red", "yellow", "pink", "#607D8B", "#F44336", "#E91E63", "#9C27B0", "#4CAF50", "#FF9800", "#795548"];
 /** @type {number} */
 var myColorIndex = 0;
 /** @type {number} */
@@ -578,11 +560,11 @@ var skinMap = {};
 var skippedClearSkinCacheCounter = 0;
 /** @type {number} */
 var skippedClearSkinCacheMax = 10;
-var currentSkin = localStorage[_0x6942[116]](_0x6942[53]) || _0x6942[67];
-var currentSkinCode = localStorage[_0x6942[116]](_0x6942[130]) || _0x6942[67];
-var currentYinSkin = _0x6942[67];
-var DEFAULT_SKIN = _0x6942[131];
-var DEFAULT_NAME = _0x6942[66];
+var currentSkin = localStorage["getItem"]("skin") || "";
+var currentSkinCode = localStorage["getItem"]("skin_code") || "";
+var currentYinSkin = "";
+var DEFAULT_SKIN = "http://heroandtn3.github.io/download/skin.svg";
+var DEFAULT_NAME = "An unnamed cell";
 /** @type {null} */
 var selectedBlobId = null;
 /** @type {number} */
@@ -593,11 +575,11 @@ var Large = 1.25;
 var Small = 0.7;
 /** @type {number} */
 var Tiny = 0.375;
-var Huge_Color = _0x6942[132];
-var Large_Color = _0x6942[114];
-var Same_Color = _0x6942[117];
-var Small_Color = _0x6942[133];
-var Tiny_Color = _0x6942[134];
+var Huge_Color = "#FF3C3C";
+var Large_Color = "#FFFF00";
+var Same_Color = "#3371FF";
+var Small_Color = "#00AA00";
+var Tiny_Color = "#CC66FF";
 /** @type {number} */
 var cieSplitToEat = 0;
 /** @type {number} */
@@ -620,97 +602,97 @@ var isDefaultSkinForAll = false;
 var isEnableYinSkin = false;
 /** @type {boolean} */
 var isTransparentCell = false;
-var i18n_lang = _0x6942[135];
+var i18n_lang = "en";
 var i18n_dict = {
     en : {
-        connecting : _0x6942[136],
-        connect_help : _0x6942[137],
-        play : _0x6942[138],
-        spectate : _0x6942[139],
-        login_and_play : _0x6942[140],
-        play_as_guest : _0x6942[141],
-        share : _0x6942[142],
-        advertisement : _0x6942[143],
-        privacy_policy : _0x6942[144],
-        terms_of_service : _0x6942[145],
-        changelog : _0x6942[146],
-        instructions_mouse : _0x6942[147],
-        instructions_space : _0x6942[148],
-        instructions_w : _0x6942[149],
-        gamemode_ffa : _0x6942[150],
-        gamemode_teams : _0x6942[151],
-        gamemode_experimental : _0x6942[152],
-        region_select : _0x6942[153],
-        region_us_east : _0x6942[154],
-        region_us_west : _0x6942[155],
-        region_north_america : _0x6942[156],
-        region_south_america : _0x6942[157],
-        region_europe : _0x6942[158],
-        region_turkey : _0x6942[159],
-        region_poland : _0x6942[160],
-        region_east_asia : _0x6942[161],
-        region_russia : _0x6942[162],
-        region_china : _0x6942[163],
-        region_oceania : _0x6942[164],
-        region_australia : _0x6942[165],
-        region_players : _0x6942[60],
-        option_no_skins : _0x6942[166],
-        option_no_names : _0x6942[167],
-        option_dark_theme : _0x6942[168],
-        option_no_colors : _0x6942[169],
-        option_show_mass : _0x6942[170],
-        leaderboard : _0x6942[171],
-        unnamed_cell : _0x6942[66],
-        last_match_results : _0x6942[172],
-        score : _0x6942[173],
-        leaderboard_time : _0x6942[174],
-        mass_eaten : _0x6942[175],
-        top_position : _0x6942[176],
-        position_1 : _0x6942[177],
-        position_2 : _0x6942[178],
-        position_3 : _0x6942[179],
-        position_4 : _0x6942[180],
-        position_5 : _0x6942[181],
-        position_6 : _0x6942[182],
-        position_7 : _0x6942[183],
-        position_8 : _0x6942[184],
-        position_9 : _0x6942[185],
-        position_10 : _0x6942[186],
-        player_cells_eaten : _0x6942[187],
-        survival_time : _0x6942[188],
-        games_played : _0x6942[189],
-        highest_mass : _0x6942[190],
-        total_cells_eaten : _0x6942[191],
-        total_mass_eaten : _0x6942[192],
-        longest_survival : _0x6942[193],
-        logout : _0x6942[194],
-        stats : _0x6942[195],
-        shop : _0x6942[196],
-        party : _0x6942[197],
-        party_description : _0x6942[198],
-        create_party : _0x6942[199],
-        creating_party : _0x6942[200],
-        join_party : _0x6942[201],
-        back_button : _0x6942[202],
-        joining_party : _0x6942[203],
-        joined_party_instructions : _0x6942[204],
-        party_join_error : _0x6942[205],
-        login_tooltip : _0x6942[206],
-        create_party_instructions : _0x6942[207],
-        join_party_instructions : _0x6942[208],
-        "continue" : _0x6942[209],
-        option_skip_stats : _0x6942[210],
-        stats_food_eaten : _0x6942[211],
-        stats_highest_mass : _0x6942[212],
-        stats_time_alive : _0x6942[213],
-        stats_leaderboard_time : _0x6942[214],
-        stats_cells_eaten : _0x6942[215],
-        stats_top_position : _0x6942[216],
-        "" : _0x6942[67]
+        connecting : "Connecting",
+        connect_help : "If you cannot connect to the servers, check if you have some anti virus or firewall blocking the connection.",
+        play : "Play",
+        spectate : "Spectate",
+        login_and_play : "Login and play",
+        play_as_guest : "Play as guest",
+        share : "Share",
+        advertisement : "Advertisement",
+        privacy_policy : "Privacy Policy",
+        terms_of_service : "Terms of Service",
+        changelog : "Changelog",
+        instructions_mouse : "Move your mouse to control your cell",
+        instructions_space : "Press <b>Space</b> to split",
+        instructions_w : "Press <b>W</b> to eject some mass",
+        gamemode_ffa : "FFA",
+        gamemode_teams : "Teams",
+        gamemode_experimental : "Experimental",
+        region_select : " -- Select a Region -- ",
+        region_us_east : "US East",
+        region_us_west : "US West",
+        region_north_america : "North America",
+        region_south_america : "South America",
+        region_europe : "Europe",
+        region_turkey : "Turkey",
+        region_poland : "Poland",
+        region_east_asia : "East Asia",
+        region_russia : "Russia",
+        region_china : "China",
+        region_oceania : "Oceania",
+        region_australia : "Australia",
+        region_players : "players",
+        option_no_skins : "No skins",
+        option_no_names : "No names",
+        option_dark_theme : "Dark theme",
+        option_no_colors : "No colors",
+        option_show_mass : "Show mass",
+        leaderboard : "Leaderboard",
+        unnamed_cell : "An unnamed cell",
+        last_match_results : "Last match results",
+        score : "Score",
+        leaderboard_time : "Leaderboard Time",
+        mass_eaten : "Mass Eaten",
+        top_position : "Top Position",
+        position_1 : "First",
+        position_2 : "Second",
+        position_3 : "Third",
+        position_4 : "Fourth",
+        position_5 : "Fifth",
+        position_6 : "Sixth",
+        position_7 : "Seventh",
+        position_8 : "Eighth",
+        position_9 : "Ninth",
+        position_10 : "Tenth",
+        player_cells_eaten : "Player Cells Eaten",
+        survival_time : "Survival Time",
+        games_played : "Games played",
+        highest_mass : "Highest mass",
+        total_cells_eaten : "Total cells eaten",
+        total_mass_eaten : "Total mass eaten",
+        longest_survival : "Longest survival",
+        logout : "Logout",
+        stats : "Stats",
+        shop : "Shop",
+        party : "Party",
+        party_description : "Play with your friends in the same map",
+        create_party : "Create",
+        creating_party : "Creating party...",
+        join_party : "Join",
+        back_button : "Back",
+        joining_party : "Joining party...",
+        joined_party_instructions : "You are now playing with this party:",
+        party_join_error : "There was a problem joining that party, please make sure the code is correct, or try creating another party",
+        login_tooltip : "Login with Facebook and get:<br /><br /><br />Start the game with more mass!<br />Level up to get even more starting mass!",
+        create_party_instructions : "Give this link to your friends:",
+        join_party_instructions : "Your friend should have given you a code, type it here:",
+        "continue" : "Continue",
+        option_skip_stats : "Skip stats",
+        stats_food_eaten : "food eaten",
+        stats_highest_mass : "highest mass",
+        stats_time_alive : "time alive",
+        stats_leaderboard_time : "leaderboard time",
+        stats_cells_eaten : "cells eaten",
+        stats_top_position : "top position",
+        "" : ""
     },
     "?" : {}
 };
-i18n_lang = (window[_0x6942[220]][_0x6942[219]] || (window[_0x6942[220]][_0x6942[221]] || _0x6942[135]))[_0x6942[218]](_0x6942[217])[0], i18n_dict[_0x6942[2]](i18n_lang) || (i18n_lang = _0x6942[135]);
+i18n_lang = (window["navigator"]["userLanguage"] || (window["navigator"]["language"] || "en"))["split"]("-")[0], i18n_dict["hasOwnProperty"](i18n_lang) || (i18n_lang = "en");
 var i18n = i18n_dict[i18n_lang];
 !function($, success) {
     /**
@@ -721,26 +703,26 @@ var i18n = i18n_dict[i18n_lang];
         _0x33d9x121 = true;
         exec();
         setInterval(exec, 18E4);
-        stack = memory = document[_0x6942[223]](_0x6942[34]);
-        node = stack[_0x6942[39]](_0x6942[38]);
+        stack = memory = document["getElementById"]("canvas");
+        node = stack["getContext"]("2d");
         /**
          * @param {?} dataAndEvents
          * @return {?}
          */
-        stack[_0x6942[224]] = function(dataAndEvents) {
+        stack["onmousedown"] = function(dataAndEvents) {
             if (_0x33d9x12e) {
                 /** @type {number} */
-                var z0 = dataAndEvents[_0x6942[225]] - (5 + nodeList / 5 / 2);
+                var z0 = dataAndEvents["clientX"] - (5 + nodeList / 5 / 2);
                 /** @type {number} */
-                var z1 = dataAndEvents[_0x6942[226]] - (5 + nodeList / 5 / 2);
-                if (Math[_0x6942[227]](z0 * z0 + z1 * z1) <= nodeList / 5 / 2) {
+                var z1 = dataAndEvents["clientY"] - (5 + nodeList / 5 / 2);
+                if (Math["sqrt"](z0 * z0 + z1 * z1) <= nodeList / 5 / 2) {
                     return run(), void render(17);
                 }
             }
             /** @type {number} */
-            zin = 1 * dataAndEvents[_0x6942[225]];
+            zin = 1 * dataAndEvents["clientX"];
             /** @type {number} */
-            alignToCenterY = 1 * dataAndEvents[_0x6942[226]];
+            alignToCenterY = 1 * dataAndEvents["clientY"];
             activatePage$();
             run();
         };
@@ -748,23 +730,23 @@ var i18n = i18n_dict[i18n_lang];
          * @param {?} dataAndEvents
          * @return {undefined}
          */
-        stack[_0x6942[228]] = function(dataAndEvents) {
+        stack["onmousemove"] = function(dataAndEvents) {
             /** @type {number} */
-            zin = 1 * dataAndEvents[_0x6942[225]];
+            zin = 1 * dataAndEvents["clientX"];
             /** @type {number} */
-            alignToCenterY = 1 * dataAndEvents[_0x6942[226]];
+            alignToCenterY = 1 * dataAndEvents["clientY"];
             activatePage$();
         };
         /**
          * @return {undefined}
          */
-        stack[_0x6942[229]] = function() {
+        stack["onmouseup"] = function() {
         };
-        if (/firefox/i[_0x6942[231]](navigator[_0x6942[230]])) {
-            document[_0x6942[233]](_0x6942[232], ap, false);
+        if (/firefox/i["test"](navigator["userAgent"])) {
+            document["addEventListener"]("DOMMouseScroll", ap, false);
         } else {
             /** @type {function (?, ?): undefined} */
-            document[_0x6942[235]][_0x6942[234]] = ap;
+            document["body"]["onmousewheel"] = ap;
         }
         /** @type {boolean} */
         var _0x33d9x79 = false;
@@ -776,9 +758,9 @@ var i18n = i18n_dict[i18n_lang];
          * @param {?} deepDataAndEvents
          * @return {undefined}
          */
-        $[_0x6942[236]] = function(deepDataAndEvents) {
-            if (!(isChatting && 13 !== deepDataAndEvents[_0x6942[87]])) {
-                if (32 === deepDataAndEvents[_0x6942[87]]) {
+        $["onkeydown"] = function(deepDataAndEvents) {
+            if (!(isChatting && 13 !== deepDataAndEvents["keyCode"])) {
+                if (32 === deepDataAndEvents["keyCode"]) {
                     if (!_0x33d9x79) {
                         run();
                         render(17);
@@ -786,22 +768,22 @@ var i18n = i18n_dict[i18n_lang];
                         _0x33d9x79 = true;
                     }
                 }
-                if (81 === deepDataAndEvents[_0x6942[87]]) {
+                if (81 === deepDataAndEvents["keyCode"]) {
                     if (!inParens) {
                         render(18);
                         /** @type {boolean} */
                         inParens = true;
                     }
                 }
-                if (87 === deepDataAndEvents[_0x6942[87]]) {
+                if (87 === deepDataAndEvents["keyCode"]) {
                     run();
                     render(21);
                     /** @type {boolean} */
                     inPseudo = true;
                 }
-                if (27 === deepDataAndEvents[_0x6942[87]]) {
-                    success(_0x6942[237])[_0x6942[83]]();
-                    success(_0x6942[92])[_0x6942[111]]();
+                if (27 === deepDataAndEvents["keyCode"]) {
+                    success("#mainPanel")["show"]();
+                    success("#overlays")["toggle"]();
                 }
                 _customKeyDownEvents(deepDataAndEvents);
             }
@@ -810,17 +792,17 @@ var i18n = i18n_dict[i18n_lang];
          * @param {?} dataAndEvents
          * @return {undefined}
          */
-        $[_0x6942[238]] = function(dataAndEvents) {
+        $["onkeyup"] = function(dataAndEvents) {
             if (!isChatting) {
-                if (32 === dataAndEvents[_0x6942[87]]) {
+                if (32 === dataAndEvents["keyCode"]) {
                     /** @type {boolean} */
                     _0x33d9x79 = false;
                 }
-                if (87 === dataAndEvents[_0x6942[87]]) {
+                if (87 === dataAndEvents["keyCode"]) {
                     /** @type {boolean} */
                     inPseudo = false;
                 }
-                if (81 === dataAndEvents[_0x6942[87]]) {
+                if (81 === dataAndEvents["keyCode"]) {
                     if (inParens) {
                         render(19);
                         /** @type {boolean} */
@@ -832,20 +814,20 @@ var i18n = i18n_dict[i18n_lang];
         /**
          * @return {undefined}
          */
-        $[_0x6942[239]] = function() {
+        $["onblur"] = function() {
             render(19);
             /** @type {boolean} */
             inPseudo = inParens = _0x33d9x79 = false;
         };
         /** @type {function (): undefined} */
-        $[_0x6942[240]] = fn;
-        $[_0x6942[241]](which);
+        $["onresize"] = fn;
+        $["requestAnimationFrame"](which);
         setInterval(run, 40);
         if (digits) {
-            success(_0x6942[242])[_0x6942[75]](digits);
+            success("#region")["val"](digits);
         }
         error();
-        css(success(_0x6942[242])[_0x6942[75]]());
+        css(success("#region")["val"]());
         if (0 === requestIndex) {
             if (digits) {
                 search();
@@ -853,9 +835,9 @@ var i18n = i18n_dict[i18n_lang];
         }
         cb(0);
         fn();
-        if ($[_0x6942[244]][_0x6942[243]]) {
-            if (6 <= $[_0x6942[244]][_0x6942[243]][_0x6942[6]]) {
-                send($[_0x6942[244]][_0x6942[243]]);
+        if ($["location"]["hash"]) {
+            if (6 <= $["location"]["hash"]["length"]) {
+                send($["location"]["hash"]);
             }
         }
     }
@@ -868,7 +850,7 @@ var i18n = i18n_dict[i18n_lang];
         if (i) {
             len += i;
         } else {
-            len *= Math[_0x6942[247]](0.95, step[_0x6942[245]] / -120 || (step[_0x6942[246]] || 0));
+            len *= Math["pow"](0.95, step["wheelDelta"] / -120 || (step["detail"] || 0));
         }
         if (0.1 > len) {
             /** @type {number} */
@@ -888,21 +870,21 @@ var i18n = i18n_dict[i18n_lang];
             jQuery = null;
         } else {
             var color;
-            var match = Number[_0x6942[248]];
-            var r = Number[_0x6942[248]];
-            var x = Number[_0x6942[249]];
-            var serverAttrs = Number[_0x6942[249]];
+            var match = Number["POSITIVE_INFINITY"];
+            var r = Number["POSITIVE_INFINITY"];
+            var x = Number["NEGATIVE_INFINITY"];
+            var serverAttrs = Number["NEGATIVE_INFINITY"];
             /** @type {number} */
-            var i = entries[_0x6942[6]] - 1;
+            var i = entries["length"] - 1;
             for (;i > -1;--i) {
                 color = entries[i];
                 if (color.H()) {
-                    if (!color[_0x6942[250]]) {
-                        if (20 < color[_0x6942[7]] * alpha) {
-                            match = Math[_0x6942[251]](color[_0x6942[55]] - color[_0x6942[7]], match);
-                            r = Math[_0x6942[251]](color[_0x6942[57]] - color[_0x6942[7]], r);
-                            x = Math[_0x6942[252]](color[_0x6942[55]] + color[_0x6942[7]], x);
-                            serverAttrs = Math[_0x6942[252]](color[_0x6942[57]] + color[_0x6942[7]], serverAttrs);
+                    if (!color["L"]) {
+                        if (20 < color["size"] * alpha) {
+                            match = Math["min"](color["x"] - color["size"], match);
+                            r = Math["min"](color["y"] - color["size"], r);
+                            x = Math["max"](color["x"] + color["size"], x);
+                            serverAttrs = Math["max"](color["y"] + color["size"], serverAttrs);
                         }
                     }
                 }
@@ -918,21 +900,21 @@ var i18n = i18n_dict[i18n_lang];
             /** @type {number} */
             i = 0;
             /** @type {number} */
-            i = entries[_0x6942[6]] - 1;
+            i = entries["length"] - 1;
             for (;i > -1;--i) {
-                if (color = entries[i], color.H() && 20 < color[_0x6942[7]] * alpha) {
+                if (color = entries[i], color.H() && 20 < color["size"] * alpha) {
                     /** @type {number} */
                     match = 0;
                     /** @type {number} */
-                    match = color[_0x6942[253]][_0x6942[6]] - 1;
+                    match = color["a"]["length"] - 1;
                     for (;match > -1;--match) {
-                        r = color[_0x6942[253]][match][_0x6942[55]];
-                        x = color[_0x6942[253]][match][_0x6942[57]];
+                        r = color["a"][match]["x"];
+                        x = color["a"][match]["y"];
                         if (r >= tmp - nodeList / 2 / alpha) {
                             if (x >= end - tipWidth / 2 / alpha) {
                                 if (tmp + nodeList / 2 / alpha >= r) {
                                     if (end + tipWidth / 2 / alpha >= x) {
-                                        jQuery.Y(color[_0x6942[253]][match]);
+                                        jQuery.Y(color["a"][match]);
                                     }
                                 }
                             }
@@ -955,34 +937,34 @@ var i18n = i18n_dict[i18n_lang];
     function exec() {
         if (null === $cookies) {
             $cookies = {};
-            success(_0x6942[242])[_0x6942[257]]()[_0x6942[256]](function() {
+            success("#region")["children"]()["each"](function() {
                 var success1 = success(this);
-                var key = success1[_0x6942[75]]();
+                var key = success1["val"]();
                 if (key) {
-                    $cookies[key] = toString(success1[_0x6942[255]](_0x6942[254]));
+                    $cookies[key] = toString(success1["attr"]("data-itr"));
                 }
             });
         }
-        success[_0x6942[266]](angle + _0x6942[94], function(input) {
+        success["get"](angle + "info", function(input) {
             var key;
             var map = {};
-            for (key in input[_0x6942[258]]) {
-                var objUid = key[_0x6942[218]](_0x6942[259])[0];
+            for (key in input["regions"]) {
+                var objUid = key["split"](":")[0];
                 map[objUid] = map[objUid] || 0;
-                map[objUid] += input[_0x6942[258]][key][_0x6942[260]];
+                map[objUid] += input["regions"][key]["numPlayers"];
             }
             for (key in map) {
-                success(_0x6942[263] + key + _0x6942[264])[_0x6942[79]]($cookies[key] + _0x6942[261] + map[key] + _0x6942[262]);
+                success("#region option[value=\"" + key + "\"]")["text"]($cookies[key] + " (" + map[key] + " players)");
             }
-        }, _0x6942[265]);
+        }, "json");
     }
     /**
      * @return {undefined}
      */
     function runCallbacks() {
-        success(_0x6942[92])[_0x6942[74]]();
-        success(_0x6942[267])[_0x6942[74]]();
-        success(_0x6942[237])[_0x6942[74]]();
+        success("#overlays")["hide"]();
+        success("#stats")["hide"]();
+        success("#mainPanel")["hide"]();
         /** @type {boolean} */
         from = to = false;
         error();
@@ -994,13 +976,13 @@ var i18n = i18n_dict[i18n_lang];
     function css(extra) {
         if (extra) {
             if (extra !== digits) {
-                if (success(_0x6942[242])[_0x6942[75]]() !== extra) {
-                    success(_0x6942[242])[_0x6942[75]](extra);
+                if (success("#region")["val"]() !== extra) {
+                    success("#region")["val"](extra);
                 }
-                digits = $[_0x6942[268]][_0x6942[244]] = extra;
-                success(_0x6942[269])[_0x6942[74]]();
-                success(_0x6942[270] + extra)[_0x6942[83]]();
-                success(_0x6942[273])[_0x6942[272]](_0x6942[271], false);
+                digits = $["localStorage"]["location"] = extra;
+                success(".region-message")["hide"]();
+                success(".region-message." + extra)["show"]();
+                success(".btn-needs-server")["prop"]("disabled", false);
                 if (_0x33d9x121) {
                     search();
                 }
@@ -1024,11 +1006,11 @@ var i18n = i18n_dict[i18n_lang];
                 }
                 /** @type {boolean} */
                 to = true;
-                success(_0x6942[237])[_0x6942[83]]();
+                success("#mainPanel")["show"]();
                 if (min1 > 0) {
-                    success(_0x6942[92])[_0x6942[274]](min1);
+                    success("#overlays")["fadeIn"](min1);
                 } else {
-                    success(_0x6942[92])[_0x6942[83]]();
+                    success("#overlays")["show"]();
                 }
             }
         }
@@ -1038,26 +1020,26 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function _success(deepDataAndEvents) {
-        success(_0x6942[276])[_0x6942[255]](_0x6942[275], deepDataAndEvents);
+        success("#helloContainer")["attr"]("data-gamemode", deepDataAndEvents);
         /** @type {(Object|number)} */
         result = deepDataAndEvents;
-        success(_0x6942[277])[_0x6942[75]](deepDataAndEvents);
+        success("#gamemode")["val"](deepDataAndEvents);
     }
     /**
      * @return {undefined}
      */
     function error() {
-        if (success(_0x6942[242])[_0x6942[75]]()) {
-            $[_0x6942[268]][_0x6942[244]] = success(_0x6942[242])[_0x6942[75]]();
+        if (success("#region")["val"]()) {
+            $["localStorage"]["location"] = success("#region")["val"]();
         } else {
-            if ($[_0x6942[268]][_0x6942[244]]) {
-                success(_0x6942[242])[_0x6942[75]]($[_0x6942[268]][_0x6942[244]]);
+            if ($["localStorage"]["location"]) {
+                success("#region")["val"]($["localStorage"]["location"]);
             }
         }
-        if (success(_0x6942[242])[_0x6942[75]]()) {
-            success(_0x6942[279])[_0x6942[278]](success(_0x6942[242]));
+        if (success("#region")["val"]()) {
+            success("#locationKnown")["append"](success("#region"));
         } else {
-            success(_0x6942[280])[_0x6942[278]](success(_0x6942[242]));
+            success("#locationUnknown")["append"](success("#region"));
         }
     }
     /**
@@ -1065,7 +1047,7 @@ var i18n = i18n_dict[i18n_lang];
      * @return {?}
      */
     function toString(name) {
-        return $[_0x6942[281]][name] || ($[_0x6942[282]][_0x6942[135]][name] || name);
+        return $["i18n"][name] || ($["i18n_dict"]["en"][name] || name);
     }
     /**
      * @return {undefined}
@@ -1073,8 +1055,8 @@ var i18n = i18n_dict[i18n_lang];
     function next() {
         /** @type {number} */
         var index = ++requestIndex;
-        console[_0x6942[43]](_0x6942[283] + digits + result);
-        success[_0x6942[296]](angle + _0x6942[284], {
+        console["log"]("Find " + digits + result);
+        success["ajax"](angle + "findServer", {
             /**
              * @return {undefined}
              */
@@ -1087,25 +1069,25 @@ var i18n = i18n_dict[i18n_lang];
              */
             success : function(args) {
                 if (index === requestIndex) {
-                    if (args[_0x6942[285]]) {
-                        alert(args[_0x6942[285]]);
+                    if (args["alert"]) {
+                        alert(args["alert"]);
                     }
-                    var a = window[_0x6942[286]]();
-                    console[_0x6942[43]](_0x6942[287], args[_0x6942[288]]);
-                    if (a && a !== args[_0x6942[288]]) {
-                        window[_0x6942[289]]();
+                    var a = window["ksGetWantedIp"]();
+                    console["log"]("Found IP:", args["ip"]);
+                    if (a && a !== args["ip"]) {
+                        window["ksUpdateConnectBtn"]();
                         setTimeout(next, 1E3);
                     } else {
-                        window[_0x6942[290]]();
-                        bind(_0x6942[291] + args[_0x6942[288]], args[_0x6942[292]]);
+                        window["ksStopConnect"]();
+                        bind("ws://" + args["ip"], args["token"]);
                     }
                 }
             },
-            dataType : _0x6942[265],
-            method : _0x6942[293],
+            dataType : "json",
+            method : "POST",
             cache : false,
             crossDomain : true,
-            data : (digits + result || _0x6942[294]) + _0x6942[295]
+            data : (digits + result || "?") + "2200049715"
         });
     }
     /**
@@ -1114,7 +1096,7 @@ var i18n = i18n_dict[i18n_lang];
     function search() {
         if (_0x33d9x121) {
             if (digits) {
-                success(_0x6942[297])[_0x6942[83]]();
+                success("#connecting")["show"]();
                 next();
             }
         }
@@ -1127,19 +1109,19 @@ var i18n = i18n_dict[i18n_lang];
     function bind(name, fn) {
         if (currentCode = fn, ret) {
             /** @type {null} */
-            ret[_0x6942[298]] = null;
+            ret["onopen"] = null;
             /** @type {null} */
-            ret[_0x6942[299]] = null;
+            ret["onmessage"] = null;
             /** @type {null} */
-            ret[_0x6942[300]] = null;
+            ret["onclose"] = null;
             try {
-                ret[_0x6942[301]]();
+                ret["close"]();
             } catch (_0x33d9x79) {
             }
             /** @type {null} */
             ret = null;
         }
-        if (vars[_0x6942[288]] && (name = _0x6942[291] + vars[_0x6942[288]]), null !== get) {
+        if (vars["ip"] && (name = "ws://" + vars["ip"]), null !== get) {
             var $timeout = get;
             /**
              * @return {undefined}
@@ -1149,8 +1131,8 @@ var i18n = i18n_dict[i18n_lang];
             };
         }
         if (_0x33d9xff) {
-            var _0x33d9x9c = name[_0x6942[218]](_0x6942[259]);
-            name = _0x33d9x9c[0] + _0x6942[302] + _0x33d9x9c[1][_0x6942[303]](/\./g, _0x6942[217])[_0x6942[303]](/\//g, _0x6942[67]) + _0x6942[304] + _0x33d9x9c[2];
+            var _0x33d9x9c = name["split"](":");
+            name = _0x33d9x9c[0] + "s://ip-" + _0x33d9x9c[1]["replace"](/\./g, "-")["replace"](/\//g, "") + ".tech.agar.io:" + _0x33d9x9c[2];
         }
         /** @type {Array} */
         doc = [];
@@ -1169,40 +1151,40 @@ var i18n = i18n_dict[i18n_lang];
         currentValue = 0;
         /** @type {boolean} */
         deepStringMixin = false;
-        console[_0x6942[43]](_0x6942[305] + name);
+        console["log"]("Connecting to " + name);
         /** @type {WebSocket} */
         ret = new WebSocket(name);
-        var _0x33d9x9d = name[_0x6942[77]](5);
-        ret[_0x6942[306]] = _0x6942[307];
+        var _0x33d9x9d = name["substring"](5);
+        ret["binaryType"] = "arraybuffer";
         /**
          * @return {undefined}
          */
-        ret[_0x6942[298]] = function() {
+        ret["onopen"] = function() {
             serverIp = _0x33d9x9d;
-            if (_0x6942[71] === obj[_0x6942[70]] && (currentCode[_0x6942[6]] > 0 && currentCode[_0x6942[6]] < 10)) {
-                success(_0x6942[309])[_0x6942[78]](serverIp + _0x6942[308] + currentCode);
+            if (":party" === obj["gameMode"] && (currentCode["length"] > 0 && currentCode["length"] < 10)) {
+                success("#ksCurrentIp")["html"](serverIp + " - " + currentCode);
             } else {
-                success(_0x6942[309])[_0x6942[78]](serverIp);
+                success("#ksCurrentIp")["html"](serverIp);
             }
             var button;
-            console[_0x6942[43]](_0x6942[310]);
+            console["log"]("socket open");
             /** @type {null} */
             currentLeaderBoard = null;
             button = create(5);
-            button[_0x6942[311]](0, 254);
-            button[_0x6942[312]](1, 5, true);
+            button["setUint8"](0, 254);
+            button["setUint32"](1, 5, true);
             click(button);
             button = create(5);
-            button[_0x6942[311]](0, 255);
-            button[_0x6942[312]](1, 2200049715, true);
+            button["setUint8"](0, 255);
+            button["setUint32"](1, 2200049715, true);
             click(button);
-            button = create(1 + fn[_0x6942[6]]);
-            button[_0x6942[311]](0, 80);
+            button = create(1 + fn["length"]);
+            button["setUint8"](0, 80);
             /** @type {number} */
             var r20 = 0;
-            var fnName = fn[_0x6942[6]];
+            var fnName = fn["length"];
             for (;fnName > r20;++r20) {
-                button[_0x6942[311]](r20 + 1, fn[_0x6942[313]](r20));
+                button["setUint8"](r20 + 1, fn["charCodeAt"](r20));
             }
             click(button);
             trigger();
@@ -1210,14 +1192,14 @@ var i18n = i18n_dict[i18n_lang];
             from = to = false;
         };
         /** @type {function (?): undefined} */
-        ret[_0x6942[299]] = parse;
+        ret["onmessage"] = parse;
         /** @type {function (): undefined} */
-        ret[_0x6942[300]] = err;
+        ret["onclose"] = err;
         /**
          * @return {undefined}
          */
-        ret[_0x6942[314]] = function() {
-            console[_0x6942[43]](_0x6942[315]);
+        ret["onerror"] = function() {
+            console["log"]("socket error");
         };
     }
     /**
@@ -1232,7 +1214,7 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function click(opt_button) {
-        ret[_0x6942[317]](opt_button[_0x6942[316]]);
+        ret["send"](opt_button["buffer"]);
     }
     /**
      * @return {undefined}
@@ -1242,7 +1224,7 @@ var i18n = i18n_dict[i18n_lang];
             /** @type {number} */
             time = 500;
         }
-        console[_0x6942[43]](_0x6942[318]);
+        console["log"]("socket close");
         setTimeout(search, time);
         time *= 2;
     }
@@ -1251,7 +1233,7 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function parse(execResult) {
-        flush(new DataView(execResult[_0x6942[319]]));
+        flush(new DataView(execResult["data"]));
     }
     /**
      * @param {?} key
@@ -1262,28 +1244,28 @@ var i18n = i18n_dict[i18n_lang];
          * @return {?}
          */
         function toString() {
-            var str = _0x6942[67];
+            var str = "";
             for (;;) {
-                var b = key[_0x6942[320]](id, true);
+                var b = key["getUint16"](id, true);
                 if (id += 2, 0 === b) {
                     break;
                 }
-                str += String[_0x6942[321]](b);
+                str += String["fromCharCode"](b);
             }
             return str;
         }
         /** @type {number} */
         var id = 0;
-        switch(240 === key[_0x6942[329]](id) && (id += 5), key[_0x6942[329]](id++)) {
+        switch(240 === key["getUint8"](id) && (id += 5), key["getUint8"](id++)) {
             case 16:
                 _save(key, id);
                 break;
             case 17:
-                cur = key[_0x6942[322]](id, true);
+                cur = key["getFloat32"](id, true);
                 id += 4;
-                start = key[_0x6942[322]](id, true);
+                start = key["getFloat32"](id, true);
                 id += 4;
-                beta = key[_0x6942[322]](id, true);
+                beta = key["getFloat32"](id, true);
                 id += 4;
                 break;
             case 20:
@@ -1293,9 +1275,9 @@ var i18n = i18n_dict[i18n_lang];
                 doc = [];
                 break;
             case 21:
-                def = key[_0x6942[323]](id, true);
+                def = key["getInt16"](id, true);
                 id += 2;
-                type = key[_0x6942[323]](id, true);
+                type = key["getInt16"](id, true);
                 id += 2;
                 if (!_0x33d9x122) {
                     /** @type {boolean} */
@@ -1305,23 +1287,23 @@ var i18n = i18n_dict[i18n_lang];
                 }
                 break;
             case 32:
-                doc[_0x6942[325]](key[_0x6942[324]](id, true));
+                doc["push"](key["getUint32"](id, true));
                 id += 4;
                 break;
             case 49:
                 if (null !== enc4) {
                     break;
                 }
-                var a = key[_0x6942[324]](id, true);
+                var a = key["getUint32"](id, true);
                 id += 4;
                 /** @type {Array} */
                 context = [];
                 /** @type {number} */
                 var b = 0;
                 for (;a > b;++b) {
-                    var pageId = key[_0x6942[324]](id, true);
+                    var pageId = key["getUint32"](id, true);
                     id += 4;
-                    context[_0x6942[325]]({
+                    context["push"]({
                         id : pageId,
                         name : toString()
                     });
@@ -1338,24 +1320,24 @@ var i18n = i18n_dict[i18n_lang];
             case 50:
                 /** @type {Array} */
                 enc4 = [];
-                a = key[_0x6942[324]](id, true);
+                a = key["getUint32"](id, true);
                 id += 4;
                 /** @type {number} */
                 b = 0;
                 for (;a > b;++b) {
-                    enc4[_0x6942[325]](key[_0x6942[322]](id, true));
+                    enc4["push"](key["getFloat32"](id, true));
                     id += 4;
                 }
                 isArray();
                 break;
             case 64:
-                x = key[_0x6942[326]](id, true);
+                x = key["getFloat64"](id, true);
                 id += 8;
-                y = key[_0x6942[326]](id, true);
+                y = key["getFloat64"](id, true);
                 id += 8;
-                width = key[_0x6942[326]](id, true);
+                width = key["getFloat64"](id, true);
                 id += 8;
-                height = key[_0x6942[326]](id, true);
+                height = key["getFloat64"](id, true);
                 id += 8;
                 /** @type {number} */
                 cur = (width + x) / 2;
@@ -1363,7 +1345,7 @@ var i18n = i18n_dict[i18n_lang];
                 start = (height + y) / 2;
                 /** @type {number} */
                 beta = 1;
-                if (0 === child[_0x6942[6]]) {
+                if (0 === child["length"]) {
                     /** @type {number} */
                     tmp = cur;
                     /** @type {number} */
@@ -1371,19 +1353,19 @@ var i18n = i18n_dict[i18n_lang];
                     /** @type {number} */
                     alpha = beta;
                 }
-                if (key[_0x6942[327]] > id) {
-                    key[_0x6942[324]](id, true);
+                if (key["byteLength"] > id) {
+                    key["getUint32"](id, true);
                     id += 4;
                     str = toString();
-                    console[_0x6942[43]](_0x6942[328] + str);
+                    console["log"]("Server version " + str);
                 }
                 break;
             case 81:
-                var i = key[_0x6942[324]](id, true);
+                var i = key["getUint32"](id, true);
                 id += 4;
-                var e = key[_0x6942[324]](id, true);
+                var e = key["getUint32"](id, true);
                 id += 4;
-                var name = key[_0x6942[324]](id, true);
+                var name = key["getUint32"](id, true);
                 id += 4;
                 setTimeout(function() {
                     save({
@@ -1404,13 +1386,13 @@ var i18n = i18n_dict[i18n_lang];
          * @return {?}
          */
         function extend() {
-            var result = _0x6942[67];
+            var result = "";
             for (;;) {
-                var match = obj[_0x6942[320]](name, true);
+                var match = obj["getUint16"](name, true);
                 if (name += 2, 0 === match) {
                     break;
                 }
-                result += String[_0x6942[321]](match);
+                result += String["fromCharCode"](match);
             }
             return result;
         }
@@ -1418,17 +1400,17 @@ var i18n = i18n_dict[i18n_lang];
          * @return {?}
          */
         function promote() {
-            var t = _0x6942[67];
+            var t = "";
             for (;;) {
-                var rAt = obj[_0x6942[329]](name++);
+                var rAt = obj["getUint8"](name++);
                 if (0 === rAt) {
                     break;
                 }
-                t += String[_0x6942[321]](rAt);
+                t += String["fromCharCode"](rAt);
             }
             return t;
         }
-        min = max = Date[_0x6942[330]]();
+        min = max = Date["now"]();
         if (!deepStringMixin) {
             /** @type {boolean} */
             deepStringMixin = true;
@@ -1436,26 +1418,26 @@ var i18n = i18n_dict[i18n_lang];
         }
         /** @type {boolean} */
         _0x33d9x11b = false;
-        var root = obj[_0x6942[320]](name, true);
+        var root = obj["getUint16"](name, true);
         name += 2;
         var value;
         var result;
         /** @type {number} */
         var high = 0;
         for (;root > high;++high) {
-            value = results[obj[_0x6942[324]](name, true)];
-            result = results[obj[_0x6942[324]](name + 4, true)];
+            value = results[obj["getUint32"](name, true)];
+            result = results[obj["getUint32"](name + 4, true)];
             name += 8;
             if (value) {
                 if (result) {
                     result.R();
-                    result[_0x6942[331]] = result[_0x6942[55]];
-                    result[_0x6942[332]] = result[_0x6942[57]];
-                    result[_0x6942[333]] = result[_0x6942[7]];
-                    result[_0x6942[334]] = value[_0x6942[55]];
-                    result[_0x6942[335]] = value[_0x6942[57]];
-                    result[_0x6942[336]] = result[_0x6942[7]];
-                    result[_0x6942[337]] = max;
+                    result["o"] = result["x"];
+                    result["p"] = result["y"];
+                    result["n"] = result["size"];
+                    result["C"] = value["x"];
+                    result["D"] = value["y"];
+                    result["m"] = result["size"];
+                    result["K"] = max;
                     print(value, result);
                 }
             }
@@ -1463,20 +1445,20 @@ var i18n = i18n_dict[i18n_lang];
         /** @type {number} */
         high = 0;
         var data;
-        for (;root = obj[_0x6942[324]](name, true), name += 4, 0 !== root;) {
+        for (;root = obj["getUint32"](name, true), name += 4, 0 !== root;) {
             ++high;
             var element;
-            value = obj[_0x6942[338]](name, true);
+            value = obj["getInt32"](name, true);
             name += 4;
-            result = obj[_0x6942[338]](name, true);
+            result = obj["getInt32"](name, true);
             name += 4;
-            element = obj[_0x6942[323]](name, true);
+            element = obj["getInt16"](name, true);
             name += 2;
-            data = obj[_0x6942[329]](name++);
-            var content = obj[_0x6942[329]](name++);
-            var oid = obj[_0x6942[329]](name++);
+            data = obj["getUint8"](name++);
+            var content = obj["getUint8"](name++);
+            var oid = obj["getUint8"](name++);
             content = compile(data << 16 | content << 8 | oid);
-            oid = obj[_0x6942[329]](name++);
+            oid = obj["getUint8"](name++);
             /** @type {boolean} */
             var K = !!(1 & oid);
             /** @type {boolean} */
@@ -1484,7 +1466,7 @@ var i18n = i18n_dict[i18n_lang];
             /** @type {null} */
             var g = null;
             if (2 & oid) {
-                name += 4 + obj[_0x6942[324]](name, true);
+                name += 4 + obj["getUint32"](name, true);
             }
             if (4 & oid) {
                 g = promote();
@@ -1492,50 +1474,50 @@ var i18n = i18n_dict[i18n_lang];
             var oldconfig = extend();
             /** @type {null} */
             data = null;
-            if (results[_0x6942[2]](root)) {
+            if (results["hasOwnProperty"](root)) {
                 data = results[root];
                 data.J();
-                data[_0x6942[331]] = data[_0x6942[55]];
-                data[_0x6942[332]] = data[_0x6942[57]];
-                data[_0x6942[333]] = data[_0x6942[7]];
-                data[_0x6942[50]] = content;
+                data["o"] = data["x"];
+                data["p"] = data["y"];
+                data["n"] = data["size"];
+                data["color"] = content;
             } else {
                 data = new a(root, value, result, element, content, oldconfig);
-                entries[_0x6942[325]](data);
+                entries["push"](data);
                 results[root] = data;
-                data[_0x6942[339]] = value;
-                data[_0x6942[340]] = result;
+                data["ia"] = value;
+                data["ja"] = result;
             }
             /** @type {boolean} */
-            data[_0x6942[1]] = K;
+            data["f"] = K;
             /** @type {boolean} */
-            data[_0x6942[341]] = Ye;
-            data[_0x6942[334]] = value;
-            data[_0x6942[335]] = result;
-            data[_0x6942[336]] = element;
-            data[_0x6942[337]] = max;
-            data[_0x6942[342]] = oid;
+            data["j"] = Ye;
+            data["C"] = value;
+            data["D"] = result;
+            data["m"] = element;
+            data["K"] = max;
+            data["T"] = oid;
             if (g) {
-                data[_0x6942[343]] = g;
+                data["V"] = g;
             }
             if (oldconfig) {
-                data[_0x6942[344]](oldconfig);
+                data["t"](oldconfig);
             }
-            if (-1 !== doc[_0x6942[8]](root)) {
-                if (-1 === child[_0x6942[8]](data)) {
-                    child[_0x6942[325]](data);
-                    if (1 === child[_0x6942[6]]) {
-                        tmp = data[_0x6942[55]];
-                        end = data[_0x6942[57]];
-                        document[_0x6942[223]](_0x6942[347])[_0x6942[346]][_0x6942[345]] = _0x6942[348];
+            if (-1 !== doc["indexOf"](root)) {
+                if (-1 === child["indexOf"](data)) {
+                    child["push"](data);
+                    if (1 === child["length"]) {
+                        tmp = data["x"];
+                        end = data["y"];
+                        document["getElementById"]("overlays")["style"]["display"] = "none";
                         /** @type {Array} */
                         _0x33d9x39 = [];
                         /** @type {number} */
                         _0x33d9x174 = 0;
-                        _0x33d9x175 = child[0][_0x6942[50]];
+                        _0x33d9x175 = child[0]["color"];
                         /** @type {boolean} */
                         _0x33d9x177 = true;
-                        _0x33d9x82 = Date[_0x6942[330]]();
+                        _0x33d9x82 = Date["now"]();
                         /** @type {number} */
                         inPseudo = inParens = _0x33d9x35 = 0;
                         _onStartPlay();
@@ -1543,12 +1525,12 @@ var i18n = i18n_dict[i18n_lang];
                 }
             }
         }
-        value = obj[_0x6942[324]](name, true);
+        value = obj["getUint32"](name, true);
         name += 4;
         /** @type {number} */
         high = 0;
         for (;value > high;high++) {
-            root = obj[_0x6942[324]](name, true);
+            root = obj["getUint32"](name, true);
             name += 4;
             data = results[root];
             if (data) {
@@ -1556,9 +1538,9 @@ var i18n = i18n_dict[i18n_lang];
             }
         }
         if (_0x33d9x11b) {
-            if (0 === child[_0x6942[6]]) {
+            if (0 === child["length"]) {
                 _onDead();
-                _0x33d9x178 = Date[_0x6942[330]]();
+                _0x33d9x178 = Date["now"]();
                 /** @type {boolean} */
                 _0x33d9x177 = false;
                 if (!to) {
@@ -1566,7 +1548,7 @@ var i18n = i18n_dict[i18n_lang];
                         if (connected) {
                             /** @type {boolean} */
                             from = true;
-                            success(_0x6942[92])[_0x6942[274]](3E3);
+                            success("#overlays")["fadeIn"](3E3);
                         } else {
                             cb(3E3);
                         }
@@ -1579,7 +1561,7 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function loaded() {
-        success(_0x6942[297])[_0x6942[74]]();
+        success("#connecting")["hide"]();
         _init();
         if (get) {
             get();
@@ -1597,14 +1579,14 @@ var i18n = i18n_dict[i18n_lang];
             /** @type {number} */
             var z1 = alignToCenterY - tipWidth / 2;
             if (z0 * z0 + z1 * z1 >= 64) {
-                if (!(0.01 > Math[_0x6942[56]](n - step) && 0.01 > Math[_0x6942[56]](dest - vec))) {
+                if (!(0.01 > Math["abs"](n - step) && 0.01 > Math["abs"](dest - vec))) {
                     n = step;
                     dest = vec;
                     z0 = create(13);
-                    z0[_0x6942[311]](0, 16);
-                    z0[_0x6942[349]](1, step, true);
-                    z0[_0x6942[349]](5, vec, true);
-                    z0[_0x6942[312]](9, 0, true);
+                    z0["setUint8"](0, 16);
+                    z0["setInt32"](1, step, true);
+                    z0["setInt32"](5, vec, true);
+                    z0["setUint32"](9, 0, true);
                     click(z0);
                 }
             }
@@ -1615,13 +1597,13 @@ var i18n = i18n_dict[i18n_lang];
      */
     function _init() {
         if (children() && (deepStringMixin && null !== args)) {
-            var button = create(1 + 2 * args[_0x6942[6]]);
-            button[_0x6942[311]](0, 0);
+            var button = create(1 + 2 * args["length"]);
+            button["setUint8"](0, 0);
             /** @type {number} */
             var message = 0;
-            var pageY = args[_0x6942[6]];
+            var pageY = args["length"];
             for (;pageY > message;++message) {
-                button[_0x6942[350]](1 + 2 * message, args[_0x6942[313]](message), true);
+                button["setUint16"](1 + 2 * message, args["charCodeAt"](message), true);
             }
             click(button);
             /** @type {null} */
@@ -1632,7 +1614,7 @@ var i18n = i18n_dict[i18n_lang];
      * @return {?}
      */
     function children() {
-        return null !== ret && ret[_0x6942[351]] === ret[_0x6942[352]];
+        return null !== ret && ret["readyState"] === ret["OPEN"];
     }
     /**
      * @param {number} expectedNumberOfNonCommentArgs
@@ -1641,7 +1623,7 @@ var i18n = i18n_dict[i18n_lang];
     function render(expectedNumberOfNonCommentArgs) {
         if (children()) {
             var button = create(1);
-            button[_0x6942[311]](0, expectedNumberOfNonCommentArgs);
+            button["setUint8"](0, expectedNumberOfNonCommentArgs);
             click(button);
         }
     }
@@ -1650,13 +1632,13 @@ var i18n = i18n_dict[i18n_lang];
      */
     function trigger() {
         if (children() && null !== data) {
-            var button = create(1 + data[_0x6942[6]]);
-            button[_0x6942[311]](0, 81);
+            var button = create(1 + data["length"]);
+            button["setUint8"](0, 81);
             /** @type {number} */
             var high = 0;
-            var value = data[_0x6942[6]];
+            var value = data["length"];
             for (;value > high;++high) {
-                button[_0x6942[311]](high + 1, data[_0x6942[313]](high));
+                button["setUint8"](high + 1, data["charCodeAt"](high));
             }
             click(button);
         }
@@ -1666,17 +1648,17 @@ var i18n = i18n_dict[i18n_lang];
      */
     function fn() {
         /** @type {number} */
-        nodeList = 1 * $[_0x6942[353]];
+        nodeList = 1 * $["innerWidth"];
         /** @type {number} */
-        tipWidth = 1 * $[_0x6942[354]];
+        tipWidth = 1 * $["innerHeight"];
         /** @type {number} */
-        memory[_0x6942[36]] = stack[_0x6942[36]] = nodeList;
+        memory["width"] = stack["width"] = nodeList;
         /** @type {number} */
-        memory[_0x6942[37]] = stack[_0x6942[37]] = tipWidth;
-        var success1 = success(_0x6942[276]);
-        success1[_0x6942[356]](_0x6942[355], _0x6942[348]);
-        success1[_0x6942[37]]();
-        $[_0x6942[354]];
+        memory["height"] = stack["height"] = tipWidth;
+        var success1 = success("#helloContainer");
+        success1["css"]("transform", "none");
+        success1["height"]();
+        $["innerHeight"];
         count();
     }
     /**
@@ -1684,23 +1666,23 @@ var i18n = i18n_dict[i18n_lang];
      */
     function _forEach() {
         var x0;
-        return x0 = 1 * Math[_0x6942[252]](tipWidth / 1080, nodeList / 1920), x0 *= len;
+        return x0 = 1 * Math["max"](tipWidth / 1080, nodeList / 1920), x0 *= len;
     }
     /**
      * @return {undefined}
      */
     function forEach() {
-        if (0 !== child[_0x6942[6]]) {
+        if (0 !== child["length"]) {
             /** @type {number} */
             var lowestDeltaXY = 0;
             /** @type {number} */
-            var tmpIndex = child[_0x6942[6]] - 1;
+            var tmpIndex = child["length"] - 1;
             for (;tmpIndex > -1;--tmpIndex) {
-                lowestDeltaXY += child[tmpIndex][_0x6942[7]];
+                lowestDeltaXY += child[tmpIndex]["size"];
             }
             currentSize = lowestDeltaXY;
             /** @type {number} */
-            lowestDeltaXY = Math[_0x6942[247]](Math[_0x6942[251]](64 / lowestDeltaXY, 1), 0.4) * _forEach();
+            lowestDeltaXY = Math["pow"](Math["min"](64 / lowestDeltaXY, 1), 0.4) * _forEach();
             /** @type {number} */
             alpha = (9 * alpha + lowestDeltaXY) / 10;
         }
@@ -1710,24 +1692,24 @@ var i18n = i18n_dict[i18n_lang];
      */
     function count() {
         var arg;
-        var diff = Date[_0x6942[330]]();
+        var diff = Date["now"]();
         ++_0x33d9x10f;
         max = diff;
         var a;
         /** @type {number} */
         var j = 0;
-        if (0 < child[_0x6942[6]]) {
+        if (0 < child["length"]) {
             forEach();
             /** @type {number} */
             a = 0;
             /** @type {number} */
             arg = 0;
             /** @type {number} */
-            j = child[_0x6942[6]] - 1;
+            j = child["length"] - 1;
             for (;j > -1;--j) {
                 child[j].J();
-                arg += child[j][_0x6942[55]] / child[_0x6942[6]];
-                a += child[j][_0x6942[57]] / child[_0x6942[6]];
+                arg += child[j]["x"] / child["length"];
+                a += child[j]["y"] / child["length"];
             }
             /** @type {number} */
             cur = arg;
@@ -1749,42 +1731,42 @@ var i18n = i18n_dict[i18n_lang];
         r();
         activatePage$();
         if (oldStatus) {
-            node[_0x6942[44]](0, 0, nodeList, tipWidth);
+            node["clearRect"](0, 0, nodeList, tipWidth);
             /** @type {number} */
-            node[_0x6942[29]] = 1;
+            node["globalAlpha"] = 1;
         } else {
             toFunction();
         }
-        entries[_0x6942[357]](function(a, b) {
-            return a[_0x6942[7]] === b[_0x6942[7]] ? a[_0x6942[4]] - b[_0x6942[4]] : a[_0x6942[7]] - b[_0x6942[7]];
+        entries["sort"](function(a, b) {
+            return a["size"] === b["size"] ? a["id"] - b["id"] : a["size"] - b["size"];
         });
-        node[_0x6942[358]]();
-        node[_0x6942[359]](nodeList / 2, tipWidth / 2);
-        node[_0x6942[360]](alpha, alpha);
-        node[_0x6942[359]](-tmp, -end);
+        node["save"]();
+        node["translate"](nodeList / 2, tipWidth / 2);
+        node["scale"](alpha, alpha);
+        node["translate"](-tmp, -end);
         _drawMapCoodinate(node);
         /** @type {number} */
         j = 0;
-        for (;j < dims[_0x6942[6]];j++) {
-            dims[j][_0x6942[361]](node);
+        for (;j < dims["length"];j++) {
+            dims[j]["s"](node);
         }
         /** @type {number} */
         j = 0;
-        for (;j < entries[_0x6942[6]];j++) {
-            entries[j][_0x6942[361]](node);
+        for (;j < entries["length"];j++) {
+            entries[j]["s"](node);
         }
-        if (_onDraw(obj[_0x6942[362]]), node[_0x6942[363]](), currentValue = Math[_0x6942[252]](currentValue, mixin()), 0 !== currentValue) {
+        if (_onDraw(obj["ctx"]), node["restore"](), currentValue = Math["max"](currentValue, mixin()), 0 !== currentValue) {
             if (null === item) {
-                item = new clone(24, _0x6942[11]);
+                item = new clone(24, "#FFFFFF");
             }
-            var _0x33d9xcf = enableCieMass ? _0x6942[364] + cieSplitToEat + _0x6942[365] + cieMergeToEat : _0x6942[67];
-            item[_0x6942[372]](toString(_0x6942[366]) + _0x6942[367] + ~~(currentValue / 100) + _0x33d9xcf + _0x6942[368] + obj[_0x6942[5]][_0x6942[6]] + _0x6942[369] + (turnOffMouse ? _0x6942[370] : _0x6942[67]) + _0x6942[371] + framePerSecond);
+            var _0x33d9xcf = enableCieMass ? " - STE: " + cieSplitToEat + " - MTE: " + cieMergeToEat : "";
+            item["u"](toString("score") + ": " + ~~(currentValue / 100) + _0x33d9xcf + " [" + obj["myPoints"]["length"] + "/16]" + (turnOffMouse ? " \u2734\ufe0f Mouse off" : "") + " - FPS: " + framePerSecond);
             a = item.F();
-            arg = a[_0x6942[36]];
-            node[_0x6942[45]](a, 15, tipWidth - 10 - 24 - 5);
+            arg = a["width"];
+            node["drawImage"](a, 15, tipWidth - 10 - 24 - 5);
         }
         /** @type {number} */
-        diff = Date[_0x6942[330]]() - diff;
+        diff = Date["now"]() - diff;
         if (diff > 1E3 / 60) {
             opt_val -= 0.01;
         } else {
@@ -1821,11 +1803,11 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function toFunction() {
-        if (node[_0x6942[44]](0, 0, nodeList, tipWidth), showGridLines) {
-            node[_0x6942[10]] = _0x6942[373];
+        if (node["clearRect"](0, 0, nodeList, tipWidth), showGridLines) {
+            node["strokeStyle"] = "#AAAAAA";
             /** @type {number} */
-            node[_0x6942[29]] = 0.2 * alpha;
-            node[_0x6942[12]]();
+            node["globalAlpha"] = 0.2 * alpha;
+            node["beginPath"]();
             /** @type {number} */
             var f = nodeList / alpha;
             /** @type {number} */
@@ -1833,19 +1815,19 @@ var i18n = i18n_dict[i18n_lang];
             /** @type {number} */
             var d = (-tmp + f / 2) % 50;
             for (;f > d;d += 50) {
-                node[_0x6942[15]](d * alpha - 0.5, 0);
-                node[_0x6942[17]](d * alpha - 0.5, ms * alpha);
+                node["moveTo"](d * alpha - 0.5, 0);
+                node["lineTo"](d * alpha - 0.5, ms * alpha);
             }
             /** @type {number} */
             d = (-end + ms / 2) % 50;
             for (;ms > d;d += 50) {
-                node[_0x6942[15]](0, d * alpha - 0.5);
-                node[_0x6942[17]](f * alpha, d * alpha - 0.5);
+                node["moveTo"](0, d * alpha - 0.5);
+                node["lineTo"](f * alpha, d * alpha - 0.5);
             }
-            node[_0x6942[19]]();
-            node[_0x6942[20]]();
+            node["closePath"]();
+            node["stroke"]();
             /** @type {number} */
-            node[_0x6942[29]] = 1;
+            node["globalAlpha"] = 1;
         }
     }
     /**
@@ -1857,9 +1839,9 @@ var i18n = i18n_dict[i18n_lang];
         /** @type {number} */
         var tmpIndex = 0;
         /** @type {number} */
-        tmpIndex = child[_0x6942[6]] - 1;
+        tmpIndex = child["length"] - 1;
         for (;tmpIndex > -1;--tmpIndex) {
-            obj += child[tmpIndex][_0x6942[336]] * child[tmpIndex][_0x6942[336]];
+            obj += child[tmpIndex]["m"] * child[tmpIndex]["m"];
         }
         return obj;
     }
@@ -1867,19 +1849,19 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function isArray() {
-        if (context[_0x6942[6]] > 0) {
+        if (context["length"] > 0) {
             var _0x33d9x35;
             var m;
-            var value = _0x6942[67];
-            var tail = context[_0x6942[6]];
+            var value = "";
+            var tail = context["length"];
             /** @type {number} */
             var p = 0;
             for (;tail > p;++p) {
                 m = context[p];
-                _0x33d9x35 = m[_0x6942[52]] || toString(_0x6942[374]);
-                value += -1 !== doc[_0x6942[8]](m[_0x6942[4]]) ? _0x6942[375] + (p + 1) + _0x6942[376] + _0x33d9x35 + _0x6942[377] : skinMap[_0x6942[2]](m[_0x6942[52]]) ? _0x6942[378] + (p + 1) + _0x6942[376] + _0x33d9x35 + _0x6942[377] : _0x6942[379] + (p + 1) + _0x6942[376] + _0x33d9x35 + _0x6942[377];
+                _0x33d9x35 = m["name"] || toString("unnamed_cell");
+                value += -1 !== doc["indexOf"](m["id"]) ? "<span class=\"mine\">" + (p + 1) + ". " + _0x33d9x35 + "</span><br />" : skinMap["hasOwnProperty"](m["name"]) ? "<span class="team">" + (p + 1) + ". " + _0x33d9x35 + "</span><br />" : "<span>" + (p + 1) + ". " + _0x33d9x35 + "</span><br />";
             }
-            flags[_0x6942[380]] = value;
+            flags["innerHTML"] = value;
         }
     }
     /**
@@ -1891,11 +1873,11 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function Player(opt_vars, opt_size, autoplay, url, sess) {
-        this[_0x6942[381]] = opt_vars;
-        this[_0x6942[55]] = opt_size;
-        this[_0x6942[57]] = autoplay;
-        this[_0x6942[382]] = url;
-        this[_0x6942[383]] = sess;
+        this["P"] = opt_vars;
+        this["x"] = opt_size;
+        this["y"] = autoplay;
+        this["g"] = url;
+        this["b"] = sess;
     }
     /**
      * @param {?} code
@@ -1907,15 +1889,15 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function a(code, key, module, node, exports, att_name) {
-        this[_0x6942[4]] = code;
-        this[_0x6942[331]] = this[_0x6942[55]] = key;
-        this[_0x6942[332]] = this[_0x6942[57]] = module;
-        this[_0x6942[333]] = this[_0x6942[7]] = node;
-        this[_0x6942[50]] = exports;
+        this["id"] = code;
+        this["o"] = this["x"] = key;
+        this["p"] = this["y"] = module;
+        this["n"] = this["size"] = node;
+        this["color"] = exports;
         /** @type {Array} */
-        this[_0x6942[253]] = [];
+        this["a"] = [];
         this.Q();
-        this[_0x6942[344]](att_name);
+        this["t"](att_name);
     }
     /**
      * @param {(number|string)} code
@@ -1923,10 +1905,10 @@ var i18n = i18n_dict[i18n_lang];
      */
     function compile(code) {
         code = code.toString(16);
-        for (;6 > code[_0x6942[6]];) {
-            code = _0x6942[384] + code;
+        for (;6 > code["length"];) {
+            code = "0" + code;
         }
-        return _0x6942[385] + code;
+        return "#" + code;
     }
     /**
      * @param {?} dataAndEvents
@@ -1937,15 +1919,15 @@ var i18n = i18n_dict[i18n_lang];
      */
     function clone(dataAndEvents, deepDataAndEvents, events, keepData) {
         if (dataAndEvents) {
-            this[_0x6942[386]] = dataAndEvents;
+            this["q"] = dataAndEvents;
         }
         if (deepDataAndEvents) {
-            this[_0x6942[387]] = deepDataAndEvents;
+            this["M"] = deepDataAndEvents;
         }
         /** @type {boolean} */
-        this[_0x6942[388]] = !!events;
+        this["O"] = !!events;
         if (keepData) {
-            this[_0x6942[389]] = keepData;
+            this["r"] = keepData;
         }
     }
     /**
@@ -1955,9 +1937,9 @@ var i18n = i18n_dict[i18n_lang];
     function flattenTo(result) {
         var value;
         var rand;
-        var index = result[_0x6942[6]];
+        var index = result["length"];
         for (;index > 0;) {
-            rand = Math[_0x6942[391]](Math[_0x6942[390]]() * index);
+            rand = Math["floor"](Math["random"]() * index);
             index--;
             value = result[index];
             result[index] = result[rand];
@@ -1971,71 +1953,71 @@ var i18n = i18n_dict[i18n_lang];
      */
     function save(opt_attributes, callback) {
         /** @type {boolean} */
-        var fn1 = _0x6942[392] === success(_0x6942[276])[_0x6942[255]](_0x6942[393]);
-        if (success(_0x6942[276])[_0x6942[255]](_0x6942[393], _0x6942[392]), null === callback && $[_0x6942[268]][name]) {
-            var deep = JSON[_0x6942[394]]($[_0x6942[268]][name]);
-            deep[_0x6942[395]] = opt_attributes[_0x6942[396]];
-            deep[_0x6942[397]] = opt_attributes[_0x6942[398]];
-            deep[_0x6942[399]] = opt_attributes[_0x6942[400]];
-            $[_0x6942[268]][name] = JSON[_0x6942[401]](deep);
+        var fn1 = "1" === success("#helloContainer")["attr"]("data-has-account-data");
+        if (success("#helloContainer")["attr"]("data-has-account-data", "1"), null === callback && $["localStorage"][name]) {
+            var deep = JSON["parse"]($["localStorage"][name]);
+            deep["xp"] = opt_attributes["e"];
+            deep["xpNeeded"] = opt_attributes["c"];
+            deep["level"] = opt_attributes["d"];
+            $["localStorage"][name] = JSON["stringify"](deep);
         }
         if (fn1) {
             /** @type {number} */
-            var source = +success(_0x6942[404])[_0x6942[403]]()[_0x6942[79]]()[_0x6942[218]](_0x6942[402])[0];
+            var source = +success(".agario-exp-bar .progress-bar-text")["first"]()["text"]()["split"]("/")[0];
             /** @type {number} */
-            fn1 = +success(_0x6942[404])[_0x6942[403]]()[_0x6942[79]]()[_0x6942[218]](_0x6942[402])[1][_0x6942[218]](_0x6942[405])[0];
-            var i = success(_0x6942[406])[_0x6942[403]]()[_0x6942[79]]();
-            if (i != opt_attributes[_0x6942[400]]) {
+            fn1 = +success(".agario-exp-bar .progress-bar-text")["first"]()["text"]()["split"]("/")[1]["split"](" ")[0];
+            var i = success(".agario-profile-panel .progress-bar-star")["first"]()["text"]();
+            if (i != opt_attributes["d"]) {
                 save({
                     e : fn1,
                     c : fn1,
                     d : i
                 }, function() {
-                    success(_0x6942[406])[_0x6942[79]](opt_attributes[_0x6942[400]]);
-                    success(_0x6942[408])[_0x6942[356]](_0x6942[36], _0x6942[407]);
-                    success(_0x6942[412])[_0x6942[414]](_0x6942[410])[_0x6942[413]](_0x6942[409], function() {
-                        success(_0x6942[412])[_0x6942[411]](_0x6942[410]);
+                    success(".agario-profile-panel .progress-bar-star")["text"](opt_attributes["d"]);
+                    success(".agario-exp-bar .progress-bar")["css"]("width", "100%");
+                    success(".progress-bar-star")["addClass"]("animated tada")["one"]("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function() {
+                        success(".progress-bar-star")["removeClass"]("animated tada");
                     });
                     setTimeout(function() {
-                        success(_0x6942[404])[_0x6942[79]](opt_attributes[_0x6942[398]] + _0x6942[402] + opt_attributes[_0x6942[398]] + _0x6942[415]);
+                        success(".agario-exp-bar .progress-bar-text")["text"](opt_attributes["c"] + "/" + opt_attributes["c"] + " XP");
                         save({
                             e : 0,
-                            c : opt_attributes[_0x6942[398]],
-                            d : opt_attributes[_0x6942[400]]
+                            c : opt_attributes["c"],
+                            d : opt_attributes["d"]
                         }, function() {
                             save(opt_attributes, callback);
                         });
                     }, 1E3);
                 });
             } else {
-                var _0x33d9xa2 = Date[_0x6942[330]]();
+                var _0x33d9xa2 = Date["now"]();
                 /**
                  * @return {undefined}
                  */
                 var then = function() {
                     var pos;
                     /** @type {number} */
-                    pos = (Date[_0x6942[330]]() - _0x33d9xa2) / 1E3;
+                    pos = (Date["now"]() - _0x33d9xa2) / 1E3;
                     /** @type {number} */
                     pos = 0 > pos ? 0 : pos > 1 ? 1 : pos;
                     /** @type {number} */
                     pos = pos * pos * (3 - 2 * pos);
-                    success(_0x6942[404])[_0x6942[79]](~~(source + (opt_attributes[_0x6942[396]] - source) * pos) + _0x6942[402] + opt_attributes[_0x6942[398]] + _0x6942[415]);
-                    success(_0x6942[408])[_0x6942[356]](_0x6942[36], (88 * (source + (opt_attributes[_0x6942[396]] - source) * pos) / opt_attributes[_0x6942[398]])[_0x6942[416]](2) + _0x6942[417]);
+                    success(".agario-exp-bar .progress-bar-text")["text"](~~(source + (opt_attributes["e"] - source) * pos) + "/" + opt_attributes["c"] + " XP");
+                    success(".agario-exp-bar .progress-bar")["css"]("width", (88 * (source + (opt_attributes["e"] - source) * pos) / opt_attributes["c"])["toFixed"](2) + "%");
                     if (1 > pos) {
-                        $[_0x6942[241]](then);
+                        $["requestAnimationFrame"](then);
                     } else {
                         if (callback) {
                             callback();
                         }
                     }
                 };
-                $[_0x6942[241]](then);
+                $["requestAnimationFrame"](then);
             }
         } else {
-            success(_0x6942[406])[_0x6942[79]](opt_attributes[_0x6942[400]]);
-            success(_0x6942[404])[_0x6942[79]](opt_attributes[_0x6942[396]] + _0x6942[402] + opt_attributes[_0x6942[398]] + _0x6942[415]);
-            success(_0x6942[408])[_0x6942[356]](_0x6942[36], (88 * opt_attributes[_0x6942[396]] / opt_attributes[_0x6942[398]])[_0x6942[416]](2) + _0x6942[417]);
+            success(".agario-profile-panel .progress-bar-star")["text"](opt_attributes["d"]);
+            success(".agario-exp-bar .progress-bar-text")["text"](opt_attributes["e"] + "/" + opt_attributes["c"] + " XP");
+            success(".agario-exp-bar .progress-bar")["css"]("width", (88 * opt_attributes["e"] / opt_attributes["c"])["toFixed"](2) + "%");
             if (callback) {
                 callback();
             }
@@ -2046,22 +2028,22 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function callback(buffer) {
-        if (_0x6942[418] == typeof buffer) {
-            buffer = JSON[_0x6942[394]](buffer);
+        if ("string" == typeof buffer) {
+            buffer = JSON["parse"](buffer);
         }
-        if (Date[_0x6942[330]]() + 18E5 > buffer[_0x6942[419]]) {
-            success(_0x6942[276])[_0x6942[255]](_0x6942[420], _0x6942[384]);
+        if (Date["now"]() + 18E5 > buffer["expires"]) {
+            success("#helloContainer")["attr"]("data-logged-in", "0");
         } else {
-            $[_0x6942[268]][name] = JSON[_0x6942[401]](buffer);
-            data = buffer[_0x6942[421]];
-            success(_0x6942[422])[_0x6942[79]](buffer[_0x6942[52]]);
+            $["localStorage"][name] = JSON["stringify"](buffer);
+            data = buffer["authToken"];
+            success(".agario-profile-name")["text"](buffer["name"]);
             trigger();
             save({
-                e : buffer[_0x6942[395]],
-                c : buffer[_0x6942[397]],
-                d : buffer[_0x6942[399]]
+                e : buffer["xp"],
+                c : buffer["xpNeeded"],
+                d : buffer["level"]
             });
-            success(_0x6942[276])[_0x6942[255]](_0x6942[420], _0x6942[392]);
+            success("#helloContainer")["attr"]("data-logged-in", "1");
         }
     }
     /**
@@ -2069,7 +2051,7 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function successCallback(result) {
-        result = result[_0x6942[218]](_0x6942[423]);
+        result = result["split"]("");
         callback({
             name : result[0],
             fbid : result[1],
@@ -2085,15 +2067,15 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function logout(deepDataAndEvents) {
-        if (_0x6942[424] === deepDataAndEvents[_0x6942[425]]) {
-            var task = deepDataAndEvents[_0x6942[427]][_0x6942[426]];
-            $[_0x6942[434]][_0x6942[433]](_0x6942[428], function(dataAndEvents) {
-                $[_0x6942[268]][_0x6942[429]] = dataAndEvents[_0x6942[319]][_0x6942[430]];
-                success(_0x6942[432])[_0x6942[255]](_0x6942[431], dataAndEvents[_0x6942[319]][_0x6942[430]]);
+        if ("connected" === deepDataAndEvents["status"]) {
+            var task = deepDataAndEvents["authResponse"]["accessToken"];
+            $["FB"]["api"]("/me/picture?width=180&height=180", function(dataAndEvents) {
+                $["localStorage"]["fbPictureCache"] = dataAndEvents["data"]["url"];
+                success(".agario-profile-picture")["attr"]("src", dataAndEvents["data"]["url"]);
             });
-            success(_0x6942[276])[_0x6942[255]](_0x6942[420], _0x6942[392]);
+            success("#helloContainer")["attr"]("data-logged-in", "1");
             if (null !== data) {
-                success[_0x6942[296]](angle + _0x6942[435], {
+                success["ajax"](angle + "checkToken", {
                     /**
                      * @return {undefined}
                      */
@@ -2107,33 +2089,33 @@ var i18n = i18n_dict[i18n_lang];
                      * @return {undefined}
                      */
                     success : function(textStatus) {
-                        textStatus = textStatus[_0x6942[218]](_0x6942[423]);
+                        textStatus = textStatus["split"]("");
                         save({
                             d : +textStatus[0],
                             e : +textStatus[1],
                             c : +textStatus[2]
                         });
                     },
-                    dataType : _0x6942[79],
-                    method : _0x6942[293],
+                    dataType : "text",
+                    method : "POST",
                     cache : false,
                     crossDomain : true,
                     data : data
                 });
             } else {
-                success[_0x6942[296]](angle + _0x6942[436], {
+                success["ajax"](angle + "facebookLogin", {
                     /**
                      * @return {undefined}
                      */
                     error : function() {
                         /** @type {null} */
                         data = null;
-                        success(_0x6942[276])[_0x6942[255]](_0x6942[420], _0x6942[384]);
+                        success("#helloContainer")["attr"]("data-logged-in", "0");
                     },
                     /** @type {function (Array): undefined} */
                     success : successCallback,
-                    dataType : _0x6942[79],
-                    method : _0x6942[293],
+                    dataType : "text",
+                    method : "POST",
                     cache : false,
                     crossDomain : true,
                     data : task
@@ -2146,30 +2128,31 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function send(data) {
-        _success(_0x6942[71]);
-        success(_0x6942[276])[_0x6942[255]](_0x6942[437], _0x6942[438]);
-        data = decodeURIComponent(data)[_0x6942[303]](/.*#/gim, _0x6942[67]);
-        isObject(_0x6942[385] + $[_0x6942[439]](data));
-        success[_0x6942[296]](angle + _0x6942[440], {
+        _success(":party");
+        success("#helloContainer")["attr"]("data-party-state", "4");
+        data = decodeURIComponent(data)["replace"](/.*#/gim, "");
+        isObject("#" + $["encodeURIComponent"](data));
+        success["ajax"](angle + "getToken", {
             /**
              * @return {undefined}
              */
             error : function() {
-                success(_0x6942[276])[_0x6942[255]](_0x6942[437], _0x6942[441]);
+                success("#helloContainer")["attr"]("data-party-state", "6");
             },
             /**
              * @param {(Array|number)} textStatus
              * @return {undefined}
              */
             success : function(textStatus) {
-                textStatus = textStatus[_0x6942[218]](_0x6942[423]);
-                success(_0x6942[443])[_0x6942[75]](_0x6942[442] + $[_0x6942[439]](data));
-                success(_0x6942[276])[_0x6942[255]](_0x6942[437], _0x6942[444]);
-                _success(_0x6942[71]);
-                bind(_0x6942[291] + textStatus[0], data);
+                textStatus = textStatus["split"]("
+                ");
+                success(".partyToken")["val"]("agar.io/#" + $["encodeURIComponent"](data));
+                success("#helloContainer")["attr"]("data-party-state", "5");
+                _success(":party");
+                bind("ws://" + textStatus[0], data);
             },
-            dataType : _0x6942[79],
-            method : _0x6942[293],
+            dataType : "text",
+            method : "POST",
             cache : false,
             crossDomain : true,
             data : data
@@ -2180,9 +2163,9 @@ var i18n = i18n_dict[i18n_lang];
      * @return {undefined}
      */
     function isObject(arg) {
-        if ($[_0x6942[445]]) {
-            if ($[_0x6942[445]][_0x6942[446]]) {
-                $[_0x6942[445]][_0x6942[446]]({}, $[_0x6942[448]][_0x6942[447]], arg);
+        if ($["history"]) {
+            if ($["history"]["replaceState"]) {
+                $["history"]["replaceState"]({}, $["document"]["title"], arg);
             }
         }
     }
@@ -2193,11 +2176,11 @@ var i18n = i18n_dict[i18n_lang];
      */
     function print(m, str) {
         /** @type {boolean} */
-        var _0x33d9x79 = -1 !== doc[_0x6942[8]](m[_0x6942[4]]);
+        var _0x33d9x79 = -1 !== doc["indexOf"](m["id"]);
         /** @type {boolean} */
-        var _0x33d9xf8 = -1 !== doc[_0x6942[8]](str[_0x6942[4]]);
+        var _0x33d9xf8 = -1 !== doc["indexOf"](str["id"]);
         /** @type {boolean} */
-        var _0x33d9x39 = 30 > str[_0x6942[7]];
+        var _0x33d9x39 = 30 > str["size"];
         if (_0x33d9x79) {
             if (_0x33d9x39) {
                 ++_0x33d9x174;
@@ -2211,142 +2194,142 @@ var i18n = i18n_dict[i18n_lang];
             }
         }
     }
-    var flags = document[_0x6942[223]](_0x6942[449]);
+    var flags = document["getElementById"]("leaderboardInner");
     var obj = {};
-    if (window[_0x6942[450]] = obj, Object[_0x6942[452]](obj, _0x6942[451], {
+    if (window["vndot"] = obj, Object["defineProperty"](obj, "connect", {
             /**
              * @return {?}
              */
             get : function() {
                 return height;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[362], {
+        }), Object["defineProperty"](obj, "ctx", {
             /**
              * @return {?}
              */
             get : function() {
                 return node;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[453], {
+        }), Object["defineProperty"](obj, "webSocket", {
             /**
              * @return {?}
              */
             get : function() {
                 return ret;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[9], {
+        }), Object["defineProperty"](obj, "myIds", {
             /**
              * @return {?}
              */
             get : function() {
                 return doc;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[5], {
+        }), Object["defineProperty"](obj, "myPoints", {
             /**
              * @return {?}
              */
             get : function() {
                 return child;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[3], {
+        }), Object["defineProperty"](obj, "allNodes", {
             /**
              * @return {?}
              */
             get : function() {
                 return results;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[454], {
+        }), Object["defineProperty"](obj, "allItems", {
             /**
              * @return {?}
              */
             get : function() {
                 return entries;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[455], {
+        }), Object["defineProperty"](obj, "mouseX2", {
             /**
              * @return {?}
              */
             get : function() {
                 return to;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[456], {
+        }), Object["defineProperty"](obj, "mouseY2", {
             /**
              * @return {?}
              */
             get : function() {
                 return _success;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[13], {
+        }), Object["defineProperty"](obj, "mapLeft", {
             /**
              * @return {?}
              */
             get : function() {
                 return x;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[14], {
+        }), Object["defineProperty"](obj, "mapTop", {
             /**
              * @return {?}
              */
             get : function() {
                 return y;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[16], {
+        }), Object["defineProperty"](obj, "mapRight", {
             /**
              * @return {?}
              */
             get : function() {
                 return width;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[18], {
+        }), Object["defineProperty"](obj, "mapBottom", {
             /**
              * @return {?}
              */
             get : function() {
                 return height;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[457], {
+        }), Object["defineProperty"](obj, "isShowSkins", {
             /**
              * @return {?}
              */
             get : function() {
                 return fragment;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[458], {
+        }), Object["defineProperty"](obj, "isNightMode", {
             /**
              * @return {?}
              */
             get : function() {
                 return vec;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[70], {
+        }), Object["defineProperty"](obj, "gameMode", {
             /**
              * @return {?}
              */
             get : function() {
                 return result;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[459], {
+        }), Object["defineProperty"](obj, "fireFunction", {
             /**
              * @return {?}
              */
             get : function() {
                 return opt_val;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[460], {
+        }), Object["defineProperty"](obj, "isColors", {
             /**
              * @return {?}
              */
             get : function() {
                 return OUTPUT;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[461], {
+        }), Object["defineProperty"](obj, "defaultSkins", {
             /**
              * @return {?}
              */
             get : function() {
                 return error;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[62], {
+        }), Object["defineProperty"](obj, "imgCache", {
             /**
              * @return {?}
              */
@@ -2360,107 +2343,107 @@ var i18n = i18n_dict[i18n_lang];
             set : function(mL) {
                 parts = mL;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[462], {
+        }), Object["defineProperty"](obj, "textFunc", {
             /**
              * @return {?}
              */
             get : function() {
                 return time;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[463], {
+        }), Object["defineProperty"](obj, "textBlobs", {
             /**
              * @return {?}
              */
             get : function() {
                 return count;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[464], {
+        }), Object["defineProperty"](obj, "hasNickname", {
             /**
              * @return {?}
              */
             get : function() {
                 return value;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[465], {
+        }), Object["defineProperty"](obj, "CachedCanvas", {
             /**
              * @return {?}
              */
             get : function() {
                 return time;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[466], {
+        }), Object["defineProperty"](obj, "Cell", {
             /**
              * @return {?}
              */
             get : function() {
                 return children;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[22], {
+        }), Object["defineProperty"](obj, "mapWidth", {
             /**
              * @return {?}
              */
             get : function() {
-                return~~(Math[_0x6942[56]](obj[_0x6942[13]]) + obj[_0x6942[16]]);
+                return~~(Math["abs"](obj["mapLeft"]) + obj["mapRight"]);
             }
-        }), Object[_0x6942[452]](obj, _0x6942[23], {
+        }), Object["defineProperty"](obj, "mapHeight", {
             /**
              * @return {?}
              */
             get : function() {
-                return~~(Math[_0x6942[56]](obj[_0x6942[14]]) + obj[_0x6942[18]]);
+                return~~(Math["abs"](obj["mapTop"]) + obj["mapBottom"]);
             }
-        }), Object[_0x6942[452]](obj, _0x6942[65], {
+        }), Object["defineProperty"](obj, "leaderboard", {
             /**
              * @return {?}
              */
             get : function() {
                 return context;
             }
-        }), Object[_0x6942[452]](obj, _0x6942[47], {
+        }), Object["defineProperty"](obj, "viewPosition", {
             /**
              * @return {?}
              */
             get : function() {
                 return[cur, start];
             }
-        }), Object[_0x6942[452]](obj, _0x6942[103], {
+        }), Object["defineProperty"](obj, "mapPosition", {
             /**
              * @return {?}
              */
             get : function() {
-                var a = Math[_0x6942[56]](cur + obj[_0x6942[16]]);
-                var filesSent = Math[_0x6942[56]](start + obj[_0x6942[18]]);
+                var a = Math["abs"](cur + obj["mapRight"]);
+                var filesSent = Math["abs"](start + obj["mapBottom"]);
                 /** @type {number} */
-                var b = obj[_0x6942[22]] / 4;
+                var b = obj["mapWidth"] / 4;
                 /** @type {number} */
-                var totalFiles = obj[_0x6942[23]] / 4;
-                var allEls = _0x6942[21];
+                var totalFiles = obj["mapHeight"] / 4;
+                var allEls = "ABCD";
                 /** @type {number} */
                 var j = ~~(filesSent / totalFiles);
                 /** @type {number} */
                 var i = ~~(a / b);
                 return allEls[j] + (i + 1);
             }
-        }), window[_0x6942[89]] = ap, window[_0x6942[467]] = next, !$[_0x6942[468]]) {
-        var startAngle = $[_0x6942[244]][_0x6942[469]];
+        }), window["onMouseWheel"] = ap, window["ksOb"] = next, !$["agarioNoInit"]) {
+        var startAngle = $["location"]["protocol"];
         /** @type {boolean} */
-        var _0x33d9xff = _0x6942[470] === startAngle;
-        var angle = startAngle + _0x6942[471];
-        var _0x33d9x100 = $[_0x6942[220]][_0x6942[230]];
-        if (-1 !== _0x33d9x100[_0x6942[8]](_0x6942[472])) {
-            if ($[_0x6942[473]]) {
-                $[_0x6942[473]](_0x6942[317], _0x6942[474], _0x6942[475], _0x6942[476]);
+        var _0x33d9xff = "https:" === startAngle;
+        var angle = startAngle + "//m.agar.io/";
+        var _0x33d9x100 = $["navigator"]["userAgent"];
+        if (-1 !== _0x33d9x100["indexOf"]("Android")) {
+            if ($["ga"]) {
+                $["ga"]("send", "event", "MobileRedirect", "PlayStore");
             }
             setTimeout(function() {
-                $[_0x6942[244]][_0x6942[477]] = _0x6942[478];
+                $["location"]["href"] = "https://play.google.com/store/apps/details?id=com.miniclip.agar.io";
             }, 1E3);
         } else {
-            if (-1 !== _0x33d9x100[_0x6942[8]](_0x6942[479]) || (-1 !== _0x33d9x100[_0x6942[8]](_0x6942[480]) || -1 !== _0x33d9x100[_0x6942[8]](_0x6942[481]))) {
-                if ($[_0x6942[473]]) {
-                    $[_0x6942[473]](_0x6942[317], _0x6942[474], _0x6942[475], _0x6942[482]);
+            if (-1 !== _0x33d9x100["indexOf"]("iPhone") || (-1 !== _0x33d9x100["indexOf"]("iPad") || -1 !== _0x33d9x100["indexOf"]("iPod"))) {
+                if ($["ga"]) {
+                    $["ga"]("send", "event", "MobileRedirect", "AppStore");
                 }
                 setTimeout(function() {
-                    $[_0x6942[244]][_0x6942[477]] = _0x6942[483];
+                    $["location"]["href"] = "https://itunes.apple.com/app/agar.io/id995999703?mt=8&at=1l3vajp";
                 }, 1E3);
             } else {
                 var memory;
@@ -2537,7 +2520,7 @@ var i18n = i18n_dict[i18n_lang];
                 start = end = ~~((y + height) / 2);
                 /** @type {number} */
                 var beta = 1;
-                var result = _0x6942[67];
+                var result = "";
                 /** @type {null} */
                 var enc4 = null;
                 /** @type {boolean} */
@@ -2574,22 +2557,22 @@ var i18n = i18n_dict[i18n_lang];
                 /** @type {null} */
                 var str = null;
                 !function() {
-                    var h = $[_0x6942[244]][_0x6942[484]];
-                    if (_0x6942[294] === h[_0x6942[485]](0)) {
-                        h = h[_0x6942[486]](1);
+                    var h = $["location"]["search"];
+                    if ("?" === h["charAt"](0)) {
+                        h = h["slice"](1);
                     }
-                    h = h[_0x6942[218]](_0x6942[487]);
+                    h = h["split"]("&");
                     /** @type {number} */
                     var k = 0;
-                    for (;k < h[_0x6942[6]];k++) {
-                        var hash = h[k][_0x6942[218]](_0x6942[488]);
+                    for (;k < h["length"];k++) {
+                        var hash = h[k]["split"]("=");
                         vars[hash[0]] = hash[1];
                     }
                 }();
-                var _0x33d9x12e = _0x6942[489] in $ && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i[_0x6942[231]]($[_0x6942[220]][_0x6942[230]]);
-                var _0x33d9x12f = document[_0x6942[35]](_0x6942[34]);
-                if (_0x6942[42] == typeof console || (_0x6942[42] == typeof DataView || (_0x6942[42] == typeof WebSocket || (null === _0x33d9x12f || (null === _0x33d9x12f[_0x6942[39]] || null === $[_0x6942[268]]))))) {
-                    alert(_0x6942[490]);
+                var _0x33d9x12e = "ontouchstart" in $ && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i["test"]($["navigator"]["userAgent"]);
+                var _0x33d9x12f = document["createElement"]("canvas");
+                if ("undefined" == typeof console || ("undefined" == typeof DataView || ("undefined" == typeof WebSocket || (null === _0x33d9x12f || (null === _0x33d9x12f["getContext"] || null === $["localStorage"]))))) {
+                    alert("You browser does not support this game, we recommend you to use Firefox to play this");
                 } else {
                     /** @type {null} */
                     var $cookies = null;
@@ -2597,26 +2580,26 @@ var i18n = i18n_dict[i18n_lang];
                      * @param {string} arg2
                      * @return {undefined}
                      */
-                    $[_0x6942[491]] = function(arg2) {
+                    $["setNick"] = function(arg2) {
                         /** @type {boolean} */
                         turnOffMouse = false;
-                        localStorage[_0x6942[492]](_0x6942[115], arg2);
-                        if (currentSkinCode[_0x6942[6]]) {
-                            arg2 = arg2[_0x6942[493]](0, 15 - currentSkinCode[_0x6942[6]] - 1);
+                        localStorage["setItem"]("nick", arg2);
+                        if (currentSkinCode["length"]) {
+                            arg2 = arg2["substr"](0, 15 - currentSkinCode["length"] - 1);
                         }
-                        var r20 = currentSkinCode ? currentSkinCode[_0x6942[313]](0) : 0;
-                        if (2 === currentSkinCode[_0x6942[6]]) {
+                        var r20 = currentSkinCode ? currentSkinCode["charCodeAt"](0) : 0;
+                        if (2 === currentSkinCode["length"]) {
                             r20 += 65534;
                         }
                         if (r20 > 1 && 65535 > r20) {
-                            arg2 += _0x6942[494] + String[_0x6942[321]](r20);
-                            currentYinSkin = _0x6942[495] + r20;
+                            arg2 += "\u0001" + String["fromCharCode"](r20);
+                            currentYinSkin = "http://upload.happyfor.me/getimg.php?id=" + r20;
                         } else {
                             if (r20 > 65535) {
-                                arg2 += _0x6942[494] + String[_0x6942[321]](r20 - 65534) + _0x6942[496];
-                                currentYinSkin = _0x6942[495] + r20;
+                                arg2 += "\u0001" + String["fromCharCode"](r20 - 65534) + "\uffff";
+                                currentYinSkin = "http://upload.happyfor.me/getimg.php?id=" + r20;
                             } else {
-                                currentYinSkin = _0x6942[67];
+                                currentYinSkin = "";
                             }
                         }
                         runCallbacks();
@@ -2629,14 +2612,14 @@ var i18n = i18n_dict[i18n_lang];
                         currentPlayerName = arg2;
                     };
                     /** @type {function (?): undefined} */
-                    $[_0x6942[497]] = css;
+                    $["setRegion"] = css;
                     /** @type {boolean} */
                     var OUTPUT = true;
                     /**
                      * @param {boolean} first
                      * @return {undefined}
                      */
-                    $[_0x6942[498]] = function(first) {
+                    $["setSkins"] = function(first) {
                         /** @type {boolean} */
                         fragment = first;
                     };
@@ -2644,7 +2627,7 @@ var i18n = i18n_dict[i18n_lang];
                      * @param {boolean} textAlt
                      * @return {undefined}
                      */
-                    $[_0x6942[499]] = function(textAlt) {
+                    $["setNames"] = function(textAlt) {
                         /** @type {boolean} */
                         text = textAlt;
                     };
@@ -2652,7 +2635,7 @@ var i18n = i18n_dict[i18n_lang];
                      * @param {boolean} data
                      * @return {undefined}
                      */
-                    $[_0x6942[500]] = function(data) {
+                    $["setDarkTheme"] = function(data) {
                         /** @type {boolean} */
                         doneResults = data;
                     };
@@ -2660,7 +2643,7 @@ var i18n = i18n_dict[i18n_lang];
                      * @param {boolean} _$rootScope_
                      * @return {undefined}
                      */
-                    $[_0x6942[501]] = function(_$rootScope_) {
+                    $["setColors"] = function(_$rootScope_) {
                         /** @type {boolean} */
                         $rootScope = _$rootScope_;
                     };
@@ -2668,19 +2651,19 @@ var i18n = i18n_dict[i18n_lang];
                      * @param {boolean} _$timeout_
                      * @return {undefined}
                      */
-                    $[_0x6942[502]] = function(_$timeout_) {
+                    $["setShowMass"] = function(_$timeout_) {
                         /** @type {boolean} */
                         $timeout = _$timeout_;
                     };
                     /**
                      * @return {undefined}
                      */
-                    $[_0x6942[503]] = function() {
+                    $["spectate"] = function() {
                         /** @type {null} */
                         args = null;
                         render(1);
                         runCallbacks();
-                        if (0 === obj[_0x6942[5]][_0x6942[6]]) {
+                        if (0 === obj["myPoints"]["length"]) {
                             _onStartSpec();
                         }
                     };
@@ -2688,13 +2671,13 @@ var i18n = i18n_dict[i18n_lang];
                      * @param {(Object|number)} deepDataAndEvents
                      * @return {undefined}
                      */
-                    $[_0x6942[504]] = function(deepDataAndEvents) {
+                    $["setGameMode"] = function(deepDataAndEvents) {
                         if (deepDataAndEvents !== result) {
-                            if (_0x6942[71] === result) {
-                                success(_0x6942[276])[_0x6942[255]](_0x6942[437], _0x6942[384]);
+                            if (":party" === result) {
+                                success("#helloContainer")["attr"]("data-party-state", "0");
                             }
                             _success(deepDataAndEvents);
-                            if (_0x6942[71] !== deepDataAndEvents) {
+                            if (":party" !== deepDataAndEvents) {
                                 search();
                             }
                         }
@@ -2703,297 +2686,297 @@ var i18n = i18n_dict[i18n_lang];
                      * @param {boolean} newStatus
                      * @return {undefined}
                      */
-                    $[_0x6942[505]] = function(newStatus) {
+                    $["setAcid"] = function(newStatus) {
                         /** @type {boolean} */
                         oldStatus = newStatus;
                     };
-                    if (null !== $[_0x6942[268]]) {
-                        if (null === $[_0x6942[268]][_0x6942[506]]) {
+                    if (null !== $["localStorage"]) {
+                        if (null === $["localStorage"]["AB9"]) {
                             /** @type {number} */
-                            $[_0x6942[268]][_0x6942[506]] = 0 + ~~(100 * Math[_0x6942[390]]());
+                            $["localStorage"]["AB9"] = 0 + ~~(100 * Math["random"]());
                         }
                         /** @type {number} */
-                        nth = +$[_0x6942[268]][_0x6942[506]];
+                        nth = +$["localStorage"]["AB9"];
                         /** @type {number} */
-                        $[_0x6942[507]] = nth;
+                        $["ABGroup"] = nth;
                     }
-                    success[_0x6942[266]](startAngle + _0x6942[508], function(attr) {
-                        var sel = attr[_0x6942[218]](_0x6942[405]);
+                    success["get"](startAngle + "//gc.agar.io", function(attr) {
+                        var sel = attr["split"](" ");
                         attr = sel[0];
-                        sel = sel[1] || _0x6942[67];
-                        if (el[_0x6942[2]](attr)) {
-                            if (_0x6942[418] == typeof el[attr]) {
+                        sel = sel[1] || "";
+                        if (el["hasOwnProperty"](attr)) {
+                            if ("string" == typeof el[attr]) {
                                 if (!digits) {
                                     css(el[attr]);
                                 }
                             } else {
-                                if (el[attr][_0x6942[2]](sel)) {
+                                if (el[attr]["hasOwnProperty"](sel)) {
                                     if (!digits) {
                                         css(el[attr][sel]);
                                     }
                                 }
                             }
                         }
-                    }, _0x6942[79]);
+                    }, "text");
                     var el = {
-                        AF : _0x6942[509],
-                        AX : _0x6942[510],
-                        AL : _0x6942[510],
-                        DZ : _0x6942[510],
-                        AS : _0x6942[511],
-                        AD : _0x6942[510],
-                        AO : _0x6942[510],
-                        AI : _0x6942[512],
-                        AG : _0x6942[512],
-                        AR : _0x6942[513],
-                        AM : _0x6942[509],
-                        AW : _0x6942[512],
-                        AU : _0x6942[511],
-                        AT : _0x6942[510],
-                        AZ : _0x6942[509],
-                        BS : _0x6942[512],
-                        BH : _0x6942[509],
-                        BD : _0x6942[509],
-                        BB : _0x6942[512],
-                        BY : _0x6942[510],
-                        BE : _0x6942[510],
-                        BZ : _0x6942[512],
-                        BJ : _0x6942[510],
-                        BM : _0x6942[512],
-                        BT : _0x6942[509],
-                        BO : _0x6942[513],
-                        BQ : _0x6942[512],
-                        BA : _0x6942[510],
-                        BW : _0x6942[510],
-                        BR : _0x6942[513],
-                        IO : _0x6942[509],
-                        VG : _0x6942[512],
-                        BN : _0x6942[509],
-                        BG : _0x6942[510],
-                        BF : _0x6942[510],
-                        BI : _0x6942[510],
-                        KH : _0x6942[509],
-                        CM : _0x6942[510],
-                        CA : _0x6942[512],
-                        CV : _0x6942[510],
-                        KY : _0x6942[512],
-                        CF : _0x6942[510],
-                        TD : _0x6942[510],
-                        CL : _0x6942[513],
-                        CN : _0x6942[514],
-                        CX : _0x6942[509],
-                        CC : _0x6942[509],
-                        CO : _0x6942[513],
-                        KM : _0x6942[510],
-                        CD : _0x6942[510],
-                        CG : _0x6942[510],
-                        CK : _0x6942[511],
-                        CR : _0x6942[512],
-                        CI : _0x6942[510],
-                        HR : _0x6942[510],
-                        CU : _0x6942[512],
-                        CW : _0x6942[512],
-                        CY : _0x6942[509],
-                        CZ : _0x6942[510],
-                        DK : _0x6942[510],
-                        DJ : _0x6942[510],
-                        DM : _0x6942[512],
-                        DO : _0x6942[512],
-                        EC : _0x6942[513],
-                        EG : _0x6942[510],
-                        SV : _0x6942[512],
-                        GQ : _0x6942[510],
-                        ER : _0x6942[510],
-                        EE : _0x6942[510],
-                        ET : _0x6942[510],
-                        FO : _0x6942[510],
-                        FK : _0x6942[513],
-                        FJ : _0x6942[511],
-                        FI : _0x6942[510],
-                        FR : _0x6942[510],
-                        GF : _0x6942[513],
-                        PF : _0x6942[511],
-                        GA : _0x6942[510],
-                        GM : _0x6942[510],
-                        GE : _0x6942[509],
-                        DE : _0x6942[510],
-                        GH : _0x6942[510],
-                        GI : _0x6942[510],
-                        GR : _0x6942[510],
-                        GL : _0x6942[512],
-                        GD : _0x6942[512],
-                        GP : _0x6942[512],
-                        GU : _0x6942[511],
-                        GT : _0x6942[512],
-                        GG : _0x6942[510],
-                        GN : _0x6942[510],
-                        GW : _0x6942[510],
-                        GY : _0x6942[513],
-                        HT : _0x6942[512],
-                        VA : _0x6942[510],
-                        HN : _0x6942[512],
-                        HK : _0x6942[509],
-                        HU : _0x6942[510],
-                        IS : _0x6942[510],
-                        IN : _0x6942[509],
-                        ID : _0x6942[509],
-                        IR : _0x6942[509],
-                        IQ : _0x6942[509],
-                        IE : _0x6942[510],
-                        IM : _0x6942[510],
-                        IL : _0x6942[509],
-                        IT : _0x6942[510],
-                        JM : _0x6942[512],
-                        JP : _0x6942[509],
-                        JE : _0x6942[510],
-                        JO : _0x6942[509],
-                        KZ : _0x6942[509],
-                        KE : _0x6942[510],
-                        KI : _0x6942[511],
-                        KP : _0x6942[509],
-                        KR : _0x6942[509],
-                        KW : _0x6942[509],
-                        KG : _0x6942[509],
-                        LA : _0x6942[509],
-                        LV : _0x6942[510],
-                        LB : _0x6942[509],
-                        LS : _0x6942[510],
-                        LR : _0x6942[510],
-                        LY : _0x6942[510],
-                        LI : _0x6942[510],
-                        LT : _0x6942[510],
-                        LU : _0x6942[510],
-                        MO : _0x6942[509],
-                        MK : _0x6942[510],
-                        MG : _0x6942[510],
-                        MW : _0x6942[510],
-                        MY : _0x6942[509],
-                        MV : _0x6942[509],
-                        ML : _0x6942[510],
-                        MT : _0x6942[510],
-                        MH : _0x6942[511],
-                        MQ : _0x6942[512],
-                        MR : _0x6942[510],
-                        MU : _0x6942[510],
-                        YT : _0x6942[510],
-                        MX : _0x6942[512],
-                        FM : _0x6942[511],
-                        MD : _0x6942[510],
-                        MC : _0x6942[510],
-                        MN : _0x6942[509],
-                        ME : _0x6942[510],
-                        MS : _0x6942[512],
-                        MA : _0x6942[510],
-                        MZ : _0x6942[510],
-                        MM : _0x6942[509],
-                        NA : _0x6942[510],
-                        NR : _0x6942[511],
-                        NP : _0x6942[509],
-                        NL : _0x6942[510],
-                        NC : _0x6942[511],
-                        NZ : _0x6942[511],
-                        NI : _0x6942[512],
-                        NE : _0x6942[510],
-                        NG : _0x6942[510],
-                        NU : _0x6942[511],
-                        NF : _0x6942[511],
-                        MP : _0x6942[511],
-                        NO : _0x6942[510],
-                        OM : _0x6942[509],
-                        PK : _0x6942[509],
-                        PW : _0x6942[511],
-                        PS : _0x6942[509],
-                        PA : _0x6942[512],
-                        PG : _0x6942[511],
-                        PY : _0x6942[513],
-                        PE : _0x6942[513],
-                        PH : _0x6942[509],
-                        PN : _0x6942[511],
-                        PL : _0x6942[510],
-                        PT : _0x6942[510],
-                        PR : _0x6942[512],
-                        QA : _0x6942[509],
-                        RE : _0x6942[510],
-                        RO : _0x6942[510],
-                        RU : _0x6942[515],
-                        RW : _0x6942[510],
-                        BL : _0x6942[512],
-                        SH : _0x6942[510],
-                        KN : _0x6942[512],
-                        LC : _0x6942[512],
-                        MF : _0x6942[512],
-                        PM : _0x6942[512],
-                        VC : _0x6942[512],
-                        WS : _0x6942[511],
-                        SM : _0x6942[510],
-                        ST : _0x6942[510],
-                        SA : _0x6942[510],
-                        SN : _0x6942[510],
-                        RS : _0x6942[510],
-                        SC : _0x6942[510],
-                        SL : _0x6942[510],
-                        SG : _0x6942[509],
-                        SX : _0x6942[512],
-                        SK : _0x6942[510],
-                        SI : _0x6942[510],
-                        SB : _0x6942[511],
-                        SO : _0x6942[510],
-                        ZA : _0x6942[510],
-                        SS : _0x6942[510],
-                        ES : _0x6942[510],
-                        LK : _0x6942[509],
-                        SD : _0x6942[510],
-                        SR : _0x6942[513],
-                        SJ : _0x6942[510],
-                        SZ : _0x6942[510],
-                        SE : _0x6942[510],
-                        CH : _0x6942[510],
-                        SY : _0x6942[510],
-                        TW : _0x6942[509],
-                        TJ : _0x6942[509],
-                        TZ : _0x6942[510],
-                        TH : _0x6942[509],
-                        TL : _0x6942[509],
-                        TG : _0x6942[510],
-                        TK : _0x6942[511],
-                        TO : _0x6942[511],
-                        TT : _0x6942[512],
-                        TN : _0x6942[510],
-                        TR : _0x6942[516],
-                        TM : _0x6942[509],
-                        TC : _0x6942[512],
-                        TV : _0x6942[511],
-                        UG : _0x6942[510],
-                        UA : _0x6942[510],
-                        AE : _0x6942[510],
-                        GB : _0x6942[510],
-                        US : _0x6942[512],
-                        UM : _0x6942[511],
-                        VI : _0x6942[512],
-                        UY : _0x6942[513],
-                        UZ : _0x6942[509],
-                        VU : _0x6942[511],
-                        VE : _0x6942[513],
-                        VN : _0x6942[509],
-                        WF : _0x6942[511],
-                        EH : _0x6942[510],
-                        YE : _0x6942[509],
-                        ZM : _0x6942[510],
-                        ZW : _0x6942[510]
+                        AF : "JP-Tokyo",
+                        AX : "EU-London",
+                        AL : "EU-London",
+                        DZ : "EU-London",
+                        AS : "SG-Singapore",
+                        AD : "EU-London",
+                        AO : "EU-London",
+                        AI : "US-Atlanta",
+                        AG : "US-Atlanta",
+                        AR : "BR-Brazil",
+                        AM : "JP-Tokyo",
+                        AW : "US-Atlanta",
+                        AU : "SG-Singapore",
+                        AT : "EU-London",
+                        AZ : "JP-Tokyo",
+                        BS : "US-Atlanta",
+                        BH : "JP-Tokyo",
+                        BD : "JP-Tokyo",
+                        BB : "US-Atlanta",
+                        BY : "EU-London",
+                        BE : "EU-London",
+                        BZ : "US-Atlanta",
+                        BJ : "EU-London",
+                        BM : "US-Atlanta",
+                        BT : "JP-Tokyo",
+                        BO : "BR-Brazil",
+                        BQ : "US-Atlanta",
+                        BA : "EU-London",
+                        BW : "EU-London",
+                        BR : "BR-Brazil",
+                        IO : "JP-Tokyo",
+                        VG : "US-Atlanta",
+                        BN : "JP-Tokyo",
+                        BG : "EU-London",
+                        BF : "EU-London",
+                        BI : "EU-London",
+                        KH : "JP-Tokyo",
+                        CM : "EU-London",
+                        CA : "US-Atlanta",
+                        CV : "EU-London",
+                        KY : "US-Atlanta",
+                        CF : "EU-London",
+                        TD : "EU-London",
+                        CL : "BR-Brazil",
+                        CN : "CN-China",
+                        CX : "JP-Tokyo",
+                        CC : "JP-Tokyo",
+                        CO : "BR-Brazil",
+                        KM : "EU-London",
+                        CD : "EU-London",
+                        CG : "EU-London",
+                        CK : "SG-Singapore",
+                        CR : "US-Atlanta",
+                        CI : "EU-London",
+                        HR : "EU-London",
+                        CU : "US-Atlanta",
+                        CW : "US-Atlanta",
+                        CY : "JP-Tokyo",
+                        CZ : "EU-London",
+                        DK : "EU-London",
+                        DJ : "EU-London",
+                        DM : "US-Atlanta",
+                        DO : "US-Atlanta",
+                        EC : "BR-Brazil",
+                        EG : "EU-London",
+                        SV : "US-Atlanta",
+                        GQ : "EU-London",
+                        ER : "EU-London",
+                        EE : "EU-London",
+                        ET : "EU-London",
+                        FO : "EU-London",
+                        FK : "BR-Brazil",
+                        FJ : "SG-Singapore",
+                        FI : "EU-London",
+                        FR : "EU-London",
+                        GF : "BR-Brazil",
+                        PF : "SG-Singapore",
+                        GA : "EU-London",
+                        GM : "EU-London",
+                        GE : "JP-Tokyo",
+                        DE : "EU-London",
+                        GH : "EU-London",
+                        GI : "EU-London",
+                        GR : "EU-London",
+                        GL : "US-Atlanta",
+                        GD : "US-Atlanta",
+                        GP : "US-Atlanta",
+                        GU : "SG-Singapore",
+                        GT : "US-Atlanta",
+                        GG : "EU-London",
+                        GN : "EU-London",
+                        GW : "EU-London",
+                        GY : "BR-Brazil",
+                        HT : "US-Atlanta",
+                        VA : "EU-London",
+                        HN : "US-Atlanta",
+                        HK : "JP-Tokyo",
+                        HU : "EU-London",
+                        IS : "EU-London",
+                        IN : "JP-Tokyo",
+                        ID : "JP-Tokyo",
+                        IR : "JP-Tokyo",
+                        IQ : "JP-Tokyo",
+                        IE : "EU-London",
+                        IM : "EU-London",
+                        IL : "JP-Tokyo",
+                        IT : "EU-London",
+                        JM : "US-Atlanta",
+                        JP : "JP-Tokyo",
+                        JE : "EU-London",
+                        JO : "JP-Tokyo",
+                        KZ : "JP-Tokyo",
+                        KE : "EU-London",
+                        KI : "SG-Singapore",
+                        KP : "JP-Tokyo",
+                        KR : "JP-Tokyo",
+                        KW : "JP-Tokyo",
+                        KG : "JP-Tokyo",
+                        LA : "JP-Tokyo",
+                        LV : "EU-London",
+                        LB : "JP-Tokyo",
+                        LS : "EU-London",
+                        LR : "EU-London",
+                        LY : "EU-London",
+                        LI : "EU-London",
+                        LT : "EU-London",
+                        LU : "EU-London",
+                        MO : "JP-Tokyo",
+                        MK : "EU-London",
+                        MG : "EU-London",
+                        MW : "EU-London",
+                        MY : "JP-Tokyo",
+                        MV : "JP-Tokyo",
+                        ML : "EU-London",
+                        MT : "EU-London",
+                        MH : "SG-Singapore",
+                        MQ : "US-Atlanta",
+                        MR : "EU-London",
+                        MU : "EU-London",
+                        YT : "EU-London",
+                        MX : "US-Atlanta",
+                        FM : "SG-Singapore",
+                        MD : "EU-London",
+                        MC : "EU-London",
+                        MN : "JP-Tokyo",
+                        ME : "EU-London",
+                        MS : "US-Atlanta",
+                        MA : "EU-London",
+                        MZ : "EU-London",
+                        MM : "JP-Tokyo",
+                        NA : "EU-London",
+                        NR : "SG-Singapore",
+                        NP : "JP-Tokyo",
+                        NL : "EU-London",
+                        NC : "SG-Singapore",
+                        NZ : "SG-Singapore",
+                        NI : "US-Atlanta",
+                        NE : "EU-London",
+                        NG : "EU-London",
+                        NU : "SG-Singapore",
+                        NF : "SG-Singapore",
+                        MP : "SG-Singapore",
+                        NO : "EU-London",
+                        OM : "JP-Tokyo",
+                        PK : "JP-Tokyo",
+                        PW : "SG-Singapore",
+                        PS : "JP-Tokyo",
+                        PA : "US-Atlanta",
+                        PG : "SG-Singapore",
+                        PY : "BR-Brazil",
+                        PE : "BR-Brazil",
+                        PH : "JP-Tokyo",
+                        PN : "SG-Singapore",
+                        PL : "EU-London",
+                        PT : "EU-London",
+                        PR : "US-Atlanta",
+                        QA : "JP-Tokyo",
+                        RE : "EU-London",
+                        RO : "EU-London",
+                        RU : "RU-Russia",
+                        RW : "EU-London",
+                        BL : "US-Atlanta",
+                        SH : "EU-London",
+                        KN : "US-Atlanta",
+                        LC : "US-Atlanta",
+                        MF : "US-Atlanta",
+                        PM : "US-Atlanta",
+                        VC : "US-Atlanta",
+                        WS : "SG-Singapore",
+                        SM : "EU-London",
+                        ST : "EU-London",
+                        SA : "EU-London",
+                        SN : "EU-London",
+                        RS : "EU-London",
+                        SC : "EU-London",
+                        SL : "EU-London",
+                        SG : "JP-Tokyo",
+                        SX : "US-Atlanta",
+                        SK : "EU-London",
+                        SI : "EU-London",
+                        SB : "SG-Singapore",
+                        SO : "EU-London",
+                        ZA : "EU-London",
+                        SS : "EU-London",
+                        ES : "EU-London",
+                        LK : "JP-Tokyo",
+                        SD : "EU-London",
+                        SR : "BR-Brazil",
+                        SJ : "EU-London",
+                        SZ : "EU-London",
+                        SE : "EU-London",
+                        CH : "EU-London",
+                        SY : "EU-London",
+                        TW : "JP-Tokyo",
+                        TJ : "JP-Tokyo",
+                        TZ : "EU-London",
+                        TH : "JP-Tokyo",
+                        TL : "JP-Tokyo",
+                        TG : "EU-London",
+                        TK : "SG-Singapore",
+                        TO : "SG-Singapore",
+                        TT : "US-Atlanta",
+                        TN : "EU-London",
+                        TR : "TK-Turkey",
+                        TM : "JP-Tokyo",
+                        TC : "US-Atlanta",
+                        TV : "SG-Singapore",
+                        UG : "EU-London",
+                        UA : "EU-London",
+                        AE : "EU-London",
+                        GB : "EU-London",
+                        US : "US-Atlanta",
+                        UM : "SG-Singapore",
+                        VI : "US-Atlanta",
+                        UY : "BR-Brazil",
+                        UZ : "JP-Tokyo",
+                        VU : "SG-Singapore",
+                        VE : "BR-Brazil",
+                        VN : "JP-Tokyo",
+                        WF : "SG-Singapore",
+                        EH : "EU-London",
+                        YE : "JP-Tokyo",
+                        ZM : "EU-London",
+                        ZW : "EU-London"
                     };
                     /** @type {null} */
                     var get = null;
-                    if ($[_0x6942[451]]) {
-                        var throttledUpdate = $[_0x6942[451]];
+                    if ($["connect"]) {
+                        var throttledUpdate = $["connect"];
                         setTimeout(function() {
                             try {
-                                throttledUpdate(_0x6942[517], _0x6942[67]);
+                                throttledUpdate("Killing_original_websocket", "");
                             } catch (err) {
                             }
                         }, 1500);
                     }
                     /** @type {function (?, Object): undefined} */
-                    $[_0x6942[451]] = bind;
+                    $["connect"] = bind;
                     /** @type {number} */
                     var time = 500;
                     /** @type {number} */
@@ -3003,7 +2986,7 @@ var i18n = i18n_dict[i18n_lang];
                     /**
                      * @return {undefined}
                      */
-                    $[_0x6942[518]] = function() {
+                    $["refreshPlayerInfo"] = function() {
                         render(253);
                     };
                     /** @type {null} */
@@ -3013,21 +2996,21 @@ var i18n = i18n_dict[i18n_lang];
                     /** @type {null} */
                     var item = null;
                     var which = function() {
-                        var d = Date[_0x6942[330]]();
+                        var d = Date["now"]();
                         /** @type {number} */
                         var _0x33d9x142 = 0;
                         /** @type {number} */
                         var diff = 0;
-                        var aux = Date[_0x6942[330]]();
+                        var aux = Date["now"]();
                         /** @type {number} */
                         var b = 1E3 / 60;
                         return function() {
-                            $[_0x6942[241]](which);
-                            var x = Date[_0x6942[330]]();
+                            $["requestAnimationFrame"](which);
+                            var x = Date["now"]();
                             /** @type {number} */
                             var a = x - d;
                             if (diff > 1E3) {
-                                aux = Date[_0x6942[330]]();
+                                aux = Date["now"]();
                                 /** @type {number} */
                                 diff = 0;
                                 framePerSecond = _0x33d9x142;
@@ -3035,12 +3018,12 @@ var i18n = i18n_dict[i18n_lang];
                                 _0x33d9x142 = 0;
                             } else {
                                 /** @type {number} */
-                                diff = Date[_0x6942[330]]() - aux;
+                                diff = Date["now"]() - aux;
                             }
                             if (a > b) {
                                 /** @type {number} */
                                 d = x - a % b;
-                                if (!children() || 240 > Date[_0x6942[330]]() - min) {
+                                if (!children() || 240 > Date["now"]() - min) {
                                     count();
                                     _0x33d9x142++;
                                 }
@@ -3049,14 +3032,14 @@ var i18n = i18n_dict[i18n_lang];
                         };
                     }();
                     var parts = {};
-                    Player[_0x6942[519]] = {
+                    Player["prototype"] = {
                         P : null,
                         x : 0,
                         y : 0,
                         g : 0,
                         b : 0
                     };
-                    a[_0x6942[519]] = {
+                    a["prototype"] = {
                         id : 0,
                         a : null,
                         name : null,
@@ -3087,50 +3070,50 @@ var i18n = i18n_dict[i18n_lang];
                             var tag;
                             /** @type {number} */
                             tag = 0;
-                            var entry = entries[_0x6942[6]];
+                            var entry = entries["length"];
                             for (;entry > tag;tag++) {
                                 if (entries[tag] === this) {
-                                    entries[_0x6942[520]](tag, 1);
+                                    entries["splice"](tag, 1);
                                     break;
                                 }
                             }
-                            delete results[this[_0x6942[4]]];
-                            tag = child[_0x6942[8]](this);
+                            delete results[this["id"]];
+                            tag = child["indexOf"](this);
                             if (-1 !== tag) {
                                 /** @type {boolean} */
                                 _0x33d9x11b = true;
-                                child[_0x6942[520]](tag, 1);
+                                child["splice"](tag, 1);
                             }
-                            tag = doc[_0x6942[8]](this[_0x6942[4]]);
+                            tag = doc["indexOf"](this["id"]);
                             if (-1 !== tag) {
-                                doc[_0x6942[520]](tag, 1);
+                                doc["splice"](tag, 1);
                             }
                             /** @type {boolean} */
-                            this[_0x6942[521]] = true;
-                            if (0 < this[_0x6942[522]]) {
-                                dims[_0x6942[325]](this);
+                            this["A"] = true;
+                            if (0 < this["S"]) {
+                                dims["push"](this);
                             }
                         },
                         /**
                          * @return {?}
                          */
                         i : function() {
-                            return Math[_0x6942[252]](~~(0.3 * this[_0x6942[7]]), 24);
+                            return Math["max"](~~(0.3 * this["size"]), 24);
                         },
                         /**
                          * @param {(Node|string)} a
                          * @return {undefined}
                          */
                         t : function(a) {
-                            if (this[_0x6942[52]] = a, a && (null === this[_0x6942[523]] ? this[_0x6942[523]] = new clone(this[_0x6942[524]](), _0x6942[11], true, _0x6942[525]) : this[_0x6942[523]].G(this[_0x6942[524]]()), this[_0x6942[523]][_0x6942[372]](this[_0x6942[52]]), isEnableYinSkin)) {
-                                var _0x33d9x145 = a[_0x6942[218]](_0x6942[494]);
-                                if (_0x33d9x145[_0x6942[6]] > 1) {
-                                    var r20 = _0x33d9x145[_0x6942[526]]();
-                                    if (/^[\u0002-\uffff]\uffff?$/[_0x6942[231]](r20)) {
-                                        if (2 === r20[_0x6942[6]]) {
-                                            this[_0x6942[527]] = _0x6942[495] + (r20[_0x6942[313]](0) + 65534);
+                            if (this["name"] = a, a && (null === this["k"] ? this["k"] = new clone(this["i"](), "#FFFFFF", true, "#000000") : this["k"].G(this["i"]()), this["k"]["u"](this["name"]), isEnableYinSkin)) {
+                                var _0x33d9x145 = a["split"]("\u0001");
+                                if (_0x33d9x145["length"] > 1) {
+                                    var r20 = _0x33d9x145["pop"]();
+                                    if (/^[\u0002-\uffff]\uffff?$/["test"](r20)) {
+                                        if (2 === r20["length"]) {
+                                            this["img"] = "http://upload.happyfor.me/getimg.php?id=" + (r20["charCodeAt"](0) + 65534);
                                         } else {
-                                            this[_0x6942[527]] = _0x6942[495] + r20[_0x6942[313]](0);
+                                            this["img"] = "http://upload.happyfor.me/getimg.php?id=" + r20["charCodeAt"](0);
                                         }
                                     }
                                 }
@@ -3142,21 +3125,21 @@ var i18n = i18n_dict[i18n_lang];
                         Q : function() {
                             var msg;
                             var B = this.B();
-                            for (;this[_0x6942[253]][_0x6942[6]] > B;) {
+                            for (;this["a"]["length"] > B;) {
                                 /** @type {number} */
-                                msg = ~~(Math[_0x6942[390]]() * this[_0x6942[253]][_0x6942[6]]);
-                                this[_0x6942[253]][_0x6942[520]](msg, 1);
+                                msg = ~~(Math["random"]() * this["a"]["length"]);
+                                this["a"]["splice"](msg, 1);
                             }
-                            if (0 === this[_0x6942[253]][_0x6942[6]]) {
+                            if (0 === this["a"]["length"]) {
                                 if (B > 0) {
-                                    this[_0x6942[253]][_0x6942[325]](new Player(this, this[_0x6942[55]], this[_0x6942[57]], this[_0x6942[7]], Math[_0x6942[390]]() - 0.5));
+                                    this["a"]["push"](new Player(this, this["x"], this["y"], this["size"], Math["random"]() - 0.5));
                                 }
                             }
-                            for (;this[_0x6942[253]][_0x6942[6]] < B;) {
+                            for (;this["a"]["length"] < B;) {
                                 /** @type {number} */
-                                msg = ~~(Math[_0x6942[390]]() * this[_0x6942[253]][_0x6942[6]]);
-                                msg = this[_0x6942[253]][msg];
-                                this[_0x6942[253]][_0x6942[325]](new Player(this, msg[_0x6942[55]], msg[_0x6942[57]], msg[_0x6942[382]], msg[_0x6942[383]]));
+                                msg = ~~(Math["random"]() * this["a"]["length"]);
+                                msg = this["a"][msg];
+                                this["a"]["push"](new Player(this, msg["x"], msg["y"], msg["g"], msg["b"]));
                             }
                         },
                         /**
@@ -3165,16 +3148,16 @@ var i18n = i18n_dict[i18n_lang];
                         B : function() {
                             /** @type {number} */
                             var suggestedValue = 10;
-                            if (20 > this[_0x6942[7]]) {
+                            if (20 > this["size"]) {
                                 /** @type {number} */
                                 suggestedValue = 0;
                             }
-                            if (this[_0x6942[1]]) {
+                            if (this["f"]) {
                                 /** @type {number} */
                                 suggestedValue = 30;
                             }
-                            var currentValue = this[_0x6942[7]];
-                            return this[_0x6942[1]] || (currentValue *= alpha), currentValue *= opt_val, 32 & this[_0x6942[342]] && (currentValue *= 0.25), ~~Math[_0x6942[252]](currentValue, suggestedValue);
+                            var currentValue = this["size"];
+                            return this["f"] || (currentValue *= alpha), currentValue *= opt_val, 32 & this["T"] && (currentValue *= 0.25), ~~Math["max"](currentValue, suggestedValue);
                         },
                         /**
                          * @return {undefined}
@@ -3183,197 +3166,197 @@ var i18n = i18n_dict[i18n_lang];
                             this.Q();
                             var a;
                             var b;
-                            var cs = this[_0x6942[253]];
-                            var n = cs[_0x6942[6]];
+                            var cs = this["a"];
+                            var n = cs["length"];
                             /** @type {number} */
                             var i = 0;
                             for (;n > i;++i) {
-                                a = cs[(i - 1 + n) % n][_0x6942[383]];
-                                b = cs[(i + 1) % n][_0x6942[383]];
-                                cs[i][_0x6942[383]] += (Math[_0x6942[390]]() - 0.5) * (this[_0x6942[341]] ? 3 : 1);
-                                cs[i][_0x6942[383]] *= 0.7;
-                                if (10 < cs[i][_0x6942[383]]) {
+                                a = cs[(i - 1 + n) % n]["b"];
+                                b = cs[(i + 1) % n]["b"];
+                                cs[i]["b"] += (Math["random"]() - 0.5) * (this["j"] ? 3 : 1);
+                                cs[i]["b"] *= 0.7;
+                                if (10 < cs[i]["b"]) {
                                     /** @type {number} */
-                                    cs[i][_0x6942[383]] = 10;
+                                    cs[i]["b"] = 10;
                                 }
-                                if (-10 > cs[i][_0x6942[383]]) {
+                                if (-10 > cs[i]["b"]) {
                                     /** @type {number} */
-                                    cs[i][_0x6942[383]] = -10;
+                                    cs[i]["b"] = -10;
                                 }
                                 /** @type {number} */
-                                cs[i][_0x6942[383]] = (a + b + 8 * cs[i][_0x6942[383]]) / 10;
+                                cs[i]["b"] = (a + b + 8 * cs[i]["b"]) / 10;
                             }
                             var inprogress = this;
                             /** @type {number} */
-                            var difference = this[_0x6942[1]] ? 0 : (this[_0x6942[4]] / 1E3 + max / 1E4) % (2 * Math[_0x6942[48]]);
+                            var difference = this["f"] ? 0 : (this["id"] / 1E3 + max / 1E4) % (2 * Math["PI"]);
                             /** @type {number} */
                             i = 0;
                             for (;n > i;++i) {
-                                var _0x33d9x7b = cs[i][_0x6942[382]];
-                                if (a = cs[(i - 1 + n) % n][_0x6942[382]], b = cs[(i + 1) % n][_0x6942[382]], 15 < this[_0x6942[7]] && (null !== jQuery && (20 < this[_0x6942[7]] * alpha && 0 < this[_0x6942[4]]))) {
+                                var _0x33d9x7b = cs[i]["g"];
+                                if (a = cs[(i - 1 + n) % n]["g"], b = cs[(i + 1) % n]["g"], 15 < this["size"] && (null !== jQuery && (20 < this["size"] * alpha && 0 < this["id"]))) {
                                     /** @type {boolean} */
                                     var _0x33d9x14c = false;
-                                    var yEnd = cs[i][_0x6942[55]];
-                                    var cx = cs[i][_0x6942[57]];
-                                    jQuery[_0x6942[528]](yEnd - 5, cx - 5, 10, 10, function(queue) {
-                                        if (queue[_0x6942[381]] !== inprogress) {
-                                            if (25 > (yEnd - queue[_0x6942[55]]) * (yEnd - queue[_0x6942[55]]) + (cx - queue[_0x6942[57]]) * (cx - queue[_0x6942[57]])) {
+                                    var yEnd = cs[i]["x"];
+                                    var cx = cs[i]["y"];
+                                    jQuery["ea"](yEnd - 5, cx - 5, 10, 10, function(queue) {
+                                        if (queue["P"] !== inprogress) {
+                                            if (25 > (yEnd - queue["x"]) * (yEnd - queue["x"]) + (cx - queue["y"]) * (cx - queue["y"])) {
                                                 /** @type {boolean} */
                                                 _0x33d9x14c = true;
                                             }
                                         }
                                     });
                                     if (!_0x33d9x14c) {
-                                        if (cs[i][_0x6942[55]] < x || (cs[i][_0x6942[57]] < y || (cs[i][_0x6942[55]] > width || cs[i][_0x6942[57]] > height))) {
+                                        if (cs[i]["x"] < x || (cs[i]["y"] < y || (cs[i]["x"] > width || cs[i]["y"] > height))) {
                                             /** @type {boolean} */
                                             _0x33d9x14c = true;
                                         }
                                     }
                                     if (_0x33d9x14c) {
-                                        if (0 < cs[i][_0x6942[383]]) {
+                                        if (0 < cs[i]["b"]) {
                                             /** @type {number} */
-                                            cs[i][_0x6942[383]] = 0;
+                                            cs[i]["b"] = 0;
                                         }
-                                        cs[i][_0x6942[383]] -= 1;
+                                        cs[i]["b"] -= 1;
                                     }
                                 }
-                                _0x33d9x7b += cs[i][_0x6942[383]];
+                                _0x33d9x7b += cs[i]["b"];
                                 if (0 > _0x33d9x7b) {
                                     /** @type {number} */
                                     _0x33d9x7b = 0;
                                 }
                                 /** @type {number} */
-                                _0x33d9x7b = this[_0x6942[341]] ? (19 * _0x33d9x7b + this[_0x6942[7]]) / 20 : (12 * _0x33d9x7b + this[_0x6942[7]]) / 13;
+                                _0x33d9x7b = this["j"] ? (19 * _0x33d9x7b + this["size"]) / 20 : (12 * _0x33d9x7b + this["size"]) / 13;
                                 /** @type {number} */
-                                cs[i][_0x6942[382]] = (a + b + 8 * _0x33d9x7b) / 10;
+                                cs[i]["g"] = (a + b + 8 * _0x33d9x7b) / 10;
                                 /** @type {number} */
-                                a = 2 * Math[_0x6942[48]] / n;
-                                b = this[_0x6942[253]][i][_0x6942[382]];
-                                if (this[_0x6942[1]]) {
+                                a = 2 * Math["PI"] / n;
+                                b = this["a"][i]["g"];
+                                if (this["f"]) {
                                     if (0 === i % 2) {
                                         b += 5;
                                     }
                                 }
-                                cs[i][_0x6942[55]] = this[_0x6942[55]] + Math[_0x6942[529]](a * i + difference) * b;
-                                cs[i][_0x6942[57]] = this[_0x6942[57]] + Math[_0x6942[530]](a * i + difference) * b;
+                                cs[i]["x"] = this["x"] + Math["cos"](a * i + difference) * b;
+                                cs[i]["y"] = this["y"] + Math["sin"](a * i + difference) * b;
                             }
                         },
                         /**
                          * @return {?}
                          */
                         J : function() {
-                            if (0 >= this[_0x6942[4]]) {
+                            if (0 >= this["id"]) {
                                 return 1;
                             }
                             var position;
                             /** @type {number} */
-                            position = (max - this[_0x6942[337]]) / 120;
+                            position = (max - this["K"]) / 120;
                             /** @type {number} */
                             position = 0 > position ? 0 : position > 1 ? 1 : position;
                             /** @type {number} */
                             var _0x33d9x81 = 0 > position ? 0 : position > 1 ? 1 : position;
-                            if (this[_0x6942[524]](), this[_0x6942[521]] && _0x33d9x81 >= 1) {
-                                var r20 = dims[_0x6942[8]](this);
+                            if (this["i"](), this["A"] && _0x33d9x81 >= 1) {
+                                var r20 = dims["indexOf"](this);
                                 if (-1 !== r20) {
-                                    dims[_0x6942[520]](r20, 1);
+                                    dims["splice"](r20, 1);
                                 }
                             }
-                            return this[_0x6942[55]] = position * (this[_0x6942[334]] - this[_0x6942[331]]) + this[_0x6942[331]], this[_0x6942[57]] = position * (this[_0x6942[335]] - this[_0x6942[332]]) + this[_0x6942[332]], this[_0x6942[7]] = _0x33d9x81 * (this[_0x6942[336]] - this[_0x6942[333]]) + this[_0x6942[333]], _0x33d9x81;
+                            return this["x"] = position * (this["C"] - this["o"]) + this["o"], this["y"] = position * (this["D"] - this["p"]) + this["p"], this["size"] = _0x33d9x81 * (this["m"] - this["n"]) + this["n"], _0x33d9x81;
                         },
                         /**
                          * @return {?}
                          */
                         H : function() {
-                            return 0 >= this[_0x6942[4]] ? true : this[_0x6942[55]] + this[_0x6942[7]] + 40 < tmp - nodeList / 2 / alpha || (this[_0x6942[57]] + this[_0x6942[7]] + 40 < end - tipWidth / 2 / alpha || (this[_0x6942[55]] - this[_0x6942[7]] - 40 > tmp + nodeList / 2 / alpha || this[_0x6942[57]] - this[_0x6942[7]] - 40 > end + tipWidth / 2 / alpha)) ? false : true;
+                            return 0 >= this["id"] ? true : this["x"] + this["size"] + 40 < tmp - nodeList / 2 / alpha || (this["y"] + this["size"] + 40 < end - tipWidth / 2 / alpha || (this["x"] - this["size"] - 40 > tmp + nodeList / 2 / alpha || this["y"] - this["size"] - 40 > end + tipWidth / 2 / alpha)) ? false : true;
                         },
                         /**
                          * @param {?} d
                          * @return {undefined}
                          */
                         s : function(d) {
-                            if (!(this[_0x6942[7]] < 15 && isSpecMode) && this.H()) {
-                                ++this[_0x6942[522]];
+                            if (!(this["size"] < 15 && isSpecMode) && this.H()) {
+                                ++this["S"];
                                 /** @type {boolean} */
-                                var _0x33d9x14e = 0 < this[_0x6942[4]] && (!this[_0x6942[1]] && (!this[_0x6942[341]] && 0.4 > alpha));
+                                var _0x33d9x14e = 0 < this["id"] && (!this["f"] && (!this["j"] && 0.4 > alpha));
                                 if (5 > this.B()) {
-                                    if (0 < this[_0x6942[4]]) {
+                                    if (0 < this["id"]) {
                                         /** @type {boolean} */
                                         _0x33d9x14e = true;
                                     }
                                 }
                                 var child;
-                                if (this[_0x6942[250]] && !_0x33d9x14e) {
+                                if (this["L"] && !_0x33d9x14e) {
                                     /** @type {number} */
                                     child = 0;
-                                    var _0x33d9xc5 = this[_0x6942[253]][_0x6942[6]];
+                                    var _0x33d9xc5 = this["a"]["length"];
                                     for (;_0x33d9xc5 > child;child++) {
-                                        this[_0x6942[253]][child][_0x6942[382]] = this[_0x6942[7]];
+                                        this["a"][child]["g"] = this["size"];
                                     }
                                 }
                                 /** @type {boolean} */
-                                this[_0x6942[250]] = _0x33d9x14e;
-                                d[_0x6942[358]]();
-                                this[_0x6942[531]] = max;
+                                this["L"] = _0x33d9x14e;
+                                d["save"]();
+                                this["W"] = max;
                                 child = this.J();
-                                if (this[_0x6942[521]]) {
-                                    d[_0x6942[29]] *= 1 - child;
+                                if (this["A"]) {
+                                    d["globalAlpha"] *= 1 - child;
                                 }
                                 /** @type {number} */
-                                d[_0x6942[33]] = 0;
-                                d[_0x6942[532]] = _0x6942[533];
-                                d[_0x6942[534]] = this[_0x6942[1]] ? _0x6942[535] : _0x6942[533];
+                                d["lineWidth"] = 0;
+                                d["lineCap"] = "round";
+                                d["lineJoin"] = this["f"] ? "miter" : "round";
                                 if ($rootScope) {
-                                    d[_0x6942[24]] = _0x6942[11];
-                                    d[_0x6942[10]] = _0x6942[373];
+                                    d["fillStyle"] = "#FFFFFF";
+                                    d["strokeStyle"] = "#AAAAAA";
                                 } else {
-                                    if (myColorIndex > 0 && obj[_0x6942[9]][_0x6942[8]](this[_0x6942[4]]) > -1) {
-                                        d[_0x6942[24]] = myColors[myColorIndex];
-                                        d[_0x6942[10]] = myColors[myColorIndex];
+                                    if (myColorIndex > 0 && obj["myIds"]["indexOf"](this["id"]) > -1) {
+                                        d["fillStyle"] = myColors[myColorIndex];
+                                        d["strokeStyle"] = myColors[myColorIndex];
                                     } else {
-                                        if (!isKeepFoodColor && this[_0x6942[7]] < 15) {
-                                            d[_0x6942[24]] = foodColor;
-                                            d[_0x6942[10]] = foodColor;
+                                        if (!isKeepFoodColor && this["size"] < 15) {
+                                            d["fillStyle"] = foodColor;
+                                            d["strokeStyle"] = foodColor;
                                         } else {
-                                            d[_0x6942[24]] = this[_0x6942[50]];
-                                            d[_0x6942[10]] = this[_0x6942[50]];
+                                            d["fillStyle"] = this["color"];
+                                            d["strokeStyle"] = this["color"];
                                         }
                                     }
                                 }
                                 var parent;
                                 var node;
-                                if (_0x33d9x14e ? (d[_0x6942[12]](), d[_0x6942[49]](this[_0x6942[55]], this[_0x6942[57]], this[_0x6942[7]], 0, 2 * Math[_0x6942[48]], false)) : (this[_0x6942[536]](), d[_0x6942[12]](), parent = this.B(), child = parent, d[_0x6942[49]](this[_0x6942[55]], this[_0x6942[57]], this[_0x6942[7]], 0, 2 * Math[_0x6942[48]], false)), d[_0x6942[19]](), !this[_0x6942[341]] && (this[_0x6942[7]] > 15 && (fragment && _0x6942[537] !== result))) {
-                                    var i = this[_0x6942[538]];
+                                if (_0x33d9x14e ? (d["beginPath"](), d["arc"](this["x"], this["y"], this["size"], 0, 2 * Math["PI"], false)) : (this["da"](), d["beginPath"](), parent = this.B(), child = parent, d["arc"](this["x"], this["y"], this["size"], 0, 2 * Math["PI"], false)), d["closePath"](), !this["j"] && (this["size"] > 15 && (fragment && ":teams" !== result))) {
+                                    var i = this["skinUrl"];
                                     if (!i) {
-                                        var slotEntry = skinMap[this[_0x6942[52]]];
-                                        if (obj[_0x6942[9]][_0x6942[8]](this[_0x6942[4]]) > -1) {
+                                        var slotEntry = skinMap[this["name"]];
+                                        if (obj["myIds"]["indexOf"](this["id"]) > -1) {
                                             i = currentSkin || (currentYinSkin || DEFAULT_SKIN);
                                         } else {
-                                            if (slotEntry && this[_0x6942[50]] === slotEntry[_0x6942[50]]) {
-                                                i = isDefaultSkinForAll ? DEFAULT_SKIN : slotEntry[_0x6942[53]];
+                                            if (slotEntry && this["color"] === slotEntry["color"]) {
+                                                i = isDefaultSkinForAll ? DEFAULT_SKIN : slotEntry["skin"];
                                             } else {
                                                 if (isEnableYinSkin) {
-                                                    if (this[_0x6942[527]]) {
-                                                        i = this[_0x6942[527]];
+                                                    if (this["img"]) {
+                                                        i = this["img"];
                                                     }
                                                 }
                                             }
                                         }
                                         if (i) {
-                                            if (/\.(png|jpg|jpeg)$/[_0x6942[231]](i)) {
-                                                i = _0x6942[539] + i[_0x6942[77]](i[_0x6942[8]](_0x6942[540]) + 2) + _0x6942[541];
+                                            if (/\.(png|jpg|jpeg)$/["test"](i)) {
+                                                i = "http://i0.wp.com/" + i["substring"](i["indexOf"]("//") + 2) + "?w=200";
                                             }
                                         }
-                                        this[_0x6942[538]] = i;
+                                        this["skinUrl"] = i;
                                     }
                                     if (i) {
                                         var part = parts[i];
-                                        if (!(part && part[_0x6942[431]] === i)) {
+                                        if (!(part && part["src"] === i)) {
                                             /** @type {Image} */
                                             parts[i] = new Image;
-                                            parts[i][_0x6942[431]] = i;
+                                            parts[i]["src"] = i;
                                             part = parts[i];
                                         }
-                                        parent = 0 < part[_0x6942[36]] && part[_0x6942[542]] ? part : null;
+                                        parent = 0 < part["width"] && part["complete"] ? part : null;
                                     } else {
                                         /** @type {null} */
                                         parent = null;
@@ -3382,136 +3365,136 @@ var i18n = i18n_dict[i18n_lang];
                                     /** @type {null} */
                                     parent = null;
                                 }
-                                if (node = parent, this[_0x6942[7]] < 20 ? d[_0x6942[29]] = 1 : _isVirus(this) ? d[_0x6942[29]] = 0.8 : d[_0x6942[29]] = isTransparentCell ? 0.95 : 1, (null === node || node[_0x6942[431]] === DEFAULT_SKIN) && d[_0x6942[51]](), null !== node) {
-                                    d[_0x6942[358]]();
-                                    d[_0x6942[543]]();
+                                if (node = parent, this["size"] < 20 ? d["globalAlpha"] = 1 : _isVirus(this) ? d["globalAlpha"] = 0.8 : d["globalAlpha"] = isTransparentCell ? 0.95 : 1, (null === node || node["src"] === DEFAULT_SKIN) && d["fill"](), null !== node) {
+                                    d["save"]();
+                                    d["clip"]();
                                     try {
-                                        d[_0x6942[45]](node, this[_0x6942[55]] - this[_0x6942[7]], this[_0x6942[57]] - this[_0x6942[7]], 2 * this[_0x6942[7]], 2 * this[_0x6942[7]]);
+                                        d["drawImage"](node, this["x"] - this["size"], this["y"] - this["size"], 2 * this["size"], 2 * this["size"]);
                                     } catch (err) {
                                     }
-                                    d[_0x6942[363]]();
+                                    d["restore"]();
                                 }
-                                var type = _0x6942[67];
-                                var pageX = _0x6942[67];
+                                var type = "";
+                                var pageX = "";
                                 if (enableCieMass || (enableCieSignal || enableCieCircle)) {
-                                    if (20 < this[_0x6942[7]] && (!_isVirus(this) && obj[_0x6942[5]][_0x6942[6]] > 0)) {
-                                        if (-1 === obj[_0x6942[9]][_0x6942[8]](this[_0x6942[4]])) {
+                                    if (20 < this["size"] && (!_isVirus(this) && obj["myPoints"]["length"] > 0)) {
+                                        if (-1 === obj["myIds"]["indexOf"](this["id"])) {
                                             var _0x33d9x153 = _getSelectedBlob();
-                                            var average = _getMass(_0x33d9x153[_0x6942[7]]);
-                                            var standardDeviation = _getMass(this[_0x6942[7]]);
+                                            var average = _getMass(_0x33d9x153["size"]);
+                                            var standardDeviation = _getMass(this["size"]);
                                             /** @type {number} */
                                             cieSplitToEat = ~~(average * Tiny);
                                             /** @type {number} */
                                             cieMergeToEat = ~~(average * Small);
                                             if (standardDeviation > average * Huge) {
-                                                this[_0x6942[544]] = Huge_Color;
-                                                pageX = _0x6942[545];
+                                                this["cieColor"] = Huge_Color;
+                                                pageX = "::";
                                             } else {
                                                 if (standardDeviation > average * Large) {
-                                                    this[_0x6942[544]] = Large_Color;
-                                                    pageX = _0x6942[259];
+                                                    this["cieColor"] = Large_Color;
+                                                    pageX = ":";
                                                 } else {
                                                     if (standardDeviation > average * Small) {
-                                                        this[_0x6942[544]] = Same_Color;
+                                                        this["cieColor"] = Same_Color;
                                                     } else {
                                                         if (standardDeviation > average * Tiny) {
-                                                            this[_0x6942[544]] = Small_Color;
-                                                            type = _0x6942[259];
+                                                            this["cieColor"] = Small_Color;
+                                                            type = ":";
                                                         } else {
-                                                            this[_0x6942[544]] = Tiny_Color;
-                                                            type = _0x6942[545];
+                                                            this["cieColor"] = Tiny_Color;
+                                                            type = "::";
                                                         }
                                                     }
                                                 }
                                             }
                                         } else {
                                             /** @type {null} */
-                                            this[_0x6942[544]] = null;
+                                            this["cieColor"] = null;
                                         }
                                     }
-                                    if (enableCieCircle && this[_0x6942[544]]) {
+                                    if (enableCieCircle && this["cieColor"]) {
                                         /** @type {number} */
-                                        d[_0x6942[33]] = 4;
+                                        d["lineWidth"] = 4;
                                         /** @type {number} */
-                                        d[_0x6942[29]] = 1;
-                                        d[_0x6942[12]]();
-                                        d[_0x6942[10]] = this[_0x6942[544]];
+                                        d["globalAlpha"] = 1;
+                                        d["beginPath"]();
+                                        d["strokeStyle"] = this["cieColor"];
                                         /** @type {number} */
-                                        var _0x33d9x156 = ~~(this[_0x6942[7]] / 12);
+                                        var _0x33d9x156 = ~~(this["size"] / 12);
                                         if (15 > _0x33d9x156) {
                                             /** @type {number} */
                                             _0x33d9x156 = 15;
                                         }
-                                        d[_0x6942[49]](this[_0x6942[55]], this[_0x6942[57]], this[_0x6942[7]] + _0x33d9x156, 0, 2 * Math[_0x6942[48]], false);
-                                        d[_0x6942[20]]();
+                                        d["arc"](this["x"], this["y"], this["size"] + _0x33d9x156, 0, 2 * Math["PI"], false);
+                                        d["stroke"]();
                                     }
                                 }
                                 /** @type {number} */
-                                d[_0x6942[29]] = 1;
+                                d["globalAlpha"] = 1;
                                 /** @type {number} */
-                                _0x33d9x14e = ~~this[_0x6942[57]];
+                                _0x33d9x14e = ~~this["y"];
                                 var r20;
                                 var restoreScript;
-                                if (0 !== this[_0x6942[4]] && (this[_0x6942[52]] && this[_0x6942[523]])) {
-                                    node = this[_0x6942[523]];
-                                    node[_0x6942[372]](this[_0x6942[52]]);
-                                    node.G(this[_0x6942[524]]());
+                                if (0 !== this["id"] && (this["name"] && this["k"])) {
+                                    node = this["k"];
+                                    node["u"](this["name"]);
+                                    node.G(this["i"]());
                                     /** @type {number} */
-                                    child = 0 >= this[_0x6942[4]] ? 1 : Math[_0x6942[546]](10 * alpha) / 10;
+                                    child = 0 >= this["id"] ? 1 : Math["ceil"](10 * alpha) / 10;
                                     node.U(child);
                                     node = node.F();
                                     /** @type {number} */
-                                    var rreturn = ~~(node[_0x6942[36]] / child);
+                                    var rreturn = ~~(node["width"] / child);
                                     /** @type {number} */
-                                    var udataCur = ~~(node[_0x6942[37]] / child);
-                                    d[_0x6942[45]](node, ~~this[_0x6942[55]] - ~~(rreturn / 2), _0x33d9x14e - ~~(udataCur / 2), rreturn, udataCur);
-                                    _0x33d9x14e += node[_0x6942[37]] / 2 / child + 4;
+                                    var udataCur = ~~(node["height"] / child);
+                                    d["drawImage"](node, ~~this["x"] - ~~(rreturn / 2), _0x33d9x14e - ~~(udataCur / 2), rreturn, udataCur);
+                                    _0x33d9x14e += node["height"] / 2 / child + 4;
                                 }
-                                if (0 < this[_0x6942[4]]) {
+                                if (0 < this["id"]) {
                                     if ($timeout) {
-                                        if (parent || 38 < this[_0x6942[7]]) {
-                                            if (skinMap[_0x6942[2]](this[_0x6942[52]]) && skinMap[this[_0x6942[52]]][_0x6942[50]] === this[_0x6942[50]] || this[_0x6942[4]] === selectedBlobId) {
-                                                if (null === this[_0x6942[547]] || _0x6942[525] !== this[_0x6942[547]][_0x6942[387]]) {
-                                                    this[_0x6942[547]] = new clone(this[_0x6942[524]]() / 2, _0x6942[525], true, _0x6942[11]);
+                                        if (parent || 38 < this["size"]) {
+                                            if (skinMap["hasOwnProperty"](this["name"]) && skinMap[this["name"]]["color"] === this["color"] || this["id"] === selectedBlobId) {
+                                                if (null === this["I"] || "#000000" !== this["I"]["M"]) {
+                                                    this["I"] = new clone(this["i"]() / 2, "#000000", true, "#FFFFFF");
                                                 }
                                             } else {
-                                                if (null === this[_0x6942[547]] || _0x6942[11] !== this[_0x6942[547]][_0x6942[387]] && obj[_0x6942[9]][_0x6942[8]](this[_0x6942[4]]) > -1) {
-                                                    this[_0x6942[547]] = new clone(this[_0x6942[524]]() / 2, _0x6942[11], true, _0x6942[525]);
+                                                if (null === this["I"] || "#FFFFFF" !== this["I"]["M"] && obj["myIds"]["indexOf"](this["id"]) > -1) {
+                                                    this["I"] = new clone(this["i"]() / 2, "#FFFFFF", true, "#000000");
                                                 }
                                             }
-                                            parent = this[_0x6942[547]];
+                                            parent = this["I"];
                                             if (_isVirus(this)) {
-                                                parent[_0x6942[372]](_0x6942[67] + ~~((149 - this[_0x6942[7]]) / 7));
-                                                parent.G(4 * this[_0x6942[524]]());
+                                                parent["u"]("" + ~~((149 - this["size"]) / 7));
+                                                parent.G(4 * this["i"]());
                                             } else {
                                                 if (enableCieSignal) {
-                                                    parent[_0x6942[372]](type + ~~(this[_0x6942[7]] * this[_0x6942[7]] / 100) + pageX);
+                                                    parent["u"](type + ~~(this["size"] * this["size"] / 100) + pageX);
                                                 } else {
-                                                    parent[_0x6942[372]](~~(this[_0x6942[7]] * this[_0x6942[7]] / 100));
+                                                    parent["u"](~~(this["size"] * this["size"] / 100));
                                                 }
-                                                parent.G(this[_0x6942[524]]());
+                                                parent.G(this["i"]());
                                             }
                                             /** @type {number} */
-                                            child = Math[_0x6942[546]](10 * alpha) / 10;
+                                            child = Math["ceil"](10 * alpha) / 10;
                                             parent.U(child);
                                             node = parent.F();
                                             /** @type {number} */
-                                            r20 = ~~(node[_0x6942[36]] / child);
+                                            r20 = ~~(node["width"] / child);
                                             /** @type {number} */
-                                            restoreScript = ~~(node[_0x6942[37]] / child);
-                                            d[_0x6942[45]](node, ~~this[_0x6942[55]] - ~~(r20 / 2), _0x33d9x14e - ~~(restoreScript / 2), r20, restoreScript);
+                                            restoreScript = ~~(node["height"] / child);
+                                            d["drawImage"](node, ~~this["x"] - ~~(r20 / 2), _0x33d9x14e - ~~(restoreScript / 2), r20, restoreScript);
                                         }
                                     }
                                 }
-                                d[_0x6942[363]]();
+                                d["restore"]();
                             }
                         }
                     };
-                    clone[_0x6942[519]] = {
-                        w : _0x6942[67],
-                        M : _0x6942[525],
+                    clone["prototype"] = {
+                        w : "",
+                        M : "#000000",
                         O : false,
-                        r : _0x6942[525],
+                        r : "#000000",
                         q : 16,
                         l : null,
                         N : null,
@@ -3522,11 +3505,11 @@ var i18n = i18n_dict[i18n_lang];
                          * @return {undefined}
                          */
                         G : function(mod) {
-                            if (this[_0x6942[386]] !== mod) {
+                            if (this["q"] !== mod) {
                                 /** @type {number} */
-                                this[_0x6942[386]] = mod;
+                                this["q"] = mod;
                                 /** @type {boolean} */
-                                this[_0x6942[548]] = true;
+                                this["h"] = true;
                             }
                         },
                         /**
@@ -3534,10 +3517,10 @@ var i18n = i18n_dict[i18n_lang];
                          * @return {undefined}
                          */
                         U : function(input) {
-                            if (this[_0x6942[549]] !== input) {
-                                this[_0x6942[549]] = input;
+                            if (this["v"] !== input) {
+                                this["v"] = input;
                                 /** @type {boolean} */
-                                this[_0x6942[548]] = true;
+                                this["h"] = true;
                             }
                         },
                         /**
@@ -3545,10 +3528,10 @@ var i18n = i18n_dict[i18n_lang];
                          * @return {undefined}
                          */
                         setStrokeColor : function(b) {
-                            if (this[_0x6942[389]] !== b) {
-                                this[_0x6942[389]] = b;
+                            if (this["r"] !== b) {
+                                this["r"] = b;
                                 /** @type {boolean} */
-                                this[_0x6942[548]] = true;
+                                this["h"] = true;
                             }
                         },
                         /**
@@ -3556,79 +3539,79 @@ var i18n = i18n_dict[i18n_lang];
                          * @return {undefined}
                          */
                         u : function(a) {
-                            if (a !== this[_0x6942[550]]) {
-                                this[_0x6942[550]] = a;
+                            if (a !== this["w"]) {
+                                this["w"] = a;
                                 /** @type {boolean} */
-                                this[_0x6942[548]] = true;
+                                this["h"] = true;
                             }
                         },
                         /**
                          * @return {?}
                          */
                         F : function() {
-                            if (null === this[_0x6942[551]] && (this[_0x6942[551]] = document[_0x6942[35]](_0x6942[34]), this[_0x6942[552]] = this[_0x6942[551]][_0x6942[39]](_0x6942[38])), this[_0x6942[548]]) {
+                            if (null === this["l"] && (this["l"] = document["createElement"]("canvas"), this["N"] = this["l"]["getContext"]("2d")), this["h"]) {
                                 /** @type {boolean} */
-                                this[_0x6942[548]] = false;
-                                var out = this[_0x6942[551]];
-                                var flags = this[_0x6942[552]];
-                                var r20 = this[_0x6942[550]];
-                                var nf = this[_0x6942[549]];
-                                var far = this[_0x6942[386]];
-                                var value = far + _0x6942[553];
-                                flags[_0x6942[25]] = value;
+                                this["h"] = false;
+                                var out = this["l"];
+                                var flags = this["N"];
+                                var r20 = this["w"];
+                                var nf = this["v"];
+                                var far = this["q"];
+                                var value = far + "px Ubuntu";
+                                flags["font"] = value;
                                 /** @type {number} */
                                 var near = ~~(0.2 * far);
                                 /** @type {number} */
-                                out[_0x6942[36]] = (flags[_0x6942[554]](r20)[_0x6942[36]] + 6) * nf;
+                                out["width"] = (flags["measureText"](r20)["width"] + 6) * nf;
                                 /** @type {number} */
-                                out[_0x6942[37]] = (far + near) * nf;
-                                flags[_0x6942[25]] = value;
-                                flags[_0x6942[360]](nf, nf);
+                                out["height"] = (far + near) * nf;
+                                flags["font"] = value;
+                                flags["scale"](nf, nf);
                                 /** @type {number} */
-                                flags[_0x6942[29]] = 1;
+                                flags["globalAlpha"] = 1;
                                 /** @type {number} */
-                                flags[_0x6942[33]] = 3;
-                                flags[_0x6942[10]] = this[_0x6942[389]];
-                                flags[_0x6942[24]] = this[_0x6942[387]];
-                                if (this[_0x6942[388]]) {
-                                    flags[_0x6942[555]](r20, 3, ~~(far - near / 2));
+                                flags["lineWidth"] = 3;
+                                flags["strokeStyle"] = this["r"];
+                                flags["fillStyle"] = this["M"];
+                                if (this["O"]) {
+                                    flags["strokeText"](r20, 3, ~~(far - near / 2));
                                 }
-                                flags[_0x6942[32]](r20, 3, ~~(far - near / 2));
+                                flags["fillText"](r20, 3, ~~(far - near / 2));
                             }
-                            return this[_0x6942[551]];
+                            return this["l"];
                         }
                     };
-                    if (!Date[_0x6942[330]]) {
+                    if (!Date["now"]) {
                         /**
                          * @return {?}
                          */
-                        Date[_0x6942[330]] = function() {
-                            return(new Date)[_0x6942[556]]();
+                        Date["now"] = function() {
+                            return(new Date)["getTime"]();
                         };
                     }
                     (function() {
                         /** @type {Array} */
-                        var ws = [_0x6942[557], _0x6942[558], _0x6942[559], _0x6942[331]];
+                        var ws = ["ms", "moz", "webkit", "o"];
                         /** @type {number} */
                         var y = 0;
-                        var x = ws[_0x6942[6]];
-                        for (;x > y && !$[_0x6942[241]];++y) {
-                            $[_0x6942[241]] = $[ws[y] + _0x6942[560]];
-                            $[_0x6942[561]] = $[ws[y] + _0x6942[562]] || $[ws[y] + _0x6942[563]];
+                        var x = ws["length"];
+                        for (;x > y && !$["requestAnimationFrame"];++y) {
+                            $["requestAnimationFrame"] = $[ws[y] + "RequestAnimationFrame"];
+                            $["cancelAnimationFrame"] = $[ws[y] + "CancelAnimationFrame"] || $[ws[y] + "CancelRequestAnimationFrame"];
                         }
-                        if (!$[_0x6942[241]]) {
+                        if (!$["requestAnimationFrame"]) {
                             /**
                              * @param {?} fnc
                              * @return {?}
                              */
-                            $[_0x6942[241]] = function(fnc) {
+                            $["requestAnimationFrame"] = function(fnc) {
                                 return setTimeout(fnc, 1E3 / 60);
                             };
                             /**
                              * @param {?} to
                              * @return {undefined}
                              */
-                            $[_0x6942[561]] = function(to) {
+                            $["cancelAnimationFrame"] = function(to) {
                                 clearTimeout(to);
                             };
                         }
@@ -3653,10 +3636,10 @@ var i18n = i18n_dict[i18n_lang];
                             function parseInt(left) {
                                 return x > left && (left = x), left > right && (left = right), ~~((left - x) / 32);
                             }
-                            var start = args[_0x6942[564]];
-                            var x = args[_0x6942[565]];
-                            var next = args[_0x6942[566]];
-                            var right = args[_0x6942[567]];
+                            var start = args["ba"];
+                            var x = args["ca"];
+                            var next = args["Z"];
+                            var right = args["$"];
                             /** @type {number} */
                             var dim = ~~((next - start) / 32) + 1;
                             /** @type {number} */
@@ -3669,10 +3652,10 @@ var i18n = i18n_dict[i18n_lang];
                                  * @return {undefined}
                                  */
                                 Y : function(v) {
-                                    var k = $(v[_0x6942[55]]) + parseInt(v[_0x6942[57]]) * dim;
+                                    var k = $(v["x"]) + parseInt(v["y"]) * dim;
                                     if (cache[k]) {
-                                        if (Array[_0x6942[568]](cache[k])) {
-                                            cache[k][_0x6942[325]](v);
+                                        if (Array["isArray"](cache[k])) {
+                                            cache[k]["push"](v);
                                         } else {
                                             /** @type {Array} */
                                             cache[k] = [cache[k], v];
@@ -3698,10 +3681,10 @@ var i18n = i18n_dict[i18n_lang];
                                         r = q;
                                         for (;elem >= r;++r) {
                                             if (item = cache[r + g * dim]) {
-                                                if (Array[_0x6942[568]](item)) {
+                                                if (Array["isArray"](item)) {
                                                     /** @type {number} */
                                                     var prop = 0;
-                                                    var callback = item[_0x6942[6]];
+                                                    var callback = item["length"];
                                                     for (;callback > prop;prop++) {
                                                         func(item[prop]);
                                                     }
@@ -3717,54 +3700,54 @@ var i18n = i18n_dict[i18n_lang];
                     };
                     success(function() {
                     });
-                    var name = _0x6942[569];
+                    var name = "loginCache3";
                     success(function() {
-                        if (+$[_0x6942[268]][_0x6942[570]]) {
-                            if ($[_0x6942[268]][name]) {
-                                callback($[_0x6942[268]][name]);
+                        if (+$["localStorage"]["wannaLogin"]) {
+                            if ($["localStorage"][name]) {
+                                callback($["localStorage"][name]);
                             }
-                            if ($[_0x6942[268]][_0x6942[429]]) {
-                                success(_0x6942[432])[_0x6942[255]](_0x6942[431], $[_0x6942[268]][_0x6942[429]]);
+                            if ($["localStorage"]["fbPictureCache"]) {
+                                success(".agario-profile-picture")["attr"]("src", $["localStorage"]["fbPictureCache"]);
                             }
                         }
                     });
                     /**
                      * @return {undefined}
                      */
-                    $[_0x6942[436]] = function() {
+                    $["facebookLogin"] = function() {
                         /** @type {number} */
-                        $[_0x6942[268]][_0x6942[570]] = 1;
+                        $["localStorage"]["wannaLogin"] = 1;
                     };
                     /**
                      * @return {undefined}
                      */
-                    $[_0x6942[571]] = function() {
+                    $["fbAsyncInit"] = function() {
                         /**
                          * @return {undefined}
                          */
                         function makeArray() {
                             /** @type {number} */
-                            $[_0x6942[268]][_0x6942[570]] = 1;
-                            if ($[_0x6942[434]]) {
-                                $[_0x6942[434]][_0x6942[573]](function(deepDataAndEvents) {
+                            $["localStorage"]["wannaLogin"] = 1;
+                            if ($["FB"]) {
+                                $["FB"]["login"](function(deepDataAndEvents) {
                                     logout(deepDataAndEvents);
                                 }, {
-                                    scope : _0x6942[572]
+                                    scope : "public_profile, email"
                                 });
                             } else {
-                                alert(_0x6942[574]);
+                                alert("You seem to have something blocking Facebook on your browser, please check for any extensions");
                             }
                         }
-                        $[_0x6942[434]][_0x6942[577]]({
-                            appId : _0x6942[575],
+                        $["FB"]["init"]({
+                            appId : "677505792353827",
                             cookie : true,
                             xfbml : true,
                             status : true,
-                            version : _0x6942[576]
+                            version : "v2.2"
                         });
-                        $[_0x6942[434]][_0x6942[580]][_0x6942[579]](_0x6942[578], function(deepDataAndEvents) {
-                            if (+$[_0x6942[268]][_0x6942[570]]) {
-                                if (_0x6942[424] === deepDataAndEvents[_0x6942[425]]) {
+                        $["FB"]["Event"]["subscribe"]("auth.statusChange", function(deepDataAndEvents) {
+                            if (+$["localStorage"]["wannaLogin"]) {
+                                if ("connected" === deepDataAndEvents["status"]) {
                                     logout(deepDataAndEvents);
                                 } else {
                                     makeArray();
@@ -3772,19 +3755,19 @@ var i18n = i18n_dict[i18n_lang];
                             }
                         });
                         /** @type {function (): undefined} */
-                        $[_0x6942[436]] = makeArray;
+                        $["facebookLogin"] = makeArray;
                     };
                     /**
                      * @return {undefined}
                      */
-                    $[_0x6942[581]] = function() {
+                    $["logout"] = function() {
                         /** @type {null} */
                         data = null;
-                        success(_0x6942[276])[_0x6942[255]](_0x6942[420], _0x6942[384]);
-                        success(_0x6942[276])[_0x6942[255]](_0x6942[393], _0x6942[384]);
-                        delete $[_0x6942[268]][_0x6942[570]];
-                        delete $[_0x6942[268]][name];
-                        delete $[_0x6942[268]][_0x6942[429]];
+                        success("#helloContainer")["attr"]("data-logged-in", "0");
+                        success("#helloContainer")["attr"]("data-has-account-data", "0");
+                        delete $["localStorage"]["wannaLogin"];
+                        delete $["localStorage"][name];
+                        delete $["localStorage"]["fbPictureCache"];
                         search();
                     };
                     var tryIt = function() {
@@ -3797,91 +3780,91 @@ var i18n = i18n_dict[i18n_lang];
                          * @return {undefined}
                          */
                         function clone(callback, dataAndEvents, deepDataAndEvents, events, keepData) {
-                            var downloadId = dataAndEvents[_0x6942[39]](_0x6942[38]);
-                            var _0x33d9xd3 = dataAndEvents[_0x6942[36]];
-                            dataAndEvents = dataAndEvents[_0x6942[37]];
-                            callback[_0x6942[50]] = keepData;
-                            callback[_0x6942[344]](deepDataAndEvents);
+                            var downloadId = dataAndEvents["getContext"]("2d");
+                            var _0x33d9xd3 = dataAndEvents["width"];
+                            dataAndEvents = dataAndEvents["height"];
+                            callback["color"] = keepData;
+                            callback["t"](deepDataAndEvents);
                             /** @type {number} */
-                            callback[_0x6942[7]] = events;
-                            downloadId[_0x6942[358]]();
-                            downloadId[_0x6942[359]](_0x33d9xd3 / 2, dataAndEvents / 2);
-                            callback[_0x6942[361]](downloadId);
-                            downloadId[_0x6942[363]]();
+                            callback["size"] = events;
+                            downloadId["save"]();
+                            downloadId["translate"](_0x33d9xd3 / 2, dataAndEvents / 2);
+                            callback["s"](downloadId);
+                            downloadId["restore"]();
                         }
-                        var which = new a(-1, 0, 0, 32, _0x6942[582], _0x6942[67]);
-                        var restoreScript = new a(-1, 0, 0, 32, _0x6942[582], _0x6942[67]);
-                        var component = _0x6942[583][_0x6942[218]](_0x6942[405]);
+                        var which = new a(-1, 0, 0, 32, "#5bc0de", "");
+                        var restoreScript = new a(-1, 0, 0, 32, "#5bc0de", "");
+                        var component = "#0791ff #5a07ff #ff07fe #ffa507 #ff0774 #077fff #3aff07 #ff07ed #07a8ff #ff076e #3fff07 #ff0734 #07ff20 #ff07a2 #ff8207 #07ff0e"["split"](" ");
                         /** @type {Array} */
                         var expectationResult = [];
                         /** @type {number} */
                         var delta = 0;
-                        var lowestDelta = component[_0x6942[6]];
+                        var lowestDelta = component["length"];
                         for (;lowestDelta > delta;++delta) {
                             /** @type {number} */
                             var y = delta / lowestDelta * 12;
                             /** @type {number} */
-                            var _width = 30 * Math[_0x6942[227]](delta / lowestDelta);
-                            expectationResult[_0x6942[325]](new a(-1, Math[_0x6942[529]](y) * _width, Math[_0x6942[530]](y) * _width, 10, component[delta], _0x6942[67]));
+                            var _width = 30 * Math["sqrt"](delta / lowestDelta);
+                            expectationResult["push"](new a(-1, Math["cos"](y) * _width, Math["sin"](y) * _width, 10, component[delta], ""));
                         }
                         flattenTo(expectationResult);
-                        var node = document[_0x6942[35]](_0x6942[34]);
-                        return node[_0x6942[39]](_0x6942[38]), node[_0x6942[36]] = node[_0x6942[37]] = 70, clone(restoreScript, node, _0x6942[67], 26, _0x6942[584]), function() {
-                            success(_0x6942[587])[_0x6942[586]](_0x6942[90])[_0x6942[256]](function() {
+                        var node = document["createElement"]("canvas");
+                        return node["getContext"]("2d"), node["width"] = node["height"] = 70, clone(restoreScript, node, "", 26, "#ebc0de"), function() {
+                            success(".cell-spinner")["filter"](":visible")["each"](function() {
                                 var str = success(this);
-                                var x = Date[_0x6942[330]]();
-                                var r20 = this[_0x6942[36]];
-                                var restoreScript = this[_0x6942[37]];
-                                var Y_DOM = this[_0x6942[39]](_0x6942[38]);
-                                Y_DOM[_0x6942[44]](0, 0, r20, restoreScript);
-                                Y_DOM[_0x6942[358]]();
-                                Y_DOM[_0x6942[359]](r20 / 2, restoreScript / 2);
+                                var x = Date["now"]();
+                                var r20 = this["width"];
+                                var restoreScript = this["height"];
+                                var Y_DOM = this["getContext"]("2d");
+                                Y_DOM["clearRect"](0, 0, r20, restoreScript);
+                                Y_DOM["save"]();
+                                Y_DOM["translate"](r20 / 2, restoreScript / 2);
                                 /** @type {number} */
                                 var y = 0;
                                 for (;10 > y;++y) {
-                                    Y_DOM[_0x6942[45]](node, (0.1 * x + 80 * y) % (r20 + 140) - r20 / 2 - 70 - 35, restoreScript / 2 * Math[_0x6942[530]]((0.001 * x + y) % Math[_0x6942[48]] * 2) - 35, 70, 70);
+                                    Y_DOM["drawImage"](node, (0.1 * x + 80 * y) % (r20 + 140) - r20 / 2 - 70 - 35, restoreScript / 2 * Math["sin"]((0.001 * x + y) % Math["PI"] * 2) - 35, 70, 70);
                                 }
-                                Y_DOM[_0x6942[363]]();
-                                str = str[_0x6942[255]](_0x6942[254]);
+                                Y_DOM["restore"]();
+                                str = str["attr"]("data-itr");
                                 if (str) {
                                     str = toString(str);
                                 }
-                                clone(which, this, str || _0x6942[67], +success(this)[_0x6942[255]](_0x6942[585]), _0x6942[582]);
+                                clone(which, this, str || "", +success(this)["attr"]("data-size"), "#5bc0de");
                             });
                         };
                     }();
                     /**
                      * @return {undefined}
                      */
-                    $[_0x6942[588]] = function() {
-                        _success(_0x6942[71]);
+                    $["createParty"] = function() {
+                        _success(":party");
                         /**
                          * @param {Object} elem
                          * @return {undefined}
                          */
                         get = function(elem) {
-                            isObject(_0x6942[589] + $[_0x6942[439]](elem));
-                            success(_0x6942[443])[_0x6942[75]](_0x6942[442] + $[_0x6942[439]](elem));
-                            success(_0x6942[276])[_0x6942[255]](_0x6942[437], _0x6942[392]);
+                            isObject("/#" + $["encodeURIComponent"](elem));
+                            success(".partyToken")["val"]("agar.io/#" + $["encodeURIComponent"](elem));
+                            success("#helloContainer")["attr"]("data-party-state", "1");
                         };
                         search();
                     };
                     /** @type {function (Object): undefined} */
-                    $[_0x6942[590]] = send;
+                    $["joinParty"] = send;
                     /**
                      * @return {undefined}
                      */
-                    $[_0x6942[591]] = function() {
-                        isObject(_0x6942[402]);
-                        success(_0x6942[276])[_0x6942[255]](_0x6942[437], _0x6942[384]);
-                        _success(_0x6942[67]);
+                    $["cancelParty"] = function() {
+                        isObject("/");
+                        success("#helloContainer")["attr"]("data-party-state", "0");
+                        _success("");
                         search();
                     };
                     /** @type {Array} */
                     var _0x33d9x39 = [];
                     /** @type {number} */
                     var _0x33d9x174 = 0;
-                    var _0x33d9x175 = _0x6942[525];
+                    var _0x33d9x175 = "#000000";
                     /** @type {boolean} */
                     var from = false;
                     /** @type {boolean} */
@@ -3901,7 +3884,7 @@ var i18n = i18n_dict[i18n_lang];
                     /**
                      * @return {undefined}
                      */
-                    $[_0x6942[592]] = function() {
+                    $["closeStats"] = function() {
                         /** @type {boolean} */
                         from = false;
                         cb(0);
@@ -3910,7 +3893,7 @@ var i18n = i18n_dict[i18n_lang];
                      * @param {?} err
                      * @return {undefined}
                      */
-                    $[_0x6942[593]] = function(err) {
+                    $["setSkipStats"] = function(err) {
                         /** @type {boolean} */
                         connected = !err;
                     };
@@ -3921,146 +3904,146 @@ var i18n = i18n_dict[i18n_lang];
             }
         }
     }
-}(window, window[_0x6942[222]]), $(document)[_0x6942[653]](function() {
+}(window, window["jQuery"]), $(document)["ready"](function() {
     /**
      * @return {undefined}
      */
     function throttledUpdate() {
-        window[_0x6942[467]]();
+        window["ksOb"]();
     }
     /**
      * @return {?}
      */
     function onLoad() {
-        return _0x33d9x18f[_0x6942[75]]();
+        return _0x33d9x18f["val"]();
     }
     /**
      * @return {undefined}
      */
     function tryIt() {
-        _0x33d9x18f[_0x6942[75]](_0x6942[67]);
+        _0x33d9x18f["val"]("");
     }
     /**
      * @return {undefined}
      */
     function cframe() {
-        _0x33d9x190[_0x6942[411]](_0x6942[271]);
-        _0x33d9x190[_0x6942[79]](_0x6942[594]);
-        _0x33d9x191[_0x6942[414]](_0x6942[271]);
+        _0x33d9x190["removeClass"]("disabled");
+        _0x33d9x190["text"]("Connect");
+        _0x33d9x191["addClass"]("disabled");
         /** @type {number} */
-        window[_0x6942[595]] = -1;
+        window["ksConnectTriedCounter"] = -1;
     }
     /**
      * @return {undefined}
      */
     function traverseNode() {
         /** @type {number} */
-        window[_0x6942[595]] = 0;
-        _0x33d9x190[_0x6942[414]](_0x6942[271]);
-        _0x33d9x190[_0x6942[79]](_0x6942[596]);
-        _0x33d9x191[_0x6942[411]](_0x6942[271]);
+        window["ksConnectTriedCounter"] = 0;
+        _0x33d9x190["addClass"]("disabled");
+        _0x33d9x190["text"]("Connecting...");
+        _0x33d9x191["removeClass"]("disabled");
     }
     /**
      * @return {undefined}
      */
     function Benchmark() {
-        window[_0x6942[595]]++;
-        _0x33d9x190[_0x6942[79]](_0x6942[597] + window[_0x6942[595]] + _0x6942[598]);
+        window["ksConnectTriedCounter"]++;
+        _0x33d9x190["text"]("Connecting... (" + window["ksConnectTriedCounter"] + ")");
     }
-    var emptyJ = $(_0x6942[599]);
-    var _0x33d9x183 = emptyJ[_0x6942[601]](_0x6942[600]);
-    _0x33d9x183[_0x6942[601]](_0x6942[604])[_0x6942[278]](_0x6942[602] + version + _0x6942[603]);
-    _0x33d9x183[_0x6942[601]](_0x6942[605])[_0x6942[75]](currentPlayerName);
-    var _0x33d9x184 = _0x33d9x183[_0x6942[601]](_0x6942[606]);
-    var _0x33d9x185 = _0x33d9x183[_0x6942[601]](_0x6942[607]);
-    var _0x33d9x186 = _0x33d9x185[_0x6942[601]](_0x6942[608]);
-    var _0x33d9x187 = _0x33d9x185[_0x6942[601]](_0x6942[609]);
-    _0x33d9x186[_0x6942[75]](currentSkin);
-    _0x33d9x186[_0x6942[613]](_0x6942[610], function() {
+    var emptyJ = $("div#helloContainer");
+    var _0x33d9x183 = emptyJ["find"]("div#mainPanel");
+    _0x33d9x183["find"]("form div.form-group:first")["append"]("<h3>VNDOT <small>v" + version + " by KSCC & GS.Chich</small></h3>");
+    _0x33d9x183["find"]("input#nick")["val"](currentPlayerName);
+    var _0x33d9x184 = _0x33d9x183["find"]("#settings");
+    var _0x33d9x185 = _0x33d9x183["find"]("#settings div#ks-skin-group");
+    var _0x33d9x186 = _0x33d9x185["find"]("input#ks-skin-textbox");
+    var _0x33d9x187 = _0x33d9x185["find"]("input#ks-skin-code");
+    _0x33d9x186["val"](currentSkin);
+    _0x33d9x186["on"]("input propertychange paste", function() {
         /** @type {string} */
-        var stringConstructor = String(this[_0x6942[611]]);
-        if (0 === stringConstructor[_0x6942[6]] || /^http/[_0x6942[231]](stringConstructor)) {
-            _0x33d9x185[_0x6942[411]](_0x6942[612]);
+        var stringConstructor = String(this["value"]);
+        if (0 === stringConstructor["length"] || /^http/["test"](stringConstructor)) {
+            _0x33d9x185["removeClass"]("has-error");
             /** @type {string} */
             currentSkin = stringConstructor;
-            localStorage[_0x6942[492]](_0x6942[53], currentSkin);
+            localStorage["setItem"]("skin", currentSkin);
         } else {
-            _0x33d9x185[_0x6942[414]](_0x6942[612]);
+            _0x33d9x185["addClass"]("has-error");
         }
     });
-    _0x33d9x187[_0x6942[75]](currentSkinCode);
-    _0x33d9x187[_0x6942[613]](_0x6942[610], function() {
+    _0x33d9x187["val"](currentSkinCode);
+    _0x33d9x187["on"]("input propertychange paste", function() {
         /** @type {string} */
-        var t = String(this[_0x6942[611]]);
-        if (t[_0x6942[6]] < 3) {
-            _0x33d9x185[_0x6942[411]](_0x6942[612]);
+        var t = String(this["value"]);
+        if (t["length"] < 3) {
+            _0x33d9x185["removeClass"]("has-error");
             /** @type {string} */
             currentSkinCode = t;
-            localStorage[_0x6942[492]](_0x6942[130], currentSkinCode);
+            localStorage["setItem"]("skin_code", currentSkinCode);
         } else {
-            _0x33d9x185[_0x6942[414]](_0x6942[612]);
+            _0x33d9x185["addClass"]("has-error");
         }
     });
-    var _0x33d9x189 = _0x33d9x184[_0x6942[601]](_0x6942[614]);
-    _0x33d9x189[_0x6942[75]](currentTeam);
-    _0x33d9x189[_0x6942[613]](_0x6942[610], function() {
-        currentTeam = this[_0x6942[611]];
+    var _0x33d9x189 = _0x33d9x184["find"]("input#vndot-team");
+    _0x33d9x189["val"](currentTeam);
+    _0x33d9x189["on"]("input propertychange paste", function() {
+        currentTeam = this["value"];
         /** @type {null} */
         currentLeaderBoard = null;
     });
-    var _0x33d9xb4 = _0x33d9x184[_0x6942[601]](_0x6942[615]);
-    _0x33d9xb4[_0x6942[601]](_0x6942[617])[_0x6942[272]](_0x6942[616], !vndot[_0x6942[457]]);
-    _0x33d9xb4[_0x6942[601]](_0x6942[618])[_0x6942[272]](_0x6942[616], true);
-    _0x33d9xb4[_0x6942[601]](_0x6942[620])[_0x6942[619]](function() {
-        showGridLines = this[_0x6942[616]];
+    var _0x33d9xb4 = _0x33d9x184["find"]("#options");
+    _0x33d9xb4["find"]("input[onchange="setSkins(!$(this).is(':checked'));"]")["prop"]("checked", !vndot["isShowSkins"]);
+    _0x33d9xb4["find"]("input[onchange="setShowMass($(this).is(':checked'));"]")["prop"]("checked", true);
+    _0x33d9xb4["find"]("input#option_gridlines")["change"](function() {
+        showGridLines = this["checked"];
     });
-    _0x33d9xb4[_0x6942[601]](_0x6942[621])[_0x6942[619]](function() {
-        isKeepFoodColor = this[_0x6942[616]];
+    _0x33d9xb4["find"]("input#option_foodcolor")["change"](function() {
+        isKeepFoodColor = this["checked"];
     });
-    _0x33d9xb4[_0x6942[601]](_0x6942[622])[_0x6942[619]](function() {
-        isDefaultSkinForAll = this[_0x6942[616]];
+    _0x33d9xb4["find"]("input#option_defaultskin")["change"](function() {
+        isDefaultSkinForAll = this["checked"];
     });
-    _0x33d9xb4[_0x6942[601]](_0x6942[623])[_0x6942[619]](function() {
-        enableCieMass = this[_0x6942[616]];
+    _0x33d9xb4["find"]("input#option_cieMass")["change"](function() {
+        enableCieMass = this["checked"];
     });
-    _0x33d9xb4[_0x6942[601]](_0x6942[624])[_0x6942[619]](function() {
-        enableCieSignal = this[_0x6942[616]];
+    _0x33d9xb4["find"]("input#option_cieSignal")["change"](function() {
+        enableCieSignal = this["checked"];
     });
-    _0x33d9xb4[_0x6942[601]](_0x6942[625])[_0x6942[619]](function() {
-        enableCieCircle = this[_0x6942[616]];
+    _0x33d9xb4["find"]("input#option_cieCircle")["change"](function() {
+        enableCieCircle = this["checked"];
     });
-    _0x33d9xb4[_0x6942[601]](_0x6942[626])[_0x6942[619]](function() {
-        isEnableYinSkin = this[_0x6942[616]];
+    _0x33d9xb4["find"]("input#option_yinSkin")["change"](function() {
+        isEnableYinSkin = this["checked"];
     });
-    _0x33d9xb4[_0x6942[601]](_0x6942[627])[_0x6942[619]](function() {
-        isTransparentCell = this[_0x6942[616]];
+    _0x33d9xb4["find"]("input#option_transparent")["change"](function() {
+        isTransparentCell = this["checked"];
     });
-    var _0x33d9x18a = emptyJ[_0x6942[601]](_0x6942[628]);
-    $(_0x6942[297])[_0x6942[356]](_0x6942[629], 1E3);
-    miniMapCtx = document[_0x6942[223]](_0x6942[630])[_0x6942[39]](_0x6942[38]);
-    cboxInput = $(_0x6942[631]);
+    var _0x33d9x18a = emptyJ["find"]("#agario-main-buttons");
+    $("#connecting")["css"]("z-index", 1E3);
+    miniMapCtx = document["getElementById"]("mini-map")["getContext"]("2d");
+    cboxInput = $("input#cboxmsg");
     /**
      * @param {?} dataAndEvents
      * @return {undefined}
      */
-    window[_0x6942[632]] = function(dataAndEvents) {
-        $(_0x6942[633])[_0x6942[274]]();
+    window["openServerbrowser"] = function(dataAndEvents) {
+        $("#serverBrowser")["fadeIn"]();
     };
     /**
      * @return {undefined}
      */
-    window[_0x6942[58]] = function() {
-        $(_0x6942[633])[_0x6942[634]]();
+    window["closeServerbrowser"] = function() {
+        $("#serverBrowser")["fadeOut"]();
     };
-    angular[_0x6942[651]](_0x6942[650], [])[_0x6942[649]](_0x6942[635], [_0x6942[636], _0x6942[637], function(exports, $sanitize) {
-        var xhr = io(SERVER_URL + _0x6942[638]);
+    angular["module"]("vnks", [])["controller"]("mainCtrl", ["$scope", "$timeout", function(exports, $sanitize) {
+        var xhr = io(SERVER_URL + "/serverInfo");
         /**
          * @return {undefined}
          */
-        exports[_0x6942[639]] = function() {
-            xhr[_0x6942[61]](_0x6942[640], _0x6942[67], function(val) {
+        exports["getServers"] = function() {
+            xhr["emit"]("server.info", "", function(val) {
                 $sanitize(function() {
-                    exports[_0x6942[641]] = val;
+                    exports["servers"] = val;
                 });
             });
         };
@@ -4068,13 +4051,13 @@ var i18n = i18n_dict[i18n_lang];
          * @param {?} task
          * @return {undefined}
          */
-        exports[_0x6942[642]] = function(task) {
+        exports["connectServer"] = function(task) {
             if (task) {
-                if (-1 === task[_0x6942[8]](_0x6942[643])) {
-                    $(_0x6942[644])[_0x6942[75]](task);
-                    window[_0x6942[590]](task);
+                if (-1 === task["indexOf"](".")) {
+                    $("#joinPartyToken")["val"](task);
+                    window["joinParty"](task);
                 } else {
-                    $(_0x6942[645])[_0x6942[75]](task);
+                    $("input#ksIpInput")["val"](task);
                     traverseNode();
                     throttledUpdate();
                 }
@@ -4083,45 +4066,45 @@ var i18n = i18n_dict[i18n_lang];
         /**
          * @return {undefined}
          */
-        exports[_0x6942[646]] = function() {
-            $(_0x6942[645])[_0x6942[75]](_0x6942[67]);
+        exports["stopConnect"] = function() {
+            $("input#ksIpInput")["val"]("");
         };
         /**
          * @return {?}
          */
-        exports[_0x6942[647]] = function() {
-            return window[_0x6942[595]];
+        exports["connectTriedCounter"] = function() {
+            return window["ksConnectTriedCounter"];
         };
         /**
          * @param {boolean} m3
          * @return {?}
          */
-        exports[_0x6942[648]] = function(m3) {
+        exports["getTotalMass"] = function(m3) {
             return m3 ? ~~(m3 * m3 / 100) : 0;
         };
     }]);
-    $(_0x6942[633])[_0x6942[653]](function() {
-        angular[_0x6942[652]]($(_0x6942[633]), [_0x6942[650]]);
+    $("#serverBrowser")["ready"](function() {
+        angular["bootstrap"]($("#serverBrowser"), ["vnks"]);
     });
     var _0x33d9x18f;
     var _0x33d9x190;
     var _0x33d9x191;
-    _0x33d9x18f = _0x33d9x18a[_0x6942[601]](_0x6942[645]);
-    _0x33d9x190 = _0x33d9x18a[_0x6942[601]](_0x6942[654]);
-    _0x33d9x191 = _0x33d9x18a[_0x6942[601]](_0x6942[655]);
-    _0x33d9x190[_0x6942[656]](function() {
+    _0x33d9x18f = _0x33d9x18a["find"]("input#ksIpInput");
+    _0x33d9x190 = _0x33d9x18a["find"]("button#ksConnectBtn");
+    _0x33d9x191 = _0x33d9x18a["find"]("button#ksStopBtn");
+    _0x33d9x190["click"](function() {
         traverseNode();
         throttledUpdate();
     });
-    _0x33d9x191[_0x6942[656]](function() {
+    _0x33d9x191["click"](function() {
         tryIt();
     });
     /** @type {function (): ?} */
-    window[_0x6942[286]] = onLoad;
+    window["ksGetWantedIp"] = onLoad;
     /** @type {function (): undefined} */
-    window[_0x6942[290]] = cframe;
+    window["ksStopConnect"] = cframe;
     /** @type {function (): undefined} */
-    window[_0x6942[289]] = Benchmark;
+    window["ksUpdateConnectBtn"] = Benchmark;
 });
 /** @type {null} */
 var miniMapBackground = null;
@@ -4131,75 +4114,75 @@ var lastTimePressOnM = 0;
 var messages = [{
     code : 49,
     key : 1,
-    msg : _0x6942[657],
-    cbox : _0x6942[658],
-    type : _0x6942[659]
+    msg : "Need help",
+    cbox : ":cuu",
+    type : "warning"
 }, {
     code : 50,
     key : 2,
-    msg : _0x6942[660],
-    type : _0x6942[659]
+    msg : "Feed me",
+    type : "warning"
 }, {
     code : 51,
     key : 3,
-    msg : _0x6942[661],
-    cbox : _0x6942[662],
-    type : _0x6942[659]
+    msg : "Enermies near me",
+    cbox : "codich",
+    type : "warning"
 }, {
     code : 52,
     key : 4,
-    msg : _0x6942[663],
-    cbox : _0x6942[664],
-    type : _0x6942[659]
+    msg : "Eat virus",
+    cbox : ":pha",
+    type : "warning"
 }, {
     code : 53,
     key : 5,
-    msg : _0x6942[665],
-    cbox : _0x6942[666],
-    type : _0x6942[659]
+    msg : "Fire virus",
+    cbox : ":ban",
+    type : "warning"
 }, {
     code : 54,
     key : 6,
-    msg : _0x6942[667],
-    cbox : _0x6942[668],
-    type : _0x6942[659]
+    msg : "Run run run!",
+    cbox : "Ch\u1ea1y \u0111i",
+    type : "warning"
 }, {
     code : 55,
     key : 7,
-    msg : _0x6942[669],
-    cbox : _0x6942[670],
-    type : _0x6942[659]
+    msg : "Feed teemates",
+    cbox : ":bfvt",
+    type : "warning"
 }, {
     code : 56,
     key : 8,
-    msg : _0x6942[671],
-    type : _0x6942[659]
+    msg : "We won!",
+    type : "warning"
 }, {
     code : 57,
     key : 9,
-    msg : _0x6942[672],
-    cbox : _0x6942[673],
-    type : _0x6942[674]
+    msg : "WTF, house burning!!!",
+    cbox : ":dot",
+    type : "error"
 }, {
     code : 48,
     key : 0,
-    msg : _0x6942[675],
-    type : _0x6942[82]
+    msg : "I love KSCC <3",
+    type : "success"
 }];
 /** @type {Array} */
 var guides = [];
-messages[_0x6942[110]](function(dataAndEvents) {
-    guides[_0x6942[325]](_0x6942[676] + dataAndEvents[_0x6942[677]] + _0x6942[367] + dataAndEvents[_0x6942[81]]);
-}), guides = guides[_0x6942[678]](_0x6942[67]);
+messages["forEach"](function(dataAndEvents) {
+    guides["push"]("<br>" + dataAndEvents["key"] + ": " + dataAndEvents["msg"]);
+}), guides = guides["join"]("");
 /** @type {number} */
 var lastTimeSendMsg = 0;
-toastr[_0x6942[680]][_0x6942[679]] = _0x6942[681], toastr[_0x6942[680]][_0x6942[682]] = true;
+toastr["options"]["positionClass"] = "toast-top-left", toastr["options"]["preventDuplicates"] = true;
 var holdInterval;
 /** @type {boolean} */
 var holdSwitchy = false;
-var holdBody = $(_0x6942[235]);
-$(document)[_0x6942[613]](_0x6942[683], function(dataAndEvents) {
-    if (81 === dataAndEvents[_0x6942[87]]) {
+var holdBody = $("body");
+$(document)["on"]("keydown", function(dataAndEvents) {
+    if (81 === dataAndEvents["keyCode"]) {
         if (holdSwitchy) {
             return;
         }
@@ -4207,25 +4190,25 @@ $(document)[_0x6942[613]](_0x6942[683], function(dataAndEvents) {
         holdSwitchy = true;
         /** @type {number} */
         holdInterval = setInterval(function() {
-            holdBody[_0x6942[684]]($.Event(_0x6942[683], {
+            holdBody["trigger"]($.Event("keydown", {
                 keyCode : 87
             }));
-            holdBody[_0x6942[684]]($.Event(_0x6942[685], {
+            holdBody["trigger"]($.Event("keyup", {
                 keyCode : 87
             }));
         }, 100);
     }
-}), $(document)[_0x6942[613]](_0x6942[685], function(dataAndEvents) {
-    return 81 === dataAndEvents[_0x6942[87]] ? (holdSwitchy = false, void clearInterval(holdInterval)) : void 0;
+}), $(document)["on"]("keyup", function(dataAndEvents) {
+    return 81 === dataAndEvents["keyCode"] ? (holdSwitchy = false, void clearInterval(holdInterval)) : void 0;
 });
-var _cbox = $(_0x6942[686]);
-var _miniMap = $(_0x6942[687]);
+var _cbox = $("#cbox");
+var _miniMap = $("#mini-map");
 var socket = io(SERVER_URL);
-socket[_0x6942[613]](_0x6942[451], function() {
+socket["on"]("connect", function() {
     /** @type {null} */
     currentLeaderBoard = null;
-}), socket[_0x6942[613]](_0x6942[69], function(dataAndEvents) {
-}), socket[_0x6942[613]](_0x6942[63], function(dataAndEvents) {
-}), socket[_0x6942[613]](_0x6942[81], function(dataAndEvents) {
-    toastr[dataAndEvents[_0x6942[109]]](dataAndEvents[_0x6942[81]], dataAndEvents[_0x6942[688]]);
+}), socket["on"]("room.join", function(dataAndEvents) {
+}), socket["on"]("room.play", function(dataAndEvents) {
+}), socket["on"]("msg", function(dataAndEvents) {
+    toastr[dataAndEvents["type"]](dataAndEvents["msg"], dataAndEvents["sender"]);
 });

@@ -1,4 +1,5 @@
 (function (window, $, Backbone, Marionette, _, AgarBot, app) {
+    "use strict"
     AgarBot.Modules.MapUtil = Marionette.Module.extend({
         initialize: function (moduleName, app, options) {
             this.canvasContext = 'undefined';
@@ -6,6 +7,10 @@
         onStart: function (options) {
             console.log('Module MapUtil start');
             this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.drawRound);
+            this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
+        },
+        onDocumentReady:function(){
+            setAcid(false);
         },
         getCanvasContext:function(){
             if(this.canvasContext === 'undefined'){
@@ -16,7 +21,7 @@
             return this.canvasContext;
         },
         drawRound:function(){
-            var context = this.getCanvasContext();;
+            var context = this.getCanvasContext();
             context.save();
             context.beginPath();
             context.lineWidth = 5;

@@ -4934,7 +4934,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     function Wa() {
         //@author nguyenvanduocit
         var tmp_Ba = (ua - p / 2) / m + u;
-        var tmp_Ca = (va - q / 2) / m + v
+        var tmp_Ca = (va - q / 2) / m + v;
         setPoint(tmp_Ba, tmp_Ca);
     }
 
@@ -5093,25 +5093,8 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 if (a == Xa) {
                     c.alert && alert(c.alert);
                     var b = c.ip;
-
-                    /**
-                     * @author nguyenvanduocit
-                     */
-                    var wantedIp = window.getWantedIp();
-                    if(wantedIp && wantedIp !== b.trim()){
-                        console.log('Found ',b,", Wanted : ",wantedIp );
-                        if(currenConnecttTry <= maxConnectRetry){
-                            currenConnecttTry++;
-                            AgarBot.pubsub.trigger('findServer:retry', {time:currenConnecttTry});
-                            setTimeout(Kb, 2e3);
-                        }else{
-                            AgarBot.pubsub.trigger('findServer:ipNotFound');
-                            currenConnecttTry = 0;
-                        }
-                    }else{
-                        void 0 != y.$ && (b = d.location.hostname + ":" + y.$);
-                        fb("ws" + (gb ? "s" : "") + "://" + b, c.token)
-                    }
+                    void 0 != y.$ && (b = d.location.hostname + ":" + y.$);
+                    fb("ws" + (gb ? "s" : "") + "://" + b, c.token)
                 }
             }, dataType: "json", method: "POST", cache: !1, crossDomain: !0, data: (C + ma || "?") + "\n2200049715"
         })
@@ -5182,13 +5165,13 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             a.setUint8(0, 80);
             for (var b = 0; b < c.length; ++b)a.setUint8(b + 1, c.charCodeAt(b));
             X(a);
-            Mb()
+            Mb();
         };
         r.onmessage = sc;
         r.onclose = tc;
         r.onerror = function () {
             console.log("socket error")
-        }
+        };
     }
 
     function W(a) {
@@ -5259,6 +5242,12 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                     A.push({id: t, name: c()})
                 }
                 Nb();
+                //nguyenvanduocit
+                if(Date.now() - lastLeaderBoardUpdate > 1000){
+                    lastLeaderBoardUpdate = Date.now();
+                    leaderBoard = A;
+                    AgarBot.pubsub.trigger('updateLeaderBoard');
+                }
                 break;
             case 50:
                 G = [];
@@ -5535,8 +5524,8 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         }
         f.restore();
         F && F.width && f.drawImage(F, p - F.width - 10, 10);
-        O = Math.max(O, Wb());
-        0 != O && (null == Pa && (Pa = new Qa(24, "#FFFFFF")), Pa.r(U("score") + ": " + ~~(O / 100)), b = Pa.D(), a = b.width, f.globalAlpha = .2, f.fillStyle =
+O = Math.max(O, Wb());                                                                  //nguyenvanduocit
+        0 != O && (null == Pa && (Pa = new Qa(24, "#FFFFFF")), Pa.r(U("score") + ": " + ~~(O / 100) + ", FPS :" + framePerSecond), b = Pa.D(), a = b.width, f.globalAlpha = .2, f.fillStyle =
             "#000000", f.fillRect(10, q - 10 - 24 - 10, a + 10, 34), f.globalAlpha = 1, f.drawImage(b, 15, q - 10 - 24 - 5));
         Cc();
         c = Date.now() - c;
@@ -5711,6 +5700,11 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         return a
     }
 
+    /**
+     * nguyenvanduocit
+     * just header comment
+     * @constructor
+     */
     function Nb() {
         F = null;
         if (null != G || 0 != A.length)if (null != G || Ra) {
@@ -6041,7 +6035,10 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             //@author nguyenvanduocit
             var m2 = 1,
                 toggle = false,
+                lastLeaderBoardUpdate = 0,
+                leaderBoard = [],
                 toggleDraw = false,
+                framePerSecond = 0,
                 ejectMassTime = 0,
                 splitTime = 0,
                 ejectMassCooldown = 10000,
@@ -6432,10 +6429,24 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 };
                 var F = null, J = 1, Pa = null, Db = function () {
                     var a = Date.now(), c = 1E3 / 60;
+                    //nguyenvanduocit
+                    var diff = 0,aux = Date.now(), frameCounter = 0;
                     return function () {
                         d.requestAnimationFrame(Db);
                         var b = Date.now(), e = b - a;
-                        e > c && (a = b - e % c, !fa() || 240 > Date.now() - Pb ? Ub() : console.warn("Skipping draw"), Lc())
+                        //nguyenvanduocit
+                        if(diff > 1e3){
+                            console.log()
+                            aux = Date.now();
+                            diff = 0;
+                            framePerSecond = frameCounter;
+                            frameCounter = 0;
+                        }else{
+                            diff = Date.now() - aux;
+                                                                                            //nguyenvanduocit add frameCounter++
+                            e > c && (a = b - e % c, !fa() || 240 > Date.now() - Pb ? (Ub(), frameCounter++) : console.warn("Skipping draw"), Lc())
+                        }
+
                     }
                 }(), ga = {}, jc = "poland;usa;china;russia;canada;australia;spain;brazil;germany;ukraine;france;sweden;chaplin;north korea;south korea;japan;united kingdom;earth;greece;latvia;lithuania;estonia;finland;norway;cia;maldivas;austria;nigeria;reddit;yaranaika;confederate;9gag;indiana;4chan;italy;bulgaria;tumblr;2ch.hk;hong kong;portugal;jamaica;german empire;mexico;sanik;switzerland;croatia;chile;indonesia;bangladesh;thailand;iran;iraq;peru;moon;botswana;bosnia;netherlands;european union;taiwan;pakistan;hungary;satanist;qing dynasty;matriarchy;patriarchy;feminism;ireland;texas;facepunch;prodota;cambodia;steam;piccolo;ea;india;kc;denmark;quebec;ayy lmao;sealand;bait;tsarist russia;origin;vinesauce;stalin;belgium;luxembourg;stussy;prussia;8ch;argentina;scotland;sir;romania;belarus;wojak;doge;nasa;byzantium;imperial japan;french kingdom;somalia;turkey;mars;pokerface;8;irs;receita federal;facebook;putin;merkel;tsipras;obama;kim jong-un;dilma;hollande;berlusconi;cameron;clinton;hillary;venezuela;blatter;chavez;cuba;fidel;merkel;palin;queen;boris;bush;trump".split(";"), Mc = "8;nasa;putin;merkel;tsipras;obama;kim jong-un;dilma;hollande;berlusconi;cameron;clinton;hillary;blatter;chavez;fidel;merkel;palin;queen;boris;bush;trump".split(";"), sa = {};
                 tb.prototype = {Q: null, x: 0, y: 0, d: 0, b: 0};
@@ -7171,7 +7182,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     };
     window.disconnect = function(){
         getSocket().disconnect();
-    },
+    };
     window.getSocket = function(){
         return f;
     };
@@ -7238,6 +7249,12 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     };
     window.explodePlayer = function(){
         sendMessage(21);
+    };
+    window.getFPS = function(){
+        return framePerSecond;
+    };
+    window.getLeaderBoard = function(){
+        return leaderBoard;
     }
 })(window, window.jQuery, AgarBot, AgarBot.app);
 (function (window, $, Backbone, Marionette, _, AgarBot, app) {
@@ -7354,6 +7371,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
     });
 })(window, jQuery, Backbone, Backbone.Marionette, _, AgarBot, AgarBot.app);
 (function (window, $, Backbone, Marionette, _, AgarBot, app) {
+    "use strict"
     AgarBot.Modules.MapUtil = Marionette.Module.extend({
         initialize: function (moduleName, app, options) {
             this.canvasContext = 'undefined';
@@ -7361,6 +7379,10 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         onStart: function (options) {
             console.log('Module MapUtil start');
             this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.drawRound);
+            this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
+        },
+        onDocumentReady:function(){
+            setAcid(false);
         },
         getCanvasContext:function(){
             if(this.canvasContext === 'undefined'){
@@ -7371,7 +7393,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             return this.canvasContext;
         },
         drawRound:function(){
-            var context = this.getCanvasContext();;
+            var context = this.getCanvasContext();
             context.save();
             context.beginPath();
             context.lineWidth = 5;
@@ -7616,7 +7638,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                     var allPossibleViruses = allIsAll[2];
 
                     if (allIsAll[4].length > 0) {
-                        console.log("Found my real Master! " + allIsAll[4][0].id);
+                        //console.log("Found my real Master! " + allIsAll[4][0].id);
                         this.masterLocation = [allIsAll[4][0].x, allIsAll[4][0].y]
                     }
 
@@ -7796,7 +7818,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                         var tempList = this.addAngle(sortedInterList, stupidList[i]);
 
                         if (tempList.length == 0) {
-                            console.log("MAYDAY IT'S HAPPENING!");
+                            //console.log("MAYDAY IT'S HAPPENING!");
                             break;
                         } else {
                             sortedInterList = tempList;
@@ -7878,14 +7900,13 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                      */
                     if (this.isFeeder() && (this.masterLocation != null) && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > masterProtecteDistance/2) || ( blodMass < this.minimumSizeToMerge && distanceToMaster > masterProtecteDistance ) || blodMass >= this.minimumSizeToMerge )) {
                         //This is the slave mode
-                        //console.log("Really Going to: " + this.masterLocation);
-
                         var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(this.masterLocation[0], this.masterLocation[1], player[k].x, player[k].y), [0, 360]);
 
-                        var destination = this.followAngle(shiftedAngle, player[k].x, player[k].y, distance);
+                        var destination = this.followAngle(shiftedAngle, player[k].x, player[k].y, distanceToMaster);
 
                         destinationChoices = destination;
                         drawLine(player[k].x, player[k].y, destination[0], destination[1], 1);
+                        //console.log("Really Going to: " + this.masterLocation);
 
                     } else if (this.isNeedFollowMouse() && goodAngles.length == 0) {
                         //This is the follow the mouse mode
@@ -8736,13 +8757,18 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 current_cell_ids: this.current_cell_ids,
                 mapOptions : this.mapOptions
             });
-            this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.mainLoop);
+            // main_out:mainloop is sync, may couse down fps
+            //this.listenTo(AgarBot.pubsub, 'main_out:mainloop', this.mainLoop);
             this.listenTo(AgarBot.pubsub, 'game:start', this.onGameStart);
         },
         onGameStart:function(){
             this.panelView.render();
         },
         onStart: function (options) {
+            var self = this;
+            setInterval(function(){
+                self.mainLoop();
+            }, 500);
             console.log('Module MiniMap start');
         },
         mainLoop:function(){
