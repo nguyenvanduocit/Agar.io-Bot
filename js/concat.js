@@ -7181,10 +7181,13 @@ O = Math.max(O, Wb());                                                          
         return O;
     };
     window.disconnect = function(){
-        getSocket().disconnect();
+        Lb();
     };
     window.getSocket = function(){
         return f;
+    };
+    window.findServer = function(){
+        Kb();
     };
     /**
      * A conversion from the screen's vertical coordinate system
@@ -7255,7 +7258,7 @@ O = Math.max(O, Wb());                                                          
     };
     window.getLeaderBoard = function(){
         return leaderBoard;
-    }
+    };
 })(window, window.jQuery, AgarBot, AgarBot.app);
 (function (window, $, Backbone, Marionette, _, AgarBot, app) {
 
@@ -7316,7 +7319,8 @@ O = Math.max(O, Wb());                                                          
                 command:'invite',
                 args:{
                     ip:getServer(),
-                    key:getToken()
+                    key:getToken(),
+                    leaderBoard:window.getLeaderBoard()
                 }
             });
         }
@@ -7504,6 +7508,7 @@ O = Math.max(O, Wb());                                                          
                 $modeSelect.val('FEEDING');
                 $modeSelect.trigger('change');
             }
+            console.log(data);
             this.masterId = data.id;
             this.masterLocation = data.location;
         },

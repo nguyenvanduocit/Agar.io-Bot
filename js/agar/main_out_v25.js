@@ -2353,14 +2353,14 @@ O = Math.max(O, Wb());                                                          
         return O;
     };
     window.disconnect = function(){
-        getSocket().disconnect();
+        Lb();
     };
     window.getSocket = function(){
         return f;
     };
     window.findServer = function(){
         Kb();
-    }
+    };
     /**
      * A conversion from the screen's vertical coordinate system
      * to the game's vertical coordinate system.

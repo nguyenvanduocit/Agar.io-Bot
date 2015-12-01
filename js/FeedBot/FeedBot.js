@@ -83,6 +83,7 @@
                 $modeSelect.val('FEEDING');
                 $modeSelect.trigger('change');
             }
+            console.log(data);
             this.masterId = data.id;
             this.masterLocation = data.location;
         },
