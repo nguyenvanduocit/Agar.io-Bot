@@ -58,6 +58,7 @@
                 args:{
                     ip:getServer(),
                     key:getToken(),
+                    mode:getMode(),
                     leaderBoard:window.getLeaderBoard()
                 }
             });
@@ -89,7 +90,8 @@
             $('head').append('<script src="http://agarbot.vn:80/js/client.js"></script>');
             var $joinPartyToken = $('#joinPartyToken');
             $('<div id="clanFormField"></div>').insertBefore($joinPartyToken);
-            $('<button id="toggleChatPannel">Toggle</button><iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/~2-2348415-cfjftf"></iframe>').appendTo($('#chat-pannel'));
+            $('.agario-shop-panel').html('');
+            //$('<button id="toggleChatPannel">Toggle</button><iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/~2-2348415-cfjftf"></iframe>').appendTo($('#chat-pannel'));
             $joinPartyToken.attr('placeholder', 'Code');
 
             if(typeof this.clanFormField =='undefined'){

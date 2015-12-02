@@ -1,5 +1,12 @@
 .DuocBot * {
   box-sizing: border-box; }
+.DuocBot #adsBottomInner {
+  display: none; }
+.DuocBot .agario-shop-panel {
+  display: block;
+  padding: 10px 0; }
+  .DuocBot .agario-shop-panel ul {
+    margin: 0; }
 .DuocBot .agario-promo {
   z-index: 1000;
   height: 524px !important;

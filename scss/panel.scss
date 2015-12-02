@@ -2,6 +2,16 @@
   * {
     box-sizing: border-box;
   }
+  #adsBottomInner{
+    display: none;
+  }
+  .agario-shop-panel{
+    display: block;
+    padding: 10px 0;
+    ul{
+      margin: 0;
+    }
+  }
   .agario-promo {
     z-index: 1000;
     height: 524px !important;
