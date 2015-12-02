@@ -75,8 +75,12 @@
             this.listenTo(AgarBot.pubsub,'document.ready', this.setDefautlNick);
             this.listenTo(AgarBot.pubsub, 'FeedBotPanel:changeSetting', this.onChangeSetting);
             this.listenTo(AgarBot.pubsub, 'server:masterInfo', this.onMasterInfoRecived);
+            this.listenTo(AgarBot.pubsub, 'player:revive', this.resetStage);
             document.addEventListener("visibilitychange", function(){self.onVisibilitychanged();}, false);
             this.pannelView.render();
+        },
+        resetStage:function(){
+            this.isNeedToSplit = false;
         },
         onMasterInfoRecived:function(data){
             if(this.isMaster()){
@@ -84,7 +88,6 @@
                 $modeSelect.val('FEEDING');
                 $modeSelect.trigger('change');
             }
-            console.log(data);
             this.masterId = data.id;
             this.masterLocation = data.location;
         },
@@ -110,7 +113,6 @@
         },
         onChangeSetting:function(options){
             if(typeof options.mode !='undefined'){
-                var prevModel = this.mode;
                 this.mode = options.mode;
             }
             if(typeof options.botEnabled !='undefined'){

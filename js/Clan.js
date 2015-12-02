@@ -53,11 +53,13 @@
         },
         sendInvite:function(e){
             e.preventDefault();
+            console.log('sendCommand');
             AgarBot.pubsub.trigger('sendCommand',{
                 command:'invite',
                 args:{
                     ip:getServer(),
                     key:getToken(),
+                    region:getRegion(),
                     mode:getMode(),
                     leaderBoard:window.getLeaderBoard()
                 }

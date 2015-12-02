@@ -4841,10 +4841,10 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         Q.onmousedown = function (a) {
             //@author nguyenvanduocit
             if(a.which ==2){
-                splitPlayer();
+                splitPlayer(true);
             }else if(a.which == 3){
                 a.preventDefault();
-                ejectMass();
+                ejectMass(true);
                 return;
             }
 
@@ -5383,7 +5383,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 console.log("Dead: " + ~~(getCurrentScore() / 100));
                 AgarBot.pubsub.trigger('player:dead');
             }
-            if (getPlayer().length == 0 && !firstStart) {
+            if (getPlayer().length == 0 && !firstStart && !reviving) {
                 console.log("Revive");
                 setNick(originalName);
                 reviving = true;
@@ -7241,14 +7241,14 @@ O = Math.max(O, Wb());                                                          
     window.createDataView = function(a) {
         return new DataView(new ArrayBuffer(a))
     };
-    window.ejectMass = function() {
-        if (ejectMassTime + ejectMassCooldown < new Date().getTime()) {
+    window.ejectMass = function(isForce) {
+        if (ejectMassTime + ejectMassCooldown < new Date().getTime() || isForce) {
             ejectMassTime = new Date().getTime();
             sendMessage(21);
         }
     };
-    window.splitPlayer = function(){
-        if (splitTime + splitCooldown < new Date().getTime()) {
+    window.splitPlayer = function(isForce){
+        if (splitTime + splitCooldown < new Date().getTime() || isForce) {
             splitTime = new Date().getTime();
             sendMessage(17);
         }
@@ -7318,11 +7318,13 @@ O = Math.max(O, Wb());                                                          
         },
         sendInvite:function(e){
             e.preventDefault();
+            console.log('sendCommand');
             AgarBot.pubsub.trigger('sendCommand',{
                 command:'invite',
                 args:{
                     ip:getServer(),
                     key:getToken(),
+                    region:getRegion(),
                     mode:getMode(),
                     leaderBoard:window.getLeaderBoard()
                 }
@@ -7505,8 +7507,12 @@ O = Math.max(O, Wb());                                                          
             this.listenTo(AgarBot.pubsub,'document.ready', this.setDefautlNick);
             this.listenTo(AgarBot.pubsub, 'FeedBotPanel:changeSetting', this.onChangeSetting);
             this.listenTo(AgarBot.pubsub, 'server:masterInfo', this.onMasterInfoRecived);
+            this.listenTo(AgarBot.pubsub, 'player:revive', this.resetStage);
             document.addEventListener("visibilitychange", function(){self.onVisibilitychanged();}, false);
             this.pannelView.render();
+        },
+        resetStage:function(){
+            this.isNeedToSplit = false;
         },
         onMasterInfoRecived:function(data){
             if(this.isMaster()){
@@ -7514,7 +7520,6 @@ O = Math.max(O, Wb());                                                          
                 $modeSelect.val('FEEDING');
                 $modeSelect.trigger('change');
             }
-            console.log(data);
             this.masterId = data.id;
             this.masterLocation = data.location;
         },
@@ -7540,7 +7545,6 @@ O = Math.max(O, Wb());                                                          
         },
         onChangeSetting:function(options){
             if(typeof options.mode !='undefined'){
-                var prevModel = this.mode;
                 this.mode = options.mode;
             }
             if(typeof options.botEnabled !='undefined'){

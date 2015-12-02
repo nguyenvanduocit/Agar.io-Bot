@@ -13,10 +13,10 @@
         Q.onmousedown = function (a) {
             //@author nguyenvanduocit
             if(a.which ==2){
-                splitPlayer();
+                splitPlayer(true);
             }else if(a.which == 3){
                 a.preventDefault();
-                ejectMass();
+                ejectMass(true);
                 return;
             }
 
@@ -555,7 +555,7 @@
                 console.log("Dead: " + ~~(getCurrentScore() / 100));
                 AgarBot.pubsub.trigger('player:dead');
             }
-            if (getPlayer().length == 0 && !firstStart) {
+            if (getPlayer().length == 0 && !firstStart && !reviving) {
                 console.log("Revive");
                 setNick(originalName);
                 reviving = true;
@@ -2413,14 +2413,14 @@ O = Math.max(O, Wb());                                                          
     window.createDataView = function(a) {
         return new DataView(new ArrayBuffer(a))
     };
-    window.ejectMass = function() {
-        if (ejectMassTime + ejectMassCooldown < new Date().getTime()) {
+    window.ejectMass = function(isForce) {
+        if (ejectMassTime + ejectMassCooldown < new Date().getTime() || isForce) {
             ejectMassTime = new Date().getTime();
             sendMessage(21);
         }
     };
-    window.splitPlayer = function(){
-        if (splitTime + splitCooldown < new Date().getTime()) {
+    window.splitPlayer = function(isForce){
+        if (splitTime + splitCooldown < new Date().getTime() || isForce) {
             splitTime = new Date().getTime();
             sendMessage(17);
         }
