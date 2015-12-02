@@ -5106,6 +5106,9 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
 
     function Lb() {
         if (r) {
+            //nguyenvanduocit
+            AgarBot.pubsub.trigger('game:disconnected');
+
             r.onopen = null;
             r.onmessage = null;
             r.onclose = null;
@@ -5186,7 +5189,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         na && (Ga = 500);
         console.log("socket close");
         setTimeout(R, Ga);
-        Ga *= 2
+        Ga *= 2;
     }
 
     function sc(a) {
@@ -7470,6 +7473,7 @@ O = Math.max(O, Wb());                                                          
             this.prevBotEnabled = this.botEnabled;
             this.masterLocation = null;
             this.masterId = false;
+            this.selectedBlodId = null;
             this.splitDistance = 710;
             this.splitDistance = 710;
             this.masterProtecteBaseDistance = 710;

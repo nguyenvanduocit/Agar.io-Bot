@@ -43,6 +43,7 @@
             this.prevBotEnabled = this.botEnabled;
             this.masterLocation = null;
             this.masterId = false;
+            this.selectedBlodId = null;
             this.splitDistance = 710;
             this.splitDistance = 710;
             this.masterProtecteBaseDistance = 710;
