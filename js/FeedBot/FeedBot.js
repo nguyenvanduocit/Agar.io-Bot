@@ -76,11 +76,17 @@
             this.listenTo(AgarBot.pubsub, 'FeedBotPanel:changeSetting', this.onChangeSetting);
             this.listenTo(AgarBot.pubsub, 'server:masterInfo', this.onMasterInfoRecived);
             this.listenTo(AgarBot.pubsub, 'player:revive', this.resetStage);
+            this.listenTo(AgarBot.pubsub, 'command.changeBotSetting', this.onChangeBotSettingCommandRecived);
             document.addEventListener("visibilitychange", function(){self.onVisibilitychanged();}, false);
             this.pannelView.render();
         },
         resetStage:function(){
             this.isNeedToSplit = false;
+        },
+        onChangeBotSettingCommandRecived:function(data){
+            if(typeof data.minimumSizeToMerge !='undefined'){
+                this.minimumSizeToMerge = data.minimumSizeToMerge;
+            }
         },
         onMasterInfoRecived:function(data){
             if(this.isMaster()){

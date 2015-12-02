@@ -4809,7 +4809,9 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 '</div>');
             this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
-            this.templates.commandPanel = _.template('<utt id="serverConnect"><strong>Invite friends</strong><br><button id="invitePlayer">invite</button></div>');
+            this.templates.commandPanel = _.template('<div id="serverConnect"><strong>Invite friends</strong><br><button id="invitePlayer">invite</button><br>' +
+                                                        '<input type="range" min="10" max="1000" value="100" id="minimumSizeToMerge">' +
+                                                    '</div>');
         },
         onStart : function(options){
             console.log('module TemplateLoader start.');
@@ -5108,7 +5110,6 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         if (r) {
             //nguyenvanduocit
             AgarBot.pubsub.trigger('game:disconnected');
-
             r.onopen = null;
             r.onmessage = null;
             r.onclose = null;
@@ -7306,7 +7307,8 @@ O = Math.max(O, Wb());                                                          
     };
     AgarBot.Views.CommandPanel = Marionette.ItemView.extend({
         events:{
-            'click #invitePlayer':'sendInvite'
+            'click #invitePlayer':'sendInvite',
+            'change #minimumSizeToMerge':'onMinimumSizeToMergeChange',
         },
         initialize:function(){
 
@@ -7315,6 +7317,17 @@ O = Math.max(O, Wb());                                                          
             var templateLoader = app.module('TemplateLoader');
             var template = templateLoader.getTemlate('commandPanel');
             return template;
+        },
+        onMinimumSizeToMergeChange:function(e){
+            e.preventDefault();
+            var $target = $(e.currentTarget);
+            var minimumSizeToMerge = $target.val();
+            AgarBot.pubsub.trigger('sendCommand',{
+                command:'changeBotSetting',
+                args:{
+                    minimumSizeToMerge:minimumSizeToMerge
+                }
+            });
         },
         sendInvite:function(e){
             e.preventDefault();
@@ -7508,11 +7521,17 @@ O = Math.max(O, Wb());                                                          
             this.listenTo(AgarBot.pubsub, 'FeedBotPanel:changeSetting', this.onChangeSetting);
             this.listenTo(AgarBot.pubsub, 'server:masterInfo', this.onMasterInfoRecived);
             this.listenTo(AgarBot.pubsub, 'player:revive', this.resetStage);
+            this.listenTo(AgarBot.pubsub, 'command.changeBotSetting', this.onChangeBotSettingCommandRecived);
             document.addEventListener("visibilitychange", function(){self.onVisibilitychanged();}, false);
             this.pannelView.render();
         },
         resetStage:function(){
             this.isNeedToSplit = false;
+        },
+        onChangeBotSettingCommandRecived:function(data){
+            if(typeof data.minimumSizeToMerge !='undefined'){
+                this.minimumSizeToMerge = data.minimumSizeToMerge;
+            }
         },
         onMasterInfoRecived:function(data){
             if(this.isMaster()){

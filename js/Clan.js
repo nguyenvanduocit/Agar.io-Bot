@@ -41,7 +41,8 @@
     };
     AgarBot.Views.CommandPanel = Marionette.ItemView.extend({
         events:{
-            'click #invitePlayer':'sendInvite'
+            'click #invitePlayer':'sendInvite',
+            'change #minimumSizeToMerge':'onMinimumSizeToMergeChange',
         },
         initialize:function(){
 
@@ -50,6 +51,17 @@
             var templateLoader = app.module('TemplateLoader');
             var template = templateLoader.getTemlate('commandPanel');
             return template;
+        },
+        onMinimumSizeToMergeChange:function(e){
+            e.preventDefault();
+            var $target = $(e.currentTarget);
+            var minimumSizeToMerge = $target.val();
+            AgarBot.pubsub.trigger('sendCommand',{
+                command:'changeBotSetting',
+                args:{
+                    minimumSizeToMerge:minimumSizeToMerge
+                }
+            });
         },
         sendInvite:function(e){
             e.preventDefault();
