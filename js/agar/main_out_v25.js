@@ -280,7 +280,6 @@
         if (r) {
             //nguyenvanduocit
             AgarBot.pubsub.trigger('game:disconnected');
-
             r.onopen = null;
             r.onmessage = null;
             r.onclose = null;
