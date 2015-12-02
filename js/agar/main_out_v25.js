@@ -278,6 +278,9 @@
 
     function Lb() {
         if (r) {
+            //nguyenvanduocit
+            AgarBot.pubsub.trigger('game:disconnected');
+
             r.onopen = null;
             r.onmessage = null;
             r.onclose = null;
@@ -358,7 +361,7 @@
         na && (Ga = 500);
         console.log("socket close");
         setTimeout(R, Ga);
-        Ga *= 2
+        Ga *= 2;
     }
 
     function sc(a) {

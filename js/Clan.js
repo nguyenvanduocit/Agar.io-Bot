@@ -58,6 +58,7 @@
                 args:{
                     ip:getServer(),
                     key:getToken(),
+                    mode:getMode(),
                     leaderBoard:window.getLeaderBoard()
                 }
             });
