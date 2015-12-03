@@ -8630,7 +8630,7 @@ O = Math.max(O, Wb());                                                          
                 var isMe = that.isItMe(player, listToUse[element]);
                 var isTeamate = that.isTeamate(player, listToUse[element]);
                 if (!isMe && !isTeamate) {
-                    if (that.isFeeder() && that.masters.hasOwnProperty(listToUse[element].id)) {
+                    if (that.isFeeder() && (that.masters.ids.indexOf(listToUse[element].id) != -1)) {
                         foundMaster.push(listToUse[element]);
                         console.log("Found master! ");
                     }else if (that.isFood(blob, listToUse[element]) && listToUse[element].isNotMoving()) {
@@ -8638,7 +8638,7 @@ O = Math.max(O, Wb());                                                          
                         foodElementList.push(listToUse[element]);
                     }else if (that.isThreat(blob, listToUse[element])) {
                         //IT'S DANGER!
-                        if ((that.isFeeder() && !that.masters.hasOwnProperty(listToUse[element].id)) || !that.isFeeder()) {
+                        if ((that.isFeeder() && (that.masters.ids.indexOf(listToUse[element].id) == -1)) || !that.isFeeder()) {
                             threatList.push(listToUse[element]);
                         } else {
                             console.log("Found master! ");
