@@ -7533,14 +7533,16 @@ O = Math.max(O, Wb());                                                          
             }
         },
         onMasterInfoRecived:function(data){
-            this.masters = {};
+            this.masters.ids = [];
+            this.masters.locations = {};
             if(this.isMaster()){
                 var $modeSelect = $('#modelSelect');
                 $modeSelect.val('FEEDING');
                 $modeSelect.trigger('change');
             }
             for(var i = 0; i<data.length; i++){
-                this.masters[data[i].id] = data[i];
+                this.masters.ids.push([data[i].id]);
+                this.masters.locations[[data[i].id]] = data[i].location;
             }
         },
         setDefautlNick:function(){
@@ -7761,7 +7763,7 @@ O = Math.max(O, Wb());                                                          
 
 
                             //Decice to split
-                            if(canSplitMyBlod && isMovingToMyBlod && (enemyDistance<splitDangerDistance/2) && ( (player.length < 2) || (enemyDistance<10) ) ){
+                            if(!isNeedToSplit && canSplitMyBlod && isMovingToMyBlod && (enemyDistance<splitDangerDistance/2) && ( (player.length < 2) || (enemyDistance<10) ) ){
                                 /**
                                  * Split to run away, This threat may split to eat me
                                  * todo guest the situaltion after splited, is it have any threat ?
@@ -7838,10 +7840,10 @@ O = Math.max(O, Wb());                                                          
                     //stupidList.push([[45, true], [135, false]]);
                     //stupidList.push([[10, true], [200, false]]);
 
-                    stupidList.sort(function(a, b){
+                    /*stupidList.sort(function(a, b){
                         //console.log("Distance: " + a[2] + ", " + b[2]);
                         return a[2]-b[2];
-                    });
+                    });*/
 
                     //console.log("Added random noob stuff.");
 
@@ -7933,15 +7935,16 @@ O = Math.max(O, Wb());                                                          
                      *              Nếu khoản khách nhỏ
                      *                  Nếu khoản cách không đủ nhỏ và đủ mass thì kệ
                      */
-                    if (this.isFeeder() && (Object.keys(this.masters).length == 0) && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > masterProtecteDistance/2) || ( blodMass < this.minimumSizeToMerge && distanceToMaster > masterProtecteDistance ) || blodMass >= this.minimumSizeToMerge )) {
+                    if (this.isFeeder() && this.masters.ids.length == 0 && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > masterProtecteDistance/2) || ( blodMass < this.minimumSizeToMerge && distanceToMaster > masterProtecteDistance ) || blodMass >= this.minimumSizeToMerge )) {
                         //This is the slave mode
-                        var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(this.masters[0].location[0], this.masters[0].location[1], player[k].x, player[k].y), [0, 360]);
+
+                        var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(this.masters.locations[this.masters.ids[0]][0], this.masters.locations[this.masters.ids[0]][1], player[k].x, player[k].y), [0, 360]);
 
                         var destination = this.followAngle(shiftedAngle, player[k].x, player[k].y, distanceToMaster);
 
                         destinationChoices = destination;
                         drawLine(player[k].x, player[k].y, destination[0], destination[1], 1);
-                        //console.log("Really Going to: " + this.masterLocation);
+                        console.log("Really Going to master");
 
                     } else if (this.isNeedFollowMouse() && goodAngles.length == 0) {
                         //This is the follow the mouse mode
@@ -8095,7 +8098,7 @@ O = Math.max(O, Wb());                                                          
                                 ]
                             });
                         }
-                        AgarBot.pubsub.trigger('game:updateMassterInfo', data);
+                        AgarBot.pubsub.trigger('game:updateMassterInfo', myBlod);
                     }
                 }
             }
