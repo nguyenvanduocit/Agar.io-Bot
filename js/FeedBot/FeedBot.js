@@ -318,7 +318,7 @@
 
 
                             //Decice to split
-                            if(!isNeedToSplit && canSplitMyBlod && isMovingToMyBlod && (enemyDistance<splitDangerDistance/2) && ( (player.length < 2) || (enemyDistance<10) ) ){
+                            if(!this.isNeedToSplit && canSplitMyBlod && isMovingToMyBlod && (enemyDistance<splitDangerDistance/2) && ( (player.length < 2) || (enemyDistance<10) ) ){
                                 /**
                                  * Split to run away, This threat may split to eat me
                                  * todo guest the situaltion after splited, is it have any threat ?
