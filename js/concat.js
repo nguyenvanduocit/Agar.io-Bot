@@ -7486,7 +7486,10 @@ O = Math.max(O, Wb());                                                          
             this.mode = 'NORMAL';
             this.botEnabled = true;
             this.prevBotEnabled = this.botEnabled;
-            this.masters = {};
+            this.masters = {
+                ids:[],
+                locations:{}
+            };
             this.selectedBlodId = null;
             this.splitDistance = 710;
             this.splitDistance = 710;
@@ -7533,6 +7536,7 @@ O = Math.max(O, Wb());                                                          
             }
         },
         onMasterInfoRecived:function(data){
+            console.log(data);
             this.masters.ids = [];
             this.masters.locations = {};
             if(this.isMaster()){
@@ -7541,8 +7545,8 @@ O = Math.max(O, Wb());                                                          
                 $modeSelect.trigger('change');
             }
             for(var i = 0; i<data.length; i++){
-                this.masters.ids.push([data[i].id]);
-                this.masters.locations[[data[i].id]] = data[i].location;
+                this.masters.ids.push(data[i].id);
+                this.masters.locations[data[i].id] = data[i].location;
             }
         },
         setDefautlNick:function(){
@@ -7673,11 +7677,6 @@ O = Math.max(O, Wb());                                                          
                     var allPossibleThreats = allIsAll[1];
                     //The viruses are stored in element 2 of allIsAll
                     var allPossibleViruses = allIsAll[2];
-
-                    if (allIsAll[4].length > 0) {
-                        //console.log("Found my real Master! " + allIsAll[4][0].id);
-                        this.masterLocation = [allIsAll[4][0].x, allIsAll[4][0].y]
-                    }
 
 
                     //The bot works by removing angles in which it is too
@@ -7924,8 +7923,8 @@ O = Math.max(O, Wb());                                                          
                         drawPoint(line1[0], line1[1], 0, "" + i + ": 0");
                         drawPoint(line2[0], line2[1], 0, "" + i + ": 1");
                     }
-                    if(this.isFeeder() && (this.masterLocation != null)){
-                        var distanceToMaster = this.computeDistance(player[k].x, player[k].y, this.masterLocation[0], this.masterLocation[1]);
+                    if(this.isFeeder() && (this.masters.ids.length > 0)){
+                        var distanceToMaster = this.computeDistance(player[k].x, player[k].y, this.masters.locations[this.masters.ids[0]][0], this.masters.locations[this.masters.ids[0]][1]);
                         var masterProtecteDistance = this.masterProtecteBaseDistance + player[k].size;
                     }
                     /**
@@ -7935,16 +7934,15 @@ O = Math.max(O, Wb());                                                          
                      *              Nếu khoản khách nhỏ
                      *                  Nếu khoản cách không đủ nhỏ và đủ mass thì kệ
                      */
-                    if (this.isFeeder() && this.masters.ids.length == 0 && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > masterProtecteDistance/2) || ( blodMass < this.minimumSizeToMerge && distanceToMaster > masterProtecteDistance ) || blodMass >= this.minimumSizeToMerge )) {
+                    if (this.isFeeder() && this.masters.ids.length > 0 && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > masterProtecteDistance/2) || ( blodMass < this.minimumSizeToMerge && distanceToMaster > masterProtecteDistance ) || blodMass >= this.minimumSizeToMerge )) {
                         //This is the slave mode
-
                         var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(this.masters.locations[this.masters.ids[0]][0], this.masters.locations[this.masters.ids[0]][1], player[k].x, player[k].y), [0, 360]);
 
                         var destination = this.followAngle(shiftedAngle, player[k].x, player[k].y, distanceToMaster);
 
                         destinationChoices = destination;
                         drawLine(player[k].x, player[k].y, destination[0], destination[1], 1);
-                        console.log("Really Going to master");
+                        //console.log("Really Going to master");
 
                     } else if (this.isNeedFollowMouse() && goodAngles.length == 0) {
                         //This is the follow the mouse mode
@@ -8098,6 +8096,7 @@ O = Math.max(O, Wb());                                                          
                                 ]
                             });
                         }
+                        this.lastMasterUpdate = Date.now();
                         AgarBot.pubsub.trigger('game:updateMassterInfo', myBlod);
                     }
                 }
@@ -8632,7 +8631,6 @@ O = Math.max(O, Wb());                                                          
                 if (!isMe && !isTeamate) {
                     if (that.isFeeder() && (that.masters.ids.indexOf(listToUse[element].id) != -1)) {
                         foundMaster.push(listToUse[element]);
-                        console.log("Found master! ");
                     }else if (that.isFood(blob, listToUse[element]) && listToUse[element].isNotMoving()) {
                         //IT'S FOOD!
                         foodElementList.push(listToUse[element]);
