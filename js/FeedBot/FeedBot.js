@@ -41,8 +41,7 @@
             this.mode = 'NORMAL';
             this.botEnabled = true;
             this.prevBotEnabled = this.botEnabled;
-            this.masterLocation = null;
-            this.masterId = false;
+            this.masters = {};
             this.selectedBlodId = null;
             this.splitDistance = 710;
             this.splitDistance = 710;
@@ -89,13 +88,15 @@
             }
         },
         onMasterInfoRecived:function(data){
+            this.masters = {};
             if(this.isMaster()){
                 var $modeSelect = $('#modelSelect');
                 $modeSelect.val('FEEDING');
                 $modeSelect.trigger('change');
             }
-            this.masterId = data.id;
-            this.masterLocation = data.location;
+            for(var i = 0; i<data.length; i++){
+                this.masters[data[i].id] = data[i];
+            }
         },
         setDefautlNick:function(){
             $('#nick').val("Agar.SenViet.org");
@@ -487,9 +488,9 @@
                      *              Nếu khoản khách nhỏ
                      *                  Nếu khoản cách không đủ nhỏ và đủ mass thì kệ
                      */
-                    if (this.isFeeder() && (this.masterLocation != null) && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > masterProtecteDistance/2) || ( blodMass < this.minimumSizeToMerge && distanceToMaster > masterProtecteDistance ) || blodMass >= this.minimumSizeToMerge )) {
+                    if (this.isFeeder() && (Object.keys(this.masters).length == 0) && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > masterProtecteDistance/2) || ( blodMass < this.minimumSizeToMerge && distanceToMaster > masterProtecteDistance ) || blodMass >= this.minimumSizeToMerge )) {
                         //This is the slave mode
-                        var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(this.masterLocation[0], this.masterLocation[1], player[k].x, player[k].y), [0, 360]);
+                        var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(this.masters[0].location[0], this.masters[0].location[1], player[k].x, player[k].y), [0, 360]);
 
                         var destination = this.followAngle(shiftedAngle, player[k].x, player[k].y, distanceToMaster);
 
@@ -638,16 +639,17 @@
             }
             if(this.isMaster()){
                 if (Date.now() - this.lastMasterUpdate > 1000) {
-                    var player = getPlayer();
                     if(player.length > 0){
-                        var firstBlod = player[0];
-                        var data = {
-                            id:firstBlod.id,
-                            location:[
-                                firstBlod.x,
-                                firstBlod.y
-                            ]
-                        };
+                        var myBlod = [];
+                        for(var i =0; i <player.length; i++){
+                            myBlod.push({
+                                id:player[i].id,
+                                location:[
+                                    player[i].x,
+                                    player[i].y
+                                ]
+                            });
+                        }
                         AgarBot.pubsub.trigger('game:updateMassterInfo', data);
                     }
                 }
@@ -1180,18 +1182,18 @@
                 var isMe = that.isItMe(player, listToUse[element]);
                 var isTeamate = that.isTeamate(player, listToUse[element]);
                 if (!isMe && !isTeamate) {
-                    if (that.isFeeder() && listToUse[element].id == that.masterId) {
+                    if (that.isFeeder() && that.masters.hasOwnProperty(listToUse[element].id)) {
                         foundMaster.push(listToUse[element]);
-                        console.log("Found master! " + that.masterId + ", " + listToUse[element].id);
+                        console.log("Found master! ");
                     }else if (that.isFood(blob, listToUse[element]) && listToUse[element].isNotMoving()) {
                         //IT'S FOOD!
                         foodElementList.push(listToUse[element]);
                     }else if (that.isThreat(blob, listToUse[element])) {
                         //IT'S DANGER!
-                        if ((that.isFeeder() && listToUse[element].id != that.masterId) || !that.isFeeder()) {
+                        if ((that.isFeeder() && !that.masters.hasOwnProperty(listToUse[element].id)) || !that.isFeeder()) {
                             threatList.push(listToUse[element]);
                         } else {
-                            console.log("Found master! " + that.masterId);
+                            console.log("Found master! ");
                         }
                     }else if (that.isVirus(blob, listToUse[element])) {
                         //IT'S VIRUS!
