@@ -48,6 +48,7 @@
             e.preventDefault();
             var $target = $(e.currentTarget);
             var minimumSizeToMerge = $target.val();
+            $('#sizeToMergeNumber').text(minimumSizeToMerge);
             AgarBot.pubsub.trigger('sendCommand',{
                 command:'changeBotSetting',
                 args:{

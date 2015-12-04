@@ -63,9 +63,9 @@
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
             this.templates.commandPanel = _.template('<div id="serverConnect">' +
                                                         '<button id="invitePlayer">Invite bot</button><br>' +
-                                                        '<label for="minimumSizeToMerge">Site to Merge</label>'+
-                                                        '<input type="range" min="10" max="10000" value="100" id="minimumSizeToMerge">' +
-                                                        '<input type="text" class="form-control" id="partyConnectCode"><button class="btn btn-success" id="connectPartyCode">Connect</button>'+
+                                                        '<label for="minimumSizeToMerge">Size to Merge : <span id="sizeToMergeNumber">100</span></label>'+
+                                                        '<input type="range" min="10" max="5000" value="100" id="minimumSizeToMerge">' +
+                                                        '<input type="text" class="form-control" id="partyConnectCode" style="float: left; width: 190px;display: inline"><button class="btn btn-success" id="connectPartyCode" style="float: right; width: 102px;">Connect</button>'+
                                                     '</div>');
         },
         onStart : function(options){

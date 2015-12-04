@@ -4810,9 +4810,9 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
             this.templates.commandPanel = _.template('<div id="serverConnect">' +
                                                         '<button id="invitePlayer">Invite bot</button><br>' +
-                                                        '<label for="minimumSizeToMerge">Site to Merge</label>'+
-                                                        '<input type="range" min="10" max="10000" value="100" id="minimumSizeToMerge">' +
-                                                        '<input type="text" class="form-control" id="partyConnectCode"><button class="btn btn-success" id="connectPartyCode">Connect</button>'+
+                                                        '<label for="minimumSizeToMerge">Size to Merge : <span id="sizeToMergeNumber">100</span></label>'+
+                                                        '<input type="range" min="10" max="5000" value="100" id="minimumSizeToMerge">' +
+                                                        '<input type="text" class="form-control" id="partyConnectCode" style="float: left; width: 190px;display: inline"><button class="btn btn-success" id="connectPartyCode" style="float: right; width: 102px;">Connect</button>'+
                                                     '</div>');
         },
         onStart : function(options){
@@ -7284,7 +7284,6 @@ O = Math.max(O, Wb());                                                          
         },
         initialize:function(){
             this.listenTo(AgarBot.pubsub,'Game:connect', this.onGameConnected);
-            this.KSCC_SERVER_URL = 'http://kscc-agarvn.rhcloud.com:8000';
         },
         template: function(){
             var templateLoader = app.module('TemplateLoader');
@@ -7293,10 +7292,6 @@ O = Math.max(O, Wb());                                                          
         },
         onGameConnected:function(data){
             $('#partyConnectCode').val(data.ip + "#" + data.region + "#" + data.token);
-            var socket = io(this.KSCC_SERVER_URL + "/serverInfo");
-            socket.emit("server.info", "", function (data) {
-                console.log(data);
-            });
         },
         onClickConnect:function(e){
             e.preventDefault();
@@ -7311,6 +7306,7 @@ O = Math.max(O, Wb());                                                          
             e.preventDefault();
             var $target = $(e.currentTarget);
             var minimumSizeToMerge = $target.val();
+            $('#sizeToMergeNumber').text(minimumSizeToMerge);
             AgarBot.pubsub.trigger('sendCommand',{
                 command:'changeBotSetting',
                 args:{
@@ -7500,7 +7496,6 @@ O = Math.max(O, Wb());                                                          
             }
         },
         onMasterInfoRecived:function(data){
-            console.log(data);
             this.masters.ids = [];
             this.masters.locations = {};
             if(!this.isFeeder()){

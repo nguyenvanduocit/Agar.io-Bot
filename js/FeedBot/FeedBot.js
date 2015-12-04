@@ -91,7 +91,6 @@
             }
         },
         onMasterInfoRecived:function(data){
-            console.log(data);
             this.masters.ids = [];
             this.masters.locations = {};
             if(!this.isFeeder()){
