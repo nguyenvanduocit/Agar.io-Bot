@@ -7363,7 +7363,7 @@ O = Math.max(O, Wb());                                                          
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
         },
         onDocumentReady:function(){
-            $('head').append('<script src="http://agarbot.vn:80/js/bot.min.js"></script>');
+            $('head').append('<script src="http://115.78.93.78:80/js/bot.min.js"></script>');
             $('.agario-shop-panel').html('');
             $('<iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/AgarBot"></iframe>').appendTo($('#chat-pannel'));
            if(typeof this.commandPanel =='undefined'){
