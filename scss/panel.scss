@@ -2,6 +2,16 @@
   * {
     box-sizing: border-box;
   }
+  .clearfix{
+    &:after{
+      visibility: hidden;
+      display: block;
+      font-size: 0;
+      content: " ";
+      clear: both;
+      height: 0;
+    }
+  }
   #adsBottomInner{
     display: none;
   }
@@ -38,6 +48,7 @@
     height: 300px;
     background: rgba(72, 72, 72, 0.63);
     #commandPanel{
+      padding: 10px;
       background-color: rgba(86, 86, 86, 0.6);
     }
     .minimap-panel {
