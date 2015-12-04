@@ -62,8 +62,11 @@
                 '</div>');
             this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
-            this.templates.commandPanel = _.template('<div id="serverConnect"><strong>Invite friends</strong><br><button id="invitePlayer">invite</button><br>' +
-                                                        '<input type="range" min="10" max="1000" value="100" id="minimumSizeToMerge">' +
+            this.templates.commandPanel = _.template('<div id="serverConnect">' +
+                                                        '<button id="invitePlayer">Invite bot</button><br>' +
+                                                        '<label for="minimumSizeToMerge">Site to Merge</label>'+
+                                                        '<input type="range" min="10" max="10000" value="100" id="minimumSizeToMerge">' +
+                                                        '<input type="text" id="partyConnectCode"><button id="connectPartyCode">Connect</button>'+
                                                     '</div>');
         },
         onStart : function(options){

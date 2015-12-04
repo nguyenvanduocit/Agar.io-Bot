@@ -4809,8 +4809,11 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 '</div>');
             this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
-            this.templates.commandPanel = _.template('<div id="serverConnect"><strong>Invite friends</strong><br><button id="invitePlayer">invite</button><br>' +
-                                                        '<input type="range" min="10" max="1000" value="100" id="minimumSizeToMerge">' +
+            this.templates.commandPanel = _.template('<div id="serverConnect">' +
+                                                        '<button id="invitePlayer">Invite bot</button><br>' +
+                                                        '<label for="minimumSizeToMerge">Site to Merge</label>'+
+                                                        '<input type="range" min="10" max="10000" value="100" id="minimumSizeToMerge">' +
+                                                        '<input type="text" id="partyConnectCode"><button id="connectPartyCode">Connect</button>'+
                                                     '</div>');
         },
         onStart : function(options){
@@ -5150,7 +5153,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
          */
         serverIP = a;
         token = c;
-        AgarBot.pubsub.trigger('Game:connect', {ip:serverIP, token:token});
+        AgarBot.pubsub.trigger('Game:connect', {ip:serverIP, token:token, region:getRegion()});
 
         r = new WebSocket(a);
         r.binaryType = "arraybuffer";
@@ -7193,6 +7196,15 @@ O = Math.max(O, Wb());                                                          
     window.findServer = function(){
         Kb();
     };
+    window.reConnect = function(){
+        connect(getServer(), getToken());
+    }
+    window.setGameModeSilent = function(a){
+        a != ma && (":party" == ma && e("#helloContainer").attr("data-party-state", "0"), la(a))
+    };
+    window.setRegionSilent = function(a){
+        a && (a == C ? e(".btn-needs-server").prop("disabled", !1) : (e("#region").val() != a && e("#region").val(a), C = d.localStorage.location = a, e(".region-message").hide(), e(".region-message." + a).show(), e(".btn-needs-server").prop("disabled", !1)))
+    };
     /**
      * A conversion from the screen's vertical coordinate system
      * to the game's vertical coordinate system.
@@ -7309,14 +7321,27 @@ O = Math.max(O, Wb());                                                          
         events:{
             'click #invitePlayer':'sendInvite',
             'change #minimumSizeToMerge':'onMinimumSizeToMergeChange',
+            'click #connectPartyCode':'onClickConnect',
         },
         initialize:function(){
-
+            this.listenTo(AgarBot.pubsub,'Game:connect', this.onGameConnected);
         },
         template: function(){
             var templateLoader = app.module('TemplateLoader');
             var template = templateLoader.getTemlate('commandPanel');
             return template;
+        },
+        onGameConnected:function(data){
+            $('#partyConnectCode').val(data.ip + "#" + data.region + "#" + data.token);
+        },
+        onClickConnect:function(e){
+            e.preventDefault();
+            //ws://123.456.789#SG-Singapore#DKCS
+            var $target = $('#partyConnectCode').val();
+            var code = $target.split('#');
+            setGameModeSilent(':party');
+            setRegionSilent(code[1]);
+            connect(code[0],code[2]);
         },
         onMinimumSizeToMergeChange:function(e){
             e.preventDefault();
@@ -8836,13 +8861,6 @@ O = Math.max(O, Wb());                                                          
         onStart: function (options) {
             console.log('Module Clan start');
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
-            this.listenTo(AgarBot.pubsub,'Game:connect', this.onSocketConnect);
-        },
-        onSocketConnect:function(data){
-            console.log(data);
-            this.info.set('serverIp', data.ip);
-            this.info.set('clientToken', data.token);
-            this.statsPanel.render();
         },
         onDocumentReady:function(){
             $('<div id="statsPanel"></div>').appendTo($('#control-pannel'));

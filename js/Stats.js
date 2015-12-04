@@ -18,13 +18,6 @@
         onStart: function (options) {
             console.log('Module Clan start');
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
-            this.listenTo(AgarBot.pubsub,'Game:connect', this.onSocketConnect);
-        },
-        onSocketConnect:function(data){
-            console.log(data);
-            this.info.set('serverIp', data.ip);
-            this.info.set('clientToken', data.token);
-            this.statsPanel.render();
         },
         onDocumentReady:function(){
             $('<div id="statsPanel"></div>').appendTo($('#control-pannel'));

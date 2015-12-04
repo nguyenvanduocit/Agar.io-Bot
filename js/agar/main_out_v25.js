@@ -320,7 +320,7 @@
          */
         serverIP = a;
         token = c;
-        AgarBot.pubsub.trigger('Game:connect', {ip:serverIP, token:token});
+        AgarBot.pubsub.trigger('Game:connect', {ip:serverIP, token:token, region:getRegion()});
 
         r = new WebSocket(a);
         r.binaryType = "arraybuffer";
@@ -2362,6 +2362,15 @@ O = Math.max(O, Wb());                                                          
     };
     window.findServer = function(){
         Kb();
+    };
+    window.reConnect = function(){
+        connect(getServer(), getToken());
+    };
+    window.setGameModeSilent = function(a){
+        a != ma && (":party" == ma && e("#helloContainer").attr("data-party-state", "0"), la(a))
+    };
+    window.setRegionSilent = function(a){
+        a && (a == C ? e(".btn-needs-server").prop("disabled", !1) : (e("#region").val() != a && e("#region").val(a), C = d.localStorage.location = a, e(".region-message").hide(), e(".region-message." + a).show(), e(".btn-needs-server").prop("disabled", !1)))
     };
     /**
      * A conversion from the screen's vertical coordinate system

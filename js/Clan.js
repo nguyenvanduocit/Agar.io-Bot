@@ -43,14 +43,27 @@
         events:{
             'click #invitePlayer':'sendInvite',
             'change #minimumSizeToMerge':'onMinimumSizeToMergeChange',
+            'click #connectPartyCode':'onClickConnect',
         },
         initialize:function(){
-
+            this.listenTo(AgarBot.pubsub,'Game:connect', this.onGameConnected);
         },
         template: function(){
             var templateLoader = app.module('TemplateLoader');
             var template = templateLoader.getTemlate('commandPanel');
             return template;
+        },
+        onGameConnected:function(data){
+            $('#partyConnectCode').val(data.ip + "#" + data.region + "#" + data.token);
+        },
+        onClickConnect:function(e){
+            e.preventDefault();
+            //ws://123.456.789#SG-Singapore#DKCS
+            var $target = $('#partyConnectCode').val();
+            var code = $target.split('#');
+            setGameModeSilent(':party');
+            setRegionSilent(code[1]);
+            connect(code[0],code[2]);
         },
         onMinimumSizeToMergeChange:function(e){
             e.preventDefault();
