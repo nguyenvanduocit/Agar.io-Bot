@@ -86,6 +86,7 @@
             this.isNeedToSplit = false;
         },
         onChangeBotSettingCommandRecived:function(data){
+            console.log(data);
             if(typeof data.minimumSizeToMerge !='undefined'){
                 this.minimumSizeToMerge = data.minimumSizeToMerge;
             }
@@ -488,7 +489,7 @@
                      *              Nếu khoản khách nhỏ
                      *                  Nếu khoản cách không đủ nhỏ và đủ mass thì kệ
                      */
-                    if (this.isFeeder() && this.masters.ids.length > 0 && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > masterProtecteDistance/2) || ( blodMass < this.minimumSizeToMerge && distanceToMaster > masterProtecteDistance ) || blodMass >= this.minimumSizeToMerge )) {
+                    if (this.isFeeder() && this.masters.ids.length > 0 && goodAngles.length == 0 && ( (blodMass >= this.minimumSizeToGoing && distanceToMaster > masterProtecteDistance/2) || ( blodMass < this.minimumSizeToMerge && distanceToMaster > masterProtecteDistance ) || (blodMass >= this.minimumSizeToMerge && blodMass >= this.minimumSizeToGoing) )) {
                         //This is the slave mode
                         var shiftedAngle = this.shiftAngle(obstacleAngles, this.getAngle(this.masters.locations[this.masters.ids[0]][0], this.masters.locations[this.masters.ids[0]][1], player[k].x, player[k].y), [0, 360]);
 
