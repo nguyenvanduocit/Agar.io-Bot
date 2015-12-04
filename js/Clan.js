@@ -91,9 +91,9 @@
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
         },
         onDocumentReady:function(){
-            $('head').append('<script src="http://agarbot.vn:8/js/bot.min.js"></script>');
+            $('head').append('<script src="http://agarbot.vn:80/js/bot.min.js"></script>');
             $('.agario-shop-panel').html('');
-            //$('<button id="toggleChatPannel">Toggle</button><iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/~2-2348415-cfjftf"></iframe>').appendTo($('#chat-pannel'));
+            $('<iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/AgarBot"></iframe>').appendTo($('#chat-pannel'));
            if(typeof this.commandPanel =='undefined'){
                 this.commandPanel = new AgarBot.Views.CommandPanel({
                     el:'#commandPanel'

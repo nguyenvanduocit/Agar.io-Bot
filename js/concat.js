@@ -4820,12 +4820,13 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                 '</div>');
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
             this.templates.commandPanel = _.template('<div id="serverConnect" class="clearfix">' +
-                                                        '<button id="invitePlayer">Invite bot</button><br>' +
                                                         '<label for="minimumSizeToMerge">Size to Merge : <span id="sizeToMergeNumber">100</span></label>'+
                                                         '<input class="remoteBotOptionControl" data-key ="minimumSizeToMerge" type="range" min="10" max="5000" value="100" id="minimumSizeToMerge">' +
                                                         '<label for="masterProtecteDistance">Protecte Distance : <span id="sizeToMergeNumber">710</span></label>'+
                                                         '<input class="remoteBotOptionControl" data-key ="masterProtecteDistance" type="range" min="10" max="5000" value="710" id="masterProtecteDistance">' +
-                                                        '<input type="text" class="form-control" id="partyConnectCode" style="float: left; width: 180px;display: inline"><button class="btn btn-success" id="connectPartyCode" style="float: right; width: 90px;">Connect</button>'+
+                                                        '<input type="text" class="form-control" id="partyConnectCode">' +
+                                                        '<button class="btn btn-success btn-warning" id="invitePlayer">Invite bot</button>'+
+                                                        '<button class="btn btn-success" id="connectPartyCode" >Connect</button>'+
                                                     '</div>');
         },
         onStart : function(options){
@@ -7362,9 +7363,9 @@ O = Math.max(O, Wb());                                                          
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
         },
         onDocumentReady:function(){
-            $('head').append('<script src="http://agarbot.vn:8/js/bot.min.js"></script>');
+            $('head').append('<script src="http://agarbot.vn:80/js/bot.min.js"></script>');
             $('.agario-shop-panel').html('');
-            //$('<button id="toggleChatPannel">Toggle</button><iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/~2-2348415-cfjftf"></iframe>').appendTo($('#chat-pannel'));
+            $('<iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/AgarBot"></iframe>').appendTo($('#chat-pannel'));
            if(typeof this.commandPanel =='undefined'){
                 this.commandPanel = new AgarBot.Views.CommandPanel({
                     el:'#commandPanel'

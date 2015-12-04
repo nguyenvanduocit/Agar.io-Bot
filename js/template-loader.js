@@ -62,12 +62,13 @@
                 '</div>');
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
             this.templates.commandPanel = _.template('<div id="serverConnect" class="clearfix">' +
-                                                        '<button id="invitePlayer">Invite bot</button><br>' +
                                                         '<label for="minimumSizeToMerge">Size to Merge : <span id="sizeToMergeNumber">100</span></label>'+
                                                         '<input class="remoteBotOptionControl" data-key ="minimumSizeToMerge" type="range" min="10" max="5000" value="100" id="minimumSizeToMerge">' +
                                                         '<label for="masterProtecteDistance">Protecte Distance : <span id="sizeToMergeNumber">710</span></label>'+
                                                         '<input class="remoteBotOptionControl" data-key ="masterProtecteDistance" type="range" min="10" max="5000" value="710" id="masterProtecteDistance">' +
-                                                        '<input type="text" class="form-control" id="partyConnectCode" style="float: left; width: 180px;display: inline"><button class="btn btn-success" id="connectPartyCode" style="float: right; width: 90px;">Connect</button>'+
+                                                        '<input type="text" class="form-control" id="partyConnectCode">' +
+                                                        '<button class="btn btn-success btn-warning" id="invitePlayer">Invite bot</button>'+
+                                                        '<button class="btn btn-success" id="connectPartyCode" >Connect</button>'+
                                                     '</div>');
         },
         onStart : function(options){
