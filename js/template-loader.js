@@ -60,7 +60,6 @@
                         '<option value="SHOOTVIRUS">Shoot virus</option>' +
                     '</select><br>'+
                 '</div>');
-            this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
             this.templates.commandPanel = _.template('<div id="serverConnect">' +
                                                         '<button id="invitePlayer">Invite bot</button><br>' +

@@ -1066,28 +1066,10 @@ O = Math.max(O, Wb());                                                          
                 e("#helloContainer").attr("data-party-state", "6")
             }, success: function (c) {
                 c = c.split("\n");
-
-                /**
-                 * @author nguyenvanduocit
-                 */
-                var wantedIp = window.getWantedIp();
-                if(wantedIp && wantedIp !== c[0]){
-                    console.log('Found ',c[0],", Wanted : ",wantedIp );
-                    if(currenConnecttTry <= maxConnectRetry){
-                        currenConnecttTry++;
-                        AgarBot.pubsub.trigger('findServer:retry', {time:currenConnecttTry});
-                        setTimeout(function(){Gb(a);}, 2e3);
-                    }else{
-                        AgarBot.pubsub.trigger('findServer:ipNotFound');
-                        currenConnecttTry = 0;
-                    }
-                }else{
-                    e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
-                    e("#helloContainer").attr("data-party-state", "5");
-                    la(":party");
-                    fb("ws://" + c[0], a);
-                    currenConnecttTry = 0;
-                }
+                e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
+                e("#helloContainer").attr("data-party-state", "5");
+                la(":party");
+                fb("ws://" + c[0], a);
             }, dataType: "text", method: "POST", cache: !1, crossDomain: !0, data: a
         })
 

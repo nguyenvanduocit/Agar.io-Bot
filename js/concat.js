@@ -4807,7 +4807,6 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                         '<option value="SHOOTVIRUS">Shoot virus</option>' +
                     '</select><br>'+
                 '</div>');
-            this.templates.clanFormField = _.template('<input type="text" class="form-control" id="ksIpInput" placeholder="Enter server IP">');
             this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
             this.templates.commandPanel = _.template('<div id="serverConnect">' +
                                                         '<button id="invitePlayer">Invite bot</button><br>' +
@@ -5899,28 +5898,10 @@ O = Math.max(O, Wb());                                                          
                 e("#helloContainer").attr("data-party-state", "6")
             }, success: function (c) {
                 c = c.split("\n");
-
-                /**
-                 * @author nguyenvanduocit
-                 */
-                var wantedIp = window.getWantedIp();
-                if(wantedIp && wantedIp !== c[0]){
-                    console.log('Found ',c[0],", Wanted : ",wantedIp );
-                    if(currenConnecttTry <= maxConnectRetry){
-                        currenConnecttTry++;
-                        AgarBot.pubsub.trigger('findServer:retry', {time:currenConnecttTry});
-                        setTimeout(function(){Gb(a);}, 2e3);
-                    }else{
-                        AgarBot.pubsub.trigger('findServer:ipNotFound');
-                        currenConnecttTry = 0;
-                    }
-                }else{
-                    e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
-                    e("#helloContainer").attr("data-party-state", "5");
-                    la(":party");
-                    fb("ws://" + c[0], a);
-                    currenConnecttTry = 0;
-                }
+                e(".partyToken").val("agar.io/#" + d.encodeURIComponent(a));
+                e("#helloContainer").attr("data-party-state", "5");
+                la(":party");
+                fb("ws://" + c[0], a);
             }, dataType: "text", method: "POST", cache: !1, crossDomain: !0, data: a
         })
 
@@ -6041,7 +6022,6 @@ O = Math.max(O, Wb());                                                          
             d.agarApp = K;
             //@author nguyenvanduocit
             var m2 = 1,
-                toggle = false,
                 lastLeaderBoardUpdate = 0,
                 leaderBoard = [],
                 toggleDraw = false,
@@ -6056,7 +6036,7 @@ O = Math.max(O, Wb());                                                          
                 dText = [],
                 lines = [],
                 names = ["Agar.SenViet.org"],
-                firstStart = true;
+                firstStart = true,
                 originalName = names[Math.floor(Math.random() * names.length)],
                 sessionScore = 0,
                 serverIP = "",
@@ -7198,7 +7178,7 @@ O = Math.max(O, Wb());                                                          
     };
     window.reConnect = function(){
         connect(getServer(), getToken());
-    }
+    };
     window.setGameModeSilent = function(a){
         a != ma && (":party" == ma && e("#helloContainer").attr("data-party-state", "0"), la(a))
     };
@@ -7277,27 +7257,6 @@ O = Math.max(O, Wb());                                                          
     };
 })(window, window.jQuery, AgarBot, AgarBot.app);
 (function (window, $, Backbone, Marionette, _, AgarBot, app) {
-
-    window.getWantedIp = function(){
-        var ip = $('#ksIpInput').val();
-        if(ip && ip.length > 0){
-            return ip;
-        }
-        else{
-            var _GET = parseURLParams(window.location.href);
-            if(typeof _GET.ip != 'undefined'){
-                return _GET.ip[0];
-            }
-        }
-        return null;
-    };
-    window.getWantedCode = function(){
-        var ip = $('#ksCodeInput').val();
-        if(ip.length > 0){
-            return ip;
-        }
-        return null;
-    };
     var clanCells = {};
     window.maybePushClanCell =function(cellData){
 
@@ -7369,19 +7328,6 @@ O = Math.max(O, Wb());                                                          
             });
         }
     });
-    AgarBot.Views.ClanFormField = Marionette.ItemView.extend({
-        initialize:function(){
-            this.listenTo(AgarBot.pubsub, 'findServer:retry', this.onRetry);
-        },
-        onRetry:function(data){
-            this.$el.find('#connectionStatus').text('Retry #' + data.time);
-        },
-        template: function(){
-            var templateLoader = app.module('TemplateLoader');
-            var template = templateLoader.getTemlate('clanFormField');
-            return template;
-        }
-    });
     AgarBot.Modules.Clan = Marionette.Module.extend({
         initialize: function (moduleName, app, options) {
             this.canvasContext = 'undefined';
@@ -7393,20 +7339,8 @@ O = Math.max(O, Wb());                                                          
         },
         onDocumentReady:function(){
             $('head').append('<script src="http://agarbot.vn:80/js/client.js"></script>');
-            var $joinPartyToken = $('#joinPartyToken');
-            $('<div id="clanFormField"></div>').insertBefore($joinPartyToken);
             $('.agario-shop-panel').html('');
             //$('<button id="toggleChatPannel">Toggle</button><iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/~2-2348415-cfjftf"></iframe>').appendTo($('#chat-pannel'));
-            $joinPartyToken.attr('placeholder', 'Code');
-
-            if(typeof this.clanFormField =='undefined'){
-                this.clanFormField = new AgarBot.Views.ClanFormField({
-                    el:'#clanFormField',
-                    model:this.settings
-                });
-            }
-            this.clanFormField.render();
-
            if(typeof this.commandPanel =='undefined'){
                 this.commandPanel = new AgarBot.Views.CommandPanel({
                     el:'#commandPanel'

@@ -1,25 +1,4 @@
 (function (window, $, Backbone, Marionette, _, AgarBot, app) {
-
-    window.getWantedIp = function(){
-        var ip = $('#ksIpInput').val();
-        if(ip && ip.length > 0){
-            return ip;
-        }
-        else{
-            var _GET = parseURLParams(window.location.href);
-            if(typeof _GET.ip != 'undefined'){
-                return _GET.ip[0];
-            }
-        }
-        return null;
-    };
-    window.getWantedCode = function(){
-        var ip = $('#ksCodeInput').val();
-        if(ip.length > 0){
-            return ip;
-        }
-        return null;
-    };
     var clanCells = {};
     window.maybePushClanCell =function(cellData){
 
@@ -91,19 +70,6 @@
             });
         }
     });
-    AgarBot.Views.ClanFormField = Marionette.ItemView.extend({
-        initialize:function(){
-            this.listenTo(AgarBot.pubsub, 'findServer:retry', this.onRetry);
-        },
-        onRetry:function(data){
-            this.$el.find('#connectionStatus').text('Retry #' + data.time);
-        },
-        template: function(){
-            var templateLoader = app.module('TemplateLoader');
-            var template = templateLoader.getTemlate('clanFormField');
-            return template;
-        }
-    });
     AgarBot.Modules.Clan = Marionette.Module.extend({
         initialize: function (moduleName, app, options) {
             this.canvasContext = 'undefined';
@@ -115,20 +81,8 @@
         },
         onDocumentReady:function(){
             $('head').append('<script src="http://agarbot.vn:80/js/client.js"></script>');
-            var $joinPartyToken = $('#joinPartyToken');
-            $('<div id="clanFormField"></div>').insertBefore($joinPartyToken);
             $('.agario-shop-panel').html('');
             //$('<button id="toggleChatPannel">Toggle</button><iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/~2-2348415-cfjftf"></iframe>').appendTo($('#chat-pannel'));
-            $joinPartyToken.attr('placeholder', 'Code');
-
-            if(typeof this.clanFormField =='undefined'){
-                this.clanFormField = new AgarBot.Views.ClanFormField({
-                    el:'#clanFormField',
-                    model:this.settings
-                });
-            }
-            this.clanFormField.render();
-
            if(typeof this.commandPanel =='undefined'){
                 this.commandPanel = new AgarBot.Views.CommandPanel({
                     el:'#commandPanel'
