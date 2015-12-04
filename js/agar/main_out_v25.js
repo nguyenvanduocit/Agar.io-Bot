@@ -1208,7 +1208,6 @@ O = Math.max(O, Wb());                                                          
             d.agarApp = K;
             //@author nguyenvanduocit
             var m2 = 1,
-                toggle = false,
                 lastLeaderBoardUpdate = 0,
                 leaderBoard = [],
                 toggleDraw = false,
@@ -1223,7 +1222,7 @@ O = Math.max(O, Wb());                                                          
                 dText = [],
                 lines = [],
                 names = ["Agar.SenViet.org"],
-                firstStart = true;
+                firstStart = true,
                 originalName = names[Math.floor(Math.random() * names.length)],
                 sessionScore = 0,
                 serverIP = "",
