@@ -4812,7 +4812,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                                                         '<button id="invitePlayer">Invite bot</button><br>' +
                                                         '<label for="minimumSizeToMerge">Site to Merge</label>'+
                                                         '<input type="range" min="10" max="10000" value="100" id="minimumSizeToMerge">' +
-                                                        '<input type="text" id="partyConnectCode"><button id="connectPartyCode">Connect</button>'+
+                                                        '<input type="text" class="form-control" id="partyConnectCode"><button class="btn btn-success" id="connectPartyCode">Connect</button>'+
                                                     '</div>');
         },
         onStart : function(options){
@@ -7498,7 +7498,7 @@ O = Math.max(O, Wb());                                                          
             console.log(data);
             this.masters.ids = [];
             this.masters.locations = {};
-            if(this.isMaster()){
+            if(!this.isFeeder()){
                 var $modeSelect = $('#modelSelect');
                 $modeSelect.val('FEEDING');
                 $modeSelect.trigger('change');

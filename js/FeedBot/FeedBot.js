@@ -94,7 +94,7 @@
             console.log(data);
             this.masters.ids = [];
             this.masters.locations = {};
-            if(this.isMaster()){
+            if(!this.isFeeder()){
                 var $modeSelect = $('#modelSelect');
                 $modeSelect.val('FEEDING');
                 $modeSelect.trigger('change');
