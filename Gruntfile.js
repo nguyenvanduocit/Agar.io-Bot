@@ -6,6 +6,11 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: [
+            //BEFORE MAIN_OUT
+            'js/agar/master.js',
+            'js/agar/environment.js',
+            'js/agar/i18n.js',
+
           //Lib script
           'js/lib/underscore-min.js',
           'js/lib/backbone-min.js',
@@ -23,7 +28,6 @@ module.exports = function(grunt) {
           'js/MapUtil/MapUtil.js',
           //BEGIN Auto feed bot
           'js/FeedBot/FeedBot.js',
-            //'js/FeedBot/OgarBot.js',
           //END Auto feed bot
 
           //BEGIN Minimap
@@ -32,40 +36,38 @@ module.exports = function(grunt) {
           //STATS
           'js/Stats.js',
           //END STATS
-          'js/StartApplication.js'
+          'js/StartApplication.js',
+          //AFTER MAIN_OUT
+          'js/agar/soundjs.min.js',
+          'js/agar/agario.js'
         ],
         dest: 'js/concat.js'
       }
     },
-    min: {
-      dist: {
-        src: 'js/concat.js',
-        dest: 'js/concat.min.js'
-      }
-    },
-    jshint: {
-      options: {
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        boss: true,
-        eqnull: true,
-        node: true
+    uglify: {
+      mainScript: {
+        files: {
+          'js/concat.min.js': ['js/concat.js']
+        }
       },
-      globals: {
-        exports: false,
-        module: false
+      extension: {
+        files: {
+          'js/background.min.js': [
+            'js/lib/msgpack.js',
+            'js/background.js',
+            'js/lib/backbone.marionette.js'],
+          'js/contentScript.min.js': [
+            'js/lib/underscore-min.js',
+            'js/contentScript.js',
+            'js/lib/backbone-min.js'
+          ]
+        }
       }
-    },
-    uglify: {}
+    }
   });
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   // Default task.
-  grunt.registerTask('default', ['concat']);
+  grunt.registerTask('default', ['concat','uglify']);
 
 };

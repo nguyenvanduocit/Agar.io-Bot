@@ -20,7 +20,22 @@ Background.prototype.run = function(){
 Background.prototype.onBeforeRequest = function (details) {
     var url = details.url;
     if(url.indexOf("main_out.js") != -1){
-        return {"redirectUrl":chrome.extension.getURL("js/concat.js")}
+        return {"redirectUrl":chrome.extension.getURL("js/concat.min.js")}
+    }
+    if(url.indexOf("master.js") != -1){
+        return {"cancel":true};
+    }
+    if(url.indexOf("environment.js") != -1){
+        return {"cancel":true};
+    }
+    if(url.indexOf("i18n.js") != -1){
+        return {"cancel":true};
+    }
+    if(url.indexOf("soundjs.min.js") != -1){
+        return {"cancel":true};
+    }
+    if(url.indexOf("agario.js") != -1){
+        return {"cancel":true};
     }
     return {"cancel":false};
 };
