@@ -17,7 +17,7 @@
         },
         onStart: function (options) {
             console.log('Module Clan start');
-            this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
+            //this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
         },
         onDocumentReady:function(){
             $('<div id="statsPanel"></div>').appendTo($('#control-pannel'));

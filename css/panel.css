@@ -1,5 +1,12 @@
 .DuocBot * {
   box-sizing: border-box; }
+.DuocBot .clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0; }
 .DuocBot #adsBottomInner {
   display: none; }
 .DuocBot .agario-shop-panel {
@@ -29,6 +36,7 @@
   height: 300px;
   background: rgba(72, 72, 72, 0.63); }
   .DuocBot .control-panel #commandPanel {
+    padding: 10px;
     background-color: rgba(86, 86, 86, 0.6); }
   .DuocBot .control-panel .minimap-panel {
     position: relative;
