@@ -7284,6 +7284,7 @@ O = Math.max(O, Wb());                                                          
         },
         initialize:function(){
             this.listenTo(AgarBot.pubsub,'Game:connect', this.onGameConnected);
+            this.KSCC_SERVER_URL = 'http://kscc-agarvn.rhcloud.com:8000';
         },
         template: function(){
             var templateLoader = app.module('TemplateLoader');
@@ -7292,6 +7293,10 @@ O = Math.max(O, Wb());                                                          
         },
         onGameConnected:function(data){
             $('#partyConnectCode').val(data.ip + "#" + data.region + "#" + data.token);
+            var socket = io(this.KSCC_SERVER_URL + "/serverInfo");
+            socket.emit("server.info", "", function (data) {
+                console.log(data);
+            });
         },
         onClickConnect:function(e){
             e.preventDefault();
@@ -7365,7 +7370,7 @@ O = Math.max(O, Wb());                                                          
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
         },
         onDocumentReady:function(){
-            setAcid(false);
+            window.setAcid(false);
         },
         getCanvasContext:function(){
             if(this.canvasContext === 'undefined'){

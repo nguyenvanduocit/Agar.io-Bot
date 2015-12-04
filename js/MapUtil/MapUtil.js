@@ -10,7 +10,7 @@
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
         },
         onDocumentReady:function(){
-            setAcid(false);
+            window.setAcid(false);
         },
         getCanvasContext:function(){
             if(this.canvasContext === 'undefined'){
