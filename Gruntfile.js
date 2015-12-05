@@ -6,10 +6,10 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: [
-            //BEFORE MAIN_OUT
-            'js/agar/master.js',
-            'js/agar/environment.js',
-            'js/agar/i18n.js',
+          //BEFORE MAIN_OUT
+          'js/agar/master.js',
+          'js/agar/environment.js',
+          'js/agar/i18n.js',
 
           //Lib script
           'js/lib/underscore-min.js',
