@@ -49,7 +49,7 @@
             this.splitDistance = 710;
             this.splitDistance = 710;
             this.masterProtecteBaseDistance = 710;
-            this.minimumSizeToGoing = 30;
+            this.minimumSizeToGoing = 10;
             this.minimumSizeToMerge = 100;
             this.dangerTimeOut = 1000;
             this.isNeedToSplit = false;
