@@ -1,6 +1,3 @@
-/**
- * Created by nguyenvanduocit on 12/4/2015.
- */
 (function (c, e) {
     function Wb() {
         Oa = !0;

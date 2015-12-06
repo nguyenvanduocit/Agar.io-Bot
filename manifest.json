@@ -1,14 +1,14 @@
 {
   "background": {
     "scripts": [
-      "js/background.min.js"
+      "js/background.js"
     ]
   },
   "content_scripts": [
     {
       "matches": ["http://agar.io/*"],
       "css":["css/panel.css"],
-      "js": ["js/lib/jquery-2.1.4.min.js","js/contentScript.min.js"],
+      "js": ["js/lib/jquery-2.1.4.min.js","js/contentScript.js"],
       "run_at" : "document_start"
     }
   ],
@@ -38,6 +38,7 @@
   "content_security_policy": "script-src 'self' https://*.google-analytics.com; object-src 'self'",
   "version": "1.0.2",
   "web_accessible_resources": [
+    "js/concat.js",
     "js/concat.min.js",
     "js/master.js",
     "js/environment.js",

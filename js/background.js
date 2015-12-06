@@ -20,7 +20,7 @@ Background.prototype.run = function(){
 Background.prototype.onBeforeRequest = function (details) {
     var url = details.url;
     if(url.indexOf("main_out.js") != -1){
-        return {"redirectUrl":chrome.extension.getURL("js/concat.min.js")}
+        return {"redirectUrl":chrome.extension.getURL("js/concat.js")}
     }
     if(url.indexOf("master.js") != -1){
         return {"cancel":true};

@@ -10,7 +10,7 @@
                     '<# if(canRunBot == true){ #><button class="btn btn-runbot" id="runbot">Run bot</button><# } #>' +
                 '</div>'
             );
-            this.templates.mapPanel  = _.template('<div class="grid">'+
+            this.templates.mapPanel  = '<div class="grid">'+
                             '<span class="grid-cell">A1</span>'+
                             '<span class="grid-cell">A2</span>'+
                             '<span class="grid-cell">A3</span>'+
@@ -48,8 +48,8 @@
                             '<span class="grid-cell">F5</span>'+
                             '<span class="grid-cell">F6</span>'+
                         '</div>'+
-                        '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>');
-            this.templates.feedBotPannel = _.template('<div class="bot-panel">' +
+                        '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>';
+            this.templates.feedBotPannel ='<div class="bot-panel">' +
                     '<input type="checkbox" class="feedBotSetting" id="enableBot" data-key="botEnabled" checked/><label for="enableBot">Enable Bot</label><br>'+
                     '<label for="modelSelect">Mode</label>'+
                     '<select class="shootVirusMode" id="modelSelect" data-key="mode">' +
@@ -59,9 +59,9 @@
                         '<option value="FOLLOWMOUSE">Follow mouse</option>' +
                         '<option value="SHOOTVIRUS">Shoot virus</option>' +
                     '</select><br>'+
-                '</div>');
-            this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
-            this.templates.commandPanel = _.template('<div id="serverConnect" class="clearfix">' +
+                '</div>';
+            this.templates.statsPanel = '<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>';
+            this.templates.commandPanel = '<div id="serverConnect" class="clearfix">' +
                                                         '<label for="minimumSizeToMerge">Size to Merge : <span id="sizeToMergeNumber">100</span></label>'+
                                                         '<input class="remoteBotOptionControl" data-key ="minimumSizeToMerge" type="range" min="10" max="5000" value="100" id="minimumSizeToMerge">' +
                                                         '<label for="masterProtecteDistance">Protecte Distance : <span id="sizeToMergeNumber">710</span></label>'+
@@ -69,15 +69,27 @@
                                                         '<input type="text" class="form-control" id="partyConnectCode">' +
                                                         '<button class="btn btn-success btn-warning" id="invitePlayer">Invite bot</button>'+
                                                         '<button class="btn btn-success" id="connectPartyCode" >Connect</button>'+
-                                                    '</div>');
+                                                    '</div>';
+            this.templates.ClientItemView = '<li id="<%=id%>"><span><%=name%></span></li>';
+            this.templates.ClientCollectionView = '<div></div>';
         },
         onStart : function(options){
             console.log('module TemplateLoader start.');
             this.initTemlate();
         },
-        getTemlate:function(templateName){
+        getTemlate:function(template){
+            var templateName = '';
+            if(typeof template == 'string'){
+                templateName = template;
+            }else{
+                templateName = template.name;
+            }
             if(typeof this.templates[templateName] !='undefined'){
-                return this.templates[templateName];
+                if(typeof template.data != 'undefined'){
+                    return _.template(this.templates[templateName],template.data);
+                }else{
+                    return _.template(this.templates[templateName]);
+                }
             }
             return null;
         }

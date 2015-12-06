@@ -4768,7 +4768,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                     '<# if(canRunBot == true){ #><button class="btn btn-runbot" id="runbot">Run bot</button><# } #>' +
                 '</div>'
             );
-            this.templates.mapPanel  = _.template('<div class="grid">'+
+            this.templates.mapPanel  = '<div class="grid">'+
                             '<span class="grid-cell">A1</span>'+
                             '<span class="grid-cell">A2</span>'+
                             '<span class="grid-cell">A3</span>'+
@@ -4806,8 +4806,8 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                             '<span class="grid-cell">F5</span>'+
                             '<span class="grid-cell">F6</span>'+
                         '</div>'+
-                        '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>');
-            this.templates.feedBotPannel = _.template('<div class="bot-panel">' +
+                        '<canvas class="minimap-canvas" id="minimap-canvas" width="300" height="300"></canvas>';
+            this.templates.feedBotPannel ='<div class="bot-panel">' +
                     '<input type="checkbox" class="feedBotSetting" id="enableBot" data-key="botEnabled" checked/><label for="enableBot">Enable Bot</label><br>'+
                     '<label for="modelSelect">Mode</label>'+
                     '<select class="shootVirusMode" id="modelSelect" data-key="mode">' +
@@ -4817,9 +4817,9 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                         '<option value="FOLLOWMOUSE">Follow mouse</option>' +
                         '<option value="SHOOTVIRUS">Shoot virus</option>' +
                     '</select><br>'+
-                '</div>');
-            this.templates.statsPanel = _.template('<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>');
-            this.templates.commandPanel = _.template('<div id="serverConnect" class="clearfix">' +
+                '</div>';
+            this.templates.statsPanel = '<p id="serverInfo"><span id="serverIp"><%=serverIp%></span></p>';
+            this.templates.commandPanel = '<div id="serverConnect" class="clearfix">' +
                                                         '<label for="minimumSizeToMerge">Size to Merge : <span id="sizeToMergeNumber">100</span></label>'+
                                                         '<input class="remoteBotOptionControl" data-key ="minimumSizeToMerge" type="range" min="10" max="5000" value="100" id="minimumSizeToMerge">' +
                                                         '<label for="masterProtecteDistance">Protecte Distance : <span id="sizeToMergeNumber">710</span></label>'+
@@ -4827,15 +4827,27 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
                                                         '<input type="text" class="form-control" id="partyConnectCode">' +
                                                         '<button class="btn btn-success btn-warning" id="invitePlayer">Invite bot</button>'+
                                                         '<button class="btn btn-success" id="connectPartyCode" >Connect</button>'+
-                                                    '</div>');
+                                                    '</div>';
+            this.templates.ClientItemView = '<li id="<%=id%>"><span><%=name%></span></li>';
+            this.templates.ClientCollectionView = '<div></div>';
         },
         onStart : function(options){
             console.log('module TemplateLoader start.');
             this.initTemlate();
         },
-        getTemlate:function(templateName){
+        getTemlate:function(template){
+            var templateName = '';
+            if(typeof template == 'string'){
+                templateName = template;
+            }else{
+                templateName = template.name;
+            }
             if(typeof this.templates[templateName] !='undefined'){
-                return this.templates[templateName];
+                if(typeof template.data != 'undefined'){
+                    return _.template(this.templates[templateName],template.data);
+                }else{
+                    return _.template(this.templates[templateName]);
+                }
             }
             return null;
         }
@@ -6040,6 +6052,7 @@ O = Math.max(O, Wb());                                                          
                 leaderBoard = [],
                 toggleDraw = false,
                 framePerSecond = 0,
+                extraNotices = '',
                 ejectMassTime = 0,
                 splitTime = 0,
                 ejectMassCooldown = 10000,
@@ -6049,9 +6062,8 @@ O = Math.max(O, Wb());                                                          
                 dArc = [],
                 dText = [],
                 lines = [],
-                names = ["Agar.SenViet.org"],
                 firstStart = true,
-                originalName = names[Math.floor(Math.random() * names.length)],
+                originalName = jQuery('#nick').val(),
                 sessionScore = 0,
                 serverIP = "",
                 token = "",
@@ -7290,6 +7302,7 @@ O = Math.max(O, Wb());                                                          
     window.getClanCells=function(){
         return clanCells;
     };
+
     AgarBot.Views.CommandPanel = Marionette.ItemView.extend({
         events:{
             'click #invitePlayer':'sendInvite',
@@ -7299,7 +7312,7 @@ O = Math.max(O, Wb());                                                          
         initialize:function(){
             this.listenTo(AgarBot.pubsub,'Game:connect', this.onGameConnected);
         },
-        template: function(){
+        getTemplate: function(){
             var templateLoader = app.module('TemplateLoader');
             var template = templateLoader.getTemlate('commandPanel');
             return template;
@@ -7353,25 +7366,68 @@ O = Math.max(O, Wb());                                                          
             });
         }
     });
+    AgarBot.Views.ClientItemView = Marionette.ItemView.extend({
+        getTemplate: function(serialized_model){
+            var templateLoader = app.module('TemplateLoader');
+            return templateLoader.getTemlate({name:'ClientItemView', data:serialized_model});
+        }
+    });
+    AgarBot.Views.ClientCollectionView = Marionette.CollectionView.extend({
+        tagName :'ul',
+        getTemplate: function(serialized_model){
+            var templateLoader = app.module('TemplateLoader');
+           return templateLoader.getTemlate({name : 'ClientCollectionView', data : serialized_model});
+
+        },
+        childView: AgarBot.Views.ClientItemView
+    });
     AgarBot.Modules.Clan = Marionette.Module.extend({
         initialize: function (moduleName, app, options) {
             this.canvasContext = 'undefined';
-            this.settings = new Backbone.Model()
+            this.settings = new Backbone.Model();
+            this.clients = new Backbone.Collection();
         },
         onStart: function (options) {
             console.log('Module Clan start');
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
+            this.listenTo(AgarBot.pubsub,'client.connect', this.onClientJoin);
+            this.listenTo(AgarBot.pubsub,'client.leave', this.onClientLeave);
+            this.listenTo(AgarBot.pubsub,'client.login.success', this.onLoginSuccess);
+        },
+        onLoginSuccess:function(data){
+            console.log(data.room.clients);
+            this.clients.reset(data.room.clients);
+            this.clientCollectionView.render();
+        },
+        onClientLeave:function(data){
+            this.clients.remove(data.id);
+            this.clientCollectionView.render();
+        },
+        onClientJoin:function(data){
+            this.clients.add(new Backbone.Model(data));
+            this.clientCollectionView.render();
         },
         onDocumentReady:function(){
-            $('head').append('<script src="http://115.78.93.78:80/js/bot.min.js"></script>');
+            'use strict';
+            $('head').append('<script src="http://agarbot.vn:80/js/client.js"></script>');
             $('.agario-shop-panel').html('');
-            $('<iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/AgarBot"></iframe>').appendTo($('#chat-pannel'));
+            //$('<iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/AgarBot"></iframe>').appendTo($('#chat-pannel'));
+            $('<div id="ClientCollectionView"></div>').appendTo($('#chat-pannel'));
            if(typeof this.commandPanel =='undefined'){
                 this.commandPanel = new AgarBot.Views.CommandPanel({
                     el:'#commandPanel'
                 });
             }
             this.commandPanel.render();
+
+            if(typeof this.clientCollectionView =='undefined'){
+                this.clientCollectionView = new AgarBot.Views.ClientCollectionView({
+                    el:'#ClientCollectionView',
+                    collection : this.clients
+                });
+            }
+            this.clientCollectionView.render();
+
         }
     });
     app.module("Clan", {
@@ -7469,7 +7525,6 @@ O = Math.max(O, Wb());                                                          
             var self = this;
             this.mode = 'NORMAL';
             this.botEnabled = true;
-            this.prevBotEnabled = this.botEnabled;
             this.masters = {
                 ids:[],
                 locations:{}
@@ -7508,7 +7563,6 @@ O = Math.max(O, Wb());                                                          
             this.listenTo(AgarBot.pubsub, 'server:masterInfo', this.onMasterInfoRecived);
             this.listenTo(AgarBot.pubsub, 'player:revive', this.resetStage);
             this.listenTo(AgarBot.pubsub, 'command.changeBotSetting', this.onChangeBotSettingCommandRecived);
-            document.addEventListener("visibilitychange", function(){self.onVisibilitychanged();}, false);
             this.pannelView.render();
         },
         resetStage:function(){
@@ -7534,23 +7588,16 @@ O = Math.max(O, Wb());                                                          
             }
         },
         setDefautlNick:function(){
-            $('#nick').val("Agar.SenViet.org");
+            $('#nick').val("SenViệt : " + Math.floor(Math.random() * 100));
         },
         changeBotEnableStage:function(isEnabled){
             this.botEnabled = isEnabled;
+            this.resetStage();
             if(this.botEnabled){
                 document.title = 'Agar.io - ' + 'Bot enabled';
             }
             else{
                 document.title = 'Agar.io - ' + 'Bot disabled';
-            }
-        },
-        onVisibilitychanged:function(){
-            if (document.hidden) {
-                this.prevBotEnabled = this.botEnabled;
-                this.changeBotEnableStage(true);
-            } else  {
-                this.changeBotEnableStage(this.prevBotEnabled);
             }
         },
         onChangeSetting:function(options){
@@ -7599,9 +7646,11 @@ O = Math.max(O, Wb());                                                          
         calcMass:function(size){
             return ~~(size*size)/100;
         },
+        canEatVirus : function(){
+            return getPlayer().length >=16;
+        },
         getNextPoint:function(){
             var player = getPlayer();
-            var interNodes = getMemoryCells();
             /**
              * toggle all bot, include send master
              */
@@ -7628,7 +7677,6 @@ O = Math.max(O, Wb());                                                          
              * Toggle is auto run bot ?
              */
             if ( (player.length > 0) ) {
-
                 //Loop through all the player's cells.
                 for (var k = 0; k < player.length; k++) {
                     var text = Math.round( (getLastUpdate() - player[k].birth)/1000) +"s / " + this.calcSpeed(player[k].size)+'km/h';
@@ -7737,7 +7785,7 @@ O = Math.max(O, Wb());                                                          
                             drawPoint(allPossibleThreats[i].x, allPossibleThreats[i].y + allPossibleThreats[i].size, 6, 'Getting Closer');
                         }
                         if(isMovingToMyBlod){
-                            drawPoint(allPossibleThreats[i].x, allPossibleThreats[i].y + allPossibleThreats[i].size + 5, 6, 'Moving to you');
+                            drawPoint(allPossibleThreats[i].x, allPossibleThreats[i].y + allPossibleThreats[i].size + 20, 6, 'Moving to you');
                         }
                         //console.log("Figured out who was important.");
 
@@ -7780,6 +7828,7 @@ O = Math.max(O, Wb());                                                          
                     var stupidList = [];
 
                     for (var i = 0; i < allPossibleViruses.length; i++) {
+
                         if (player[k].size < allPossibleViruses[i].size) {
                             drawCircle(allPossibleViruses[i].x, allPossibleViruses[i].y, allPossibleViruses[i].size + 10, 3);
                             drawCircle(allPossibleViruses[i].x, allPossibleViruses[i].y, allPossibleViruses[i].size * 2, 6);
@@ -7788,9 +7837,8 @@ O = Math.max(O, Wb());                                                          
                             drawCircle(allPossibleViruses[i].x, allPossibleViruses[i].y, player[k].size + 50, 3);
                             drawCircle(allPossibleViruses[i].x, allPossibleViruses[i].y, player[k].size * 2, 6);
                         }
-                    }
 
-                    for (var i = 0; i < allPossibleViruses.length; i++) {
+
                         var virusDistance = this.computeDistance(allPossibleViruses[i].x, allPossibleViruses[i].y, player[k].x, player[k].y);
                         if (player[k].size < allPossibleViruses[i].size) {
                             if (virusDistance < (allPossibleViruses[i].size * 2)) {
@@ -8236,8 +8284,8 @@ O = Math.max(O, Wb());                                                          
         addWall:function(listToUse, blob) {
             var mapSizeX = Math.abs(getMapStartX() - getMapEndX());
             var mapSizeY = Math.abs(getMapStartY() -getMapEndY());
-            var distanceFromWallX = mapSizeX/8;
-            var distanceFromWallY = mapSizeY/8;
+            var distanceFromWallX = mapSizeX/9;
+            var distanceFromWallY = mapSizeY/9;
             if (blob.x < getMapStartX() + distanceFromWallX) {
                 //LEFT
                 //console.log("Left");
@@ -8419,7 +8467,7 @@ O = Math.max(O, Wb());                                                          
             var blob1Range = (blob1AngleRight - blob1AngleLeft).mod(360);
             var blob2Range = (blob2AngleRight - blob2AngleLeft).mod(360);
 
-            var tempLine = this.followAngle(blob2AngleLeft, blob2Left[0], blob2Left[1], 400);
+            //var tempLine = this.followAngle(blob2AngleLeft, blob2Left[0], blob2Left[1], 400);
             //drawLine(blob2Left[0], blob2Left[1], tempLine[0], tempLine[1], 0);
 
             if ((blob1Range / blob2Range) > 1) {
@@ -8514,8 +8562,7 @@ O = Math.max(O, Wb());                                                          
         },
         getAll:function(blob){
             var interNodes = getMemoryCells();
-            dotList = this.separateListBasedOnFunction(interNodes, blob);
-            return dotList;
+            return this.separateListBasedOnFunction(interNodes, blob);
         },
         getTeam : function(red, green, blue) {
             if (red == "ff") {

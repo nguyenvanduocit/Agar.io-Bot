@@ -18,6 +18,7 @@
     window.getClanCells=function(){
         return clanCells;
     };
+
     AgarBot.Views.CommandPanel = Marionette.ItemView.extend({
         events:{
             'click #invitePlayer':'sendInvite',
@@ -27,7 +28,7 @@
         initialize:function(){
             this.listenTo(AgarBot.pubsub,'Game:connect', this.onGameConnected);
         },
-        template: function(){
+        getTemplate: function(){
             var templateLoader = app.module('TemplateLoader');
             var template = templateLoader.getTemlate('commandPanel');
             return template;
@@ -81,25 +82,68 @@
             });
         }
     });
+    AgarBot.Views.ClientItemView = Marionette.ItemView.extend({
+        getTemplate: function(serialized_model){
+            var templateLoader = app.module('TemplateLoader');
+            return templateLoader.getTemlate({name:'ClientItemView', data:serialized_model});
+        }
+    });
+    AgarBot.Views.ClientCollectionView = Marionette.CollectionView.extend({
+        tagName :'ul',
+        getTemplate: function(serialized_model){
+            var templateLoader = app.module('TemplateLoader');
+           return templateLoader.getTemlate({name : 'ClientCollectionView', data : serialized_model});
+
+        },
+        childView: AgarBot.Views.ClientItemView
+    });
     AgarBot.Modules.Clan = Marionette.Module.extend({
         initialize: function (moduleName, app, options) {
             this.canvasContext = 'undefined';
-            this.settings = new Backbone.Model()
+            this.settings = new Backbone.Model();
+            this.clients = new Backbone.Collection();
         },
         onStart: function (options) {
             console.log('Module Clan start');
             this.listenTo(AgarBot.pubsub,'document.ready', this.onDocumentReady);
+            this.listenTo(AgarBot.pubsub,'client.connect', this.onClientJoin);
+            this.listenTo(AgarBot.pubsub,'client.leave', this.onClientLeave);
+            this.listenTo(AgarBot.pubsub,'client.login.success', this.onLoginSuccess);
+        },
+        onLoginSuccess:function(data){
+            console.log(data.room.clients);
+            this.clients.reset(data.room.clients);
+            this.clientCollectionView.render();
+        },
+        onClientLeave:function(data){
+            this.clients.remove(data.id);
+            this.clientCollectionView.render();
+        },
+        onClientJoin:function(data){
+            this.clients.add(new Backbone.Model(data));
+            this.clientCollectionView.render();
         },
         onDocumentReady:function(){
-            $('head').append('<script src="http://115.78.93.78:80/js/bot.min.js"></script>');
+            'use strict';
+            $('head').append('<script src="http://agarbot.vn:80/js/client.js"></script>');
             $('.agario-shop-panel').html('');
-            $('<iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/AgarBot"></iframe>').appendTo($('#chat-pannel'));
+            //$('<iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/AgarBot"></iframe>').appendTo($('#chat-pannel'));
+            $('<div id="ClientCollectionView"></div>').appendTo($('#chat-pannel'));
            if(typeof this.commandPanel =='undefined'){
                 this.commandPanel = new AgarBot.Views.CommandPanel({
                     el:'#commandPanel'
                 });
             }
             this.commandPanel.render();
+
+            if(typeof this.clientCollectionView =='undefined'){
+                this.clientCollectionView = new AgarBot.Views.ClientCollectionView({
+                    el:'#ClientCollectionView',
+                    collection : this.clients
+                });
+            }
+            this.clientCollectionView.render();
+
         }
     });
     app.module("Clan", {
