@@ -417,7 +417,7 @@
                 }
                 Nb();
                 //nguyenvanduocit
-                if(Date.now() - lastLeaderBoardUpdate > 1000){
+                if(Date.now() - lastLeaderBoardUpdate > 2000){
                     lastLeaderBoardUpdate = Date.now();
                     leaderBoard = A;
                     AgarBot.pubsub.trigger('updateLeaderBoard');
@@ -455,6 +455,11 @@
         }
     }
 
+    /**
+     * Nguyenvanduocit
+     * /just comment
+     * ParseCellUpdates(data, pos);
+     */
     function vc(a, c) {
         function b() {
             for (var b =
@@ -698,8 +703,8 @@
         }
         f.restore();
         F && F.width && f.drawImage(F, p - F.width - 10, 10);
-O = Math.max(O, Wb());                                                                  //nguyenvanduocit
-        0 != O && (null == Pa && (Pa = new Qa(24, "#FFFFFF")), Pa.r(U("score") + ": " + ~~(O / 100) + ", FPS :" + framePerSecond), b = Pa.D(), a = b.width, f.globalAlpha = .2, f.fillStyle =
+        O = Math.max(O, Wb());                                                                  //nguyenvanduocit
+        0 != O && (null == Pa && (Pa = new Qa(24, "#FFFFFF")), Pa.r(U("score") + ": " + ~~(O / 100) + ", FPS :" + framePerSecond + ", Blods : " + getPlayer().length), b = Pa.D(), a = b.width, f.globalAlpha = .2, f.fillStyle =
             "#000000", f.fillRect(10, q - 10 - 24 - 10, a + 10, 34), f.globalAlpha = 1, f.drawImage(b, 15, q - 10 - 24 - 5));
         Cc();
         c = Date.now() - c;
@@ -851,14 +856,23 @@ O = Math.max(O, Wb());                                                          
         }
         d.restore();
     }
+
+    /**
+     * @nguyenvanduocit
+     * comment draw grid
+     * @constructor
+     */
     function Bc() {
         f.fillStyle = Oa ? "#111111" : "#F2FBFF";
         f.fillRect(0, 0, p, q);
         f.save();
-        f.strokeStyle = Oa ? "#AAAAAA" : "#000000";
-        f.globalAlpha = .2 * m;
-        for (var a = p / m, c = q / m, b = (-u + a / 2) % 50; b < a; b += 50)f.beginPath(), f.moveTo(b * m - .5, 0), f.lineTo(b * m - .5, c * m), f.stroke();
-        for (b = (-v + c / 2) % 50; b < c; b += 50)f.beginPath(), f.moveTo(0, b * m - .5), f.lineTo(a * m, b * m - .5), f.stroke();
+        //nguyenvanduocit disable grid
+        if(false) {
+            f.strokeStyle = Oa ? "#AAAAAA" : "#000000";
+            f.globalAlpha = .2 * m;
+            for (var a = p / m, c = q / m, b = (-u + a / 2) % 50; b < a; b += 50)f.beginPath(), f.moveTo(b * m - .5, 0), f.lineTo(b * m - .5, c * m), f.stroke();
+            for (b = (-v + c / 2) % 50; b < c; b += 50)f.beginPath(), f.moveTo(0, b * m - .5), f.lineTo(a * m, b * m - .5), f.stroke();
+        }
         f.restore()
     }
 
@@ -1779,8 +1793,9 @@ O = Math.max(O, Wb());                                                          
 
                             c = ~~this.y;
                             0 != this.id && (Ra || g) && this.name && this.i && !e && (b = this.i, b.r(this.name), b.G(this.g()), e = 0 >= this.id ? 1 : Math.ceil(10 * m) / 10, b.X(e), b = b.D(), f = Math.ceil(b.width / e), k = Math.ceil(b.height / e), a.drawImage(b, ~~this.x - ~~(f / 2), c - ~~(k / 2), f, k), c += b.height / 2 / e + 4);
-                            0 < this.id && hc && (g || 0 == l.length && (!this.c || this.h) && 20 < this.size) && (null == this.I && (this.I = new Qa(this.g() / 2, "#FFFFFF", !0, "#000000")), g = this.I,
-                                g.G(this.g() / 2), g.r(~~(this.size * this.size / 100)), e = Math.ceil(10 * m) / 10, g.X(e), b = g.D(), f = Math.ceil(b.width / e), k = Math.ceil(b.height / e), a.drawImage(b, ~~this.x - ~~(f / 2), c - ~~(k / 2), f, k));
+                            0 < this.id && hc && (g || 0 == l.length && (!this.c || this.h) && 20 < this.size) && (null == this.I && (this.I = new Qa(this.g() / 2, "#FFFFFF", !0, "#000000")), g= this.I,
+                                                                /*nguyenvnaduocit*/
+                                g.G(this.g() / 2),  g = this.I, this.isVirus() ? g.r(~~((149 - this.size) / 7)): g.r(~~(this.size * this.size / 100)), e = Math.ceil(10 * m) / 10, g.X(e), b = g.D(), f = Math.ceil(b.width / e), k = Math.ceil(b.height / e), a.drawImage(b, ~~this.x - ~~(f / 2), c - ~~(k / 2), f, k));
                             a.restore()
                         }
                     }
