@@ -1117,8 +1117,7 @@
         computeDistance:function(x1, y1, x2, y2) {
             var xdis = x1 - x2; // <--- FAKE AmS OF COURSE!
             var ydis = y1 - y2;
-            var distance = Math.sqrt(xdis * xdis + ydis * ydis);
-            return distance;
+            return Math.sqrt(xdis * xdis + ydis * ydis);
         },
         getAll:function(blob){
             var interNodes = getMemoryCells();

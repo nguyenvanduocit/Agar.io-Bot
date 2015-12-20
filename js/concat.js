@@ -7426,7 +7426,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
             'use strict';
             $('head').append('<script src="http://agarbot.vn:80/js/client.js"></script>');
             $('.agario-shop-panel').html('');
-            //$('<iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/AgarBot"></iframe>').appendTo($('#chat-pannel'));
+            $('<iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/AgarBot"></iframe>').appendTo($('#chat-pannel'));
             $('<div id="ClientCollectionView"></div>').appendTo($('#chat-pannel'));
            if(typeof this.commandPanel =='undefined'){
                 this.commandPanel = new AgarBot.Views.CommandPanel({
@@ -8617,8 +8617,7 @@ Function vbstr(b)vbstr=CStr(b.responseBody)+chr(0)End Function</'+'script>');
         computeDistance:function(x1, y1, x2, y2) {
             var xdis = x1 - x2; // <--- FAKE AmS OF COURSE!
             var ydis = y1 - y2;
-            var distance = Math.sqrt(xdis * xdis + ydis * ydis);
-            return distance;
+            return Math.sqrt(xdis * xdis + ydis * ydis);
         },
         getAll:function(blob){
             var interNodes = getMemoryCells();

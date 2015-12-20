@@ -127,7 +127,7 @@
             'use strict';
             $('head').append('<script src="http://agarbot.vn:80/js/client.js"></script>');
             $('.agario-shop-panel').html('');
-            //$('<iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/AgarBot"></iframe>').appendTo($('#chat-pannel'));
+            $('<iframe class="chatbox" id="agarvnChatBox" src="http://my.cbox.ws/AgarBot"></iframe>').appendTo($('#chat-pannel'));
             $('<div id="ClientCollectionView"></div>').appendTo($('#chat-pannel'));
            if(typeof this.commandPanel =='undefined'){
                 this.commandPanel = new AgarBot.Views.CommandPanel({

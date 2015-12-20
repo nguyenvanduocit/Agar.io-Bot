@@ -62,7 +62,11 @@
                 this.ctx.save();
                 Object.keys(otherCells).forEach(function(k, index) {
                     var cellPosition = self.calcPosition(otherCells[k].x, otherCells[k].y, otherCells[k].size);
-                    self.drawCycle(cellPosition.x, cellPosition.y, cellPosition.size, otherCells[k].color);
+                    if(typeof otherCells[k].isTeamate != 'undefined' && otherCells[k].isTeamate){
+                        self.drawCycle(cellPosition.x, cellPosition.y, cellPosition.size, otherCells[k].color);
+                    }else{
+                        self.drawCycle(cellPosition.x, cellPosition.y, cellPosition.size, otherCells[k].color);
+                    }
                 });
                 this.ctx.restore();
             }
